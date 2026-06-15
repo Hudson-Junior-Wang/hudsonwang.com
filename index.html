@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hudson's Notes</title>
+<meta name="description" content="A minimalist place where Hudson shares his study notes — slowly, one course at a time." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#fbfaf7;
+    --ink:#23211d;
+    --muted:#7c776e;
+    --faint:#a8a399;
+    --line:#e7e3da;
+    --accent:#8a5a44;
+    --accent-soft:#f0e8e1;
+    --sidebar:#f5f2ec;
+    --maxw:720px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Newsreader",Georgia,serif;
+    font-size:19px;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none}
+
+  /* ---------- top banner ---------- */
+  .banner{
+    position:relative;
+    background:var(--accent-soft);
+    border-bottom:1px solid var(--line);
+    color:#5e4636;
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:13.5px;
+    line-height:1.55;
+    text-align:center;
+    padding:11px 44px;
+  }
+  .banner b{font-weight:600}
+  .banner[hidden]{display:none}
+  .banner-close{
+    position:absolute;top:50%;right:12px;transform:translateY(-50%);
+    width:26px;height:26px;border:0;border-radius:50%;cursor:pointer;
+    background:transparent;color:#9c7a66;font-size:18px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .banner-close:hover{background:rgba(138,90,68,.12);color:#5e4636}
+
+  /* ---------- layout ---------- */
+  .wrap{display:flex;min-height:100vh;align-items:stretch}
+  .sidebar{
+    width:300px;
+    flex:0 0 300px;
+    background:var(--sidebar);
+    border-right:1px solid var(--line);
+    padding:34px 26px 60px;
+  }
+  .content{flex:1 1 auto;min-width:0;padding:54px 40px 120px;display:flex;justify-content:center}
+  .content-inner{width:100%;max-width:var(--maxw)}
+
+  /* ---------- brand ---------- */
+  .brand{font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15;margin:0 0 4px}
+  .brand a{display:block}
+  .brand-sub{font-family:"Inter",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 26px}
+
+  /* ---------- nav ---------- */
+  nav{font-family:"Inter",system-ui,sans-serif;font-size:14px}
+  .sec{border-top:1px solid var(--line)}
+  .sec:last-child{border-bottom:1px solid var(--line)}
+  .sec-head{
+    display:flex;align-items:center;gap:8px;
+    width:100%;background:none;border:0;cursor:pointer;
+    padding:11px 2px;text-align:left;color:var(--ink);
+    font-family:inherit;font-size:14px;font-weight:500;line-height:1.35;
+  }
+  .sec-head:hover{color:var(--accent)}
+  .sec-head .caret{color:var(--faint);font-size:10px;flex:0 0 12px;transition:transform .18s ease;margin-top:1px}
+  .sec.open .sec-head .caret{transform:rotate(90deg)}
+  .sec-head .name{flex:1 1 auto}
+  .sec-head .count{color:var(--faint);font-size:11px;font-variant-numeric:tabular-nums}
+  .sec-notes{display:none;padding:0 0 8px 22px}
+  .sec.open .sec-notes{display:block}
+  .note-link{
+    display:block;padding:6px 8px;margin:1px 0;border-radius:6px;
+    color:var(--muted);font-size:13px;line-height:1.4;cursor:pointer;
+  }
+  .note-link:hover{background:#ece7df;color:var(--ink)}
+  .note-link.active{background:var(--accent);color:#fff}
+  .note-link.active .nl-num{color:#f0d9cd}
+  .note-link .nl-num{color:var(--faint);font-variant-numeric:tabular-nums;margin-right:7px}
+  .note-link.empty{color:var(--faint)}
+  .note-link.empty:hover{color:var(--muted)}
+
+  /* ---------- article ---------- */
+  .crumb{font-family:"Inter",sans-serif;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin:0 0 14px}
+  article h1{font-size:34px;font-weight:600;line-height:1.18;letter-spacing:-.015em;margin:0 0 8px}
+  article .meta{font-family:"Inter",sans-serif;font-size:13px;color:var(--faint);margin:0 0 34px;padding-bottom:22px;border-bottom:1px solid var(--line)}
+  article h2{font-size:22px;font-weight:600;line-height:1.25;margin:42px 0 12px;letter-spacing:-.01em}
+  article h2:first-of-type{margin-top:8px}
+  article p{margin:0 0 18px}
+  article ul,article ol{margin:0 0 20px;padding-left:24px}
+  article li{margin:0 0 7px}
+  article blockquote{
+    margin:0 0 22px;padding:4px 0 4px 22px;border-left:3px solid var(--accent-soft);
+    color:#4a463f;font-style:italic;
+  }
+  article .aside{
+    font-size:16px;color:var(--muted);background:#f5f2ec;border:1px solid var(--line);
+    border-radius:8px;padding:14px 18px;margin:0 0 22px;font-style:italic;
+  }
+
+  /* ---------- home ---------- */
+  .home-lead{font-size:21px;line-height:1.65;color:#46423b;margin:6px 0 8px;max-width:600px}
+  .home-note{font-family:"Inter",sans-serif;font-size:14px;color:var(--muted);background:#f5f2ec;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:26px 0 40px;line-height:1.6;max-width:620px}
+  .home-note b{color:var(--ink);font-weight:600}
+  .toc{display:grid;gap:0}
+  .toc-row{display:flex;align-items:baseline;gap:14px;padding:16px 4px;border-top:1px solid var(--line);cursor:pointer}
+  .toc-row:last-child{border-bottom:1px solid var(--line)}
+  .toc-row:hover .toc-name{color:var(--accent)}
+  .toc-idx{font-family:"Inter",sans-serif;font-size:12px;color:var(--faint);width:26px;flex:0 0 26px;font-variant-numeric:tabular-nums}
+  .toc-name{font-size:20px;font-weight:500;flex:1 1 auto;letter-spacing:-.01em}
+  .toc-tag{font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+  .toc-tag.has{color:var(--accent)}
+
+  /* ---------- empty / overview states ---------- */
+  .empty-state{text-align:center;padding:64px 10px;color:var(--muted)}
+  .empty-state .mk{font-size:34px;margin-bottom:14px;opacity:.65}
+  .empty-state h2{font-size:24px;font-weight:600;color:var(--ink);margin:0 0 10px}
+  .empty-state p{margin:0 auto 6px;max-width:440px;font-size:17px;line-height:1.6;color:var(--muted)}
+  .empty-state .sub{font-family:"Inter",sans-serif;font-size:13px;color:var(--faint)}
+
+  .ov-notes{margin-top:26px}
+  .ov-note{display:flex;align-items:baseline;gap:14px;padding:14px 4px;border-top:1px solid var(--line);cursor:pointer}
+  .ov-note:last-child{border-bottom:1px solid var(--line)}
+  .ov-note:hover .ov-title{color:var(--accent)}
+  .ov-num{font-family:"Inter",sans-serif;font-size:12px;color:var(--faint);width:34px;flex:0 0 34px;font-variant-numeric:tabular-nums}
+  .ov-title{flex:1 1 auto;font-size:18px}
+  .ov-title.muted{color:var(--faint)}
+  .ov-status{font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--faint)}
+  .ov-status.has{color:var(--accent)}
+
+  .backlink{font-family:"Inter",sans-serif;font-size:13px;color:var(--accent);cursor:pointer;display:inline-block;margin-bottom:24px}
+  .backlink:hover{text-decoration:underline}
+
+  /* ---------- mobile ---------- */
+  .menu-btn{display:none}
+  @media(max-width:860px){
+    body{font-size:18px}
+    .menu-btn{
+      display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:20;
+      width:100%;background:var(--bg);border:0;border-bottom:1px solid var(--line);
+      padding:13px 20px;font-family:"Inter",sans-serif;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;
+    }
+    .wrap{display:block}
+    .sidebar{
+      position:fixed;top:0;left:0;bottom:0;z-index:40;width:84%;max-width:330px;
+      transform:translateX(-102%);transition:transform .22s ease;overflow-y:auto;
+      box-shadow:0 0 40px rgba(0,0,0,.12);
+    }
+    body.nav-open .sidebar{transform:translateX(0)}
+    .scrim{display:none;position:fixed;inset:0;background:rgba(20,18,15,.32);z-index:35}
+    body.nav-open .scrim{display:block}
+    .content{padding:30px 22px 90px}
+    article h1{font-size:28px}
+    .home-lead{font-size:19px}
+  }
+</style>
+</head>
+<body>
+  <div class="banner" id="banner">
+    <b>A note from Hudson —</b> I'm building this site while juggling university, online courses, and constant note-taking, all at the same time. Many course notes are still empty for now; I'll fill them in, page by page, as I go. Thanks for your patience.
+    <button class="banner-close" id="bannerClose" aria-label="Dismiss">&times;</button>
+  </div>
+
+  <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰&nbsp; Sections</button>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="wrap">
+    <aside class="sidebar" id="sidebar">
+      <h1 class="brand"><a href="#/" data-home>Hudson's Notes</a></h1>
+      <p class="brand-sub">Learning in public</p>
+      <nav id="nav"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="content-inner" id="view"></div>
+    </main>
+  </div>
+
+<script>
+/* ============================================================
+   CONTENT
+   Each section has an id, title, and a list of notes.
+   A note with `html` is published; otherwise it shows "to be updated".
+   Note titles for published notes are prefixed with a number.
+   ============================================================ */
+
+const NOTE_001 = `
+<h2>Acknowledgements</h2>
+<p>Thanks to the Yale University production team from the Center for Media Initiatives.</p>
+
+<h2>Context of this course</h2>
+<p>This course is a comprehensive introduction to the study of the human mind. So it may cover a very wide range of topics:</p>
+<ul>
+  <li>brains</li><li>children</li><li>language</li><li>sex</li><li>memory</li>
+  <li>madness</li><li>disgust</li><li>racism</li><li>love</li><li>and many others</li>
+</ul>
+<p>We're going to talk about things like the proper explanation for:</p>
+<ol>
+  <li>differences between men and women;</li>
+  <li>whether animals can learn language;</li>
+  <li>the puzzle of what grosses us out;</li>
+  <li>why some of us eat too much, and what we could do to stop;</li>
+  <li>why people go crazy in groups;</li>
+  <li>whether you can trust your childhood memories;</li>
+  <li>why some of us get depressed and others don't.</li>
+</ol>
+
+<h2>What's this course about?</h2>
+<p>Unlike a lot of other courses, some people come to Intro Psychology with some unusual motivations.</p>
+<ol>
+  <li>Maybe you are crazy (like me), and hope to become less crazy.</li>
+  <li>Maybe you want to learn how to study better, improve your sex life, interpret your dreams, and win friends and influence other people.</li>
+</ol>
+<p>This course has a lot of insights with real-world relevance to real problems that we face in our everyday lives.</p>
+
+<h2>The general goals of this course</h2>
+<ol>
+  <li>How the human brain works.</li>
+  <li>How we think.</li>
+  <li>What makes us what we are.</li>
+</ol>
+<p>And we will be approaching this from a range of directions. Psychology is often broken up into five sub-areas:</p>
+<ol>
+  <li><b>Neuroscience</b> — study of the mind by looking at the brain.</li>
+  <li><b>Developmental</b> — how people develop, grow and learn.</li>
+  <li><b>Cognitive</b> — a sort of computational approach to studying the mind, often viewing the mind on analogy with a computer and looking at how people do things like understand language, recognize objects, and so on.</li>
+  <li><b>Social</b> — study of how people act in groups, how people act with other people.</li>
+  <li><b>Clinical</b> — what people think of immediately when they hear "psychology": the study of mental health and mental illness.</li>
+</ol>
+<p>You cannot study the mind solely by looking at the discipline of psychology. This discipline spills over into questions of how the mind has evolved. Economics and game theory are now essential tools for understanding human thought and human behavior. Those issues connect to philosophy, computer science, anthropology, literature, theology, and many other domains. This course will be wide-ranging in that sense.</p>
+
+<h2>Five examples to cover</h2>
+<p>Take a case like this: where somebody is in a coma, without consciousness, as a result of damage to the brain. This is a stark illustration of the physical nature of mental life — the physical basis for everything that we normally hold dear: life, free will, consciousness, morality and emotions. That's the beginning of our class: talking about how a physical thing can give rise to mental life.</p>
+
+<p>We will also talk a lot about children. The question that preoccupies developmental psychologists is: how do we come to have knowledge? How much of it is hard-wired, built-in, innate? How much of it is the product of culture, of language, of schooling? Developmental psychologists use many ingenious methods to try to pull these apart and figure out the basic components of human nature.</p>
+<p>There's also the question of continuity. To what extent is that child, at that age, going to be that way forever? To what extent is your fate sealed? If I were to meet you when you were five years old, to what extent could I describe the way you are now? Many believe that you can see within every child the adult he or she will become. We'll look at and ask whether this is true:</p>
+<ul>
+  <li>Is it true for your personality?</li>
+  <li>Is it true for your interests?</li>
+  <li>Is it true for your intelligence?</li>
+</ul>
+
+<p>Another question having to do with development is: what makes us the way we are? We differ in a lot of ways — in our taste in food, our IQs, whether we are aggressive or shy, whom we are attracted to, whether we are good at music, whether we are politically liberal or conservative. Why are we different? What's the explanation?</p>
+<p>This can be translated into a question of genes and environment. To what extent are things the result of the genes we possess? To what extent are our individual natures the result of how we were raised? And to what extent are they best explained in terms of an interaction? One common theory, for instance, is that we are shaped by our parents.</p>
+
+<p>A different question: what makes somebody attractive? This can be asked at all sorts of levels, but a simple one is: what makes for a pretty face? Scientists have come to some sense of what really makes a face attractive by asking, one by one, both within cultures and across cultures. (And not all attractiveness, not all beauty, is linked to sex.)</p>
+
+<p>Morality is extremely central to our lives — evil and good. For instance, institutional evil: somebody behaving cruelly toward somebody else, perhaps not out of malice but because of the situation she's in. Before we get into the technical stuff, we are going to have to come to terms with why people behave like that. The same question comes up: is it part of your nature to be good or bad, or is it largely due to the situation you fall into?</p>
+
+<p>Finally, we will talk about mental illness. Some major disorders, like depression and anxiety, have profound social importance, and are reasonably common in college students. Why do people get these disorders, and what's the best way to make them better?</p>
+<p>The reason to be interested in unusual disorders is not some sort of gruesome, morbid curiosity. Rather, by looking at extreme cases, we can best understand normal life. Often, looking at extremes throws into sharp contrast the things we naturally take for granted. People with mental disorders can help us cope with questions of free will and responsibility, and with the difference between mental illness and evil. For instance, multiple-personality cases force us to address the question of what a self is: to what extent are all of us composed of multiple people, and to what extent are we a single, unified person over time? By studying these abnormal cases, we can get some insight into regular life.</p>
+
+<p>There's a lot of other stuff we'll be talking about:</p>
+<ol>
+  <li>Cognitive neuroscience</li>
+  <li>Sex differences and depression</li>
+  <li>Psychology of food</li>
+</ol>
+`;
+
+const NOTE_002 = `
+<h2>Before class — about the brain</h2>
+<p>"The Astonishing Hypothesis" can be summarized like this:</p>
+<blockquote>You, your joys and your sorrows, your memories and your ambitions, your sense of personal identity and free will, are in fact no more than the behaviour of a vast assembly of nerve cells and their associated molecules.</blockquote>
+<p>In other words: "you are nothing but a pack of neurons." It is an open question whether you will believe it when this class comes to an end.</p>
+<p class="aside">I have always held this view. Even though I didn't know who Francis Crick was before, this view of mine came from my intuition rather than from rigorous thinking.</p>
+
+<h2>Dualism</h2>
+<p>Most people, in fact, hold a different view: most people are dualists. Dualism is a very different doctrine. You can find it in every religion and in most philosophical systems throughout history.</p>
+<p>Here is a question that comes from a supporter of dualism: "Are humans merely physical machines, merely physical things?" His answer is no. He agrees that nonhuman animals are merely robots — but people are different. There is a duality to people:</p>
+<ol>
+  <li>Like animals, we possess physical, material bodies.</li>
+  <li>Unlike animals, what we <i>are</i> is not physical: we are immaterial souls that possess and reside in physical bodies.</li>
+</ol>
+<p>The claim is that, for humans at least, there are two separate things: our material bodies, and our immaterial minds.</p>
+
+<h2>Descartes' arguments for dualism</h2>
+<p>Descartes made two arguments for dualism.</p>
+<p><b>The first</b> involved observations of human action: humans are not limited to reflexive action. Rather, humans are capable of coordinated, creative, spontaneous things. We can choose, but machines are incapable of that sort of choice. Hence, we are not mere machines.</p>
+<p><b>The second</b> argument is quite famous, and came from the method of doubt. He started by asking: "What can I be sure of?" He said: "Well, I believe there's a God, but honestly I can't be sure there's a God. I believe I live in a rich country, but maybe I've been fooled. I believe I have had friends and family — but maybe I am being tricked." Maybe everything you're now experiencing is not real.</p>
+<p>Similarly, he could doubt that he has a body. Some madmen believe they have extra limbs, or believe they are of different sizes and shapes than they really are. "How do I know I'm not crazy? Crazy people don't think they are crazy, so the fact that I don't think I'm crazy doesn't mean I'm not. How do I know I'm not dreaming right now?"</p>
+<p>But there is one thing he cannot doubt: he cannot doubt that he is himself thinking. To doubt that would be self-refuting. So there is something really different about having a body — which is always uncertain — and having a mind.</p>
+<blockquote>I knew that I was a substance, the whole essence or nature of which is to think, and that for its existence there is no need of any place, nor does it depend on any material thing. The soul, by which I am what I am, is entirely distinct from the body.</blockquote>
+
+<h2>Why dualism feels like common sense</h2>
+<p>Dualism is enmeshed in our language. We have a certain way of talking about things we own or that are close to us — <i>my</i> child, <i>my</i> car, <i>my</i> arm — and we extend that to our brain and body. We talk about owning our brains as if we are somehow separate from them.</p>
+<p>Our intuitions about personal identity also come from dualism. Common sense tells us that somebody can be the same person even if their body undergoes radical and profound change. If you can imagine being in the body of another creature, you are imagining yourself as separate from the body you reside in.</p>
+<p>Many believe that "souls in bodies" really happens, and use it to analyze multiple-personality disorder — many people inside a single body, fighting it out for control. Don't believe it; things are a good deal more complicated than this. Most people around the world, across all religions and most times, believe that people can survive the destruction of their bodies.</p>
+
+<h2>Why the scientific consensus rejects dualism</h2>
+<p>The scientific consensus now is that dualism is wrong. There is no "you" separable from your body — and specifically, no "you" separable from your brain. In conclusion: the mind is what the brain does; it reflects the working of the brain.</p>
+<p>Why would you hold such an outrageous view? One reason is that dualism has always had its problems. It is a profoundly unscientific doctrine. We want to explain many things, but dualism simply says it's all nonphysical — part of the ether — and hence fails to explain it.</p>
+<p>People who believe in dualism want to explain how a physical body connects to an immaterial soul. What's the conduit? How could this connection be made? But they can only wave their hands.</p>
+<p>They conclude that physical objects cannot do certain things — for instance, that no merely physical object could ever play a game of chess, because such a capacity is beyond the physical world, so you have to extend the explanation to an immaterial soul.</p>
+<p>But now we have what scientists call an <i>existence proof</i>. We know physical objects can do complicated and interesting things: machines can play chess, manipulate symbols, and engage in (limited) mathematics. This makes it at least possible that we are such machines. So you can no longer say "a physical thing just can't do that." This opens up the possibility that humans are physical things — in particular, that humans are brains.</p>
+
+<p>There is also strong evidence that the brain is involved in mental life. A dualist might say that what we do, decide, think and want has nothing to do with the physical world — but they'd be embarrassed by the fact that the brain corresponds in intricate, elaborate ways to our mental life. Getting smacked in the head can change your mental faculties; diseases like syphilis can make you deranged; chemicals like caffeine and alcohol affect how you think.</p>
+<p>What's new is that we can now, in different ways, see the direct effect. Somebody with a severe and profound loss of mental faculties will show that deficit correspondingly in their brain. Studies using imaging techniques — CAT scans, PET and fMRI — illustrate that different parts of the brain are active during different parts of mental life. For instance, the difference between:</p>
+<ol>
+  <li>seeing words</li>
+  <li>hearing words</li>
+  <li>reading words</li>
+  <li>generating words</li>
+</ol>
+<p>can correspond to different parts of your brain being active. To some extent, if we put you in an fMRI scanner and observed your brain activity in real time, we could tell whether you are thinking about something. This is no surprise if what we are is the workings of our physical brains — but it is difficult to explain if one is a dualist.</p>
+<p>The scientific consensus is that all of mental life — including consciousness, emotions, choice and morality — is the product of brain activity.</p>
+
+<h2>The neuron</h2>
+<p>How can something like a brain give rise to us? The goal of neuroscience is to make it less ridiculous to try to explain how the brain works — how the brain can give rise to thought. The small parts of the brain, the neurons (the basic building blocks of thought), combine into larger mental structures, into different subparts of the brain, and finally into the whole thing.</p>
+<p>One of the discoveries of psychology is that the basic unit of the brain appears to be the neuron. The neuron is a specific sort of cell, and it has three major parts:</p>
+<ol>
+  <li><b>Dendrites</b> — little tentacles that get signals from other neurons. These signals can be <i>excitatory</i> (raising the likelihood the neuron will fire) or <i>inhibitory</i> (lowering it). The cell body sums them up; you could view it arithmetically — excitatory signals are pluses, inhibitory ones are minuses. If you get a certain number (say +60), the neuron fires.</li>
+  <li><b>Axon</b> — the neuron fires along the axon, in one direction. The axon is much longer than the dendrites; some axons are many feet long (there is an axon leading from your spinal cord to your big toe). Surrounding the axon is a <b>myelin sheath</b>, which is essentially insulation — it helps the firing work quicker.</li>
+</ol>
+<p>Some facts about neurons. There are a lot of them — about one thousand billion — and each neuron can be connected to thousands, perhaps tens of thousands, of others. So it's an extraordinarily complicated computing device. Neurons come in three flavors:</p>
+<ol>
+  <li><b>Sensory neurons</b>, which take information from the world.</li>
+  <li><b>Motor neurons</b>, which tell the muscles what to do.</li>
+  <li><b>Interneurons</b>, which connect the two and do the thinking — making the connection between sensation and action.</li>
+</ol>
+<p>It is not true that your neurons never grow back once you lose them. There are parts of the brain in which neurons can re-grow.</p>
+
+<h2>Coding intensity</h2>
+<p>One interesting thing about a neuron is that it's like a gun: it either fires or it doesn't. It's all-or-nothing. If you squeeze the trigger really hard and fast, it doesn't fire any harder than if you'd squeezed it gently.</p>
+<p>How can neurons be all-or-nothing when sensation is so graded? If somebody pushes on your hand, you can feel the degree of pushing — it's not just "pushing or not pushing." You can feel degrees of pressure, of heat, of brightness. The answer is that, although neurons are all-or-nothing, there are ways to code intensity:</p>
+<ol>
+  <li>The <b>number</b> of neurons firing.</li>
+  <li>The <b>frequency</b> of firing.</li>
+</ol>
+
+<h2>Synapses and neurotransmitters</h2>
+<p>Neurons are connected and they talk to one another. It used to be thought they were physically tied to one another, but it turns out this isn't the case — they relate chemically. Between the axon of one neuron and the dendrite of another there's a tiny gap, about one ten-thousandth of a millimeter wide, known as a <b>synapse</b>. When a neuron fires, the axon sends chemicals shooting across the gap. These chemicals are <b>neurotransmitters</b>, and they affect the dendrites. Again, the chemicals can excite the other neuron (raising the chance it fires) or inhibit it.</p>
+
+<h2>Psychopharmacology and neurotransmitters</h2>
+<p>A lot of psychopharmacology — both medical and recreational — consists of fiddling with neurotransmitters. You can do this in two ways, corresponding to two sorts of drugs:</p>
+<ol>
+  <li><b>Agonists</b>, which increase the effect of neurotransmitters — by making more of them, by stopping their cleanup, or in some cases by faking a neurotransmitter and mimicking its effects.</li>
+  <li><b>Antagonists</b>, which decrease the amount or effect — by destroying neurotransmitters, by making it hard to create more, or by going to the dendrite and "pasting over" it so the neurotransmitters can't connect.</li>
+</ol>
+<p>It's through these clever ways that neurons can affect your mental life.</p>
+<p>Here is an example: <b>alcohol</b>. Alcohol is inhibitory. This may be puzzling — you might think, "alcohol isn't inhibitory; when I drink, I <i>lose</i> my inhibitions and become a more fun person." So in what way is alcohol inhibitory? It inhibits the <i>inhibitory</i> parts of your brain. You have parts of your brain (largely in the frontal lobes) that are telling you "no"; alcohol relaxes and shuts those down. Take enough, and it goes on to inhibit the excitatory parts too — and then you fall on the floor and pass out.</p>
+<p>When we discuss clinical psychology and depression, we'll learn the extent to which neurotransmitter disorders are implicated in disorders like depression. One idea is that depression involves too little of a neurotransmitter known as <b>serotonin</b>.</p>
+
+<h2>Parallel processing</h2>
+<p>You have neurons; they cluster together, fire, and communicate. How does this give rise to creatures that can do interesting things like talk and think? It used to be believed that the brain is wired up like a computer, but we know this can't be true, because there are two ways in which the brain is better than a computer:</p>
+<ol>
+  <li>The brain is highly <b>resistant to damage</b>. You can take a lot of brain damage and still preserve some mental functioning. Different parts of the brain can take over if other parts are damaged.</li>
+  <li>The brain is extremely <b>fast</b> — and yet it's made of tissue, which is extremely slow. The paradox: how do you create such a fast computer with such slow stuff?</li>
+</ol>
+<p>The answer is that the brain works through <b>parallel processing</b> — massively parallel, distributed processing.</p>
+
+<h2>Parts of the brain</h2>
+<p>Your brain isn't needed for everything. Some of what it does involves very low-level internal structures, called <b>subcortical</b> structures because they're below the cortex. Some key parts:</p>
+<ol>
+  <li>The <b>medulla</b> is responsible for heart rate and respiration. It's very deep within the brain — if it's damaged, you could die.</li>
+  <li>The <b>cerebellum</b> is responsible for balance and muscular coordination. To give a feeling for the complexity of these systems: it contains roughly 30 billion neurons.</li>
+  <li>The <b>hypothalamus</b> is responsible for feeding, hunger, thirst, and to some extent sleep.</li>
+</ol>
+
+<h2>The cortex and its lobes</h2>
+<p>All of these parts are essential, and many are implicated in interesting psychological processes — but where the action is, is the <b>cortex</b>. The cortex is the outer layer, and it's all crumpled up. Why does your brain look wrinkled? Because the cortex is folded. About 80% of the volume of the brain is cortex, and it can be broken into lobes:</p>
+<ol>
+  <li>frontal lobe</li>
+  <li>parietal lobe</li>
+  <li>occipital lobe</li>
+  <li>temporal lobe</li>
+</ol>
+<p>They include topological maps of your body: if two parts are close together on the body, they'll be close together on the brain. But the size of a body part as represented in the brain does <i>not</i> correspond to its real-world size. What determines the size in the brain is the extent of motor command or sensory control over it.</p>
+<p>Less than one quarter of the cortex contains these maps or "projection areas." The rest is involved in language, reasoning, moral thought and so on. As you go from rat to cat to monkey to human, less and less of the cortex is devoted to projection areas, and more and more to other things.</p>
+
+<h2>Studying the brain: imaging and lesions</h2>
+<p>How do we figure out what the other parts of the brain do? One way is recent imaging methods:</p>
+<ol>
+  <li>CAT scan</li>
+  <li>PET scan</li>
+  <li>fMRI</li>
+</ol>
+<p>If you want to know which part of the brain is responsible for language, you could put somebody in a scanner, have them do a linguistic task, and see which parts are active.</p>
+<p>Another way is to consider what happens when very bad things happen to the brain, through:</p>
+<ol>
+  <li>lesions</li>
+  <li>tumors</li>
+  <li>strokes</li>
+  <li>injury</li>
+</ol>
+<p>The logic: crudely, if somebody with damage to a certain part of the brain can't recognize faces, there's reason to believe that part is related to face recognition. Two important examples:</p>
+<ol>
+  <li><b>Apraxia</b> — a disorder of motor control. It's not paralysis; somebody can move and make simple movements, but can't coordinate them.</li>
+  <li><b>Agnosia</b> — not blindness; the eyes are intact and the person can still see, but they lose the ability to recognize certain things ("psychic blindness"). With <i>visual agnosia</i> they lose the ability to recognize objects; with <i>prosopagnosia</i> they lose the ability to recognize faces.</li>
+</ol>
+<p>These are sometimes called disorders of sensory neglect.</p>
+
+<h2>The two hemispheres</h2>
+<p>End by talking about the two halves of the brain. A question: how many minds do you have? There are real differences between the right and left hemispheres. Some things are duplicated — if you were to lose half your brain, the other half can actually do a lot — but some things are more prevalent and more powerful in one hemisphere than the other.</p>
+<p>There is a crossover, which is important for the studies that follow: everything you see in the left visual field goes to the right side of your brain, and everything in the right visual field goes to the left side. Similarly with action: your right hemisphere controls the left side of the body, and your left hemisphere controls the right side. Finally, the two halves are connected by a huge web called the <b>corpus callosum</b>.</p>
+
+<h2>The Hard Problem of Consciousness</h2>
+<p>Looking at people who are incredibly unusual can give us understanding of how we normally do things. The idea behind a lot of psychology — particularly neuroscience and cognitive psychology — is to treat the mind as an information processor, an elaborate computer. The strategy is to figure out what sort of program could solve a problem, and then ask: "How could this program be instantiated in the physical brain?"</p>
+<p>But there still remains what's sometimes called the <b>Hard Problem of Consciousness</b>, which involves subjective experience: how does a physical thing give rise to consciousness and subjective experience? This is a deep puzzle. It seems like magic that a fleshy lump of gray, disgusting meat can give rise to these feelings.</p>
+
+<h2>Reconciling science and human values</h2>
+<p>This is a mechanistic conception of mental life, and it might be hard to mesh with the idea that people have spiritual value. Faced with this tension, there are four possibilities:</p>
+<ol>
+  <li>You might <b>reject the scientific conception</b> of the mind. Many people do.</li>
+  <li>You might <b>embrace dualism</b>, reject the idea that the brain is responsible for mental life, and reject the promise of a scientific psychology.</li>
+  <li>You might <b>embrace the scientific worldview and reject all humanist values</b> — claiming that free will, responsibility, spiritual value and intrinsic value are all illusions, pre-scientific notions that get washed away by modern science.</li>
+  <li>Or you could <b>try to reconcile them</b> — figuring out how to mesh a scientific view of the mind with the humanist values you might want to preserve.</li>
+</ol>
+`;
+
+/* helper: build N placeholder ("to be updated") notes */
+function placeholders(n){
+  const out=[];
+  for(let i=1;i<=n;i++) out.push({num:String(i).padStart(3,"0"),title:"To be updated"});
+  return out;
+}
+
+const SECTIONS = [
+  {
+    id:"intro-psychology",
+    title:"Introduction to Psychology",
+    notes:[
+      {num:"001",title:"What Is This Course About?",html:NOTE_001},
+      {num:"002",title:"The Brain, Dualism & the Neuron",html:NOTE_002},
+      {num:"003",title:"To be updated"},
+      {num:"004",title:"To be updated"},
+      {num:"005",title:"To be updated"},
+    ]
+  },
+  { id:"science-well-being", title:"The Science of Well-Being", notes:placeholders(5) },
+  { id:"modern-social",      title:"Modern Social",             notes:placeholders(5) },
+  { id:"game-theory",        title:"Game Theory",               notes:placeholders(5) },
+  { id:"behavioral-econ",    title:"Behavioral Economics",      notes:placeholders(5) },
+  { id:"cognitive-science",  title:"Cognitive Science",         notes:placeholders(5) },
+  { id:"predictably-irrational", title:"Predictably Irrational", notes:placeholders(5) },
+  { id:"capital-vol-1",      title:"Capital, Volume One",       notes:placeholders(6) },
+  { id:"capital-vol-2",      title:"Capital, Volume Two",       notes:placeholders(6) },
+  { id:"political-economy",  title:"Political Economy",         notes:placeholders(5) },
+];
+
+/* ============================================================
+   RENDERING
+   ============================================================ */
+const view = document.getElementById("view");
+const nav  = document.getElementById("nav");
+const body = document.body;
+
+function sectionDone(sec){ return sec.notes.filter(n=>n.html).length; }
+
+function buildNav(){
+  nav.innerHTML="";
+  SECTIONS.forEach(sec=>{
+    const done=sectionDone(sec);
+    const wrap=document.createElement("div");
+    wrap.className="sec";
+    wrap.dataset.sec=sec.id;
+
+    const head=document.createElement("button");
+    head.className="sec-head";
+    head.innerHTML=`<span class="caret">▶</span><span class="name">${sec.title}</span>`+
+      `<span class="count">${done}</span>`;
+    head.addEventListener("click",()=>wrap.classList.toggle("open"));
+    wrap.appendChild(head);
+
+    const list=document.createElement("div");
+    list.className="sec-notes";
+    sec.notes.forEach((note,i)=>{
+      const a=document.createElement("a");
+      a.className="note-link"+(note.html?"":" empty");
+      a.dataset.target=`${sec.id}/${i}`;
+      a.href=`#/${sec.id}/${i}`;
+      a.innerHTML=`<span class="nl-num">${note.num}</span>${note.html?note.title:"To be updated"}`;
+      list.appendChild(a);
+    });
+    wrap.appendChild(list);
+    nav.appendChild(wrap);
+  });
+}
+
+function renderHome(){
+  let rows="";
+  SECTIONS.forEach((sec,i)=>{
+    const done=sectionDone(sec);
+    rows+=`<div class="toc-row" data-go="${sec.id}">
+        <span class="toc-idx">${String(i+1).padStart(2,"0")}</span>
+        <span class="toc-name">${sec.title}</span>
+        <span class="toc-tag ${done?"has":""}">${done}</span>
+      </div>`;
+  });
+  view.innerHTML=`
+    <p class="crumb">Welcome</p>
+    <h1 style="font-size:36px;font-weight:600;letter-spacing:-.02em;margin:0 0 18px">A quiet place for my notes.</h1>
+    <p class="home-lead">Hi — I'm Hudson. This is where I keep and share the notes I take from the courses I'm working through. It grows slowly, in public.</p>
+    <div class="home-note">
+      <b>Still very much a work in progress.</b> None of these courses are finished yet — most of the notes below are still empty placeholders. I'm taking these classes while also in university, so I add pages whenever I can. If a note says <i>"to be updated,"</i> it just hasn't been written yet.
+    </div>
+    <p class="crumb" style="margin-top:6px">Courses</p>
+    <div class="toc">${rows}</div>
+  `;
+  view.querySelectorAll("[data-go]").forEach(el=>{
+    el.addEventListener("click",()=>location.hash=`#/${el.dataset.go}`);
+  });
+}
+
+function renderSection(sec){
+  const done=sectionDone(sec);
+  let rows="";
+  sec.notes.forEach((note,i)=>{
+    rows+=`<div class="ov-note" data-go="${sec.id}/${i}">
+      <span class="ov-num">${note.num}</span>
+      <span class="ov-title ${note.html?"":"muted"}">${note.html?note.title:"To be updated"}</span>
+      <span class="ov-status ${note.html?"has":""}">${note.html?"Published":"Soon"}</span>
+    </div>`;
+  });
+  const intro = done
+    ? `${done} note${done>1?"s":""} written so far. More on the way.`
+    : `Nothing here yet — these notes haven't been written. This course isn't finished, and I'll fill these pages in as I go. Check back soon.`;
+  view.innerHTML=`
+    <p class="crumb">Course</p>
+    <h1>${sec.title}</h1>
+    <p class="meta">${intro}</p>
+    <div class="ov-notes">${rows}</div>
+  `;
+  view.querySelectorAll("[data-go]").forEach(el=>{
+    el.addEventListener("click",()=>location.hash=`#/${el.dataset.go}`);
+  });
+}
+
+function renderNote(sec,idx){
+  const note=sec.notes[idx];
+  if(note.html){
+    view.innerHTML=`
+      <span class="backlink" data-go="${sec.id}">← ${sec.title}</span>
+      <p class="crumb">${sec.title} · Note ${note.num}</p>
+      <article>
+        <h1>${note.num} · ${note.title}</h1>
+        <p class="meta">Study notes · written up by Hudson</p>
+        ${note.html}
+      </article>`;
+  }else{
+    view.innerHTML=`
+      <span class="backlink" data-go="${sec.id}">← ${sec.title}</span>
+      <div class="empty-state">
+        <div class="mk">✎</div>
+        <h2>To be updated</h2>
+        <p>This page (${sec.title}, note ${note.num}) is still empty. I haven't written these notes yet — the course isn't finished.</p>
+        <p class="sub">I'm adding pages whenever I find time between classes. Thanks for your patience.</p>
+      </div>`;
+  }
+  view.querySelectorAll("[data-go]").forEach(el=>{
+    el.addEventListener("click",()=>location.hash=`#/${el.dataset.go}`);
+  });
+}
+
+function highlightNav(secId,noteIdx){
+  document.querySelectorAll(".sec").forEach(s=>{
+    if(s.dataset.sec===secId) s.classList.add("open");
+  });
+  document.querySelectorAll(".note-link").forEach(a=>a.classList.remove("active"));
+  if(noteIdx!=null){
+    const a=document.querySelector(`.note-link[data-target="${secId}/${noteIdx}"]`);
+    if(a) a.classList.add("active");
+  }
+}
+
+function router(){
+  const hash=location.hash.replace(/^#\/?/,"");
+  const parts=hash.split("/").filter(Boolean);
+  closeMobileNav();
+  window.scrollTo(0,0);
+
+  if(parts.length===0){ renderHome(); highlightNav(null); return; }
+  const sec=SECTIONS.find(s=>s.id===parts[0]);
+  if(!sec){ renderHome(); highlightNav(null); return; }
+  if(parts.length===1){ renderSection(sec); highlightNav(sec.id); return; }
+  const idx=parseInt(parts[1],10);
+  if(isNaN(idx)||!sec.notes[idx]){ renderSection(sec); highlightNav(sec.id); return; }
+  renderNote(sec,idx); highlightNav(sec.id,idx);
+}
+
+/* ---------- mobile nav ---------- */
+const menuBtn=document.getElementById("menuBtn");
+const scrim=document.getElementById("scrim");
+function closeMobileNav(){ body.classList.remove("nav-open"); }
+menuBtn.addEventListener("click",()=>body.classList.toggle("nav-open"));
+scrim.addEventListener("click",closeMobileNav);
+
+document.querySelector("[data-home]").addEventListener("click",e=>{
+  // let hash change handle render
+});
+
+/* ---------- dismissable banner ---------- */
+const banner=document.getElementById("banner");
+const bannerClose=document.getElementById("bannerClose");
+try{ if(localStorage.getItem("hw_banner_dismissed")==="1") banner.hidden=true; }catch(e){}
+bannerClose.addEventListener("click",()=>{
+  banner.hidden=true;
+  try{ localStorage.setItem("hw_banner_dismissed","1"); }catch(e){}
+});
+
+buildNav();
+window.addEventListener("hashchange",router);
+router();
+</script>
+</body>
+</html>
