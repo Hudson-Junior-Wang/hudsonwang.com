@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Hudson's Notes</title>
-<meta name="description" content="A minimalist place where Hudson shares his study notes — slowly, one course at a time." />
+<title>Hudson Junior's Notes</title>
+<meta name="description" content="A minimalist place where Hudson Junior shares his study notes — slowly, one course at a time." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -185,7 +185,7 @@
   <div class="wrap">
     <aside class="sidebar" id="sidebar">
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Hide sidebar" title="Hide sidebar">«</button>
-      <h1 class="brand"><a href="#/" data-home>Hudson's Notes</a></h1>
+      <h1 class="brand"><a href="#/" data-home>Hudson Junior's Notes</a></h1>
       <p class="brand-sub">Learning in public</p>
       <nav id="nav"></nav>
     </aside>
@@ -509,7 +509,7 @@ function renderHome(){
   view.innerHTML=`
     <p class="crumb">Welcome</p>
     <h1 style="font-size:36px;font-weight:600;letter-spacing:-.02em;margin:0 0 18px">A quiet place for my notes.</h1>
-    <p class="home-lead">Hi — I'm Hudson. This is where I keep and share the notes I take from the courses I'm working through. It grows slowly, in public.</p>
+    <p class="home-lead">Hi — I'm Hudson Junior. This is where I keep and share the notes I take from the courses I'm working through. It grows slowly, in public.</p>
     <p class="crumb" style="margin-top:26px">Courses</p>
     <div class="toc">${rows}</div>
   `;
@@ -550,7 +550,7 @@ function renderNote(sec,idx){
       <p class="crumb">${sec.title} · Note ${note.num}</p>
       <article>
         <h1>${note.num} · ${note.title}</h1>
-        <p class="meta">Study notes · written up by Hudson</p>
+        <p class="meta">Study notes · written up by Hudson Junior</p>
         ${note.html}
       </article>`;
   }else{
