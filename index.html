@@ -45,6 +45,32 @@
   .content{flex:1 1 auto;min-width:0;padding:54px 40px 120px;display:flex;justify-content:center}
   .content-inner{width:100%;max-width:var(--maxw)}
 
+  /* ---------- desktop sidebar collapse ---------- */
+  .sidebar-toggle{display:none}
+  .sidebar-show{display:none}
+  @media(min-width:861px){
+    .sidebar{position:relative}
+    .sidebar-toggle{
+      display:flex;align-items:center;justify-content:center;
+      position:absolute;top:30px;right:16px;
+      width:28px;height:28px;border:0;border-radius:6px;cursor:pointer;
+      background:transparent;color:var(--faint);font-size:17px;line-height:1;
+      font-family:"Inter",sans-serif;
+    }
+    .sidebar-toggle:hover{background:#ece7df;color:var(--ink)}
+    body.sidebar-collapsed .sidebar{display:none}
+    body.sidebar-collapsed .content{padding-top:64px}
+    .sidebar-show{
+      position:fixed;top:16px;left:16px;z-index:30;
+      width:38px;height:38px;border:1px solid var(--line);border-radius:9px;cursor:pointer;
+      background:var(--bg);color:var(--muted);font-size:18px;line-height:1;
+      align-items:center;justify-content:center;
+      box-shadow:0 1px 4px rgba(0,0,0,.07);
+    }
+    .sidebar-show:hover{color:var(--ink);border-color:var(--faint)}
+    body.sidebar-collapsed .sidebar-show{display:flex}
+  }
+
   /* ---------- brand ---------- */
   .brand{font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15;margin:0 0 4px}
   .brand a{display:block}
@@ -154,9 +180,11 @@
 <body>
   <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰&nbsp; Sections</button>
   <div class="scrim" id="scrim"></div>
+  <button class="sidebar-show" id="sidebarShow" aria-label="Show sidebar" title="Show sidebar">»</button>
 
   <div class="wrap">
     <aside class="sidebar" id="sidebar">
+      <button class="sidebar-toggle" id="sidebarToggle" aria-label="Hide sidebar" title="Hide sidebar">«</button>
       <h1 class="brand"><a href="#/" data-home>Hudson's Notes</a></h1>
       <p class="brand-sub">Learning in public</p>
       <nav id="nav"></nav>
@@ -576,6 +604,17 @@ scrim.addEventListener("click",closeMobileNav);
 document.querySelector("[data-home]").addEventListener("click",e=>{
   // let hash change handle render
 });
+
+/* ---------- desktop sidebar collapse ---------- */
+const sidebarToggle=document.getElementById("sidebarToggle");
+const sidebarShow=document.getElementById("sidebarShow");
+function setSidebar(collapsed){
+  body.classList.toggle("sidebar-collapsed",collapsed);
+  try{ localStorage.setItem("hw_sidebar_collapsed",collapsed?"1":"0"); }catch(e){}
+}
+sidebarToggle.addEventListener("click",()=>setSidebar(true));
+sidebarShow.addEventListener("click",()=>setSidebar(false));
+try{ if(localStorage.getItem("hw_sidebar_collapsed")==="1") body.classList.add("sidebar-collapsed"); }catch(e){}
 
 buildNav();
 window.addEventListener("hashchange",router);
