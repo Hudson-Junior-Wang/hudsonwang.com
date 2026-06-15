@@ -33,28 +33,6 @@
   }
   a{color:inherit;text-decoration:none}
 
-  /* ---------- top banner ---------- */
-  .banner{
-    position:relative;
-    background:var(--accent-soft);
-    border-bottom:1px solid var(--line);
-    color:#5e4636;
-    font-family:"Inter",system-ui,sans-serif;
-    font-size:13.5px;
-    line-height:1.55;
-    text-align:center;
-    padding:11px 44px;
-  }
-  .banner b{font-weight:600}
-  .banner[hidden]{display:none}
-  .banner-close{
-    position:absolute;top:50%;right:12px;transform:translateY(-50%);
-    width:26px;height:26px;border:0;border-radius:50%;cursor:pointer;
-    background:transparent;color:#9c7a66;font-size:18px;line-height:1;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .banner-close:hover{background:rgba(138,90,68,.12);color:#5e4636}
-
   /* ---------- layout ---------- */
   .wrap{display:flex;min-height:100vh;align-items:stretch}
   .sidebar{
@@ -120,8 +98,6 @@
 
   /* ---------- home ---------- */
   .home-lead{font-size:21px;line-height:1.65;color:#46423b;margin:6px 0 8px;max-width:600px}
-  .home-note{font-family:"Inter",sans-serif;font-size:14px;color:var(--muted);background:#f5f2ec;border:1px solid var(--line);border-radius:10px;padding:16px 20px;margin:26px 0 40px;line-height:1.6;max-width:620px}
-  .home-note b{color:var(--ink);font-weight:600}
   .toc{display:grid;gap:0}
   .toc-row{display:flex;align-items:baseline;gap:14px;padding:16px 4px;border-top:1px solid var(--line);cursor:pointer}
   .toc-row:last-child{border-bottom:1px solid var(--line)}
@@ -176,11 +152,6 @@
 </style>
 </head>
 <body>
-  <div class="banner" id="banner">
-    <b>A note from Hudson —</b> I'm building this site while juggling university, online courses, and constant note-taking, all at the same time. Many course notes are still empty for now; I'll fill them in, page by page, as I go. Thanks for your patience.
-    <button class="banner-close" id="bannerClose" aria-label="Dismiss">&times;</button>
-  </div>
-
   <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰&nbsp; Sections</button>
   <div class="scrim" id="scrim"></div>
 
@@ -511,10 +482,7 @@ function renderHome(){
     <p class="crumb">Welcome</p>
     <h1 style="font-size:36px;font-weight:600;letter-spacing:-.02em;margin:0 0 18px">A quiet place for my notes.</h1>
     <p class="home-lead">Hi — I'm Hudson. This is where I keep and share the notes I take from the courses I'm working through. It grows slowly, in public.</p>
-    <div class="home-note">
-      <b>Still very much a work in progress.</b> None of these courses are finished yet — most of the notes below are still empty placeholders. I'm taking these classes while also in university, so I add pages whenever I can. If a note says <i>"to be updated,"</i> it just hasn't been written yet.
-    </div>
-    <p class="crumb" style="margin-top:6px">Courses</p>
+    <p class="crumb" style="margin-top:26px">Courses</p>
     <div class="toc">${rows}</div>
   `;
   view.querySelectorAll("[data-go]").forEach(el=>{
@@ -607,15 +575,6 @@ scrim.addEventListener("click",closeMobileNav);
 
 document.querySelector("[data-home]").addEventListener("click",e=>{
   // let hash change handle render
-});
-
-/* ---------- dismissable banner ---------- */
-const banner=document.getElementById("banner");
-const bannerClose=document.getElementById("bannerClose");
-try{ if(localStorage.getItem("hw_banner_dismissed")==="1") banner.hidden=true; }catch(e){}
-bannerClose.addEventListener("click",()=>{
-  banner.hidden=true;
-  try{ localStorage.setItem("hw_banner_dismissed","1"); }catch(e){}
 });
 
 buildNav();
