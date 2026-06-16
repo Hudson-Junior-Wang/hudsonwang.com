@@ -156,12 +156,21 @@
   /* ---------- contact (bottom-right) ---------- */
   .contact{
     position:fixed;right:18px;bottom:16px;z-index:25;
+    display:flex;align-items:center;gap:6px;
     font-family:"Inter",sans-serif;font-size:12.5px;color:var(--muted);
-    background:var(--bg);padding:7px 14px;border:1px solid var(--line);border-radius:999px;
+    background:var(--bg);padding:7px 10px 7px 14px;border:1px solid var(--line);border-radius:999px;
     box-shadow:0 1px 4px rgba(0,0,0,.06);white-space:nowrap;
   }
-  .contact:hover{color:var(--accent);border-color:var(--faint)}
+  .contact[hidden]{display:none}
+  .contact a{color:var(--muted)}
+  .contact a:hover{color:var(--accent)}
   .contact b{font-weight:500;color:var(--faint)}
+  .contact-close{
+    border:0;background:transparent;cursor:pointer;color:var(--faint);
+    font-size:16px;line-height:1;width:18px;height:18px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;flex:0 0 auto;
+  }
+  .contact-close:hover{background:#ece7df;color:var(--ink)}
 
   /* ---------- mobile ---------- */
   .menu-btn{display:none}
@@ -205,7 +214,10 @@
     </main>
   </div>
 
-  <a class="contact" href="mailto:learning@hudsonwang.com"><b>Contact me:</b> learning@hudsonwang.com</a>
+  <div class="contact" id="contact">
+    <a href="mailto:learning@hudsonwang.com"><b>Contact me:</b> learning@hudsonwang.com</a>
+    <button class="contact-close" id="contactClose" aria-label="Dismiss">&times;</button>
+  </div>
 
 <script>
 /* ============================================================
@@ -615,6 +627,15 @@ scrim.addEventListener("click",closeMobileNav);
 
 document.querySelector("[data-home]").addEventListener("click",e=>{
   // let hash change handle render
+});
+
+/* ---------- dismissable contact ---------- */
+const contact=document.getElementById("contact");
+const contactClose=document.getElementById("contactClose");
+try{ if(localStorage.getItem("hw_contact_dismissed")==="1") contact.hidden=true; }catch(e){}
+contactClose.addEventListener("click",()=>{
+  contact.hidden=true;
+  try{ localStorage.setItem("hw_contact_dismissed","1"); }catch(e){}
 });
 
 /* ---------- desktop sidebar collapse ---------- */
