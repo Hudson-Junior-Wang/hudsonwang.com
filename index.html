@@ -562,9 +562,17 @@ function placeholders(n){
 }
 
 const SECTIONS = [
+  { id:"psychosis",          title:"Psychosis",                 notes:[
+      {num:"001",title:"Introduction to This Course",html:NOTE_PSY_001},
+      {num:"002",title:"To be updated"},
+      {num:"003",title:"To be updated"},
+      {num:"004",title:"To be updated"},
+      {num:"005",title:"To be updated"},
+  ]},
+  { id:"psychiatry",         title:"Psychiatry",                notes:placeholders(5) },
   {
     id:"intro-psychology",
-    title:"Introduction to Psychology",
+    title:"Psychology",
     notes:[
       {num:"001",title:"What Is This Course About?",html:NOTE_001},
       {num:"002",title:"The Brain, Dualism & the Neuron",html:NOTE_002},
@@ -579,7 +587,7 @@ const SECTIONS = [
   { id:"behavioral-econ",    title:"Behavioral Economics",      notes:placeholders(5) },
   { id:"cognitive-science",  title:"Cognitive Science",         notes:placeholders(5) },
   { id:"predictably-irrational", title:"Predictably Irrational", notes:placeholders(5) },
-  { id:"capital-vol-1",      title:"Capital, Volume One",       notes:[
+  { id:"capital-vol-1",      title:"Volume One of Capitalism",  notes:[
       {num:"001",title:"Explanation",html:`
 <p>This course is just too long, and there are a great many notes to go with it. I'll update this section later.</p>
 `},
@@ -589,9 +597,9 @@ const SECTIONS = [
       {num:"005",title:"To be updated"},
       {num:"006",title:"To be updated"},
   ]},
-  { id:"capital-vol-2",      title:"Capital, Volume Two",       notes:placeholders(6) },
-  { id:"political-economy",  title:"Critique of Political Economy", notes:placeholders(5) },
-  { id:"business-foundations", title:"Business Foundations Specialization", notes:placeholders(5) },
+  { id:"capital-vol-2",      title:"Volume Two of Capitalism",  notes:placeholders(6) },
+  { id:"political-economy",  title:"Political Economy",         notes:placeholders(5) },
+  { id:"business-foundations", title:"Business Foundation",     notes:placeholders(5) },
   { id:"emotional-intelligence", title:"Emotional Intelligence", notes:placeholders(5) },
   { id:"love-and-money",     title:"Love and Money",            notes:placeholders(5) },
   { id:"overcome-addiction", title:"Overcome Addiction",        notes:[
@@ -601,14 +609,6 @@ const SECTIONS = [
       {num:"004",title:"To be updated"},
       {num:"005",title:"To be updated"},
   ]},
-  { id:"psychosis",          title:"Psychosis",                 notes:[
-      {num:"001",title:"Introduction to This Course",html:NOTE_PSY_001},
-      {num:"002",title:"To be updated"},
-      {num:"003",title:"To be updated"},
-      {num:"004",title:"To be updated"},
-      {num:"005",title:"To be updated"},
-  ]},
-  { id:"psychiatry",         title:"Psychiatry",                notes:placeholders(5) },
 ];
 
 /* ============================================================
