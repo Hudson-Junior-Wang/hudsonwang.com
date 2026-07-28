@@ -36,28 +36,6 @@
   }
   a{color:inherit;text-decoration:none}
 
-  /* ---------- top notice ---------- */
-  .notice{
-    position:relative;
-    background:var(--accent-soft);
-    border-bottom:1px solid var(--line);
-    color:#5e4636;
-    font-family:"Inter",system-ui,sans-serif;
-    font-size:13.5px;
-    line-height:1.6;
-    text-align:center;
-    padding:11px 46px;
-  }
-  .notice[hidden]{display:none}
-  .notice b{font-weight:600}
-  .notice-close{
-    position:absolute;top:50%;right:12px;transform:translateY(-50%);
-    width:26px;height:26px;border:0;border-radius:50%;cursor:pointer;
-    background:transparent;color:#9c7a66;font-size:18px;line-height:1;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .notice-close:hover{background:rgba(138,90,68,.12);color:#5e4636}
-
   /* ---------- layout ---------- */
   .wrap{display:flex;min-height:100vh;align-items:stretch}
   .sidebar{
@@ -203,11 +181,6 @@
 </style>
 </head>
 <body>
-  <div class="notice" id="notice">
-    <b>Notice —</b> I'm heading back to China, where I won't be able to use Claude Code to upload my notes, so there will be no updates for about a month.
-    <button class="notice-close" id="noticeClose" aria-label="Dismiss">&times;</button>
-  </div>
-
   <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰&nbsp; Sections</button>
   <div class="scrim" id="scrim"></div>
   <button class="sidebar-show" id="sidebarShow" aria-label="Show sidebar" title="Show sidebar">»</button>
@@ -1051,15 +1024,6 @@ scrim.addEventListener("click",closeMobileNav);
 
 document.querySelector("[data-home]").addEventListener("click",e=>{
   // let hash change handle render
-});
-
-/* ---------- dismissable notice ---------- */
-const notice=document.getElementById("notice");
-const noticeClose=document.getElementById("noticeClose");
-try{ if(localStorage.getItem("hw_notice_dismissed")==="1") notice.hidden=true; }catch(e){}
-noticeClose.addEventListener("click",()=>{
-  notice.hidden=true;
-  try{ localStorage.setItem("hw_notice_dismissed","1"); }catch(e){}
 });
 
 /* ---------- desktop sidebar collapse ---------- */
