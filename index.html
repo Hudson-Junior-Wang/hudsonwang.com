@@ -535,6 +535,40 @@ const NOTE_ADDICTION_001 = `
 <p>The real question is: what are they looking for relief from?</p>
 `;
 
+const NOTE_MODERN_SOCIAL_001 = `
+<h2>Foundations of Modern Social Thought</h2>
+<p>An introduction to some of the Founding Fathers of modern social thought:</p>
+<ol>
+  <li>Thomas Hobbes (1588–1679)</li>
+  <li>John Locke (1632–1702)</li>
+  <li>Montesquieu (1689–1755)</li>
+  <li>Jean-Jacques Rousseau (1712–1778)</li>
+  <li>Adam Smith (1723–1790)</li>
+  <li>John Stuart Mill (1806–1873)</li>
+  <li>Karl Marx (1818–1883)</li>
+  <li>Friedrich Nietzsche (1844–1900)</li>
+  <li>Sigmund Freud (1856–1939)</li>
+  <li>Max Weber (1864–1920)</li>
+  <li>Émile Durkheim (1858–1917)</li>
+</ol>
+<p>This course is very interdisciplinary — it has a humanities number, a political science number, and a sociology number. As we start discussing the foundations of modern science in the sixteenth century, there is no sharp distinction between sciences and social sciences. It's really by the late eighteenth century that people begin to identify themselves as studying society or human behaviour. The difference between philosophy and social science is a very vague one.</p>
+<p>These thinkers are beginning to distinguish themselves increasingly from the natural sciences, but they are still multidisciplinary. Karl Marx, for example, is claimed as a philosopher, economist, political scientist and as one of the Founding Fathers of sociology. Max Weber identified himself early in life as a legal theorist and an economist; later in life he began to call himself a sociologist.</p>
+<p>One advantage of taking this course is that you gain knowledge that benefits you whether you are studying the sciences, psychology, economics, political science, anthropology or philosophy.</p>
+
+<h2>Topic Outline</h2>
+<p><b>Thomas Hobbes</b> — life (born 1588), work</p>
+<p><b>John Locke</b> — life, work</p>
+<p><b>Montesquieu</b> — life, work</p>
+<p><b>Jean-Jacques Rousseau</b> — life, work</p>
+<p><b>Adam Smith</b> — life, the two faces of Adam Smith: work</p>
+<p><b>John Stuart Mill</b> (1806–1873) and Harriet Taylor (1807–1858) — life, J.S. Mill: early life, Jeremy Bentham's life and work, Mill's life after breakdown, Mill: work</p>
+<p><b>Karl Marx</b> — early life, after life, work</p>
+<p><b>Friedrich Nietzsche</b> — life, work</p>
+<p><b>Sigmund Freud</b> — life, work</p>
+<p><b>Max Weber</b> — early life, later life, work</p>
+<p><b>Émile Durkheim</b> — life, work</p>
+`;
+
 const NOTE_ADDICTION_002 = `
 <p>Thanks to the Huberman Lab Podcast.</p>
 <p><b>Topic:</b> exploring all aspects of addiction —</p>
@@ -585,7 +619,13 @@ const SECTIONS = [
     ]
   },
   { id:"science-well-being", title:"The Science of Well-Being", notes:placeholders(5) },
-  { id:"modern-social",      title:"Modern Social",             notes:placeholders(5) },
+  { id:"modern-social",      title:"Modern Social",             notes:[
+      {num:"001",title:"Foundations of Modern Social Thought",html:NOTE_MODERN_SOCIAL_001},
+      {num:"002",title:"To be updated"},
+      {num:"003",title:"To be updated"},
+      {num:"004",title:"To be updated"},
+      {num:"005",title:"To be updated"},
+  ]},
   { id:"game-theory",        title:"Game Theory",               notes:placeholders(5) },
   { id:"behavioral-econ",    title:"Behavioral Economics",      notes:placeholders(5) },
   { id:"cognitive-science",  title:"Cognitive Science",         notes:placeholders(5) },
