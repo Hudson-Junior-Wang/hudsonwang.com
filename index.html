@@ -124,6 +124,10 @@
     font-size:16px;color:var(--muted);background:#f5f2ec;border:1px solid var(--line);
     border-radius:8px;padding:14px 18px;margin:0 0 22px;font-style:italic;
   }
+  article table{border-collapse:collapse;width:100%;margin:0 0 20px;font-size:15px}
+  article th,article td{border:1px solid var(--line);padding:7px 11px;text-align:left;vertical-align:top}
+  article th{background:var(--sidebar);font-weight:600;color:var(--ink);font-size:14px}
+  article td{font-size:14px}
 
   /* ---------- home ---------- */
   .home-lead{font-size:21px;line-height:1.65;color:#46423b;margin:6px 0 8px;max-width:600px}
@@ -817,10 +821,11 @@ const NOTE_BUSS1020_W1 = `
 <li>Links to various learning supports</li>
 </ul>
 <h3>Assessment summary</h3>
+<table><tr><th>Assessment</th><th>Weight</th><th>Due</th></tr><tr><td>Homework</td><td>15%</td><td>Sundays at 11:59pm (weekly)</td></tr><tr><td>In-semester test</td><td>20%</td><td>Saturday 19 September at 15:40 (Week 7)</td></tr><tr><td>Group Assignment</td><td>25%</td><td>Thursday 5 November (Week 13) + progress report Friday 9 October (Week 9)</td></tr><tr><td>Final Exam</td><td>40%</td><td>Final Exam Period</td></tr></table>
 <h3>Weekly Online Modules</h3>
 <ul>
 <li>Weekly learning materials are provided in Canvas online modules</li>
-<li>Complete before your weekly workshop</li>
+<li><b>Complete before your weekly workshop</b></li>
 <li>Content becomes available on Tuesday of week preceding the corresponding workshop</li>
 <li>Modules consist of short videos on each sub-topic plus a variety of additional content summarising the key points, providing examples and questions to check your understanding</li>
 </ul>
@@ -830,12 +835,12 @@ const NOTE_BUSS1020_W1 = `
 <li>Workshop staffed by tutor and an 'excel helper' to assist students</li>
 <li>Workshop questions provided at end of weekly online modules</li>
 <li>For most benefit, attempt questions before attending workshop</li>
-<li>From week 7 onwards time allocated for Group Assignment</li>
+<li><b>From week 7 onwards time allocated for Group Assignment</b></li>
 </ul>
 <h3>MyLab-Pearson online learning tool</h3>
 <ul>
 <li>Set up your MyLab account using your USYD email (not a personal email).</li>
-<li>Used for Homework tasks and submission</li>
+<li><b>Used for Homework tasks and submission</b></li>
 <li>Free eTextbook access.Study Plan materials for additional practice</li>
 <li>For any technical issues with your MyLab account, contact Pearson Support via live chat, phone call, or by logging a support case.</li>
 <li>For assistance see MyLab Statistics - Guide, Registration, Troubleshooting, and Downtimes in Canvas</li>
@@ -931,48 +936,48 @@ const NOTE_BUSS1020_W1 = `
 <h3>Data Analytics is often used to reveal non-obvious insiahts</h3>
 <p>Cookie or something else</p>
 <h3>Framework for conducting statistical analyses: DCOVA</h3>
-<h3>Define the problem or objective and the data required. (Some call this Design)</h3>
-<h3>Collect the required data (in an appropriate manner)</h3>
-<h3>Organize the data: "clean it”, prepare it for analysis, tabulate and summarize it.</h3>
-<h3>Visualize the data</h3>
-<h3>Analyze the data</h3>
+<p><b>Define the problem or objective and the data required. (Some call this Design)</b></p>
+<p><b>Collect the required data (in an appropriate manner)</b></p>
+<p><b>Organize the data: "clean it”, prepare it for analysis, tabulate and summarize it.</b></p>
+<p><b>Visualize the data</b></p>
+<p><b>Analyze the data</b></p>
 <h3>Three Different Branches Of Statistics Are Used In Business</h3>
-<h3>Statistics</h3>
+<p><b>Statistics</b></p>
 <ul>
 <li>Methods that collect, describe, transform data into useful insights for decision makers.</li>
 </ul>
-<h3>Descriptive</h3>
+<p><b>Descriptive</b></p>
 <ul>
 <li>Collecting, summarizing, presenting and organising data</li>
 </ul>
-<h3>Inferential</h3>
+<p><b>Inferential</b></p>
 <ul>
 <li>Using data collected from a small group to draw conclusions about a larger group</li>
 </ul>
-<h3>Predictive</h3>
+<p><b>Predictive</b></p>
 <ul>
 <li>Using a model and data to make forecasts of outcomes</li>
 </ul>
 <h3>Descriptive Statistics</h3>
-<h3>Collect data</h3>
+<p><b>Collect data</b></p>
 <ul>
 <li>e.g., Survey</li>
 </ul>
-<h3>Present data</h3>
+<p><b>Present data</b></p>
 <ul>
 <li>e.g., Tables and graphs</li>
 </ul>
-<h3>Summarize and visualize data</h3>
+<p><b>Summarize and visualize data</b></p>
 <ul>
 <li>e.g. sample average</li>
 </ul>
 <h3>Inferential Statistics</h3>
 <p>Drawing conclusions about a large group of individuals based on a smaller group.</p>
-<h3>Estimation</h3>
+<p><b>Estimation</b></p>
 <ul>
 <li>e.g., Estimate the population average amount spent using the sample average spent</li>
 </ul>
-<h3>Hypothesis testing</h3>
+<p><b>Hypothesis testing</b></p>
 <ul>
 <li>e.g., Test the claim that the population average amount spent in one group is larger than that in another group</li>
 </ul>
@@ -989,43 +994,43 @@ const NOTE_BUSS1020_W1 = `
 <li>Through allowing better decisions to be made.</li>
 </ul>
 <h3>Basic Vocabulary of Statistics</h3>
-<h3>VARIABLE</h3>
-<h3>Variables are characteristics of an item or individual. Data on a variable(s) is what you analyze when you use a statistical method. (In analytics, variables are often called attributes).</h3>
+<p><b>VARIABLE</b></p>
+<p><b>Variables are characteristics of an item or individual. Data on a variable(s) is what you analyze when you use a statistical method. (In analytics, variables are often called attributes).</b></p>
 <p>E.g., Age</p>
-<h3>DATA</h3>
-<h3>Data are the observed values or outcomes of one or more variables.</h3>
+<p><b>DATA</b></p>
+<p><b>Data are the observed values or outcomes of one or more variables.</b></p>
 <p>E.g., 32, 16, 40</p>
-<h3>OPERATIONAL DEFINITION</h3>
-<h3>Variables should have universally accepted meanings that are clear to all associated with an analysis; the clearly defined meaning is the operational definition.</h3>
+<p><b>OPERATIONAL DEFINITION</b></p>
+<p><b>Variables should have universally accepted meanings that are clear to all associated with an analysis; the clearly defined meaning is the operational definition.</b></p>
 <p>E.g., Age in whole years on Jan 1s, 2019.</p>
-<h3>POPULATION</h3>
-<h3>A population consists of all the items or individuals about which you want to draw a conclusion. The population is the "large group.”</h3>
-<h3>SAMPLE</h3>
-<h3>A sample is the portion of a population selected for analysis. The sample is the "small group.</h3>
-<h3>PARAMETER</h3>
-<h3>A parameter is a numerical measure that describes a relevant characteristic of a population.</h3>
-<h3>STATISTIC</h3>
-<h3>A statistic is a numerical measure that describes a characteristic of a sample. Often a statistic estimates a parameter.</h3>
+<p><b>POPULATION</b></p>
+<p><b>A population consists of all the items or individuals about which you want to draw a conclusion. The population is the "large group.”</b></p>
+<p><b>SAMPLE</b></p>
+<p><b>A sample is the portion of a population selected for analysis. The sample is the "small group.</b></p>
+<p><b>PARAMETER</b></p>
+<p><b>A parameter is a numerical measure that describes a relevant characteristic of a population.</b></p>
+<p><b>STATISTIC</b></p>
+<p><b>A statistic is a numerical measure that describes a characteristic of a sample. Often a statistic estimates a parameter.</b></p>
 <h3>Population vs. Sample</h3>
-<h3>Population: Measures used to describe the population are called parameters</h3>
-<h3>Sample: Measures used to describe the sample are called statistics</h3>
+<p><b>Population: Measures used to describe the population are called parameters</b></p>
+<p><b>Sample: Measures used to describe the sample are called statistics</b></p>
 <h3>Types of variables:</h3>
 <ul>
-<li>At each step of statistical analysis the type of the data must be know.</li>
+<li><b>At each step of statistical analysis the type of the data must be know.</b></li>
 <li>The data type strongly influences how the analysis proceeds, the choices of methods, etc.</li>
 <li>This affects all parts of DCOVA</li>
 </ul>
 <h3>Types of Variables</h3>
-<h3>Categorical (qualitative) variables have values that can only be placed into categories: e.g. "yes" or "no".</h3>
+<p><b>Categorical (qualitative) variables have values that can only be placed into categories: e.g. "yes" or "no".</b></p>
 <ul>
-<li>Nominal: car colors: red, blue, black,...</li>
-<li>Ordinal: shirt sizes: Small medium, large, ...</li>
+<li><b>Nominal: car colors: red, blue, black,...</b></li>
+<li><b>Ordinal: shirt sizes: Small medium, large, ...</b></li>
 </ul>
-<h3>Numerical (quantitative) variables have values that represent actual number quantities, e.g.:</h3>
+<p><b>Numerical (quantitative) variables have values that represent actual number quantities, e.g.:</b></p>
 <ul>
-<li>Discrete variables arise from a counting process</li>
-<li>Continuous variables arise from a measuring process: can be assigned any value within a given interval.</li>
-<li>Sometimes discrete variables with MANY outcomes are treated like continuous variables, e.g. prices.</li>
+<li><b>Discrete variables arise from a counting process</b></li>
+<li><b>Continuous variables arise from a measuring process: can be assigned any value within a given interval.</b></li>
+<li><b>Sometimes discrete variables with MANY outcomes are treated like continuous variables, e.g. prices.</b></li>
 </ul>
 <h3>Types of Variables</h3>
 <p>Variables</p>
@@ -1164,7 +1169,7 @@ Example: Employment Classification</li>
 </ul>
 <h3>Data format</h3>
 <p>Traditionally, data are stored in easy to use Excel-type tables, one column fro each clearly defied variable, one row for each item, etc.</p>
-<h3>Data like Microsoft Excel called structured</h3>
+<p><b>Data like Microsoft Excel called structured</b></p>
 <p>We focus on this sort of data in BUSS1020</p>
 <ul>
 <li>Lots of modern data are unstructured: messy, not stored easily, not storable in an Excel file, stored in several different locations, etc.</li>
@@ -1184,8 +1189,7 @@ Example: Employment Classification</li>
 <li>Remove error (e.g. negative trade volumes, 0 heart rates)</li>
 <li>Fill-in (how?) or delete missing data. Which one?</li>
 <li>Flag strange, but possible, data points: “Outliers”. Then what?</li>
-</ul>
-`;
+</ul>`;
 
 const NOTE_BUSS1020_W1M = `
 <h2>Week 1 Online Modules</h2>
@@ -1349,6 +1353,7 @@ const NOTE_BUSS1020_W1M = `
 <p>100kg is twice as heavy as 50kg.</p>
 <p>Descriptive statistics: Mean, standard deviation, all advanced procedures..</p>
 <p><b>Summary Table</b></p>
+<table><tr><th>Level</th><th>Order?</th><th>Equal Intervals?</th><th>True Zero?</th><th>Examples</th></tr><tr><td>Nominal</td><td>No</td><td>No</td><td>No</td><td>Job type, gender, color</td></tr><tr><td>Ordinal</td><td>Yes</td><td>No</td><td>No</td><td>Satisfaction rating, risk level</td></tr><tr><td>Interval</td><td>Yes</td><td>Yes</td><td>No</td><td>Temperature (°C/°F), IQ score</td></tr><tr><td>Ratio</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Weight, revenue, price, counts</td></tr></table>
 <p><b>1.3 Data collection</b></p>
 <h3>Data Sources and Use</h3>
 <p>This sub-topic looks at data sources, both primary and secondary sources, data use in business, structured and unstructured data and how to clean it.</p>
@@ -1369,6 +1374,7 @@ const NOTE_BUSS1020_W1M = `
 <h3>Note of Video</h3>
 <p><b>Sources of Data in Business</b></p>
 <p><b>Primary vs Secondary Data</b></p>
+<table><tr><th>Type</th><th>Definition</th><th>Examples</th></tr><tr><td>Primary Data</td><td>Data you collect yourself</td><td>Experiments, surveys, observational studies</td></tr><tr><td>Secondary Data</td><td>Data collected by someone other than the researcher</td><td>Financial data, industry reports, stock prices, Google Scholar</td></tr></table>
 <p><b>1. Organizational Data (Secondary)</b></p>
 <ul>
 <li>Financial data on a company</li>
@@ -1409,6 +1415,7 @@ const NOTE_BUSS1020_W1M = `
 <li>Rapidly growing field in both technology and business</li>
 </ul>
 <p><b>Summary</b></p>
+<table><tr><th>Data Source</th><th>Primary / Secondary</th><th>Method</th></tr><tr><td>Organizational data</td><td>Secondary</td><td>Existing online / public data</td></tr><tr><td>Designed experiment</td><td>Primary</td><td>Controlled testing (A/B, product testing)</td></tr><tr><td>Survey</td><td>Primary</td><td>Questionnaires, polls</td></tr><tr><td>Observational study</td><td>Primary</td><td>Watching/measuring real-world behavior</td></tr><tr><td>Streaming data</td><td>Primary</td><td>Automated collection via tech/software</td></tr></table>
 <h3>Structured data</h3>
 <p>Structured data is traditionally easily accessible so can be regularly used by the business or organisation. It may be found in databases or Excel worksheets.  The Excel worksheet layout works well with structured:</p>
 <ul>
@@ -1460,6 +1467,7 @@ const NOTE_BUSS1020_W1M = `
 </ul>
 <p><b>Types of Samples</b></p>
 <p>Non-Probability Samples (Bad — not randomly selected)</p>
+<table><tr><th>Type</th><th>Description</th><th>Risk</th></tr><tr><td>Convenience</td><td>Select people close to hand; easy, inexpensive, quick</td><td>Not representative</td></tr><tr><td>Snowball</td><td>Initial participants recruit acquaintances; sample grows like a snowball</td><td>Narrow social circles</td></tr><tr><td>Judgment</td><td>Experts use professional judgment to select items (e.g., tax office targeting specific income bracket for fraud)</td><td>Researcher bias</td></tr><tr><td>Self-selected</td><td>Individuals choose whether to participate (e.g., student survey in Wentworth Building)</td><td>Only certain types respond; willingness correlates with the study topic</td></tr></table>
 <p><b>Key issue: No guarantee the population is properly represented.</b></p>
 <p>Probability Samples (Good — randomly selected with known probabilities)</p>
 <p><b>Simple Random: Every item has an equal chance of being selected; often uses random number generator or Excel RANDBETWEEN</b></p>
@@ -1467,6 +1475,7 @@ const NOTE_BUSS1020_W1M = `
 <p><b>Stratified: Divide population into subgroups (strata) by characteristics (age, gender, country). Then simple random sample within each stratum, proportional to group size. Samples combined at the end. Ensures minority groups are represented.</b></p>
 <p><b>Cluster: Divide population into clusters, randomly select clusters, then sample within selected clusters. Commonly used in election exit polls.</b></p>
 <p><b>Four Types of Survey Errors</b></p>
+<table><tr><th>Error Type</th><th>Description</th><th>Example</th></tr><tr><td>Coverage Error</td><td>Some groups excluded from the frame or have no chance of being selected</td><td>Truman poll: people without landlines excluded</td></tr><tr><td>Non-response Error</td><td>Respondents differ from non-respondents (selection bias)</td><td>High-income people less likely to answer income questions; can follow up to reduce this</td></tr><tr><td>Sampling Error</td><td>Variation from sample to sample; difference between population parameter and sample statistic</td><td>Average height of 10 people will differ from the average of another 10 — always exists due to randomness</td></tr><tr><td>Measurement Error</td><td>Weakness in questionnaire design (ambiguous/leading questions), respondent error, or interviewer effect on respondent</td><td>Poorly worded survey questions</td></tr></table>
 <p><b>Quick Reference</b></p>
 <p><b>Non-Probability Samples: Convenience, Snowball, Judgment, Self-selected</b></p>
 <p><b>Probability Samples: Simple Random, Systematic, Stratified, Cluster</b></p>
@@ -1518,8 +1527,7 @@ const NOTE_BUSS1020_W1M = `
 <li>I understand the different types of variables and the concept of data management.</li>
 <li>I understand the concept of data collection, including the types and sources of data used in business.</li>
 <li>I understand the principles of effective data sampling.</li>
-</ul>
-`;
+</ul>`;
 
 const NOTE_BUSS1020_W1P = `
 <h2>Week 1: Prepare</h2>
@@ -1540,8 +1548,11 @@ The sample mean height, x̄ = 170.3 cm.</p>
 <li>Sample mean of 178.2 cm → x̄ = 178.2</li>
 </ul>
 <p><b>Part C — Question 2: Types of Data Variables</b></p>
+<table><tr><th>Variable</th><th>Categorical/
+Numerical</th><th>Sub-type</th><th>Ratio/Interval</th><th>Reasoning</th></tr><tr><td>Gender (male/female)</td><td>Categorical</td><td>Nominal</td><td>-</td><td>Categories with no meaningful order</td></tr><tr><td>Height (in cm)</td><td>Numerical</td><td>Continuous</td><td>Ratio</td><td>Height can take any value; 0 cm = absence of height (true zero)</td></tr><tr><td>COVID-19 test result (positive/negative)</td><td>Categorical</td><td>Nominal</td><td>-</td><td>Two unordered categories</td></tr><tr><td>Historical daily temperature (°C)</td><td>Numerical</td><td>Continuous</td><td>Interval</td><td>Equal intervals are meaningful, but 0°C ≠ absence of heat (no true zero)</td></tr><tr><td>Number of website views in July</td><td>Numerical</td><td>Discrete</td><td>Ratio</td><td>Counts (whole numbers); 0 = no views (true zero)</td></tr><tr><td>WAM Grade (Fail/Pass/Credit/Distinction/HD)</td><td>Categorical</td><td>Ordinal</td><td>-</td><td>Meaningful order, but differences between adjacent grades are not consistent/equal</td></tr></table>
 <h3>Part D — Excel Data Analysis</h3>
 <p>1. Average Height Calculation</p>
+<table><tr><th>Group</th><th>Mean (cm)</th><th>Median (cm)</th><th>Std Dev (cm)</th><th>Min (cm)</th><th>Max (cm)</th></tr><tr><td>Overall (n=100)</td><td>167.22</td><td>169.50</td><td>11.97</td><td>140.09</td><td>190.38</td></tr><tr><td>Male (n=50)</td><td>174.21</td><td>174.08</td><td>6.47</td><td>155.08</td><td>190.38</td></tr><tr><td>Female (n=50)</td><td>160.24</td><td>157.70</td><td>12.16</td><td>140.09</td><td>185.32</td></tr></table>
 <p>2. Chart Suggestion</p>
 <p>Use a side-by-side box plot (box and whisker) or a clustered column chart comparing Male vs Female heights. A histogram for each gender would also work well to show distribution shape.</p>
 <p>3. Does average height differ between genders?</p>
@@ -1549,8 +1560,7 @@ The sample mean height, x̄ = 170.3 cm.</p>
 <p>4. Installing Data Analysis Add-in in Excel</p>
 <p>Mac: Tools → Excel Add-ins... → check Analysis ToolPak → OK</p>
 <p>Windows: File → Options → Add-ins → Manage: Excel Add-ins → Go... → check Analysis ToolPak → OK</p>
-<p>Note on Question 1(a): The doc mentions a 25-student sample with mean 170.3 cm. The Excel file contains 100 rows of demo data. These are separate datasets used for different parts of the workshop.</p>
-`;
+<p>Note on Question 1(a): The doc mentions a 25-student sample with mean 170.3 cm. The Excel file contains 100 rows of demo data. These are separate datasets used for different parts of the workshop.</p>`;
 
 const NOTE_ADDICTION_002 = `
 <p>Thanks to the Huberman Lab Podcast.</p>
