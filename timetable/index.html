@@ -91,26 +91,37 @@
   .card .row { font-size: 12px; color: #94a3b8; margin: 3px 0; display: flex; gap: 8px; align-items: flex-start; }
   .card .row .ico { flex-shrink: 0; width: 18px; text-align: center; }
 
-  /* horizontal scroll wrapper so the grid never squishes on phones */
+  /* horizontal scroll wrapper (desktop keeps it; mobile hides the grid) */
   .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ── mobile stacked list (replaces the grid on phones) ── */
+  .mobile-list { display: none; }
+  .ml-day { margin-bottom: 16px; }
+  .ml-day-hd {
+    font-size: 13px; font-weight: 700; color: #f1f5f9;
+    padding: 7px 12px; border-radius: 8px 8px 0 0;
+    background: #1e293b; border: 1px solid #334155; border-bottom: none;
+  }
+  .ml-day-hd .ml-cnt { font-size: 11px; color: #64748b; font-weight: 500; margin-left: 6px; }
+  .ml-ev {
+    padding: 10px 12px; border: 1px solid #334155; border-top: none;
+    color: #e2e8f0;
+  }
+  .ml-ev:last-child { border-radius: 0 0 8px 8px; }
+  .ml-ev .ml-sub { font-size: 13px; font-weight: 700; }
+  .ml-ev .ml-time { font-size: 11px; color: #94a3b8; margin: 3px 0; font-family: 'SF Mono', monospace; }
+  .ml-ev .ml-room { font-size: 11px; color: #cbd5e1; line-height: 1.45; word-break: break-word; }
+  .ml-ev .ml-note { font-size: 10px; color: #64748b; margin-top: 3px; }
 
   @media (max-width: 700px) {
     body { padding: 20px 12px; }
     h1 { font-size: 21px; }
-    /* fixed min-width: grid scrolls horizontally instead of crushing to 5px */
-    .grid {
-      grid-template-columns: 44px repeat(5, 118px);
-      grid-template-rows: 40px repeat(12, 56px);
-      min-width: 634px;
-    }
-    .event { padding: 4px 6px; }
-    .ev-sub { font-size: 10px; }
-    .ev-type, .ev-time { font-size: 8px; }
-    .ev-room, .ev-note { display: none; }
-    .hdr { font-size: 11px; }
+    .grid-scroll { display: none; }          /* hide grid entirely */
+    .mobile-list { display: block; }         /* show stacked list */
     .cards { grid-template-columns: 1fr; }
     .legend { gap: 10px; }
     .leg { font-size: 12px; }
+    .note { font-size: 11px; }
   }
 </style>
 </head>
@@ -155,6 +166,9 @@
   </div>
 </div>
 
+<!-- Mobile stacked list (fills in from JS; grid is hidden on phones) -->
+<div class="mobile-list" id="mobileList"></div>
+
 <script>
 (function() {
   /* abbreviate day headers on narrow screens */
@@ -184,7 +198,12 @@
   function hourToRow(h) { return h - 6; } /* 8→2, 14→8, etc. */
 
   /* an event occupies from startHour to endHour in column col (2..6) */
+  var ALL_EVENTS = [];
   function placeEvent(subject, type, day, startH, startM, endH, endM, room, note, cls) {
+    ALL_EVENTS.push({ subject: subject, type: type, day: day,
+      startH: startH, startM: startM, endH: endH, endM: endM,
+      room: room, note: note, cls: cls });
+
     const col = day; /* Mon=2 ... Fri=6 */
     const startRow = hourToRow(startH);
     const endRow   = hourToRow(endH);
@@ -264,8 +283,31 @@
   /* PMGT1865 Assessment — Fri 16:00-18:00, only 2 sessions */
   placeEvent('PMGT1865 Assessment', 'Assessment', 6,
     16,0, 18,0,
-    'A31.04.4002 Sydney Nanoscience Hub (SNH) SNH Lecture Theatre 4002 (Messel)',
-    '仅 2 次: 11/9, 6/11', 'c-pmgt1865 assessment');
+    'A31.04.4002\u2002Sydney Nanoscience Hub (SNH)\u2002SNH Lecture Theatre 4002 (Messel)',
+    '仅 2 次: 11/9,\u20026/11', 'c-pmgt1865 assessment');
+
+  /* ─── mobile stacked list (no horizontal scroll needed) ─── */
+  var DAY_NAMES = { 2:'Monday', 3:'Tuesday', 4:'Wednesday', 5:'Thursday', 6:'Friday' };
+  var DAY_SHORT = { 2:'Mon', 3:'Tue', 4:'Wed', 5:'Thu', 6:'Fri' };
+  var mobileList = document.getElementById('mobileList');
+  var html = '';
+  for (var d = 2; d <= 6; d++) {
+    var dayEvents = ALL_EVENTS.filter(function(e){ return e.day === d; });
+    if (!dayEvents.length) continue;
+    dayEvents.sort(function(a,b){ return a.startH*60+a.startM - (b.startH*60+b.startM); });
+    html += '<div class="ml-day"><div class="ml-day-hd">' + DAY_NAMES[d] +
+      '<span class="ml-cnt">' + dayEvents.length + ' 门</span></div>';
+    dayEvents.forEach(function(e){
+      html += '<div class="ml-ev">' +
+        '<div class="ml-sub">' + e.subject + '</div>' +
+        '<div class="ml-time">' + pad(e.startH) + ':' + pad(e.startM) + ' – ' + pad(e.endH) + ':' + pad(e.endM) + '</div>' +
+        '<div class="ml-room">' + e.room + '</div>' +
+        (e.note ? '<div class="ml-note">' + e.note + '</div>' : '') +
+        '</div>';
+    });
+    html += '</div>';
+  }
+  mobileList.innerHTML = html;
 
 })();
 </script>
