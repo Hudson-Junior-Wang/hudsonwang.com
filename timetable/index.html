@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>课程表 - USYD Semester 2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
+    background: #0f172a; color: #e2e8f0; min-height: 100vh;
+    padding: 32px 20px;
+  }
+  h1 { text-align: center; font-size: 26px; margin-bottom: 6px; color: #f1f5f9; }
+  .subtitle { text-align: center; color: #64748b; margin-bottom: 28px; font-size: 13px; }
+
+  /* ── timetable grid ── */
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  .grid {
+    display: grid;
+    grid-template-columns: 72px repeat(5, 1fr);
+    grid-template-rows: 48px repeat(12, 72px);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #1e293b;
+  }
+
+  /* day headers */
+  .hdr {
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+    background: #0f172a; color: #cbd5e1;
+    border-bottom: 1px solid #334155;
+  }
+  .hdr:first-child { background: #1e293b; }
+
+  /* time gutter */
+  .time {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; color: #475569;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    border-bottom: 1px solid #1e293b;
+  }
+  /* subtle hour dividers */
+  .cell {
+    border-bottom: 1px solid #1e293b;
+    position: relative;
+  }
+  .cell:nth-child(6n+1) { /* time column */ }
+
+  /* ── event blocks (positioned over cells) ── */
+  .event {
+    position: absolute; left: 2px; right: 2px; top: 2px;
+    border-radius: 8px; padding: 8px 10px;
+    display: flex; flex-direction: column; gap: 2px;
+    cursor: pointer; transition: transform .12s, box-shadow .12s;
+    z-index: 5; overflow: hidden;
+  }
+  .event:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(0,0,0,.5); z-index: 20; }
+
+  .ev-sub { font-weight: 700; font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ev-type { font-size: 10px; opacity: .8; }
+  .ev-time { font-size: 10px; opacity: .65; font-family: 'SF Mono', monospace; }
+  .ev-room { font-size: 9px; opacity: .5; line-height: 1.3; word-break: break-word; }
+  .ev-note { font-size: 9px; opacity: .5; margin-top: 1px; }
+
+  /* color themes */
+  .c-buss    { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .c-pmgt1711{ background: linear-gradient(135deg, #d97706, #b45309); }
+  .c-pmgt1852{ background: linear-gradient(135deg, #059669, #047857); }
+  .c-pmgt1865{ background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+
+  .assessment { border-left: 3px solid #f43f5e; }
+
+  /* legend */
+  .legend { display: flex; gap: 18px; justify-content: center; margin-bottom: 22px; flex-wrap: wrap; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #94a3b8; }
+  .dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+
+  /* footnote */
+  .note { margin-top: 18px; text-align: center; font-size: 12px; color: #475569; }
+
+  /* cards section */
+  .section { max-width: 1060px; margin: 36px auto 0; }
+  .section h2 { font-size: 17px; margin-bottom: 14px; color: #94a3b8; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .card { background: #1e293b; border-radius: 10px; padding: 16px 18px; border: 1px solid #334155; }
+  .card h3 { font-size: 14px; margin-bottom: 3px; }
+  .card .code { font-size: 11px; color: #475569; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .card .row { font-size: 12px; color: #94a3b8; margin: 3px 0; display: flex; gap: 8px; align-items: flex-start; }
+  .card .row .ico { flex-shrink: 0; width: 18px; text-align: center; }
+
+  /* horizontal scroll wrapper so the grid never squishes on phones */
+  .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  @media (max-width: 700px) {
+    body { padding: 20px 12px; }
+    h1 { font-size: 21px; }
+    /* fixed min-width: grid scrolls horizontally instead of crushing to 5px */
+    .grid {
+      grid-template-columns: 44px repeat(5, 118px);
+      grid-template-rows: 40px repeat(12, 56px);
+      min-width: 634px;
+    }
+    .event { padding: 4px 6px; }
+    .ev-sub { font-size: 10px; }
+    .ev-type, .ev-time { font-size: 8px; }
+    .ev-room, .ev-note { display: none; }
+    .hdr { font-size: 11px; }
+    .cards { grid-template-columns: 1fr; }
+    .legend { gap: 10px; }
+    .leg { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>可视化课程表</h1>
+<p class="subtitle">University of Sydney · Semester 2 · 2026</p>
+
+<div class="legend">
+  <div class="leg"><span class="dot c-buss"></span> BUSS1020</div>
+  <div class="leg"><span class="dot c-pmgt1711"></span> PMGT1711</div>
+  <div class="leg"><span class="dot c-pmgt1852"></span> PMGT1852</div>
+  <div class="leg"><span class="dot c-pmgt1865"></span> PMGT1865</div>
+</div>
+
+<div class="wrap">
+  <div class="grid-scroll">
+  <div class="grid" id="grid">
+
+    <!-- row 1: day headers -->
+    <div class="hdr"></div>
+    <div class="hdr">Monday</div>
+    <div class="hdr">Tuesday</div>
+    <div class="hdr">Wednesday</div>
+    <div class="hdr">Thursday</div>
+    <div class="hdr">Friday</div>
+
+    <!-- rows 2-13: 08:00 – 19:00 -->
+    <div class="time">08:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">09:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">10:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">11:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">12:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">13:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">14:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">15:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">16:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">17:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">18:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+    <div class="time">19:00</div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  /* abbreviate day headers on narrow screens */
+  function abbreviateDays() {
+    if (window.innerWidth <= 700) {
+      var map = { Monday:'Mon', Tuesday:'Tue', Wednesday:'Wed', Thursday:'Thu', Friday:'Fri' };
+      document.querySelectorAll('.hdr').forEach(function(h){
+        if (map[h.textContent]) h.textContent = map[h.textContent];
+      });
+    }
+  }
+  abbreviateDays();
+  window.addEventListener('resize', abbreviateDays);
+  /* grid layout constants:
+     row 1 = header
+     rows 2-13 = 08:00 through 19:00
+     each cell is 56px tall (48px header)
+     col 1=time, 2=Mon, 3=Tue, 4=Wed, 5=Thu, 6=Fri
+
+     Helper: time string -> start row & pixel offset
+     08:00 → row 2, 09:00 → row 3, ... 19:00 → row 13
+     map hour to row: row = hour - 6   (8→2, 9→3, ... 19→13)
+  */
+  const HEADER_H = 48;
+  const CELL_H   = 72;
+
+  function hourToRow(h) { return h - 6; } /* 8→2, 14→8, etc. */
+
+  /* an event occupies from startHour to endHour in column col (2..6) */
+  function placeEvent(subject, type, day, startH, startM, endH, endM, room, note, cls) {
+    const col = day; /* Mon=2 ... Fri=6 */
+    const startRow = hourToRow(startH);
+    const endRow   = hourToRow(endH);
+
+    /* event occupies rows startRow through endRow-1 (height spans N rows) */
+    const span = endRow - startRow;
+
+    /* calculate top offset from minutes */
+    const topPx = (startM / 60) * CELL_H;
+
+    const grid = document.getElementById('grid');
+
+    /* find the cell at (startRow, col) — that's our anchor */
+    /* cells are laid out row-major: row 1 has 6 kids, row 2 has 6, etc. */
+    const kids = grid.children;
+    const anchorIdx = (startRow - 1) * 6 + (col - 1);
+    const anchor = kids[anchorIdx];
+
+    const heightPx = span * CELL_H - topPx + (endM / 60) * CELL_H - 4;
+
+    const div = document.createElement('div');
+    div.className = 'event ' + cls;
+    div.style.top = topPx + 'px';
+    div.style.height = heightPx + 'px';
+
+    div.innerHTML = [
+      '<div class="ev-sub">' + subject + '</div>',
+      '<div class="ev-type">' + type + '</div>',
+      '<div class="ev-time">' + pad(startH) + ':' + pad(startM) + ' – ' + pad(endH) + ':' + pad(endM) + '</div>',
+      '<div class="ev-room">' + room + '</div>',
+      note ? '<div class="ev-note">' + note + '</div>' : ''
+    ].join('');
+
+    anchor.appendChild(div);
+  }
+
+  function pad(n) { return String(n).padStart(2,'0'); }
+
+  /* ─── events ─── */
+
+  /* BUSS1020 Lecture — Mon 14:00-16:00, Online */
+  placeEvent('BUSS1020 Lecture', 'Lecture – Online Q&A', 2,
+    14,0, 16,0,
+    'Camperdown/Darlington, Sydney (Online delivery)',
+    '3/8—21/9, 12/10—26/10', 'c-buss');
+
+  /* BUSS1020 Workshop — Wed 10:00-12:00 */
+  placeEvent('BUSS1020 Workshop', 'Workshop', 4,
+    10,0, 12,0,
+    'H69.01.133 Business School Codrington Building BS Codrington Computer Lab (5) 133',
+    '5/8—23/9, 7/10—4/11', 'c-buss');
+
+  /* PMGT1711 Tutorial — Wed 16:00-18:00 */
+  placeEvent('PMGT1711 Tutorial', 'Tutorial', 4,
+    16,0, 18,0,
+    'J05.03.361 Civil Engineering Building Civil Engineering Seminar Room 361',
+    '5/8—23/9, 7/10—4/11', 'c-pmgt1711');
+
+  /* PMGT1852 Tutorial — Thu 10:00-12:00 */
+  placeEvent('PMGT1852 Tutorial', 'Tutorial', 5,
+    10,0, 12,0,
+    'H70.02.2050 Belinda Hutchinson Building BHB Seminar Room 2050',
+    '13/8—17/9, 8/10—29/10', 'c-pmgt1852');
+
+  /* PMGT1852 Lecture — Fri 11:00-13:00, only 3 sessions */
+  placeEvent('PMGT1852 Lecture', 'Lecture', 6,
+    11,0, 13,0,
+    'H70.01.1040 Belinda Hutchinson Building BHB Lecture Theatre 1040',
+    '仅 3 次: 7/8, 25/9, 6/11', 'c-pmgt1852');
+
+  /* PMGT1865 Tutorial — Thu 17:00-19:00 */
+  placeEvent('PMGT1865 Tutorial', 'Tutorial', 5,
+    17,0, 19,0,
+    'H70.03.3090 Belinda Hutchinson Building BHB Learning Studio 3090 (24/9: J05.03.365 Civil Eng Computer Lab)',
+    '6/8—3/9, 17/9—24/9, 8/10—29/10', 'c-pmgt1865');
+
+  /* PMGT1865 Assessment — Fri 16:00-18:00, only 2 sessions */
+  placeEvent('PMGT1865 Assessment', 'Assessment', 6,
+    16,0, 18,0,
+    'A31.04.4002 Sydney Nanoscience Hub (SNH) SNH Lecture Theatre 4002 (Messel)',
+    '仅 2 次: 11/9, 6/11', 'c-pmgt1865 assessment');
+
+})();
+</script>
+
+<p class="note">⚠ PMGT1852 Lecture 仅 3 次（7/8, 25/9, 6/11）&nbsp;|&nbsp; PMGT1865 Assessment 仅 2 次（11/9, 6/11）&nbsp;|&nbsp; PMGT1865 Tutorial 24/9 在 Civil Eng Computer Lab, 其余在 BHB Learning Studio</p>
+
+<div class="section">
+  <h2>课程详情</h2>
+  <div class="cards">
+    <div class="card">
+      <h3 style="color:#60a5fa">Quantitative Business Analysis</h3>
+      <div class="code">BUSS1020</div>
+      <div class="row"><span class="ico">📖</span> Lecture — 周一 14:00-16:00</div>
+      <div class="row" style="padding-left:26px">Camperdown/Darlington, Sydney (Online delivery Q&amp;A)</div>
+      <div class="row" style="padding-left:26px">3/8—21/9, 12/10—26/10</div>
+      <div class="row"><span class="ico">💻</span> Workshop — 周三 10:00-12:00</div>
+      <div class="row" style="padding-left:26px">H69.01.133 Business School Codrington Building, BS Codrington Computer Lab (5) 133</div>
+      <div class="row" style="padding-left:26px">5/8—23/9, 7/10—4/11</div>
+    </div>
+    <div class="card">
+      <h3 style="color:#fbbf24">Systems Thinking in Projects</h3>
+      <div class="code">PMGT1711</div>
+      <div class="row"><span class="ico">👥</span> Tutorial — 周三 16:00-18:00</div>
+      <div class="row" style="padding-left:26px">J05.03.361 Civil Engineering Building, Civil Engineering Seminar Room 361</div>
+      <div class="row" style="padding-left:26px">5/8—23/9, 7/10—4/11</div>
+    </div>
+    <div class="card">
+      <h3 style="color:#34d399">Facilitation &amp; Stakeholder Engagement</h3>
+      <div class="code">PMGT1852</div>
+      <div class="row"><span class="ico">📖</span> Lecture — 周五 11:00-13:00</div>
+      <div class="row" style="padding-left:26px">H70.01.1040 Belinda Hutchinson Building, BHB Lecture Theatre 1040</div>
+      <div class="row" style="padding-left:26px;color:#f87171">仅 3 次: 7/8, 25/9, 6/11</div>
+      <div class="row"><span class="ico">👥</span> Tutorial — 周四 10:00-12:00</div>
+      <div class="row" style="padding-left:26px">H70.02.2050 Belinda Hutchinson Building, BHB Seminar Room 2050</div>
+      <div class="row" style="padding-left:26px">13/8—17/9, 8/10—29/10</div>
+    </div>
+    <div class="card">
+      <h3 style="color:#a78bfa">Project Time, Cost &amp; Resources</h3>
+      <div class="code">PMGT1865</div>
+      <div class="row"><span class="ico">📝</span> Assessment — 周五 16:00-18:00</div>
+      <div class="row" style="padding-left:26px">A31.04.4002 Sydney Nanoscience Hub (SNH), SNH Lecture Theatre 4002 (Messel)</div>
+      <div class="row" style="padding-left:26px;color:#f87171">仅 2 次: 11/9, 6/11</div>
+      <div class="row"><span class="ico">👥</span> Tutorial — 周四 17:00-19:00</div>
+      <div class="row" style="padding-left:26px">H70.03.3090 Belinda Hutchinson Building, BHB Learning Studio 3090</div>
+      <div class="row" style="padding-left:26px">(24/9 例外: J05.03.365 Civil Engineering Building, Civil Eng Computer Lab 365 Hawkins)</div>
+      <div class="row" style="padding-left:26px">6/8—3/9, 17/9—24/9, 8/10—29/10</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
