@@ -8,11 +8,10 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
-    background: #0f172a; color: #e2e8f0; min-height: 100vh;
-    padding: 32px 20px;
+    background: #fafafa; color: #333; min-height: 100vh;
+    padding: 48px 20px;
   }
-  h1 { text-align: center; font-size: 26px; margin-bottom: 6px; color: #f1f5f9; }
-  .subtitle { text-align: center; color: #64748b; margin-bottom: 28px; font-size: 13px; }
+  .subtitle { text-align: center; color: #999; margin-bottom: 36px; font-size: 13px; letter-spacing: .5px; }
 
   /* ── timetable grid ── */
   .wrap { max-width: 1060px; margin: 0 auto; }
@@ -20,123 +19,99 @@
     display: grid;
     grid-template-columns: 72px repeat(5, 1fr);
     grid-template-rows: 48px repeat(12, 72px);
-    border: 1px solid #334155;
+    border: 1px solid #ececec;
     border-radius: 12px;
     overflow: hidden;
-    background: #1e293b;
+    background: #fff;
   }
 
   /* day headers */
   .hdr {
     display: flex; align-items: center; justify-content: center;
-    font-weight: 700; font-size: 14px;
-    background: #0f172a; color: #cbd5e1;
-    border-bottom: 1px solid #334155;
+    font-weight: 500; font-size: 13px; letter-spacing: .3px;
+    background: #fafafa; color: #666;
+    border-bottom: 1px solid #ececec;
   }
-  .hdr:first-child { background: #1e293b; }
+  .hdr:first-child { background: #fff; }
 
   /* time gutter */
   .time {
     display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600; color: #475569;
+    font-size: 11px; color: #b3b3b3;
     font-family: 'SF Mono', 'Fira Code', monospace;
-    border-bottom: 1px solid #1e293b;
+    border-bottom: 1px solid #f4f4f4;
   }
-  /* subtle hour dividers */
-  .cell {
-    border-bottom: 1px solid #1e293b;
-    position: relative;
-  }
-  .cell:nth-child(6n+1) { /* time column */ }
+  .cell { border-bottom: 1px solid #f4f4f4; position: relative; }
 
   /* ── event blocks (positioned over cells) ── */
   .event {
-    position: absolute; left: 2px; right: 2px; top: 2px;
-    border-radius: 8px; padding: 8px 10px;
+    position: absolute; left: 3px; right: 3px; top: 3px;
+    border-radius: 8px; padding: 7px 10px;
+    border: 1px solid transparent;
     display: flex; flex-direction: column; gap: 2px;
     cursor: pointer; transition: transform .12s, box-shadow .12s;
     z-index: 5; overflow: hidden;
   }
-  .event:hover { transform: scale(1.03); box-shadow: 0 6px 24px rgba(0,0,0,.5); z-index: 20; }
+  .event:hover { transform: scale(1.02); box-shadow: 0 4px 16px rgba(0,0,0,.08); z-index: 20; }
 
-  .ev-sub { font-weight: 700; font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .ev-type { font-size: 10px; opacity: .8; }
+  .ev-sub { font-weight: 600; font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ev-type { font-size: 10px; opacity: .75; }
   .ev-time { font-size: 10px; opacity: .65; font-family: 'SF Mono', monospace; }
-  .ev-room { font-size: 9px; opacity: .5; line-height: 1.3; word-break: break-word; }
-  .ev-note { font-size: 9px; opacity: .5; margin-top: 1px; }
+  .ev-room { font-size: 9px; opacity: .6; line-height: 1.3; word-break: break-word; }
+  .ev-note { font-size: 9px; opacity: .6; margin-top: 1px; }
 
-  /* color themes */
-  .c-buss    { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
-  .c-pmgt1711{ background: linear-gradient(135deg, #d97706, #b45309); }
-  .c-pmgt1852{ background: linear-gradient(135deg, #059669, #047857); }
-  .c-pmgt1865{ background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+  /* pastel color themes */
+  .c-buss     { background: #e8f1fd; color: #1d4ed8; border-color: #d3e4fb; }
+  .c-pmgt1711 { background: #fdf3e3; color: #b45309; border-color: #f8e4c4; }
+  .c-pmgt1852 { background: #e6f7ef; color: #047857; border-color: #cfeee0; }
+  .c-pmgt1865 { background: #f1ecfd; color: #6d28d9; border-color: #e3d9fa; }
 
   .assessment { border-left: 3px solid #f43f5e; }
 
-  /* legend */
-  .legend { display: flex; gap: 18px; justify-content: center; margin-bottom: 22px; flex-wrap: wrap; }
-  .leg { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #94a3b8; }
-  .dot { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
-
-  /* footnote */
-  .note { margin-top: 18px; text-align: center; font-size: 12px; color: #475569; }
-
-  /* cards section */
-  .section { max-width: 1060px; margin: 36px auto 0; }
-  .section h2 { font-size: 17px; margin-bottom: 14px; color: #94a3b8; }
-  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
-  .card { background: #1e293b; border-radius: 10px; padding: 16px 18px; border: 1px solid #334155; }
-  .card h3 { font-size: 14px; margin-bottom: 3px; }
-  .card .code { font-size: 11px; color: #475569; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-  .card .row { font-size: 12px; color: #94a3b8; margin: 3px 0; display: flex; gap: 8px; align-items: flex-start; }
-  .card .row .ico { flex-shrink: 0; width: 18px; text-align: center; }
-
-  /* horizontal scroll wrapper (desktop keeps it; mobile hides the grid) */
-  .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
   /* ── mobile stacked list (replaces the grid on phones) ── */
   .mobile-list { display: none; }
-  .ml-day { margin-bottom: 16px; }
+  .ml-day { margin-bottom: 14px; }
   .ml-day-hd {
-    font-size: 13px; font-weight: 700; color: #f1f5f9;
-    padding: 7px 12px; border-radius: 8px 8px 0 0;
-    background: #1e293b; border: 1px solid #334155; border-bottom: none;
+    font-size: 13px; font-weight: 600; color: #555;
+    padding: 8px 14px; border-radius: 8px 8px 0 0;
+    background: #f5f5f5; border: 1px solid #ececec; border-bottom: none;
   }
-  .ml-day-hd .ml-cnt { font-size: 11px; color: #64748b; font-weight: 500; margin-left: 6px; }
+  .ml-day-hd .ml-cnt { font-size: 11px; color: #aaa; font-weight: 400; margin-left: 6px; }
   .ml-ev {
-    padding: 10px 12px; border: 1px solid #334155; border-top: none;
-    color: #e2e8f0;
+    padding: 11px 14px; border: 1px solid #ececec; border-top: none;
+    background: #fff; color: #333;
   }
   .ml-ev:last-child { border-radius: 0 0 8px 8px; }
-  .ml-ev .ml-sub { font-size: 13px; font-weight: 700; }
-  .ml-ev .ml-time { font-size: 11px; color: #94a3b8; margin: 3px 0; font-family: 'SF Mono', monospace; }
-  .ml-ev .ml-room { font-size: 11px; color: #cbd5e1; line-height: 1.45; word-break: break-word; }
-  .ml-ev .ml-note { font-size: 10px; color: #64748b; margin-top: 3px; }
+  .ml-ev .ml-sub { font-size: 13px; font-weight: 600; }
+  .ml-ev .ml-time { font-size: 11px; color: #999; margin: 3px 0; font-family: 'SF Mono', monospace; }
+  .ml-ev .ml-room { font-size: 11px; color: #666; line-height: 1.45; word-break: break-word; }
+  .ml-ev .ml-note { font-size: 10px; color: #aaa; margin-top: 3px; }
+
+  .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ── course details ── */
+  .section { max-width: 1060px; margin: 40px auto 0; }
+  .section h2 { font-size: 14px; font-weight: 500; color: #999; letter-spacing: .5px; margin-bottom: 16px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .card { background: #fff; border-radius: 10px; padding: 18px 20px; border: 1px solid #ececec; }
+  .card h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .card .code { font-size: 11px; color: #aaa; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  .card .row { font-size: 12px; color: #666; margin: 4px 0; display: flex; gap: 8px; align-items: flex-start; }
+  .card .row .ico { flex-shrink: 0; width: 18px; text-align: center; opacity: .7; }
 
   @media (max-width: 700px) {
-    body { padding: 20px 12px; }
-    h1 { font-size: 21px; }
+    body { padding: 28px 14px; }
+    .subtitle { margin-bottom: 24px; }
     .grid-scroll { display: none; }          /* hide grid entirely */
     .mobile-list { display: block; }         /* show stacked list */
     .cards { grid-template-columns: 1fr; }
-    .legend { gap: 10px; }
-    .leg { font-size: 12px; }
-    .note { font-size: 11px; }
     .section { display: none; }              /* hide 课程详情 cards on mobile */
   }
 </style>
 </head>
 <body>
 
-<h1>可视化课程表</h1>
 <p class="subtitle">University of Sydney · Semester 2 · 2026</p>
-
-<div class="legend">
-  <div class="leg"><span class="dot c-buss"></span> BUSS1020</div>
-  <div class="leg"><span class="dot c-pmgt1711"></span> PMGT1711</div>
-  <div class="leg"><span class="dot c-pmgt1852"></span> PMGT1852</div>
-  <div class="leg"><span class="dot c-pmgt1865"></span> PMGT1865</div>
-</div>
 
 <div class="wrap">
   <div class="grid-scroll">
@@ -313,13 +288,11 @@
 })();
 </script>
 
-<p class="note">⚠ PMGT1852 Lecture 仅 3 次（7/8, 25/9, 6/11）&nbsp;|&nbsp; PMGT1865 Assessment 仅 2 次（11/9, 6/11）&nbsp;|&nbsp; PMGT1865 Tutorial 24/9 在 Civil Eng Computer Lab, 其余在 BHB Learning Studio</p>
-
 <div class="section">
-  <h2>课程详情</h2>
+  <h2>COURSES</h2>
   <div class="cards">
     <div class="card">
-      <h3 style="color:#60a5fa">Quantitative Business Analysis</h3>
+      <h3 style="color:#1d4ed8">Quantitative Business Analysis</h3>
       <div class="code">BUSS1020</div>
       <div class="row"><span class="ico">📖</span> Lecture — 周一 14:00-16:00</div>
       <div class="row" style="padding-left:26px">Camperdown/Darlington, Sydney (Online delivery Q&amp;A)</div>
@@ -329,28 +302,28 @@
       <div class="row" style="padding-left:26px">5/8—23/9, 7/10—4/11</div>
     </div>
     <div class="card">
-      <h3 style="color:#fbbf24">Systems Thinking in Projects</h3>
+      <h3 style="color:#b45309">Systems Thinking in Projects</h3>
       <div class="code">PMGT1711</div>
       <div class="row"><span class="ico">👥</span> Tutorial — 周三 16:00-18:00</div>
       <div class="row" style="padding-left:26px">J05.03.361 Civil Engineering Building, Civil Engineering Seminar Room 361</div>
       <div class="row" style="padding-left:26px">5/8—23/9, 7/10—4/11</div>
     </div>
     <div class="card">
-      <h3 style="color:#34d399">Facilitation &amp; Stakeholder Engagement</h3>
+      <h3 style="color:#047857">Facilitation &amp; Stakeholder Engagement</h3>
       <div class="code">PMGT1852</div>
       <div class="row"><span class="ico">📖</span> Lecture — 周五 11:00-13:00</div>
       <div class="row" style="padding-left:26px">H70.01.1040 Belinda Hutchinson Building, BHB Lecture Theatre 1040</div>
-      <div class="row" style="padding-left:26px;color:#f87171">仅 3 次: 7/8, 25/9, 6/11</div>
+      <div class="row" style="padding-left:26px;color:#e11d48">仅 3 次: 7/8, 25/9, 6/11</div>
       <div class="row"><span class="ico">👥</span> Tutorial — 周四 10:00-12:00</div>
       <div class="row" style="padding-left:26px">H70.02.2050 Belinda Hutchinson Building, BHB Seminar Room 2050</div>
       <div class="row" style="padding-left:26px">13/8—17/9, 8/10—29/10</div>
     </div>
     <div class="card">
-      <h3 style="color:#a78bfa">Project Time, Cost &amp; Resources</h3>
+      <h3 style="color:#6d28d9">Project Time, Cost &amp; Resources</h3>
       <div class="code">PMGT1865</div>
       <div class="row"><span class="ico">📝</span> Assessment — 周五 16:00-18:00</div>
       <div class="row" style="padding-left:26px">A31.04.4002 Sydney Nanoscience Hub (SNH), SNH Lecture Theatre 4002 (Messel)</div>
-      <div class="row" style="padding-left:26px;color:#f87171">仅 2 次: 11/9, 6/11</div>
+      <div class="row" style="padding-left:26px;color:#e11d48">仅 2 次: 11/9, 6/11</div>
       <div class="row"><span class="ico">👥</span> Tutorial — 周四 17:00-19:00</div>
       <div class="row" style="padding-left:26px">H70.03.3090 Belinda Hutchinson Building, BHB Learning Studio 3090</div>
       <div class="row" style="padding-left:26px">(24/9 例外: J05.03.365 Civil Engineering Building, Civil Eng Computer Lab 365 Hawkins)</div>
