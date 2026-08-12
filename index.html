@@ -2720,13 +2720,410 @@ const NOTE_PMGT1852_W1M = `
 <p>Follow-up chapters: stakeholder motivation, making a stakeholder analysis, developing a stakeholder management plan</p>
 `;
 
+const NOTE_BUSS1020_W2L = `
+<h2>Week 2 Lecture</h2>
+<h3>1. Course Logistics &amp; Housekeeping</h3>
+<ul><li>Modules are the core learning material — the Q&amp;A session is not a substitute. Go through each module before the Q&amp;A for maximum benefit.</li><li>Suggested pace: start Module 3 by Thursday/Friday/weekend.</li><li>Homework due dates: Homework A &amp; B due Sunday 16 Aug; Homework C due the following Sunday.</li><li>Academic integrity: Do NOT post homework questions on Ed — it's a breach of integrity and can be reported to the academic honesty team. You may ask about concepts, not specific homework questions.</li><li>Help channels: Q&amp;A sessions, Ed (general questions), workshops/tutorials, consultation hours.</li><li>Week 4 workshop may trial a gamification format with pre/post-game surveys (a PhD student's research — pending).</li></ul>
+<h3>2. Recap: Data &amp; Data Collection (Module 1)</h3>
+<ul><li>Variables: Categorical vs. numerical (sub-types covered previously).</li><li>Data sources:<ul><li>Primary — collected by the analyst (surveys, experiments, own exercises).</li><li>Secondary — from others (organisations, designed experiments, internet/political polls, automated/streaming data: mobile, GPS, weather, website visits, social media).</li></ul></li><li>Big data = 5 Vs: Volume, Velocity, Variety, Veracity, Value.</li><li>Focus of this course: structured data (rows = sampling units, columns = variables), typically in Excel.</li><li>Data problems: errors (unit mismatches, typos, merging issues), missing values (non-response is the most common), outliers.</li><li>Data integrity is critical — cleaning/editing must be transparent: document what you did, consult a colleague. Data manipulation can invalidate the whole analysis (papers get retracted).</li></ul>
+<h3>3. Sampling</h3>
+<p>Why sample instead of census?</p>
+<ul><li>Less time-consuming, less costly, less cumbersome, more practical</li><li>Can collect more detailed information</li><li>Sometimes enumeration is infeasible (e.g., future insurance claims)</li></ul>
+<p><b>Key concepts</b></p>
+<ul><li>The sample is a proxy/surrogate for the population — the population is the real goal.</li><li>Sampling variation: different samples give different results; statistics exists to quantify this error (e.g., "95% sure" statements).</li><li>A good sample must be representative (random, unbiased, large enough).</li><li>Sampling frame = enumerated list of all population members. Excluding segments → biased results.</li><li>Classic example: 1948 US election (Truman vs. Dewey) — pollsters only phoned households with landlines; poorer (non-phone) voters were missed → biased prediction.</li></ul>
+<p>Non-probability samples (no scientific basis)</p>
+<ul><li>Convenience (e.g., only students in the room), judgement (experts choose), self-selection (volunteers tend to be more enthusiastic → bias), quota (convenience-selected groups). All can fail to represent the population.</li></ul>
+<p>Probability samples (equal/random chance of selection)</p>
+<table><tr><th>Method</th><th>How it works</th><th>Notes</th></tr><tr><td>Simple random sample</td><td>Each item in the frame has equal chance (e.g., random number generator, Excel)</td><td>Most basic; can be with/without replacement</td></tr><tr><td>Systematic sampling</td><td>Pick a random start, then every k-th item (e.g., 1 in 10 from 40 → sample of 4)</td><td>Convenient, still random</td></tr><tr><td>Stratified sampling</td><td>Divide frame into strata (e.g., gender), random sample within each</td><td>Ensures proportional representation of minority groups; can make statements about subgroups; very common in surveys</td></tr><tr><td>Cluster sampling</td><td>Divide population into natural clusters (e.g., doctors' offices, suburbs), randomly select clusters, then sample within</td><td>Convenient when enumeration is hard (e.g., drug effectiveness, elections by area)</td></tr></table>
+<p><b>Survey errors</b></p>
+<ul><li>Coverage error — groups excluded from frame (the Truman case)</li><li>Non-response error — non-responders may differ systematically; follow up</li><li>Sampling error — unavoidable (unless sample = population); can be quantified via probability/mathematics</li><li>Measurement error — instrumentation, leading questions, respondent error</li></ul>
+<h3>4. Descriptive Statistics (Module 2)</h3>
+<ul><li>Always visualise first: categorical data → pie charts; numerical data → histograms (frequency / relative frequency), then box plots.</li><li>Three properties of a data set: central tendency (where's the middle), variation (spread), shape (distribution of values).</li></ul>
+<p>Measures of central tendency (4)</p>
+<ul><li>Mean (arithmetic) — sum of values ÷ n. Interpretation: "centre of mass"; the single value closest to all data points (smallest average distance). ⚠️ Highly sensitive to outliers (e.g., income $5,000–$7,000 vs. one accidental $6M; mean jumps from 13 to 15 when one value goes 15→20, median unchanged).</li><li>Median — middle value after sorting (50% above / 50% below). Position = (n+1)/2 — that number is the position, not the value; for even n, average the two middle values. Robust to outliers/extremes; works for numerical and ordinal data. Examples: median US household income, Sydney house prices, Dow Jones (mean ~150 vs median ~125 — high-value firms pull the mean up).</li><li>Mode — most frequent value; can be none or multiple; works for categorical/nominal data too.</li><li>Geometric mean — ⁿ√(X₁·X₂⋯Xₙ); used for compounded growth (investments). Example: $100k → $50k (−50%) → $100k (+100%): arithmetic average = +25% (misleading), geometric = 0% (correct — you made no money). Formula style: [(1+r₁)(1+r₂)]^(1/n) − 1.</li></ul>
+<p>Measures of variation (spread)</p>
+<p>Range = max − min. Simple but dominated by outliers (5→4 becomes 119 with one extreme value).</p>
+<p>Variance — average of squared deviations from the mean: Σ(xᵢ − x̄)²/(n−1). Why n−1: one data point is determined once you know x̄ and the other n−1 values. Squaring prevents positive/negative deviations cancelling out.</p>
+<p>Standard deviation = √variance. Most common measure of spread.</p>
+<ul><li>In finance = volatility = risk; basis of modern portfolio theory (diversification with low/negative correlation reduces portfolio variance). Daily stock returns typically have SD ~1%.</li><li>Example: data 10, 12, 14, 15, 17, 18, 24 → mean 16.</li><li>Data sets can share a mean but differ in spread; variance/SD ≥ 0 always (distances can't be negative).</li></ul>
+<p>Coefficient of variation = SD ÷ mean — unitless, relative measure for comparing variability across data sets in different units (e.g., Stock A: $50, SD 5 → 10%; Stock B: $100, SD 5 → 5%).</p>
+`;
+
+const NOTE_BUSS1020_W2M = `
+<h2>Week 2 Online Modules</h2>
+<h2>2.0 Numerical descriptive measures</h2>
+<h3>What you’ll learn this week</h3>
+<p>Numerical descriptive measures are used to summarise data. By the end of this week, you should be able to understand and explain:</p>
+<ul><li>Measures of central tendency and variation</li><li>How to deduce Z-scores, skewness and kurtosis</li><li>How to add the data analysis ToolPak to excel and create general descriptive statistics</li><li>Quartiles, the interquartile range and boxplots</li><li>Descriptive measures for populations</li><li>Organising and visualising data.</li></ul>
+<h3>Readings and tools</h3>
+<p>https://canvas.sydney.edu.au/courses/76207/external_tools/retrieve?display=borderless&amp;resource_link_lookup_uuid=f45ba695-e35a-4de0-8173-b2d6b2e78797</p>
+<h2>2.1 Measures of central tendency</h2>
+<h3>What are these measures?</h3>
+<p>hat are the measures of central tendency? They are the extent to which all the data values group around a typical or central value. These measures include the mean, median, mode, geometric mean and geometric rate of return.</p>
+<h3>Note of Video</h3>
+<p><b>1. Overview</b></p>
+<p>Central tendency = the extent to which all values in a data set group around a typical or central value.</p>
+<p>The three most common measures of central tendency are:</p>
+<p>Mean: Arithmetic average</p>
+<p>Median: Middle value (50% above / 50% below)</p>
+<p>Mode: Most frequently occurring value</p>
+<p>Each measure locates the central point of the data using a different method.</p>
+<p><b>2. Mean (Arithmetic Mean / Sample Mean)</b></p>
+<ul><li>The mean is the statistical term for average; it measures the centre of a numerical data set.</li><li>A mean calculated from a sample is called the sample mean.</li><li>The symbol for the sample mean is X̄ ("X-bar") — an X with a bar across the top.</li><li>Formula:&lt;br&gt;X̄ = Σ Xᵢ / n  =  (X₁ + X₂ + ⋯ + Xₙ) / n</li></ul>
+<p>Sigma (Σ) notation</p>
+<ul><li>Σ is the Greek capital letter sigma → "sum of”.</li><li>ΣXᵢ means: sum the values Xᵢ, where i = 1, 2, …, n (i refers to the iᵗʰ value in the data set; n is the sample size / last value).</li><li>Expanded: X₁ + X₂ + X₃ + … + Xₙ, then divide the total by n.</li></ul>
+<p>Symbol Meaning</p>
+<ul><li>X̄: Sample mean ("pronounced x-bar”)</li><li>Σ: Sigma = sum of</li><li>n: Sample size</li><li>Xᵢ: The iᵗʰ data value</li><li>X₁ … Xₙ: The observed values</li></ul>
+<p>Limitations of the mean</p>
+<p>Only usable for numerical data — you must be able to add the numbers (e.g., can't use it for eye colour).</p>
+<p>Affected by extreme outliers — one extreme value can change the mean substantially.</p>
+<p><b>3. Median</b></p>
+<ul><li>The median is simply the middle value: 50% of the data lies above it and 50% below it.</li><li>To find it: sort the sample from smallest to largest, then take the middle value (odd n) or the average of the two middle values (even n).</li></ul>
+<p>Position formula: Median position = (n + 1) / 2   (in the ordered data)</p>
+<p>Important: this formula gives the position of the median — NOT the median value itself.</p>
+<ul><li>Odd n (e.g., n = 5): (5 + 1)/2 = 3 → median = 3rd observation when sorted.</li><li>Even n (e.g., n = 6): (6 + 1)/2 = 3.5 → halfway between position 3 and 4 → average of the values in positions 3 and 4.</li></ul>
+<p>When to use the median</p>
+<ul><li>When you expect extreme values and don't want them to influence the centre of the data.</li><li>Useful for asymmetric / skewed distributions — e.g., house prices: a suburb with mostly modest houses but one or two multi-million-dollar homes → the mean gets driven up, but the median is unaffected.</li><li>Can be used for numerical data and ordinal categorical data (ordered categories).</li></ul>
+<p><b>4. Mode</b></p>
+<ul><li>The mode is the value that occurs most often in the data set — the outcome with the highest frequency.</li><li>Example (slide p.6): in the data set, 9 has the highest frequency → Mode = 9.</li><li>If several values share the same top frequency → multimodal distribution; if exactly two → bimodal distribution. (There can also be no mode.)</li><li>Like the median, the mode is not affected by outliers (it's just about frequency).</li><li>Can be used for both numerical and categorical data, but is typically used for categorical data — and it is the only measure that can be used for nominal (unordered) categorical data, e.g., eye colour, country of origin.</li></ul>
+<p><b>5. Quick Comparison Table</b></p>
+<table><tr><th>Property</th><th>Mean</th><th>Median</th><th>Mode</th></tr><tr><td>Definition</td><td>Sum ÷ n</td><td>Middle value (sorted)</td><td>Most frequent value</td></tr><tr><td>Data types</td><td>Numerical only</td><td>Numerical + ordinal</td><td>Numerical + any categorical (incl. nominal)</td></tr><tr><td>Outlier sensitivity</td><td>High</td><td>None / robust</td><td>None</td></tr><tr><td>Best for</td><td>Symmetric, outlier-free data</td><td>Skewed data (e.g., house prices)</td><td>Categorical data (esp. nominal)</td></tr><tr><td>Key formula</td><td>X̄ = ΣXᵢ/n</td><td>Position = (n+1)/2</td><td>-</td></tr></table>
+<p>Key takeaways: always plot the data first (histogram/number line) before choosing a summary; if outliers or skew are present, prefer the median; use the mode when dealing with categories; the mean is the most common but the most fragile.</p>
+<h3>Check your understanding</h3>
+<p>The mean is the most common measure of central tendency. Which of the following statements are also true of the mean?</p>
+<ul><li>The mean tries to find the middle of the distribution.</li></ul>
+<p>Which of the following statements, regarding the median, is correct?</p>
+<ul><li>The median is not sensitive to extreme values.</li><li>The median is often used for house prices so as not to be affected by occasional large outliers.</li></ul>
+<p>Which of the following statements, regarding the mode, is correct?</p>
+<ul><li>The mode is not sensitive to extreme values.</li><li>The mode can be used for numerical and categorical data – but is often more relevant for categorical data.</li></ul>
+<h3>Measures of Central Tendency</h3>
+<p>Definitions of - Mean - Median – Mode</p>
+<p>Means: The mean (μ) is the sum of all the values divided by the number of observations. The mean is also called the average.</p>
+<p>Median: The median is the middle value when the observations are arranged in order.</p>
+<p>Mode: This is the most commonly occurring value.</p>
+<h3>Geometric Mean</h3>
+<p>In the section above, the "mean" you learned was the Arithmetic mean. It is used for numerical data types whose values are typically combined using addition or subtraction. For for those that are typically combined using multiplication we use the Geometric Mean. To calculate the geometric mean of n values, we multiple the values together and then take the nth root.  The Geometric mean of 2, 2, and 16 is 4.</p>
+<p>Mean of Xg = (X1 * X2 * … * Xn) ^ (1/2)</p>
+<h3>Geometric Rate of Return</h3>
+<p>Rates of return are values that typically multiplied. However, before compounding (multiplying) rates that are given as a percentage (eg., a CPI of 3%) we add 1 in order to keep the base quantity (e.g, to apply a 3% CPI increase, we multiply by a factor of 1.03). When we convert a factor back to a rate, we subtract 1.</p>
+<p>For example, an interest rate of 10% (0.1) p.a, after 2 years is worth 21%, which we work out as (1 + 0.1) * (1 + 0.1) - 1 = 0.21</p>
+<p>When we calculate the geometric mean for a rate of return, we need to do the same. Our new formula is:</p>
+<p>Mean of Rg = ((1 + R1) * (1 + R2) * … * (1 + Rn)) ^ (1/n) - 1</p>
+<p>where  Ri  is the rate of return in time period i.</p>
+<p>Consider an investment of $100,000 that halved in value to $50,000 at the end of year one and then doubled back to $100,000 in the second year. The first year return was -50% (-0.5). The second year return was 100% (1.0). The effective return is 0% (0) pa as the investment amount stayed the same. The arithmetic mean rate of return is (-0.5+1)/2 = 0.25 = 25% which is useless here. The geometric mean rate of return is</p>
+<p>( (1+ -0.5) x (1 + 1) )1/2 -1 = 0% which is the expected and correct value.</p>
+<h3>Calculate measures of central tendency using Excel</h3>
+<p>In excel use: =average(), =mode(), =median(), and =geomean(). If you use Geomean() for rates, you need to first convert the rates to factors, and then convert the answer back to a rate.</p>
+<h2>2.2 Variation and shape (I)</h2>
+<h3>What are these measures?</h3>
+<p>The concepts of variation and shape are covered in this and the following two sub-topics. We begin by addressing the measures of variation - range, variance, standard deviation and the coefficient of variation. Here we examine these descriptive statistics as they relate to a sample. Later, we look at how they relate to the population.</p>
+<p>These measures provide information on the spread, variability, or dispersion of the data values.</p>
+<h3>Business context: Variance, finance and risk</h3>
+<p>Variance forms a major component of modern financial investment and risk management practice. If you would like to know more, read the article, at the link below.</p>
+<p>Variance measures the variability (volatility) from an average. Volatility is a measure of risk, so this statistic can help determine the risk an investor might take on when purchasing a specific security.</p>
+<h3>Note of Video</h3>
+<p><b>1. Overview</b></p>
+<p>Variation = the amount of variability / spread of the values in a data set — how far the data sits from the middle.</p>
+<p>Two distributions can have the same mean but differ in variation: the tall, narrow one has less variation; the flat, wide one has more (slide p.2 "Same centre, differing variation”).</p>
+<p>Four measures of variation covered:</p>
+<p>Range — simplest</p>
+<p>Variance — preferred measure</p>
+<p>Standard Deviation — most common</p>
+<p>Coefficient of Variation — used to compare data in different units (e.g., stocks)</p>
+<p><b>2. Range</b></p>
+<p>Range = Xlargest − Xsmallest</p>
+<p>Steps: sort the data smallest → largest, then subtract the smallest value from the largest.</p>
+<p>Example (student test scores, slide p.3): largest = 12, smallest = 1 → Range = 12 − 1 = 11</p>
+<p>Limitations of the range</p>
+<p>Doesn't tell the whole story — it doesn't measure the typical distance from the middle.</p>
+<ul><li>Sample 1: median = 9.5, points sit 0.5 / 1.5 / 2.5 from the median → Range = 5</li><li>Sample 2: median = 11.5, most points only 0.5 away (one point, 7, is 4.5 away) → Range = 5 as well (slide p.4)</li></ul>
+<p>Heavily influenced by outliers — change one value from 5 to 120: Range jumps from 4 to 119 (slide p.5).</p>
+<p>Summary: because the range is based only on the highest and lowest values, it is completely determined by outliers / extreme observations.</p>
+<p><b>3. Variance (Sample Variance)</b></p>
+<p>The preferred measure — it estimates the typical / average squared deviation (distance) from the mean.</p>
+<p>S² = Σ (Xᵢ − X̄)² / (n − 1)</p>
+<p>X̄: Sample mean (arithmetic mean)</p>
+<p><b>n: Sample size</b></p>
+<p>Xᵢ: iᵗʰ value of the variable X</p>
+<p>Why square the deviations? Points above the mean have positive deviations; points below have negative ones — they would cancel out and sum to zero. Squaring makes every deviation positive.</p>
+<p>Why divide by n − 1 instead of n? The video links to further reading; for a sample we adjust to better estimate the population variance (degrees of freedom).</p>
+<p>Worked example</p>
+<p>Data: 10, 12, 14, 15, 17, 18, 18, 24 (n = 8)</p>
+<p>Sample mean: sum ÷ 8 = X̄ = 16</p>
+<p>Subtract 16 from each value, square each deviation</p>
+<p>Sum all squared deviations, divide by n − 1 = 7</p>
+<p>→ Sample variance S² = 18.5714</p>
+<p><b>4. Standard Deviation</b></p>
+<p>The most common measure of variation — the square root of the variance.</p>
+<p>S = √S²</p>
+<p>Units: the standard deviation is in the same units as the original data (e.g., house prices → dollars). The variance would be in dollars².</p>
+<p>Example: √18.5714 → S = 4.3095</p>
+<p>Comparing three samples with the same mean (15.5)</p>
+<table><tr><th>Data set</th><th>Spread of values</th><th>Std. deviation</th></tr><tr><td>B - least spread out</td><td>14 → 17.5 (max 2 from mean)</td><td>S = 0.926</td></tr><tr><td>A — more spread</td><td>11 → 21</td><td>S = 3.338</td></tr><tr><td>C — smaller range, but most points far from the middle</td><td>extremes → large squared deviations</td><td>S = 4.570</td></tr></table>
+<p>Shape of the distribution</p>
+<ul><li>Larger standard deviation → wider, flatter distribution</li><li>Smaller standard deviation → tall, narrow distribution</li></ul>
+<p><b>5. Coefficient of Variation (CV)</b></p>
+<p>Used mainly in business (e.g., comparing stock prices). Measures relative variation — variation relative to the mean.</p>
+<p>CV = (S / X̄) × 100%</p>
+<p>Key property: always expressed as a percentage, so it can compare the variability of two data sets measured in different units (e.g., stocks priced in Pounds, Yen, Australian dollars).</p>
+<p>Example: comparing two stocks</p>
+<table><tr><th>-</th><th>Stock A</th><th>Stock B</th></tr><tr><td>Average price</td><td>$50</td><td>$8</td></tr><tr><td>Std. deviation</td><td>$5</td><td>$2</td></tr><tr><td>CV</td><td>5/50 × 100% = 10%</td><td>2/8 × 100% = 25%</td></tr></table>
+<ul><li>Stock A: typical movement ≈ 10% of its average price.</li><li>Stock B: even though its standard deviation is much smaller ($2 vs $5), its CV is much higher because of the lower average price → Stock B is the much riskier stock.</li></ul>
+<p><b>6. Quick Comparison Table</b></p>
+<table><tr><th>Measure</th><th>Formula</th><th>Unit</th><th>Outlier Sensitivity</th><th>Best used for</th></tr><tr><td>Range</td><td>Xlargest − Xsmallest</td><td>Same as data</td><td>Very high (2 values only)</td><td>Quick first look</td></tr><tr><td>Variance</td><td>Σ(Xᵢ−X̄)²/(n−1)</td><td>Squared units</td><td>Moderate</td><td>Mathematical basis of spread</td></tr><tr><td>Std. deviation</td><td>√Variance</td><td>Same as data</td><td>Moderate</td><td>General-purpose spread measure; volatility/risk in finance</td></tr><tr><td>Coefficient of variation</td><td>(S/X̄) × 100%</td><td>Unitless (%)</td><td>-</td><td>Comparing variability across different units/scales</td></tr></table>
+<p>Key takeaways: the range is simple but outlier-driven; the variance measures the average squared distance from the mean (why we square: stop negative/positive cancelling); the standard deviation brings the measure back to the data's units; the CV allows fair comparison across different units — a smaller SD doesn't mean less risk (Stock B).</p>
+<h3>Check your understanding</h3>
+<p><b>Range:</b></p>
+<p>The difference between the largest and smallest value.</p>
+<p>Based solely on the most extreme values of the data set.</p>
+<p><b>Variance</b></p>
+<p>The average squared deviation, or distance, from the sample mean.</p>
+<p>Measured in the data's units squared.</p>
+<p><b>Standard Deviation</b></p>
+<p>The square root of the variance.</p>
+<p>Is one component of the coefficient of variation.</p>
+<p><b>Coefficient of variation</b></p>
+<p>Always expressed as a percentage.</p>
+<p>Used to compare the variability of two or more data sets, measured in different units.</p>
+<h3>Measures of Variation</h3>
+<p>Range: The range is the difference between the largest and smallest values.</p>
+<p>Variance: Variance measures how far a set of numbers are spread out from their average value.</p>
+<p>Standard Deviation: Standard deviation is how far the values are away from the mean. It is the square root of the variance.</p>
+<p>Coefficient of Variation: The coefficient of variation measures relative variation, and it shows variation relative to the mean.</p>
+<h2>2.3 Variation and Shape (II)</h2>
+<h3>What are these measures?</h3>
+<p>In this sub-topic, we're going to look at three more useful tools for variation and shape - Z-scores, skewness and kurtosis.</p>
+<p>We'll finish this sub-topic by learning how to use Microsoft Excel to apply these tools and generate general descriptive statistics.</p>
+<h3>Note of Video</h3>
+<p><b>1. Overview</b></p>
+<p>Three more tools beyond centre and spread:</p>
+<p>Z-score — position of an observation in the data set (locates outliers)</p>
+<p>Skewness — asymmetry of the distribution</p>
+<p>Kurtosis — concentration of values in the centre vs. the tails</p>
+<p><b>2. Z-Score</b></p>
+<p>Definition: the number of standard deviations a data value is above or below the mean.</p>
+<p>Z = (X − X̄) / S</p>
+<p>X: The data value</p>
+<p>X̄: Sample mean</p>
+<p>S: Sample standard deviation</p>
+<p>Interpretation:</p>
+<ul><li>Positive Z → above the mean; negative Z → below the mean</li><li>Large |Z| → the point is a long way from the mean; small |Z| → close to the mean</li></ul>
+<p>Using Z-scores to find outliers</p>
+<ul><li>|Z| &gt; 2 → could be considered outliers (~5% of observations in a typical data set)</li><li>|Z| &gt; 3 → more extreme outliers (less than 1% of observations would ever be that far)</li></ul>
+<p>Worked example — All Ordinaries stock returns (slide p.2)</p>
+<ul><li>Sample mean return X̄ = 0.0205%, standard deviation S = 0.941%</li><li>Return on 24 July = −0.4399%</li></ul>
+<p>Z = (−0.4399 − 0.0205) / 0.941 = −0.489</p>
+<p>→ A return of −0.4399% is 0.489 standard deviations below the mean → not considered an outlier.</p>
+<p>Extreme-outlier thresholds (mean ± 3s):</p>
+<ul><li>Below −2.8025% or above +2.8435% → extreme outlier (slide p.3: X−3s = −2.80%, X+3s = 2.84%; 0.8% of returns below, 0.6% above)</li></ul>
+<p><b>3. Skewness</b></p>
+<p>Definition: the amount of asymmetry in the distribution.</p>
+<table><tr><th>Skewness value</th><th>Distribution</th><th>Mean vs. Median</th></tr><tr><td>0</td><td>Symmetric (Mean = Median)</td><td>Equal</td></tr><tr><td>Negative (&lt;0)</td><td>Left-skewed — tail below the mean is longer</td><td>Mean &lt; Median (mean pulled down)</td></tr><tr><td>Positive (&gt;0)</td><td>Right-skewed — tail above the mean is longer</td><td>Mean &gt; Median (mean pulled up)</td></tr></table>
+<p><b>4. Kurtosis</b></p>
+<p>Definition: the relative concentration of values in the centre of a distribution compared to the tails. Large kurtosis → extreme values are more likely (lots of values in the tails).</p>
+<p>How it's computed: distances from the mean raised to the 4th power — extreme values dominate the calculation even more than in the variance.</p>
+<p>Excess kurtosis</p>
+<p>The bell-shaped normal distribution has kurtosis = 3. We subtract 3 to get excess kurtosis:</p>
+<p>Excess kurtosis = Kurtosis − 3</p>
+<p><b>0: Exactly bell-shaped / normal</b></p>
+<p>Positive: Sharper peak, more peaked/taller, fatter (heavier) tails — more values in tails</p>
+<p>Negative: Flatter, tails shut off quickly, fatter shoulders, less/not peaked</p>
+<p>Examples: U (≈ −1.2), W (−1), C (−0.594) → low kurtosis — tails shut off quickly, not peaked; N = 0 → normal; L (1.2), S (2), D (3) → high kurtosis — longer tails or peaked in the middle (like the red distribution).</p>
+<p>Stock returns typically have high kurtosis — a lot of extreme values in the tails.</p>
+<p><b>5. Quick Summary Table</b></p>
+<table><tr><th>Measure</th><th>Tells you</th><th>Formula / Rule</th><th>Interpretation</th></tr><tr><td>Z-score</td><td>Position relative to mean</td><td>(X − X̄)/S</td><td>±1, ±2, ±3 SD from mean; |Z|&gt;2, &gt;3 → outliers</td></tr><tr><td>Skewness</td><td>Asymmetry of shape</td><td>cubed deviations ÷ S³</td><td>&lt;0 left-skewed, 0 symmetric, &gt;0 right-skewed</td></tr><tr><td>Kurtosis</td><td>Centre vs. tail concentration</td><td>deviations to 4th power − 3</td><td>&lt;0 flat, 0 normal, &gt;0 peaked/heavy tails</td></tr></table>
+<p>Key takeaways: Z-scores standardise any value into "how many standard deviations from the mean" — the standard tool for flagging outliers (±2 ≈ 5%, ±3 ≈ &lt;1%); skewness tells you which tail is longer and which way the mean is pulled (mean &lt; median for left-skewed, mean &gt; median for right-skewed); kurtosis (measured as excess over 3) tells you whether extremes are more likely than the normal distribution — critical for understanding stock-return risk (high kurtosis = fat tails).</p>
+<h3>Equations for Z-scores, skewness and kurtosis</h3>
+<p>Z-scores: The Z-score is the number of standard deviations a data value is from the mean. A data value could be considered extreme (an outlier) if its Z-score is less than -3.0 or greater than +3.0.</p>
+<p>Skewness: Skewness is a shape of distribution and measures the amount of asymmetry in a distribution.</p>
+<p>Kurtosis: Kurtosis is a shape of distribution and measures the relative concentration of values in the centre of a distribution as compared with the tail.</p>
+<h3>Adding the Data Analysis ToolPak to Excel</h3>
+<p>There are small differences between each version of Microsoft Excel, so before you get started, make sure you know what version of Excel you are using. There are many resources online to help you find the best way to work with your version of Excel.</p>
+<p>You will also need to install the Data Analysis ToolPak relevant to the version of Excel you are using. To do this:</p>
+<p>Open Excel.</p>
+<p>On the ‘File’ menu Click ‘Options’.</p>
+<p>Click 'Add ins', then ‘Go’.</p>
+<p>Tick 'Analysis ToolPak', then click ‘Ok’.</p>
+<p>Open a blank excel workbook, then click the 'Data’ tab.</p>
+<p>'Data Analysis' sits at the far right of your ribbon. Click to activate</p>
+<h3>Calculating General Descriptive Statistics in Excel</h3>
+<p>Step 1: Add your data in column A. Then click on the 'Data' tab on the toolbar.</p>
+<p>Step 2: Select 'Data Analysis'. Select 'Descriptive Statistics'. Then click ‘Ok’.</p>
+<p>Step 3: Enter the cell range (cells containing your sample). Check the 'Summary Statistics’ box. Then click 'Ok'. (Note if you include the column title in the cell range you should checkthe ‘Labels in First Row’ box.)</p>
+<p>Step 4: Your descriptive statistics will appear on a new spreadsheet … enjoy!</p>
+<h2>2.4 Variation and shape (III)</h2>
+<h3>Let’s explore quartiles and boxplots</h3>
+<p>This final sub-topic of variation and shape begins by examining quartiles and the interquartile range (IQR). We then see how these, along with the minimum and maximum, form the "five-number summary" used to construct a box and whisker plot. Finally, we see the link between boxplots and distribution shape.</p>
+<h3>Quartile measures</h3>
+<p>Quartiles split ranked data into four segments with an equal number of values per segment.</p>
+<h3>Key points</h3>
+<ul><li>The first quartile, Q1, is the value for which 25% of the observations are smaller and 75% are larger.</li><li>The second quartile, Q2, is the median: 50% of the observations are smaller and 50% are larger.</li><li>The third quartile, Q3, has 25% of the observations larger and 75% smaller.</li></ul>
+<p>Note: Q1 and Q3 are measures of non-central location. Q2, the median, is a measure of central tendency.</p>
+<h3>Locating quartiles</h3>
+<p>You find a quartile by determining the value in the appropriate position in the ranked data, where 'n' is the number of observed  values (or our sample size):</p>
+<p>First quartile position: Q1 = (n+1) / 4</p>
+<p>Second quartile position:  Q2 = (n + 1) / 2</p>
+<p>Third quartile position:  Q3 = 3(n+1) / 4</p>
+<p>Note: These formulae just tell you the position of the quartile, not the actual value. To find the value you need to sort your data from smallest to largest and find the value in that position using the three rules below.</p>
+<p>Clicking on the grey button, to the right of the figure below, highlights the interactive elements in this figure.  Interact with the figure below for a summary of the three rules to consider when calculating quartile measures.</p>
+<h3>Rules for calculating quartile measures</h3>
+<ul><li>Rule 1: If the result is a whole number then it is the ranked position to use.</li><li>Rule 2: If the result is a fractional half, then take the average of the values either side of that number.</li><li>Rule 3: If the result is not a whole number or a fractional half, then round the result to the nearest number to find the ranked position.</li></ul>
+<h3>The Interquartile Range</h3>
+<ul><li>Fact 1: The IQR is calculated as Q3 – Q1.</li><li>Fact 2: IQR measures the spread in the middle 50% of the data.</li><li>Fact 3: IQR is also called the mid-spread.</li><li>Fact 4: IQR is a measure of variability, which is not influenced by outliers or extreme values.</li><li>Fact 5: Measures like Q3, Q1 and IQR, that are not influenced by outliers, are called resistant or robust measures.</li></ul>
+<h3>Boxplots</h3>
+<p>The boxplot is a graphical display of data based on the five-number summary - five numbers (see below) that help describe the centre, spread, and shape of the data.</p>
+<p>Five number summary</p>
+<p>X.smallest - Q1 - Median - Q3 - X.largest</p>
+<p>Also known as the box and whisker plot, the example below shows you how it got that name - the two boxes in the middle and the two ends that look like whiskers!</p>
+<h3>Distribution shape and the boxplot</h3>
+<p>Clicking on the grey button, to the right of the figure below, highlights the interactive elements in this figure.  Examine the figure below to see how the shape of the distribution in terms of left-skewed, symmetric, or right-skewed, affects the boxplot. Note also the typical relationship between the mean and median under the three different types of skewness.</p>
+<p>Note that with the left-skewed distribution the box plot has a longer left whisker and the area in the box to the left of the median is larger than to the right. For the right-skewed distribution the opposite occurs, and for a symmetric distribution, the boxplot is also symmetric.</p>
+<p><b>Left-skewed</b></p>
+<ul><li>With a longer tail below the mean, the shape of distribution is left-skewed.</li></ul>
+<p><b>Symmetric</b></p>
+<ul><li>If the data are symmetric around the median, then the box and central line are centred between the endpoints.</li></ul>
+<p><b>Right-skewed</b></p>
+<ul><li>With a longer tail above the mean, the shape of distribution is right-skewed.</li></ul>
+<h2>2.5 Descriptive measures for populations</h2>
+<h3>What are these measures?</h3>
+<p>We'll explore descriptive measures for a population in this sub-topic. These include population mean, population variance, and population standard deviation. We also consider the the Empirical Rule and Chebyshev's Rule for describing distributions.</p>
+<h3>Descriptive measures - sample versus population</h3>
+<p>The descriptive, or summary measures we’ve looked at in earlier sub-topics have been for a sample and are called statistics. The descriptive measures we're exploring in this sub-topic are for a population and are called parameters. The distinction between parameters and statistics is important. Parameters are constants - for example, there is only one true mean for a population. Statistics on the other hand are random variables - every time I take a different sample from a population I am likely to get a different sample mean.</p>
+<p>Clicking on the grey button, to the right of the figure below, highlights the interactive elements in this figure.  Click through this figure for a summary of the relevant equations for three key measures for a  population - mean, variance and standard deviation.</p>
+<p>Population Mean: The formula changes from the 'sample mean' - the Greek letter 'μ' replaces x-bar. The letter 'n' is replaced by ’N’.</p>
+<p>Population Variance: The formula changes from the 'sample variance' - the Greek letter 'μ', replaces x-bar and ‘σ’</p>
+<p>replaces 'S'. The letter 'n' is replaced by 'N'. The equation 'n-1' is also replaced by ’N’.</p>
+<p>Population Standard Deviation: The formula changes from the 'sample Standard Deviation' - the Greek letter 'μ', replaces x-bar and 'σ' replaces 'S'. The letter 'n' is replaced by 'N'. The equation 'n-1' is also replaced by’N’.</p>
+<h3>Formulae - sample versus population</h3>
+<p>The formulae used for a population (parameters) are very similar to those used for a sample (statistics). The differences in the parameters formulae include:</p>
+<ul><li>Capital 'N', replaces 'n' for the mean</li><li>Capital 'N', replaces 'n-1' for the variance and standard deviation</li><li>Population parameters are generally denoted using Greek letters.</li><li>Sample statistics are usually denoted using Latin letters.</li></ul>
+<p>The table below compares the symbols used for the mean, variance, and standard deviation in both settings:</p>
+<table><tr><th>Measure</th><th>Sample statistics (Latin letters)</th><th>Population parameters (Greek letters)</th></tr><tr><td>Mean</td><td>x̄</td><td>μ</td></tr><tr><td>Variance</td><td>s²</td><td>σ²</td></tr><tr><td>Standard deviation</td><td>s</td><td>σ</td></tr></table>
+<h3>Note of Video</h3>
+<p><b>1. Overview: Statistics vs. Parameters</b></p>
+<ul><li>Statistics = summary measures of a sample (what we've done so far) — denoted by Latin letters (x̄, s², s)</li><li>Parameters = summary measures of a population — generally denoted by Greek letters (μ, σ², σ)</li></ul>
+<p>Formulae are almost identical, with two differences:</p>
+<p>Use capital N (population size) instead of small n (sample size)</p>
+<p>Variance/standard deviation divide by N — no more n − 1</p>
+<p><b>2. Population Formulae (slide p.1)</b></p>
+<p>Population mean:      μ = Σ Xᵢ / N = (X₁ + X₂ + ⋯ + Xₙ… Xₙₐₜᵢₒₙ)/N</p>
+<p>Actually: μ = (X₁ + X₂ + ⋯ + Xₙ)/N where the sum runs from i = 1 to N</p>
+<p>Population variance:  σ² = Σ (Xᵢ − μ)² / N</p>
+<p>Note: Σ (uppercase sigma) = summation symbol; lowercase sigma (σ) = population standard deviation.</p>
+<p><b>3. The Empirical Rule (for bell-shaped / normal distributions only)</b></p>
+<p>The empirical rule describes how data is distributed around the mean μ for a bell-shaped distribution:</p>
+<p>μ ± 1σ ≈ 68%</p>
+<p>μ ± 2σ ≈ 95%</p>
+<p>μ ± 3σ ≈ 99.7%</p>
+<p>→ Only 0.3% of the population lies further than 3σ from the mean — this is why |Z| &gt; 3 is treated as an outlier/extreme value.</p>
+<p>Worked example — Math SAT scores (slides p.4): μ = 500, σ = 90</p>
+<ul><li>68% of scores between 410 and 590 (500 ± 90)</li><li>95% of scores between 320 and 680 (500 ± 180 = 2σ)</li><li>99.7% of scores between 230 and 770 (500 ± 270 = 3σ)</li></ul>
+<p>The empirical rule only applies to bell-shaped (normal) distributions.</p>
+<p><b>4. Chebyshev's Rule (applies to EVERY data set)</b></p>
+<p>For any distribution (regardless of shape):</p>
+<p>At least (1 − 1/k²) × 100% of values fall within k standard deviations of the mean, for k &gt; 1</p>
+<p>k = 2 (1 − 1/4) × 100% = at least 75%</p>
+<p>k = 3 (1 − 1/9) × 100% = at least 89%</p>
+<p>These are minimum guarantees — the rule is less strict than the empirical rule but universal.</p>
+<p>Worked example — financial returns (slide p.6): μ = 0.5%, σ = 1% (not bell-shaped)</p>
+<ul><li>k = 2: at least 75% of returns lie between −1.5% and 2.5% (0.5 ± 2×1)</li><li>k = 3: at least 89% of returns lie between −2.5% and 3.5% (0.5 ± 3×1)</li><li>Equivalent: at most 11% of returns lie outside −2.5% to 3.5%</li></ul>
+<p><b>5. Quick Comparison Table</b></p>
+<table><tr><th>Rule</th><th>Applies to</th><th>Guarantee</th><th>K = 2</th><th>K = 3</th></tr><tr><td>Empirical Rule</td><td>Bell-shaped (normal) only</td><td>Approximate</td><td>95%</td><td>99.7%</td></tr><tr><td>Chebyshev's Rule</td><td>Any distribution</td><td>At least (minimum)</td><td>75%</td><td>89%</td></tr></table>
+<p>Key takeaways: parameters (μ, σ², σ) describe populations with division by N (not n−1); the empirical rule gives tight, precise percentages but only for bell curves; Chebyshev gives conservative minimum bounds valid for every data set — perfect for financial returns, which are rarely bell-shaped.</p>
+<h3>The Empirical Rule</h3>
+<ul><li>Rule 1: Approximately 68% of the data in a bell-shaped distribution is within ± one Standard Deviation of the mean, or μ ± 1σ.</li><li>Rule 2: Approximately 95% of the data in a bell-shaped distribution lies within ± two Standard Deviations of the mean, or μ ± 2μ.</li><li>Rule 3: Approximately 99.7% of the data in a bell-shaped distribution lies within ± threestandard deviations of the mean, or μ ± 3σ.</li></ul>
+<h2>2.6 Organising and visualising data (I): Chart types</h2>
+<h3>The right table or graph</h3>
+<p>The best table or graph tells a clear and compelling story to achieve the required goal. This sub-topic explores how to do this through examples involving global plastics production and waste management.</p>
+<h3>Note of Video</h3>
+<p><b>Key Points</b></p>
+<p>Charting data is one of the most important workplace skills — regardless of role (social media manager, data scientist, management consultant), every job involves analysing data and communicating findings.</p>
+<p><b>What makes a great chart</b></p>
+<ul><li>Tells a clear, compelling story with data → crucial for getting approval for new projects and gaining/maintaining manager support</li><li>The best business charts:<ul><li>Take less than 5 seconds to understand</li><li>Make a single point that answers an important business question</li></ul></li></ul>
+<p><b>How to build them</b></p>
+<p>Understand the business context well</p>
+<p>Identify the right questions to answer — often not exactly the questions you were asked</p>
+<p>Select the right charts that clearly present the facts</p>
+<p>Weave them into a clear, compelling story</p>
+<p><b>Why it matters</b></p>
+<ul><li>Bad charts don't cause bad decisions — they cause something worse: no decision at all</li><li>If nobody understands what you're showing, nobody will believe you — even if you're right, things grind to a halt</li></ul>
+<p><b>Takeaway</b></p>
+<ul><li>Learn the principles of charting, then get stuck in and practise — it's the only way to learn. Telling compelling stories backed by facts is one of the most generally applicable skills you can learn at uni, and it will help you heaps in your career.</li></ul>
+<h3>Some basic types of tables and charts</h3>
+<p>We organise and visualise data to reveal and glean any insights within it, and then communicate that information, especially the main features and patterns. Typically, we use tables for organising and summarising data, and graphs and charts for visualising data. Clicking on the grey button, to the right of the figure below, highlights the interactive elements in this figure. Within this figure, explore common types of tables, graphs and charts.</p>
+<p>Data can be divided into:</p>
+<ul><li>Categorical: Categorical data can have one variable or multiple variables.</li><li>Numeric: Numeric data can have one variable or multiple variables.</li></ul>
+<p>Categorical data, with one variable, can be represented by the following table and chart types:</p>
+<ul><li>Summary table: The summary table provides a summary of the data in table form. It shows frequency, amount, percentage or proportion in each category.</li><li>Pie chart: The pie chart is a circle broken into slices that represent categories. The size of each slice of the pie varies according to the percentage in each category. Statisticians don’t use pie charts very often.</li><li>Bar or column chart: A bar or column chart shows the frequency, amount or percentage of values in each category.</li><li>Pareto chart: The pareto chart contains both bars and a line graph. Individual values, for categorical data, are displayed in descending order by bars, and a cumulative total of those values are displayed by the line.</li></ul>
+<p>Categorical data, with multiple variables can be represented by the following table and chart types:</p>
+<ul><li>Contingency table: The contingency table cross tabulates or tallies the responses of multiple categorical variables.</li><li>Side-by-side bar: The side-by-side chart shows the amount or percentage of values in each category.</li><li>Heat map: A heat map is a graphical representation of data where the individual values are represented as colours.</li><li>Sandkey diagram: A sandkey diagram is a type of flow diagram used to show how items re-group. An alluvial diagram is a specific type of sandkey diagram.</li></ul>
+<p>Numerical data, with one variable can be represented by the following table and chart types:</p>
+<ul><li>Ordered array: An ordered array is a sequence of data, in rank order, from the smallest value to the largest value.</li><li>Frequency distribution: The frequency distribution is a summary table in which data are arranged into numerically ordered classes.</li><li>Histogram: A histogram is a vertical bar chart of data in a frequency distribution. The vertical axis shows frequency, relative frequency or percentage. The horizontal axis shows the class boundaries (or class midpoints). There are no gaps between adjacent bars for continuous data, but there may be gaps for discrete data.</li></ul>
+<h3>Choosing the right graph for your data</h3>
+<p>A common error is using an inappropriate chart for the data you have collected. When choosing a graph or chart for your data, consider these questions:</p>
+<p>What do you want to learn or communicate?</p>
+<p>What are the types of comparisons you want to make?</p>
+<p>What types of data have you collected?</p>
+`;
+
+const NOTE_BUSS1020_W2P = `
+<h2>Week 2 Prepare</h2>
+<h3>Workshop Aims</h3>
+<p>After this workshop you should be able to:</p>
+<ul><li>Use Excel to produce descriptive (summary) statistics and analyse/explain the output</li><li>Describe central tendency, variation, and the shape of a distribution in numerical data</li><li>Use Pivot Tables in Excel to create contingency tables</li></ul>
+<h3>Question 1 — Descriptive Statistics: Plastic Bottles (2016 daily sales)</h3>
+<p>Data: daily plastic bottles sold per day (billions), 2016, n = 366 days (Bottles data file)</p>
+<p>(a) Central tendency &amp; quartiles</p>
+<table><tr><th>Measure</th><th>Value</th><th>Excel formula</th></tr><tr><td>Mean</td><td>1.3164</td><td>=AVERAGE(B2:B367)</td></tr><tr><td>Median</td><td>1.2</td><td>=MEDIAN(B2:B367)</td></tr><tr><td>Mode</td><td>1</td><td>=MODE(B2:B367)</td></tr><tr><td>Q1</td><td>1</td><td>=QUARTILE.INC(B2:B367,1)</td></tr><tr><td>Q3</td><td>1.5</td><td>=QUARTILE.INC(B2:B367,3)</td></tr></table>
+<p>(b) Variation / spread</p>
+<table><tr><th>Measure</th><th>Value</th><th>Excel formula</th></tr><tr><td>Range (max−min)</td><td>3.9</td><td>=MAX(B2:B367)-MIN(B2:B367)</td></tr><tr><td>Interquartile range (Q3−Q1)</td><td>0.5</td><td>-</td></tr><tr><td>Sample variance</td><td>0.230</td><td>=VAR.S(B2:B367)</td></tr><tr><td>Sample std. deviation</td><td>0.4796</td><td>=STDEV.S(B2:B367)</td></tr><tr><td>Coefficient of variation (s/x̄)</td><td>0.3643 (36.4%)</td><td>=SD/Mean</td></tr></table>
+<p>(c) Five-number summary + boxplot (by hand)</p>
+<table><tr><th>Min</th><th>Q1</th><th>Median</th><th>Q3</th><th>Max</th></tr><tr><td>0</td><td>1</td><td>1.2</td><td>1.5</td><td>3.9</td></tr></table>
+<p>Skewness: Mean (1.316) &gt; Median (1.2) → the data are right-skewed (positively skewed).</p>
+<p>(d) Z-scores &amp; outliers</p>
+<ul><li>Z = (X − x̄)/s, computed for every day</li><li>Outlier rule: |Z| &gt; 3</li><li>Result: 7 outliers (e.g., the 3.4 billion day on 29 Mar has Z ≈ 4.34)</li></ul>
+<h3>Question 2 — Geometric Mean Return (investment returns)</h3>
+<p>Data (percentage returns): 2019: 9.77%, 2020: 16.07%, 2021: −5.27%, 2022: 7.22%</p>
+<p>Method (returns grow multiplicatively, so use the geometric mean):</p>
+<p>Convert percentage return → return: R/100</p>
+<p>Create growth factor: 1 + R</p>
+<p>=GEOMEAN(1+R1, 1+R2, …)</p>
+<p>Subtract 1</p>
+<p>Excel formula: =GEOMEAN(B2:B5/100+1)-1</p>
+<p>Answer: Geometric mean return = 0.0666 → 6.66% per year</p>
+<h3>Question 3 — Contingency Table: Are single people more likely to have a pet?</h3>
+<p>Survey data: 290 respondents (columns "Single?" and "Pets?”)</p>
+<p>Pivot Table steps: select both columns → Insert → Pivot Table → drag Single? to Columns, Pets? to Rows, either field to Values.</p>
+<p>(a) Frequency table (counts)</p>
+<table><tr><th></th><th>Single = Yes</th><th>Single = No</th><th>Total</th></tr><tr><td>Pets = Yes</td><td>6.90%</td><td>2.07%</td><td>8.97%</td></tr><tr><td>Pets = No</td><td>71.03%</td><td>20.00%</td><td>91.03%</td></tr><tr><td>Total</td><td>77.93%</td><td>22.07%</td><td>100%</td></tr></table>
+<p>(b) Side-by-side chart + conclusion</p>
+<p>There is a very weak, negative relationship between being single and having pets.</p>
+<h3>Question 4 — Chebyshev's Theorem (customer wait times)</h3>
+<p>Given: mean wait time μ = 8 min, standard deviation σ = 3 min; distribution not bell-shaped (unless stated).</p>
+<p>(a) Proportion waiting more than 17 minutes</p>
+<ul><li>17 = μ + 3σ → k = 3</li><li>Chebyshev: at most 1/k² = 1/9 ≈ 11.11% of customers wait more than 17 minutes</li></ul>
+<p>(b) Interval containing at least 75% of wait times</p>
+<ul><li>75% = 1 − 1/k² → k = 2</li><li>μ ± 2σ = 8 ± 6 → at least 75% of wait times lie in [2, 14] minutes</li></ul>
+<p>(c) Percentage between 5 and 11 minutes (if mound-shaped)</p>
+<ul><li>Z = (5−8)/3 = −1, Z = (11−8)/3 = +1 → within ±1σ</li><li>Empirical rule: ≈ 68% of customers wait between 5 and 11 minutes</li></ul>
+<h3>Question 5 — Empirical Rule (July daily temperatures)</h3>
+<p>Given: normally distributed, mean μ = 30°C, standard deviation σ = 2°C</p>
+<p>(a) % of days between 28°C and 32°C</p>
+<ul><li>28 and 32 are ±1σ from the mean</li><li>≈ 68% of July days have temperatures between 28°C and 32°C</li></ul>
+<p>(b) % of days hotter than 34°C</p>
+<ul><li>34°C = +2σ; 95% lie within ±2σ → 5% outside → half above = ≈ 2.5%</li></ul>
+<p>(c) Range covering the middle 99.7%</p>
+<ul><li>μ ± 3σ = 30 ± 6 → [24, 36] °C</li></ul>
+`;
+
 const SECTIONS = [
   { id:"buss1020",           title:"BUSS1020",                   notes:[
       {num:"001",title:"Week 1 Lecture",html:NOTE_BUSS1020_W1},
       {num:"002",title:"Week 1 Online Modules",html:NOTE_BUSS1020_W1M},
       {num:"003",title:"Week 1: Prepare",html:NOTE_BUSS1020_W1P},
-      {num:"004",title:"To be updated"},
-      {num:"005",title:"To be updated"},
+      {num:"004",title:"Week 2 Lecture",html:NOTE_BUSS1020_W2L},
+      {num:"005",title:"Week 2 Online Modules",html:NOTE_BUSS1020_W2M},
+      {num:"006",title:"Week 2 Prepare",html:NOTE_BUSS1020_W2P},
   ]},
   { id:"pmgt1711",           title:"PMGT1711",                   notes:[
       {num:"001",title:"Week 1 Online Modules",html:NOTE_PMGT1711_W1M},
