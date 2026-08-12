@@ -3211,7 +3211,7 @@ function sectionDone(sec){ return sec.notes.filter(n=>n.html).length; }
 
 function buildNav(){
   nav.innerHTML="";
-  const moreSections = SECTIONS.filter(s=>s.group==="more");
+  const moreSections = []; // temporarily hidden
   const topSections  = SECTIONS.filter(s=>s.group!=="more");
   function addSection(sec){
     const done=sectionDone(sec);
@@ -3284,7 +3284,7 @@ function buildNav(){
 
 function renderHome(){
   const topSections = SECTIONS.filter(s=>s.group!=="more");
-  const moreSections = SECTIONS.filter(s=>s.group==="more");
+  const moreSections = []; // temporarily hidden
   let rows="";
   topSections.forEach((sec,i)=>{
     const done=sectionDone(sec);
