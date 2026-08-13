@@ -2968,8 +2968,8 @@ const NOTE_PMGT1865_W2T = `
 <p>Once the arrows are drawn, there will be multiple paths from start to finish, each with its own total duration. The longest path = the critical path. It determines the fastest the project can be completed.</p>
 <p>For example, in the simple example above, it's a single line: 8+10+12+7 = 37 weeks.</p>
 <p>But a real project has branches. For example, after "Project Initiation," two branches run in parallel:</p>
-<p>Project Initiation(8) → Event Concept(10) → Venue Booking(12) → Project Closure(7)</p>
-<p>└────────Stakeholder Engagement(15) ───────┘</p>
+<p style="font-family:ui-monospace,Menlo,monospace;white-space:pre">Project Initiation(8) → Event Concept(10) → Venue Booking(12) → Project Closure(7)</p>
+<p style="font-family:ui-monospace,Menlo,monospace;white-space:pre">└───────────────────────────Stakeholder Engagement(15)───────────────────────────┘</p>
 <p>This is when you use two "passes" to calculate each activity's ES (Earliest Start) / EF (Earliest Finish) / LS (Latest Start) / LF (Latest Finish):</p>
 <ul><li>Forward pass: Work from start to finish. ES = the maximum EF among predecessors; EF = ES + duration</li><li>Backward pass: Work backwards from the end. LF = the minimum LS among successors; LS = LF − duration</li><li>Float = LS − ES. Activities with float = 0 are critical activities, and the path they form is the critical path</li></ul>
 <p>The result looks like this:</p>
