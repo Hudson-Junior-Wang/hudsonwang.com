@@ -2819,6 +2819,186 @@ const NOTE_PMGT1865_W1C = `
 <ul><li>Venue available for setup, festival delivery and pack-down</li><li>Approvals obtainable within required timeframe</li><li>Suitable artists and suppliers available</li><li>Enough staff and volunteers can be recruited</li><li>Required equipment and services delivered on time</li><li>Contingency arrangements manage weather and operational disruptions</li></ul>
 `;
 
+
+const NOTE_PMGT1865_W2M = `
+<h2>Week 2 Online Modules</h2>
+<h3>Learning Objectives</h3>
+<p>After completing this module, we will be able to:</p>
+<ul><li>Understand and develop WBS</li><li>Understand different formats of schedule</li><li>Develop project schedule using 5 step process</li><li>Understand the role of Gantt Chart</li></ul>
+<h3>Note of Chapter 19 Basic Network Principles, Project Management, Planning and control</h3>
+<p><b>Purpose</b></p>
+<ul><li>CPM/network analysis suits any process separable into ~20+ activities</li><li>Two core operations: (1) draw network + estimate durations; (2) analyse times → find critical activities and float</li></ul>
+<p><b>Activity-on-Arrow (AoA)</b></p>
+<ul><li>Activities = arrows; events/nodes = circles; sequence set by arrowheads</li><li>Every non-final activity must feed another — no dangles, no loops</li><li>Dummy (zero-duration) activities required when two activities share the same node pair</li><li>Duration units must be consistent; written under each arrow</li></ul>
+<p><b>Node Numbering</b></p>
+<ul><li>Random (risk of duplication) · Topological (obsolete) · Sequential (recommended: blocks per band) · Coordinates (grid letters×numbers)</li></ul>
+<p><b>Hammocks &amp; Ladders</b></p>
+<ul><li>Hammock: one summary activity for a series chain; → Gantt summary bars</li><li>Ladder: repeating activity across stages; needs intermediate dummies (all but last) to avoid unintended restraints</li></ul>
+<p>Activity-on-Node (AoN / Precedence)</p>
+<ul><li>Boxes = activities; links = dependencies; no dummies; box shows ES / D / EF (EF=ES+D) and LS / LF (LS=LF−D)</li><li>Total float = LF − EF (fwd + bwd passes) · Free float = next ES − current EF (fwd only)</li><li>Pros: no dummies, easy logic, stable numbering; Cons: more space, link congestion when computer-drawn</li></ul>
+<p><b>Constraints</b></p>
+<ul><li>Default: Finish-to-Start; also S–S, F–F, S–F (best redrawn as F–S with delay activities)</li><li>Lead = successor starts before predecessor ends · Lag = successor delayed until part done</li></ul>
+<p>Gantt / Time-Scale Charts</p>
+<ul><li>Gantt: duration-length bars vs calendar; base lines show original schedule; vertical summing → resource histogram</li><li>Time-scale network: arrows drawn to scale; free float visible by inspection; drawback = redrawing on any change</li></ul>
+<p><b>Key Takeaways</b></p>
+<ul><li>Network = "thinking part" of planning; computer is only number-cruncher, not logic-builder</li><li>Dummy/link discipline prevents logic errors; sequential numbering preferred</li><li>AoN better for smaller networks, Gantt best for resource &amp; progress reporting</li><li>A sound network underpins scheduling, float analysis, resource allocation, and progress control</li></ul>
+<h3>Note of Video 1</h3>
+<p><b>1. Why this session exists</b></p>
+<ul><li>Many people confuse WBS with software tools, schedules, or other project parts.</li></ul>
+<p>Purpose: clarify what a WBS actually is.</p>
+<p><b>2. Definition (PMBOK Guide, 4th ed. — PMI)</b></p>
+<ul><li>WBS = a deliverable-oriented hierarchical decomposition of the work to be executed by the team, to accomplish project objectives and create required deliverables.</li><li>Key point: the whole reason a project exists is to produce deliverables — don't lose sight of that.</li></ul>
+<p><b>3. Why it matters</b></p>
+<ul><li>Building a WBS up front, identifying deliverables, gives a "picture worth a thousand words" — for both the PM and the team.</li><li>It sets the vision for the project objectives.</li></ul>
+<p><b>4. Purpose</b></p>
+<ul><li>To organize and define the total scope — scope is made up of deliverables.</li></ul>
+<p><b>5. Structure (the hierarchy)</b></p>
+<ul><li>Top: Project (may contain phases, e.g. Phase 1 / Phase 2, or sub-projects)</li><li>Phases → main deliverables (high-level)</li><li>Deliverables → broken into sub-deliverables</li><li>Sub-deliverables → eventually broken down into work packages (the actual work to be executed)</li><li>Team members complete work packages, which produce the deliverables.</li></ul>
+<p><b>6. Main takeaways</b></p>
+<ul><li>Understand: the definition, the structure, the purpose, and how to build it.</li><li>Keep decomposing until you reach work packages; the WBS is a simple but powerful picture for teams and projects.</li><li>ProjectManager.com's tool helps you decompose work on your project.</li></ul>
+<h3>Note of Video 2</h3>
+<p><b>Key Idea</b></p>
+<p>Project scheduling is a process — the act of creating your project schedule. It's essential for delivering your project on time.</p>
+<p><b>3 Main Steps to Create a Schedule</b></p>
+<ol><li>Determine all the work to be performed<ul><li>Identify every piece of work needed to build and deliver the product.</li><li>Start from a high-level view and break it down into work packages.</li></ul></li><li>Determine who performs the work (resources)<ul><li>Ask: Are they employees, outside contractors, or vendor partners?</li><li>Consider union labor — check availability and avoid strike periods.</li><li>Account for holidays, vacations, and availability.</li><li>Identify any specific requirements or subject matter experts (SMEs) needed.</li><li>Decide when to bring them in — for the entire project or only during a specific phase.</li></ul></li><li>Estimate how long the work will take<ul><li>Have the people who will actually do the work make the estimates.</li><li>Use different estimation formulas to derive duration.</li></ul></li></ol>
+<p><b>Tips to Remember</b></p>
+<ul><li>Include all work associated with delivering the project on time.</li><li>Include activities, deliverables (actual work products), milestones, and planned start/end dates.</li><li>The schedule is a tool for measuring where you are in the project.</li></ul>
+<p><b>Best Practice</b></p>
+<ul><li>Build the schedule in online software — it stays real-time, allows team collaboration, and helps verify estimates and catch missing work.</li></ul>
+<h3>Note of Video 3</h3>
+<p><b>Origins</b></p>
+<ul><li>CPM was developed in the 1950s by Morgan Walker (DuPont) and James Kelly (Remington Rand)</li><li>Around the same time, PERT (Program Evaluation and Review Technique) was created by Booz Allen Hamilton + the US Navy</li></ul>
+<p><b>CPM vs PERT</b></p>
+<table><tr><th>-</th><th>PERT</th><th>CPM</th></tr><tr><td>Diagram style</td><td>Activities on arrows, nodes = connections</td><td>Activities as nodes/boxes, arrows = logical links</td></tr><tr><td>Duration estimate</td><td>Three-point estimates (optimistic/pessimistic/most likely)</td><td>Single point estimates</td></tr></table>
+<p><b>Six Steps of CPM</b></p>
+<ol><li>Specify activities — based on the Work Breakdown Structure (WBS)</li><li>Sequence activities — understand dependencies between them</li><li>Draw a network diagram — boxes connected by arrows</li><li>Estimate durations — single point estimates per activity</li><li>Identify the critical path — the longest route through the network; it determines project completion time</li><li>Monitor &amp; update — use the critical path as a planning and control tool, updating it to reflect progress</li></ol>
+<p><b>Key Concepts</b></p>
+<ul><li>Float (slack): how much a non-critical activity's start time can vary without delaying the project end date</li><li>Multiple critical paths: possible when several routes through the network have equal total durations (requires resource flexibility to execute in parallel)</li></ul>
+<p><b>CPM ↔ Gantt Chart</b></p>
+<ul><li>They are siblings — two different views of the same information (project logic + timeline)</li><li>CPM is strong for understanding project logic and duration; Gantt charts are often preferred for day-to-day scheduling</li><li>High-end planning tools generate both formats from one set of underlying data</li></ul>
+<h3>Note of Video 4</h3>
+<p>What it covers A step-by-step walkthrough of building a project schedule network and identifying the critical path using PERT/CPM.</p>
+<p><b>Key steps</b></p>
+<ol><li>Build the network diagram – Convert the activity list (activities + durations + dependencies) into a PERT/CPM network of nodes and arrows.</li><li>Forward Pass – Move left to right: compute Early Start (ES) and Early Finish (EF) for each activity. ES = max EF of all predecessors; EF = ES + duration. This gives the earliest project completion time.</li><li>Backward Pass – Move right to left: compute Late Finish (LF) and Late Start (LS). LF = min LS of all successors; LS = LF − duration.</li><li>Calculate Slack/Float – Float = LS − ES (or LF − EF). Activities with zero float have no scheduling flexibility.</li><li>Find the Critical Path – The sequence of zero-float activities running from start to end. It is the longest path through the network and determines the total project duration — any delay on it delays the whole project.</li></ol>
+<p><b>Key takeaways</b></p>
+<ul><li>PERT (3-point estimates, probability) vs. CPM (deterministic durations) share the same network logic.</li><li>Critical path = longest path = shortest possible project completion time.</li><li>Non-critical activities have float and can slip without delaying the project — this drives resource leveling/prioritization.</li><li>Use dummy activities to correctly model dependencies in network diagrams.</li></ul>
+<p>Practical use: identifying the critical path tells a project manager which tasks need tightest monitoring and where crashing (adding resources to compress time) makes sense.</p>
+`;
+
+const NOTE_PMGT1865_W2S = `
+<h2>Week 2 Slides Summary</h2>
+<h3>1. Introduction to Project Scheduling</h3>
+<p><b>1.1 Course Overview</b></p>
+<ul><li>PMGT 1865: Project Time, Cost and Resources</li><li>Week 2 Focus: Project Scheduling &amp; Critical Path Method (CPM)</li><li>Learning Outcomes:<ul><li>Understand Project Planning and the Work Breakdown Structure (WBS)</li><li>Understand the scheduling process</li><li>Understand different schedule formats</li><li>Develop project schedules using a 5-step process and CPM</li><li>Interpret and create Gantt Charts</li></ul></li></ul>
+<p><b>1.2 Key Scheduling Terminology</b></p>
+<ul><li>Dependencies: Things that must happen before an activity can begin</li><li>Milestones: Checkpoints along the project timeline</li><li>Float (Slack): Amount of time an activity can be delayed without delaying the project end date ("spare” time)</li><li>Critical Activities: Activities with zero float — if delayed, they delay project completion</li><li>Critical Path: The chain of critical activities determining the shortest possible project duration</li></ul>
+<h3>2. Work Breakdown Structure (WBS)</h3>
+<p><b>2.1 Definition &amp; Purpose</b></p>
+<ul><li>A deliverable-oriented hierarchical decomposition of the work to be executed by the project team.</li><li>A tool for defining scope, organized top-down from the overall project goal into smaller, manageable components.</li><li>The WBS is the foundation of other plans (schedule, budget, etc.); it must capture everything planned to be done or bought.</li></ul>
+<p><b>2.2 WBS Formats</b></p>
+<ol><li>Indented List Format — numbered hierarchical outline</li><li>Tree Structure Format — visual branching diagram</li></ol>
+<p><b>2.3 Typical Hierarchy</b></p>
+<p>Project</p>
+<p>└── Phase / Deliverable / Segment</p>
+<p>└── Control Account</p>
+<p>└── Work Package</p>
+<p>└── Activity → Task</p>
+<p><b>2.4 WBS Rules</b></p>
+<ul><li>Each level must contain all the work required to achieve the level above</li><li>No duplication of work across categories</li><li>No "1-within-1s" (categories with only one activity)</li><li>Activities cannot belong to more than one parent category</li><li>Chronology and resources are irrelevant at the WBS stage (schedule and RAM come later)</li></ul>
+<p><b>2.5 WBS Tips</b></p>
+<ul><li>Include project management work (Planning, Closure, PM activities)</li><li>Begin activity descriptions with a verb (e.g., "Book venue”)</li><li>When to stop decomposing: when items can be allocated to one person; break down further when work is ambiguous, complex, or for novices</li></ul>
+<p><b>2.6 Example WBS: House in Blacktown</b></p>
+<ul><li>Phase 1 Planning: Meet client, Develop plans &amp; submit to Council, DA approval, Engage builder</li><li>Phase 2 Implementation: Site prep → Pour foundations → Build frame → Install roof → Walls/floors/ceilings → Plumbing → Electrical → Kitchen/bathroom fittings → Painting → Landscaping → Inspection → Decorating → Move in</li><li>Phase 3 Closure: Close contracts, Post Implementation Review, Archive paperwork</li></ul>
+<p><b>2.7 Case Study: Riverside Sounds Community Festival</b></p>
+<p>15 major activities (durations in days): Initiation &amp; feasibility (8), Concept &amp; charter (10), Venue selection (12), Stakeholder consultation (15), Program &amp; artist booking (25), Site layout &amp; technical design (18), Sponsorship (20), Permits &amp; compliance (25), Supplier procurement (30), Marketing &amp; ticketing (24), Staffing (18), Operations &amp; contingency (22), Site setup &amp; rehearsals (5), Festival delivery (2), Pack-down &amp; closure (7)</p>
+<h3>3. Establishing Dependencies</h3>
+<ul><li>Dependencies define the logical order of work — which tasks rely on the start/finish of others.</li><li>Factors limiting schedule completion: ① logical order, ② activity durations, ③ resource availability, ④ imposed dates</li></ul>
+<h3>4. Schedule Formats</h3>
+<ol><li>Schedule Table — tabular list with dates/durations</li><li>Milestone Chart — key checkpoints only</li><li>Network/Precedence Diagram — shows logical relationships</li><li>Gantt/Bar Chart — visual timeline of activities</li></ol>
+<h3>5. The Five-Step Scheduling Process</h3>
+<p>Define activities → Sequence activities → Estimate resources → Estimate durations → Develop the schedule</p>
+<p>Step 1: Define Activities</p>
+<ul><li>Start from the WBS; assign unique IDs.</li><li>Planning-level trade-offs: low-level = more clarity/control but more effort/cost; high-level = quick/cheap but less accurate.</li></ul>
+<p>Activity Node Template: each node shows ES | Activity ID | EF, Float | Description | Duration, LS | LF</p>
+<p>Step 2: Sequence Activities</p>
+<ul><li>Build a Network Diagram. Dependent activities go to the right of their predecessor with connecting arrows.</li><li>Predecessors = must finish before another can start; Successors = cannot start until predecessor finishes</li><li>Merge activities = multiple predecessors; Burst activities = multiple successors</li></ul>
+<p>Step 3: Estimate Activity Resources</p>
+<ul><li>Balance time, cost, quality. More people/specialists = faster, more expensive, better quality.</li></ul>
+<p>Step 4: Estimate Activity Durations</p>
+<ul><li>Record Effort (actual working time → drives cost) separately from Duration (includes lead time e.g. waiting for goods, and lag time e.g. waiting for approvals).</li><li>Estimates should be realistic, NOT include contingency, not overly optimistic, and revised regularly (progressive elaboration).</li></ul>
+<p>Step 5: Develop the Schedule (6 sub-steps)</p>
+<ul><li>1. Transfer durations into the network → 2. Forward pass → 3. Backward pass → 4. Calculate float → 5. Find the critical path → 6. Convert to Gantt chart</li></ul>
+<h3>6. Critical Path Method (CPM)</h3>
+<p>Forward Pass (Early Start/Finish)</p>
+<ul><li>First node: ES = 0. Formula: EF = ES + Duration. Carry EF forward as successor's ES.</li><li>Merge activities: take the highest EF of predecessors.</li><li>House example: earliest completion = Day 134 (Closure: ES 131 + 3).</li></ul>
+<p>Backward Pass (Late Start/Finish)</p>
+<ul><li>Last node: LF = EF. Formula: LS = LF − Duration. Carry LS backward as predecessor's LF.</li><li>Burst activities: take the lowest LS of successors.</li></ul>
+<p><b>Float (Slack)</b></p>
+<ul><li>Float = LS − ES (or LF − EF)</li><li>Non-critical activities with float: Engage Builder (45), Landscaping (14), Install Roof (3), Plumbing (3), Kitchen (3)</li></ul>
+<p>Critical Path — House in Blacktown (134 days)</p>
+<p>Client Meeting → Plans to Council → DA Approval → Site Prep → Pour Foundations → Build Frame → Walls/Floors/Ceilings → Electrical → Painting → Inspection → Decorating → Move In → Closure</p>
+<p>All these activities have float = 0 — any delay delays the whole project.</p>
+<h3>7. Estimating Approaches</h3>
+<ul><li>Duration-based: just start/end times — quick, simple, but less control.</li><li>Effort-based: start with person-hours, divide by number of resources → more flexibility, more planning.</li><li>The responsible resource should help make estimates; keep them aggressive yet realistic, no contingency.</li></ul>
+<h3>8. Gantt Charts</h3>
+<ul><li>Visual tool showing what, when, and task relationships; simple and popular (bar charts).</li><li>Weakness: doesn't clearly show interrelationships (unless arrows added); changes are cumbersome manually.</li><li>Displays: Early Start, Early Finish, Late Finish, Float.</li></ul>
+<h3>9. Key Formulas Summary</h3>
+<table><tr><th>Calculation</th><th>Formula</th></tr><tr><td>Early Finish</td><td>EF = ES + Duration</td></tr><tr><td>Late Start</td><td>LS = LF − Duration</td></tr><tr><td>Total Float</td><td>Float = LS − ES or LF − EF</td></tr><tr><td>Critical Path</td><td>Chain of activities with Float = 0</td></tr><tr><td>Project Duration</td><td>EF of the final activity</td></tr></table>
+<h3>10. Review Checklist</h3>
+<ol><li>WBS created (deliverable-oriented, hierarchical)</li><li>Activities defined with unique IDs</li><li>Dependencies established (predecessors/successors)</li><li>Resources estimated</li><li>Durations estimated separately from effort</li><li>Forward pass done (ES, EF)</li><li>Backward pass done (LS, LF)</li><li>Float calculated for each activity</li><li>Critical path identified (zero-float activities)</li><li>Schedule converted to Gantt chart</li></ol>
+`;
+
+const NOTE_PMGT1865_W2T = `
+<h2>Week 2 Template</h2>
+<h3>1. What is this template for?</h3>
+<p>This is an assignment template for a project management course (PMGT 1865). The context is a music festival project, and your task is to develop a schedule for it. The template only gives you 15 activity cards — it's essentially an "answer sheet." You need to draw a network diagram on it.</p>
+<h3>2. The full process of developing a schedule (the 5 steps at the top)</h3>
+<p>In project management, "developing the schedule" isn't done in one step; it's a 5-step chain:</p>
+<ol><li>Define activities — Break the project down into individual activities (e.g., "book the venue," "book artists”)</li><li>Sequence activities — Decide what comes before what (e.g., you must book the venue before you can design the site)</li><li>Estimate activity resources — How many people/money/equipment each activity needs</li><li>Estimate activity durations — How long each activity takes (the numbers on the template cards are the result of this step)</li><li>Develop the schedule — Combine all 4 steps into a timeline and figure out the total project duration</li></ol>
+<p>The little boxes at the top (Step 1–5) are telling you: you are now doing step 5. The numbers on the cards (8, 10, 12…) are the results of step 4, already done.</p>
+<h3>3. What is a network diagram?</h3>
+<p>In one sentence: A network diagram = activities drawn as boxes, with arrows showing the order/sequence.</p>
+<p>[1 Project Initiation] → [2 Event Concept]</p>
+<p>8 weeks                      10 weeks</p>
+<p>→ [3 Venue Booking] → [15 Project Closure]</p>
+<p>12 weeks                          7 weeks</p>
+<ul><li>Each box = one activity (the 15 cards in the template are ready-made boxes, already labeled with IDs and durations)</li><li>Each arrow = a dependency ("→" means: the activity before it must finish before this one can start)</li></ul>
+<p>The instruction text in the template — "Transfer activity durations into the Network Diagram" — literally means: connect these cards to form a network diagram.</p>
+<h3>4. What is the critical path and how do you calculate it?</h3>
+<p>Once the arrows are drawn, there will be multiple paths from start to finish, each with its own total duration. The longest path = the critical path. It determines the fastest the project can be completed.</p>
+<p>For example, in the simple example above, it's a single line: 8+10+12+7 = 37 weeks.</p>
+<p>But a real project has branches. For example, after "Project Initiation," two branches run in parallel:</p>
+<p>Project Initiation(8) → Event Concept(10) → Venue Booking(12) → Project Closure(7)</p>
+<p>└────────Stakeholder Engagement(15) ───────┘</p>
+<p>This is when you use two "passes" to calculate each activity's ES (Earliest Start) / EF (Earliest Finish) / LS (Latest Start) / LF (Latest Finish):</p>
+<ul><li>Forward pass: Work from start to finish. ES = the maximum EF among predecessors; EF = ES + duration</li><li>Backward pass: Work backwards from the end. LF = the minimum LS among successors; LS = LF − duration</li><li>Float = LS − ES. Activities with float = 0 are critical activities, and the path they form is the critical path</li></ul>
+<p>The result looks like this:</p>
+<table><tr><th>Activity</th><th>Duration</th><th>ES</th><th>EF</th><th>LS</th><th>LF</th><th>Float</th></tr><tr><td>1 Project Initiation</td><td>8</td><td>0</td><td>8</td><td>0</td><td>8</td><td>0 (critical)</td></tr><tr><td>2 Event Concept</td><td>10</td><td>8</td><td>18</td><td>8</td><td>18</td><td>0 (critical)</td></tr><tr><td>3 Venue Booking</td><td>12</td><td>18</td><td>30</td><td>18</td><td>30</td><td>0 (critical)</td></tr><tr><td>4 Stakeholder Engagement</td><td>15</td><td>8</td><td>23</td><td>15</td><td>30</td><td>7</td></tr><tr><td>5 Project Closure</td><td>7</td><td>30</td><td>37</td><td>30</td><td>37</td><td>0 (critical)</td></tr></table>
+<p>Conclusion: critical path = ①→②→③→⑮, total project duration = 37 weeks. Activity ④ can start up to 7 weeks late without delaying the project (that's its float).</p>
+<h3>5. What you're missing right now</h3>
+<p>All 15 cards are in the template, but none of the arrows (dependencies) are drawn — and that's the core of the assignment. Dependencies usually have to be determined by you using common sense (e.g., "Artist Booking" must come before "Marketing Setup"), or taken from the lecture notes/assignment brief.</p>
+<p>Next step — I can help you: Based on reasonable dependency assumptions, I can connect all 15 activities into a complete network diagram, calculate the ES/EF/LS/LF for every activity and the critical path, and give you a ready-to-use answer. Want me to do that? Or can you first send me the dependencies specified in your course materials?</p>
+`;
+
+const NOTE_PMGT1865_W2A = `
+<h2>Week 2 Sample Answer</h2>
+<h3>Week 2 Workshop Report: Planning the Riverside Sounds Community Festival</h3>
+<p>In Week 2, the workshop simulated the planning of Riverside Sounds, a two-day outdoor music and food festival approved by the Riverside City Council to bring residents together, support local artists and small businesses, and provide an accessible community event. Working in a learning community, the group completed three interrelated project management activities: developing a work breakdown structure (WBS), sequencing the activities into a network diagram, and performing a critical path analysis. This report summarises the results of the three workshop activities.</p>
+<p>Task 1 required a WBS based on fifteen major activities (Table 1), using a clear hierarchical numbering system (Project Management Institute, 2021). Each of the fifteen parent activities was decomposed into at least two level-2 sub-activities, and further broken into fifty-three level-3 work packages in total. For example, activity 5, “Festival program and artist booking” (25 days), was divided into program curation; artist shortlisting; and negotiation and contract finalisation. The WBS clarified deliverables and provided the foundation for sequencing in Task 2.</p>
+<p>In Task 2, the fifteen activities were sequenced into a network diagram that reflected logical dependencies and constraints, for example venue selection preceding site layout, and permits and insurance depending on site design (Figure 2). Following the prescribed template, each node recorded the early start (ES), early finish (EF), late start (LS), late finish (LF), float, activity identification number, description and duration (Figure 1). Forward and backward passes were then applied to compute these values for every activity.</p>
+<p>Task 3 applied critical path analysis to the network. The critical path was identified as activities 1–2–5–7–8–12–13–14, with an estimated project duration of approximately 149 days (Figure 2). Because critical activities carry zero float, any delay to them would delay the festival; therefore the group recommended close monitoring of artist booking and compliance approvals, which carry the greatest duration uncertainty. The analysis demonstrates how scheduling techniques support realistic completion dates and effective resource priority (Kerzner, 2017).</p>
+<p>In summary, the workshop illustrated the logical progression from project decomposition, to scheduling, to critical path analysis. These techniques enable managers to identify priorities, allocate resources and control project timelines, and will be applied to the full festival project throughout the semester.</p>
+<p>Table 1: Major activities of the Riverside Sounds project (WBS level 1)</p>
+<table><tr><th>ID</th><th>Activity</th><th>Duration (days)</th></tr><tr><td>1</td><td>Project initiation and feasibility study</td><td>8</td></tr><tr><td>2</td><td>Event concept, scope and project charter</td><td>10</td></tr><tr><td>3</td><td>Venue selection and booking</td><td>12</td></tr><tr><td>4</td><td>Stakeholder consultation and engagement</td><td>15</td></tr><tr><td>5</td><td>Festival program and artist booking</td><td>25</td></tr><tr><td>6</td><td>Site layout and technical design</td><td>18</td></tr><tr><td>7</td><td>Sponsorship and funding arrangements</td><td>20</td></tr><tr><td>8</td><td>Permits, insurance and compliance approvals</td><td>25</td></tr><tr><td>9</td><td>Supplier procurement and contract award</td><td>30</td></tr><tr><td>10</td><td>Marketing, communications and ticketing setup</td><td>24</td></tr><tr><td>11</td><td>Staffing and volunteer planning</td><td>18</td></tr><tr><td>12</td><td>Operations, security, safety and contingency planning</td><td>22</td></tr><tr><td>13</td><td>Site setup, equipment installation and rehearsals</td><td>5</td></tr><tr><td>14</td><td>Festival delivery</td><td>2</td></tr><tr><td>15</td><td>Pack-down, evaluation and project closure</td><td>7</td></tr></table>
+<p>Source: Workshop slides, Learning Community 2, Week 2.</p>
+<p>Figure 1: Node template used for the network diagram</p>
+<table><tr><th>ES</th><th>ID</th><th>EF</th></tr><tr><td>Float</td><td>Description</td><td></td></tr><tr><td>LS</td><td>Duration</td><td>LF</td></tr></table>
+<p>Figure 2: Network diagram and critical path (thick arrows) of the Riverside Sounds project</p>
+<h3>Reference List</h3>
+<p>Kerzner, H. (2017) Project Management: A Systems Approach to Planning, Scheduling, and Controlling. 12th edn. Hoboken, NJ: John Wiley &amp; Sons.</p>
+<p>Project Management Institute (2021) A Guide to the Project Management Body of Knowledge (PMBOK Guide). 7th edn. Newtown Square, PA: Project Management Institute.</p>
+`;
+
 const NOTE_PMGT1852_W1L = `
 <h2>Week 1 Lecture</h2>
 <h3>Week 1 – Overview of Stakeholder Management</h3>
@@ -3536,6 +3716,10 @@ const SECTIONS = [
       {num:"002",title:"Week 1 Slides Summary",html:NOTE_PMGT1865_W1S},
       {num:"003",title:"Week 1 Prepare",html:NOTE_PMGT1865_W1P},
       {num:"004",title:"Week 1 In Class Activity",html:NOTE_PMGT1865_W1C},
+      {num:"005",title:"Week 2 Online Modules",html:NOTE_PMGT1865_W2M},
+      {num:"006",title:"Week 2 Slides Summary",html:NOTE_PMGT1865_W2S},
+      {num:"007",title:"Week 2 Template",html:NOTE_PMGT1865_W2T},
+      {num:"008",title:"Week 2 Sample Answer",html:NOTE_PMGT1865_W2A},
   ]},
   { id:"pmgt1850",           title:"PMGT1850",                   notes:[
       {num:"001",title:"Intro of PM",html:NOTE_PMGT1850},
