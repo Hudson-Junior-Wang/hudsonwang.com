@@ -3715,6 +3715,295 @@ const NOTE_BUSS1020_W2P = `
 <ul><li>μ ± 3σ = 30 ± 6 → [24, 36] °C</li></ul>
 `;
 
+const NOTE_BUSS1020_W3L = `
+<h2>Week 3 Lecture</h2>
+<h3>1. Administrative Reminders</h3>
+<ul><li>Homework 1 (A &amp; B): due Sunday; the online portal closes this Friday.</li><li>Homework 3 (C): due this Sunday. The first three homeworks together form the Early Feedback Task (EFT) — submitting HW3 late means your EFT mark won't reflect it. Marks are pulled next Monday.</li><li>In-semester test: 19 September, covers Weeks 1–6, 90 minutes, ~18 MCQs + short-answer questions. Bring a non-programmable calculator + student ID (plus pens/pencils/eraser). Past papers, formula sheet, and extra practice will be posted on Canvas. Register for PASS and use consultations/study groups.</li><li>Nature of this session: the modules are the self-contained primary source; the Q&amp;A session exists to clarify questions.</li></ul>
+<h3>2. Review — Measures of Variation</h3>
+<ul><li>Variance: how far values are spread from the mean. Each value's distance from the mean is squared (direction ignored), summed, and averaged: s² = Σ(xᵢ − x̄)² / (n − 1) (divide by n−1 for a sample). Worked example: mean = 16, 8 values → sum of squared deviations ÷ 7.</li><li>Standard deviation: √variance — the "typical scatter" around the mean; especially important in finance / portfolio theory.</li><li>Intuition: two data sets can have the same mean (15.5) but different spread — SD uses all squared distances, so a single extreme value (e.g., one 21) doesn't dominate the verdict.</li><li>Coefficient of variation (CV) = SD / mean — a relative, unit-free measure of variability (often as %), letting you compare data sets measured in different units or magnitudes:
+<ul><li>Stock A: mean 50, SD 5 → CV = 10%</li><li>Stock B: mean 100, SD 5 → CV = 5% (same SD, but less variability relative to price)</li><li>Stock C: mean 8, SD 2 → CV = 25% (don't be fooled by a small SD — compare to the mean)</li></ul></li><li>If all values are identical (e.g., everyone scores 100%), variance = SD = 0.</li></ul>
+<h3>3. Describing a Data Set — Beyond Mean and Spread</h3>
+<ul><li>Z-scores (standardized values): Z = (xᵢ − mean) / SD — how many average-spreads a value sits from the mean. Rule of thumb: |Z| &gt; 3 → extreme/unusual.
+<ul><li>Stock-return example: mean ≈ 0.0205%, SD ≈ 0.941%. A +0.4399% return → Z ≈ 0.49 → not unusual. A −4.39% return (Sept 2008) → Z ≈ −4.7 → extreme (the GFC!). Always combine statistics with business context.</li><li>Mean ± 3 SD ≈ [−2.84, +2.84]; only ~0.8% of returns fall below and ~0.6% above — these are the unusual values.</li></ul></li>
+<li>Skewness: asymmetry of the distribution (shape of the histogram).
+<ul><li>mean = median → symmetric, skewness = 0</li><li>mean &gt; median → right-skewed (positive); mean &lt; median → left-skewed (negative)</li></ul></li>
+<li>Kurtosis: relative concentration of values in the centre vs the tails, benchmarked against the bell-shaped (normal) curve. Positive kurtosis = sharper/more peaked; negative = flatter. Useful for comparing tail heaviness even when two distributions have the same variance.</li>
+<li>Quartiles &amp; the five-number summary: split ordered data into 4 equal parts (25% each): Q1, Q2 (= median), Q3. Position formulas use (n+1)/4, (n+1)/2, 3(n+1)/4. Example with 9 data points: Q1 = 12.5 (2.5th position), median = 16, Q3 = 19.5 (7.5th position).</li>
+<li>Interquartile range (IQR) = Q3 − Q1 — the spread of the middle 50% of the data.</li>
+<li>Box plot: graphical display of min, Q1, median, Q3, max (the five-number summary) — great for comparing data sets (e.g., high- vs low-risk retirement funds) and spotting skew/outliers visually.</li>
+<li>Excel: Data Analysis → Descriptive Statistics gives mean, median, SD, skewness, kurtosis, range, min/max, etc., in a few clicks — get comfortable with it.</li></ul>
+<h3>4. Probability — The Language of Chance</h3>
+<ul><li>Why it matters: the future is unknown ("death and taxes" are the only certainties), but past data can be a window to the future — forecasting sales, stock prices, and business outcomes gives competitive insight. Probability is the rigorous foundation of data analysis, analytics, and statistics.</li>
+<li>Everyday words (maybe, perhaps, likely, almost) are qualitative and coarse; probability replaces them with a precise scale: 0 = impossible → 1 (100%) = certain.</li>
+<li>Formal definition: probability = the chance that an unsettled event will occur.</li>
+<li>Three ways to quantify probability:
+<ul><li>A priori — you know the process: fair coin → P(heads) = 1/2; die → P(even) = 3/6. Example: ranked player drawing an opponent → 10 of the 99 possible opponents are top-10 → P = 10/99.</li>
+<li>Empirical — observed data: rain in Sydney on 15 Aug → 60 rainy in 150 years → P ≈ 40%; stock price up on 121 of 250 days → empirical probability.</li>
+<li>Subjective — expert judgment (e.g., "25% chance") when data/processes are unavailable (startup survival, Facebook's dominance).</li></ul></li>
+<li>Key concepts:
+<ul><li>Experiment / process and its outcomes; each outcome of interest is an event (rainy, sunny, windy…).</li>
+<li>Simple event = one characteristic (customer plans to purchase); joint event = two characteristics (plans to purchase and pays &gt; $100).</li>
+<li>Complement (A′): everything not in event A.</li>
+<li>Sample space: the collection of all possible outcomes (die: 1–6; deck: 52 cards; customer: plans to purchase or not).</li>
+<li>Contingency table + decision tree: visualize events. Example — 365 customers: 31 planned to purchase (4 of them paid &gt; $100, 27 paid ≤ $100); 52 customers total paid &gt; $100.</li></ul></li>
+<li>Marginal vs joint probabilities:
+<ul><li>Marginal (simple event, from the table margins): P(planned) = 31/365 ≈ 10%; P(paid &gt; $100) = 52/365.</li>
+<li>Joint (two events together): P(planned and paid &gt; $100) = 4/365.</li></ul></li>
+<li>Mutually exclusive events: cannot happen simultaneously (paid &gt; $100 vs paid ≤ $100; pass vs fail; only one candidate can win an election).</li>
+<li>Collectively exhaustive events: together cover the whole sample space, so their probabilities sum to 1 (100%); any single probability lies between 0 and 1.</li>
+<li>Venn diagrams: visualise events; the overlap region is the intersection A ∩ B (both true).</li>
+<li>Addition rule: P(A or B) = P(A) + P(B) − P(A ∩ B) — subtract the double-counted overlap. If A and B are mutually exclusive, P(A ∩ B) = 0, so P(A or B) = P(A) + P(B).
+<ul><li>Example: P(planned or paid &gt; $100) = 31/365 + 52/365 − 4/365 = 79/365 (the 4 people are in both groups).</li></ul></li>
+<li>Conditional probability — probability contingent on known information:
+<ul><li>P(A | B) = P(A ∩ B) / P(B) — "restrict the sample space" to B.</li>
+<li>Examples: given a customer planned to purchase, chance they spend &gt; $100; Amazon recommending accessories once you buy a phone; customer churn after a service interaction; P(distinction | registered for PASS) vs P(distinction) overall.</li>
+<li>Important caveat (correlation ≠ causation): these probabilities quantify relationships, not root causes — e.g., PASS students may do better simply because more dedicated students self-select. Establishing cause requires controlled experimental design.</li></ul></li></ul>
+`;
+
+const NOTE_BUSS1020_W3M = `
+<h2>Week 3 Online Modules</h2>
+<h2>3.0 Introduction to basic probability</h2>
+<h3>What you'll learn this week</h3>
+<p>The principles of probability help bridge the worlds of descriptive and inferential statistics. By the end of this week, you should be able to understand and explain:</p>
+<ul><li>Basic probability concepts</li><li>Conditional probability concepts</li><li>Bayes' Theorem</li><li>Counting rules</li><li>Ethical considerations when using probability.</li></ul>
+<h3>How is probability used in business?</h3>
+<p>The use and modelling of probability is found throughout business for making commercial decisions. Some examples are:</p>
+<ul><li>New customer acquisition</li><li>Measuring and boosting customer loyalty</li><li>Cross-sell/up-sell</li><li>Targeted advertisements</li><li>Financial forecasting</li><li>Fraud detection</li><li>Product placement</li><li>Churn measurement and reduction.</li></ul>
+<h3>Note of Video: The Monty Hall problem</h3>
+<p><b>The Setup (The Game Show Scenario)</b></p>
+<ul><li>You reach the final round of a TV game show; a brand-new car sits behind one of three doors.</li><li>The other two doors hide a goat each.</li><li>You pick a door → the host reveals one goat behind one of the other doors → he offers you a chance to switch your choice.</li><li>Question: Should you switch? Does it even matter?</li></ul>
+<p><b>The Short Answer</b></p>
+<ul><li>Yes — switching doubles your odds of winning the car.</li><li>It feels counter-intuitive, but switching wins 2 out of 3 times (66.7%) vs. staying at 1 out of 3 (33.3%).</li></ul>
+<p><b>Why People Get It Wrong</b></p>
+<ul><li>At the start, everyone correctly assumes a 1-in-3 chance of picking the right door.</li><li>The mistake: assuming that after one door is removed, the two remaining doors each have a 50/50 chance. This is incorrect — the host's reveal is not random.</li></ul>
+<p><b>The Card-Deck Analogy (Key Insight)</b></p>
+<ul><li>Pick a card from a full deck: your card has a 1-in-52 chance of being the Ace of Spades.</li><li>Now the host flips over every other card except one — and none of the flipped cards is the Ace of Spades.</li><li>Two cards remain. Which is more likely the Ace of Spades?
+<ul><li>Your card: still 1/52.</li><li>The host's card: 51/52 — because the host purposefully and suspiciously left it turned down.</li></ul></li>
+<li>The reveal carries information. The same logic applies to the three doors.</li></ul>
+<p><b>The Two Scenarios (Why Switching = 2/3)</b></p>
+<p>When the host removes a door, he does so knowing there's a goat behind it. Only two scenarios exist:</p>
+<table><tr><th>Scenario</th><th>What happened</th><th>Best move</th><th>Probability</th></tr><tr><td>A</td><td>You chose the correct door; host arbitrarily shows one of the wrong doors</td><td>Stay wins</td><td>1/3</td></tr><tr><td>B</td><td>You chose a wrong door; host shows the other incorrect door</td><td>Switch wins</td><td>2/3</td></tr></table>
+<ul><li>Scenario A happens only when you picked the winning door (1/3 of the time).</li><li>Scenario B happens whenever you picked a losing door (2/3 of the time).</li><li>→ Switching wins 2 out of 3 times.</li></ul>
+<p><b>The 9-Outcome Chart Proof</b></p>
+<ul><li>Car behind Door 1, 2, or 3 × your choice of Door 1, 2, or 3 = 9 possible outcomes.</li><li>If the car is behind Door 1 and you chose Door 1 → stay; if you chose Door 2 or 3 → switch.</li><li>Same logic for the car behind Door 2 or 3.</li><li>Totaling all cases: you should switch in 6 out of 9 outcomes — consistent with the 2/3 result.</li></ul>
+<p><b>Takeaway</b></p>
+<ul><li>This "paradox" has puzzled scientists and mathematicians because our gut says switching makes no difference.</li><li>But formal calculations and computer simulations consistently show: switching increases your probability of winning.</li><li>So — do you still trust your gut feeling?</li></ul>
+<h2>3.1 Basic probability concepts</h2>
+<h3>What are these concepts?</h3>
+<p>This sub-topic examines basic probability concepts, three common approaches for assessing probability and the concepts of events and sample spaces.</p>
+<h3>Basic concepts of probability</h3>
+<ul><li><b>Probability:</b> the chance that an uncertain event will occur. Expressed numerically this is always a number between 0 and 1.</li><li><b>Impossible event:</b> an event that has no chance of occurring. Expressed numerically, the probability equals '0'.</li><li><b>Certain event:</b> an event that will definitely occur. Expressed numerically, the probability equals '1'.</li><li><b>Uncertain event:</b> concerns the unpredictability of future events which influence present decisions. As they have not yet occurred, no one can predict what they will be like.</li></ul>
+<h3>Note of video — Three approaches to probability</h3>
+<p><b>1. A Priori Probability</b></p>
+<ul><li>Based on deductive reasoning using prior knowledge of a process.</li><li>No data collection needed — probabilities are derived logically from the structure of the situation.</li></ul>
+<p>Formula: P(event) = X / T</p>
+<ul><li>X = number of ways the event can occur</li><li>T = total number of possible outcomes</li></ul>
+<p>Example 1 — Dice:</p>
+<ul><li>A die has 6 equally likely sides → probability of a particular number = 1/6.</li><li>Probability of rolling an even number: 3 even outcomes (2, 4, 6) out of 6 total → 3/6 = 50%.</li></ul>
+<p>Example 2 — Tennis tournament:</p>
+<ul><li>You are ranked #50 in a tournament of 100 players (ranked 1–100).</li><li>Question: chance your randomly selected first-round opponent is in the top 10?</li><li>X = 10 (ways the event can occur); T = 99 (you cannot play yourself) → P = 10/99 = 0.101.</li></ul>
+<p><b>2. Empirical Probability</b></p>
+<ul><li>Based on observed data from the past to estimate the likelihood of an event.</li><li>Uses the same X/T structure, where X = number of times the event occurred and T = total number of trials.</li></ul>
+<p>Example — Telstra stocks:</p>
+<ul><li>Want the probability Telstra's stock goes up today.</li><li>Look back at the last 250 days: stock went up on 121 days.</li><li>Estimated probability = 121/250 = 0.484 (48.4%).</li></ul>
+<p><b>3. Subjective Probability</b></p>
+<ul><li>Based on expert judgement: past experience, personal opinion, or analysis of a situation.</li><li>Differs from a priori: no prior knowledge of the process.</li><li>Differs from empirical: no past data to observe.</li><li>Used when neither logic nor data is available.</li></ul>
+<p>Example questions:</p>
+<ul><li>Probability that Facebook dominates social media for the next 5 years.</li><li>Probability that a new startup remains solvent for 10 years (no past data exists).</li><li>Probability that Australia wins the next Ashes test series in England.</li><li>Probability that a particular credit card transaction is fraudulent.</li></ul>
+<p><b>Summary</b></p>
+<table><tr><th>Approach</th><th>Basis</th><th>Key feature</th></tr><tr><td>A priori</td><td>Prior knowledge of the process</td><td>Deductive reasoning (logic)</td></tr><tr><td>Empirical</td><td>Observed data</td><td>Past observations / trials</td></tr><tr><td>Subjective</td><td>Experience and expertise</td><td>Expert judgement, no data</td></tr></table>
+<h3>Sample space</h3>
+<p>The set of all possible outcomes from an experiment is called the sample space.</p>
+<ul><li>Rolling a dice: the sample space is all possible outcomes, 1–6.</li><li>Deck of cards: the sample space is all 52 cards.</li></ul>
+<h3>Simple and joint events</h3>
+<p>Events are subsets of the sample space. Each possible outcome of an experiment is called an event. Events can be divided into:</p>
+<ul><li>simple events</li><li>joint events.</li></ul>
+<p>Simple events are described by a single characteristic. An example of a simple event would be a customer plans to purchase a product.</p>
+<p>Joint events are described by two or more characteristics. An example of a joint event would be a customer plans to purchase a product and pays more than $100.</p>
+<h3>The complement of an event A</h3>
+<p>The complement of an event A is the subset of outcomes that are not part of an event. For example, if the event is 'a customer plans to purchase a product', then the complement of the event would be 'the customer does not plan to purchase the product'. It is noted by the symbol A' (and A followed by an apostrophe). We can find the probability of A' as:</p>
+<p>P(A') = 1 − P(A)</p>
+<h2>3.2 Basic probability</h2>
+<h3>Exploring basic probability</h3>
+<p>Two types of probability are joint and marginal. This week we will explore these and how they link with mutually exclusive and collectively exhaustive events. Finally, we will look at the general addition rule, which is used to find the union of two events.</p>
+<h3>Note of Video</h3>
+<p><b>1. Marginal (Simple) Probability</b></p>
+<ul><li>Refers to the probability of a simple event — an event defined by a single characteristic.</li><li>Examples: P(Planned to Purchase), P(Paid &gt; $100).</li><li>Computed from a contingency table using the frequencies in the margins (end of rows/columns), divided by the total sample size — this is the empirical method.</li></ul>
+<p>Contingency table (frequencies, n = 365 customers):</p>
+<table><tr><th></th><th>Paid &gt; $100</th><th>Paid ≤ 100</th><th>Sub-total</th></tr><tr><td>Planned purchase</td><td>4</td><td>27</td><td>31</td></tr><tr><td>Not planned purchase</td><td>48</td><td>286</td><td>334</td></tr><tr><td>Sub-total</td><td>52</td><td>313</td><td>365</td></tr></table>
+<ul><li>P(Planned to Purchase) = 31 / 365</li><li>P(Paid &gt; $100) = 52 / 365</li></ul>
+<p><b>2. Joint Probability</b></p>
+<ul><li>Considers the occurrence of two or more events (a joint event) — e.g., "plans to purchase AND pays &gt; $100".</li><li>Found in the centre of the contingency table; convert frequency to probability by dividing by the sample size (365).</li><li>P(Planned &amp; &gt; $100) = 4 / 365</li><li>P(Not planned &amp; ≤ $100) = 286 / 365</li></ul>
+<p><b>3. Mutually Exclusive &amp; Collectively Exhaustive Events</b></p>
+<ul><li>Mutually exclusive (ME): events that cannot occur at the same time. Example: "chosen day is in January" vs "chosen day is in March" — a day cannot be in both.</li><li>Collectively exhaustive (CE): events that together cover the entire sample space, so at least one must occur. Example: weekday / weekend / in January / in spring — covers everything but overlaps (weekdays can be in January), so CE but not ME.</li><li>Weekday vs Weekend alone: both ME and CE.</li><li>Key rule: if events are ME and CE, the sum of their probabilities = 1. If events are only CE (with overlap), their probabilities sum to &gt; 1 (everything is covered more than once).</li></ul>
+<p><b>4. Calculation Rules</b></p>
+<p>Empirical probability of a joint event A and B:</p>
+<ul><li>P(A and B) = (number of outcomes satisfying both A and B) / (total number of elementary outcomes)</li></ul>
+<p>Marginal probability from joint probabilities:</p>
+<ul><li>P(A) = P(A and B₁) + P(A and B₂) + … + P(A and Bₖ)</li><li>where B₁, B₂, …, Bₖ are k mutually exclusive and collectively exhaustive events.</li><li>Example: P(Paid &gt; 100) = P(&gt;100 and Planned) + P(&gt;$100 and Not planned) = 4/365 + 48/365 = 52/365 ✓ (matches the marginal)</li></ul>
+<p>General Addition Rule (union of two events):</p>
+<ul><li>P(A or B) = P(A) + P(B) − P(A and B)</li><li>The joint probability is subtracted because the overlap gets counted twice when adding the two marginals.</li><li>If A and B are mutually exclusive, P(A and B) = 0, so the rule simplifies to: P(A or B) = P(A) + P(B)</li></ul>
+<p>Worked example:</p>
+<ul><li>P(Planned OR Paid &gt; 100) = P(Planned) + P(&gt;100) − P(Planned &amp; &gt;$100)</li><li>= 31/365 + 52/365 − 4/365 = 79/365</li><li>Equivalent view: adding the frequencies 4 + 27 + 48 = 79, over 365.</li></ul>
+<p><b>5. Contingency Table of Probabilities (Summary Structure)</b></p>
+<p>For two variables A (events A₁, A₂) and B (events B₁, B₂):</p>
+<table><tr><th></th><th>B₁</th><th>B₂</th><th>Total</th></tr><tr><td>A₁</td><td>P(A₁ and B₁)</td><td>P(A₁ and B₂)</td><td>P(A₁)</td></tr><tr><td>A₂</td><td>P(A₂ and B₁)</td><td>P(A₂ and B₂)</td><td>P(A₂)</td></tr><tr><td>Total</td><td>P(B₁)</td><td>P(B₂)</td><td>1</td></tr></table>
+<ul><li>Blue central cells = joint probabilities; green margin cells = marginal probabilities.</li><li>Marginal probabilities for a variable sum to 1; all four joint probabilities also sum to 1 (bottom-right corner).</li></ul>
+<p><b>Key Takeaways</b></p>
+<ul><li>Marginal = single event (margins); Joint = two or more events (centre).</li><li>ME events cannot co-occur; CE events cover the whole sample space; ME + CE ⇒ probabilities sum to 1.</li><li>Addition rule: add the marginals, subtract the joint (overlap) — unless events are mutually exclusive, in which case just add.</li></ul>
+<h3>Re-cap — probability and the general addition rule</h3>
+<p>Marginal probability is also referred to as the probability of a simple event. A simple event is defined by a single characteristic. For example:</p>
+<ul><li>The probability of a customer planning to purchase a specific product would be expressed as: P(Planned to purchase).</li><li>The probability of a customer paying greater than $100 for a product would be expressed as: P(Paid &gt; $100).</li></ul>
+<p>Joint probability considers the occurrence of two or more events (a joint event or intersection of events). For example:</p>
+<ul><li>A customer planning to purchase a product and paying greater than $100: P(Planned to purchase and paid &gt; $100).</li><li>A customer not planning to purchase a product and paying less than or equal to $100: P(Not planned to purchase and paid ≤ $100).</li></ul>
+<p>General addition rule: used to find the probability of the union of two events A and B — the probability that either event A or event B, or both A and B occur. The general rule says that the probability of A or B can be found by adding the marginal probabilities of events A and B and then subtracting their joint probability.</p>
+<p>P(A or B) = P(A) + P(B) − P(A and B).</p>
+<h3>Recap — mutually exclusive/collectively exhaustive events</h3>
+<p>Mutually exclusive events cannot occur at the same time. Collectively exhaustive events are ones where one of the events must occur. A set of collectively exhaustive events covers the entire sample space.</p>
+<p>Mutually exclusive example: consider randomly choosing a day in 2020. Define the following events: A = All days in January; B = All days in March. Conclusion: Events A and B are mutually exclusive as they cannot occur simultaneously.</p>
+<p>Collectively exhaustive example: consider randomly choosing a day in 2020. Define: A = Weekday; B = Weekend; C = January; D = Spring. Conclusion:</p>
+<ul><li>Events A, B, C and D are collectively exhaustive (as one of the events must occur), but not mutually exclusive (as a weekday can be in January or in Spring).</li><li>Events A and B are collectively exhaustive (as one of the events must occur), and also mutually exclusive (as the events cannot occur at the same time).</li></ul>
+<p>Note that if a set of events, say X, Y and Z, are mutually exclusive and collectively exhaustive then their probabilities sum to 1: P(X) + P(Y) + P(Z) = 1.</p>
+<h3>Recap — calculation rules for probabilities</h3>
+<p>Empirical probability of joint event A and B: P(A and B) = Number of outcomes satisfying A and B / total number of elementary outcomes.</p>
+<p>Marginal probability from a set of joint events: P(A) = P(A and B₁) + P(A and B₂) + ... + P(A and Bₖ), where B₁, B₂..., Bₖ are mutually exclusive and collectively exhaustive events.</p>
+<h2>3.3 Conditional probability</h2>
+<h3>Exploring this concept</h3>
+<p>What is conditional probability? It will be explored in this sub-topic along with the concepts of independence and the multiplication rule.</p>
+<h3>Note of Video</h3>
+<p><b>1. Definition</b></p>
+<ul><li>Conditional probability is the probability of one event given the knowledge that another event has occurred.</li><li>It updates the marginal probability of an event with new information.</li><li>Notation: P(A | B) — read as "probability of A given B" or "A conditional on B".</li></ul>
+<p><b>2. The Formula</b></p>
+<ul><li>P(A | B) = P(A and B) / P(B)</li><li>P(A and B) = joint probability of A and B</li><li>P(B) = marginal (simple) probability of the event we are conditioning on</li></ul>
+<p><b>3. Business Context Examples</b></p>
+<ul><li>Probability that a customer buys book A after purchasing book B.</li><li>Probability that a customer clicks through a website given its page design.</li><li>Probability that a customer actually purchases after answering a survey saying they plan to purchase.</li></ul>
+<p><b>4. Worked Example (Shop Data, n = 365)</b></p>
+<p>Let A = paid &gt; $100, B = planned to purchase.</p>
+<table><tr><th></th><th>Paid &gt; $100</th><th>Paid ≤ $100</th><th>Total</th></tr><tr><td>Planned purchase</td><td>4</td><td>27</td><td>31</td></tr><tr><td>Not planned purchase</td><td>48</td><td>286</td><td>334</td></tr><tr><td>Total</td><td>52</td><td>313</td><td>365</td></tr></table>
+<ul><li>P(&gt;$100 | planned purchase) = P(&gt;$100 and planned purchase) / P(planned purchase)</li><li>= (4/365) / (31/365) = 4/31 ≈ 0.129</li><li>Intuition: restricting attention to the 31 people who planned to purchase, 4 of them spent more than $100.</li></ul>
+<p><b>5. Decision Trees</b></p>
+<ul><li>An alternative to the contingency table for representing probability.</li><li>If both variables' decisions happen simultaneously, the order of variables doesn't matter — both orderings end with the same four simple events. The question may suggest a logical ordering based on time, but not always.</li><li>Tree structure (starting with planned purchase):
+<ul><li>First-stage branches (from the root node): marginal probabilities — P(planned) = 31/365, P(not planned) = 334/365.</li><li>Second-stage branches: conditional probabilities, conditional on the event on the prior branch — e.g., 4 of the 31 planners spent &gt; $100.</li><li>Final nodes (branch products): joint probabilities — P(planned and &gt;$100) = 4/365, P(planned and ≤$100) = 27/365, P(not planned and &gt;$100) = 48/365, P(not planned and ≤$100) = 286/365.</li></ul></li></ul>
+<p><b>6. Practice Problem — Used Car Lot</b></p>
+<p>Of the cars on a used car lot: 90% have air conditioning (AC), 40% have a GPS, 35% have both. Question: what is P(GPS | AC)?</p>
+<p>Step 1 — Build the contingency table (probabilities):</p>
+<table><tr><th></th><th>GPS</th><th>No GPS</th><th>Total</th></tr><tr><td>AC</td><td>0.35</td><td>0.55</td><td>0.90</td></tr><tr><td>No AC</td><td>0.05</td><td>0.05</td><td>0.10</td></tr><tr><td>Total</td><td>0.40</td><td>0.60</td><td>1.00</td></tr></table>
+<p>How the numbers are derived:</p>
+<ul><li>P(AC) = 0.90 is a marginal → row total; therefore P(No AC) = 0.10 (row must sum to 1).</li><li>P(GPS) = 0.40 is a marginal → column total; therefore P(No GPS) = 0.60.</li><li>P(AC and GPS) = 0.35 is a joint probability (given).</li><li>Top row must sum to 0.90 → P(AC, No GPS) = 0.55.</li><li>GPS column must sum to 0.40 → P(No AC, GPS) = 0.05.</li><li>Joint probabilities must sum to 1 → P(No AC, No GPS) = 0.05.</li></ul>
+<p>Step 2 — Apply the conditional formula:</p>
+<ul><li>P(GPS | AC) = P(GPS and AC) / P(AC) = 0.35 / 0.90 = 0.3889 (to 4 decimal places).</li></ul>
+<p><b>Key Takeaways</b></p>
+<ul><li>Conditional probability updates an event's probability using knowledge of a related event.</li><li>Formula: P(A | B) = P(A and B) / P(B).</li><li>Same problem can be represented with either a contingency table or a decision tree — tree branches show marginal → conditional → joint probabilities along the path.</li></ul>
+<h3>Re-cap — conditional probability</h3>
+<p>The conditional probability of A given that B has occurred: P(A|B) = P(A and B) / P(B).</p>
+<h3>Independence</h3>
+<p>When the occurrence of one event does not affect the probability of occurrence of another event, the events are said to be independent. For example, events A and B are independent when the probability of A is not affected by the fact that event B has occurred and vice versa.</p>
+<p>If events A and B are independent then P(A | B) = P(A) and P(B | A) = P(B).</p>
+<h3>Multiplication rule</h3>
+<p>The multiplication rule is used to find a joint probability of two events using a conditional probability of one event and marginal probability of the event being conditioned on.</p>
+<p>P(A and B) = P(A | B)P(B) and similarly, P(A and B) = P(B | A)P(A).</p>
+<p>Note: If A and B are independent, then P(A | B) = P(A) and the multiplication rule simplifies to P(A and B) = P(A)P(B).</p>
+<h2>3.4 Bayes' theorem</h2>
+<h3>Note of Video</h3>
+<p><b>1. What Is Bayes' Theorem?</b></p>
+<ul><li>Developed in the 18th century by the Reverend Thomas Bayes.</li><li>Used to revise probabilities when new information arrives — e.g., every time you click a link on Google, the search engine updates its probability that you'll choose another book, click a particular link, or follow an ad.</li><li>Key power: reverses the conditioning between two events — if you know P(A|B) but want P(B|A), Bayes' Theorem lets you flip it.</li></ul>
+<p><b>2. Simple Form</b></p>
+<p>P(B|A) = P(A|B) × P(B) / P(A)</p>
+<p>Where does it come from?</p>
+<ul><li>Recall conditional probability: P(A|B) = P(A and B) / P(B)</li><li>Rearrange → Multiplication rule: P(A and B) = P(A|B) × P(B)</li><li>Similarly, P(B|A) = P(A and B) / P(A), so P(A and B) = P(B|A) × P(A)</li><li>Set the two expressions for P(A and B) equal, rearrange → the Bayes' formula.</li></ul>
+<p><b>3. General Form</b></p>
+<p>P(Bᵢ|A) = P(A|Bᵢ) × P(Bᵢ) / [P(A|B₁)P(B₁) + P(A|B₂)P(B₂) + … + P(A|Bₖ)P(Bₖ)]</p>
+<ul><li>Bᵢ = the ith event of k mutually exclusive and collectively exhaustive events</li><li>A = a new event that might impact P(Bᵢ)</li><li>The only difference from the simple form: the denominator P(A) is expanded as the sum of A's intersections with all the Bᵢ events (using the multiplication rule for each intersection).</li></ul>
+<p><b>4. Worked Example — M&amp;R Electronics</b></p>
+<p>Given:</p>
+<ul><li>40% success rate for new model TVs</li><li>In the past, 80% of successful TVs received a favourable report</li><li>Only 30% of unsuccessful TVs received a favourable report</li><li>The new model TV received a favourable report</li></ul>
+<p>Question: What is the probability that the new TV will be successful?</p>
+<p>Step 1 — Define events:</p>
+<ul><li>S = TV is successful, U = TV is unsuccessful (complement of S)</li><li>F = report is favourable</li></ul>
+<p>Step 2 — Extract probabilities (prior &amp; conditional):</p>
+<ul><li>P(S) = 0.4, P(U) = 1 − 0.4 = 0.6 (prior probabilities)</li><li>P(F|S) = 0.8, P(F|U) = 0.3 (conditional probabilities)</li><li>Goal: find P(S|F) — the revised probability</li></ul>
+<p>Step 3 — Apply Bayes' Theorem (general form):</p>
+<ul><li>P(S|F) = P(F|S) × P(S) / [P(F|S)P(S) + P(F|U)P(U)]</li><li>= (0.8)(0.4) / [(0.8)(0.4) + (0.3)(0.6)]</li><li>= 0.32 / (0.32 + 0.18)</li><li>= 0.32 / 0.50</li><li>= 0.64</li></ul>
+<p>Interpretation: Given the favourable market research report, the revised probability of success rises from 0.4 to 0.64.</p>
+<p><b>5. Why It Matters (Business Analytics)</b></p>
+<ul><li>Later in the unit, we model relationships between business variables and use those models to forecast — and the models/forecasts are built on conditional probabilities.</li><li>Bayes' Theorem is therefore a core concept in business analytics for updating beliefs with new evidence.</li></ul>
+<p><b>Key Takeaways</b></p>
+<ul><li>Bayes' Theorem reverses conditioning: P(B|A) = P(A|B)P(B) / P(A).</li><li>The denominator P(A) in the general form is the sum of intersections of A with k mutually exclusive, collectively exhaustive events, computed via the multiplication rule.</li><li>Example result: P(S|F) = 0.64 — the favourable report updates the success probability from 0.4.</li></ul>
+<h3>Bayes' Theorem</h3>
+<p>Bayes theorem (simple form): The probability of B given A, is equal to the probability of A given B (the reverse conditioning), multiplied by the marginal probability of B, and divided by the marginal probability of A.</p>
+<p>Bayes' theorem (general form): The only difference is that the marginal probability in the denominator in the simple form, P(A), has been written out as the sum of the intersections of A with a set of mutually exclusive and collectively exhaustive events, B₁…, Bₖ.</p>
+<h2>3.5 Counting rules</h2>
+<h3>What are the counting rules?</h3>
+<p>In many instances, there are a large number of possible outcomes, and determining the exact number can be difficult. Rules have been developed for counting the exact number of possible outcomes for these situations. This sub-topic discusses five such counting rules.</p>
+<h3>Note of Video</h3>
+<p>Counting rules for determining the number of possible discrete outcomes of an experiment, useful when a priori probability requires counting many possible events.</p>
+<p>Why counting rules matter: A priori probability = (number of ways the event can occur) / (total number of outcomes). When there are many possible events, counting by hand gets tricky and time-consuming — counting rules help.</p>
+<p><b>Counting Rule 1 — Multiple Events per Trial (Same Count Each Trial)</b></p>
+<ul><li>If any of k events can occur on each of n trials, the number of possible outcomes is kⁿ.</li><li>Example (dice): roll a die 3 times → 6³ = 216 possible outcomes (3 trials × 6 events each).</li><li>Example (customers): whether each of 10 customers purchases (purchase / not) → 2¹⁰ = 1,024 possible outcomes.</li></ul>
+<p><b>Counting Rule 2 — Different Number of Events per Trial</b></p>
+<ul><li>If trial 1 has k₁ events, trial 2 has k₂ events, …, trial n has kₙ events, the total outcomes are k₁ × k₂ × … × kₙ = Π(kᵢ) (product symbol).</li><li>Example: roll a die (6 events) then flip a coin (2 events) → 6 × 2 = 12 possible outcomes.</li><li>Example (shop): customer plans to purchase or not (2) AND spends &lt; 100 or ≥ 100 (2) → 2 × 2 = 4 possible outcomes.</li></ul>
+<p><b>Counting Rule 3 — Factorial (Arranging All Items in Order)</b></p>
+<ul><li>The number of ways n items can be arranged in a unique order is n! = n × (n−1) × … × 1.</li><li>Why it works: first position has n choices, second has n−1, etc.</li><li>Example (bookshelf): 5 books → 5! = 5 × 4 × 3 × 2 × 1 = 120 different arrangements.</li></ul>
+<p><b>Counting Rule 4 — Permutations (Arranging x of n Items, Order Matters)</b></p>
+<ul><li>The number of ways of arranging x objects selected from n objects, where order matters: ⁿPₓ = n! / (n − x)!</li><li>Example (bookshelf): 5 books, put 3 on the shelf → 5! / (5−3)! = 5!/2! = 5 × 4 × 3 = 60 (the 2 × 1 cancels).</li></ul>
+<p><b>Counting Rule 5 — Combinations (Selecting x of n Items, Order Irrelevant)</b></p>
+<ul><li>The number of ways of selecting x objects from n objects, irrespective of order: ⁿCₓ = n! / [x! (n − x)!]</li><li>Why divide by x!? Permutations (Rule 4) would count each ordering of the same set as different (A,B,C vs A,C,B vs C,B,A — 3! = 6 ways per set), so Rule 4's count is reduced by a factor of x!.</li><li>Example (reading): select 3 of 5 books to read → 5! / [3! (5−3)!] = 120 / [(6)(2)] = 10 different sets.</li></ul>
+<p><b>Summary Table</b></p>
+<table><tr><th>Rule</th><th>Name</th><th>Formula</th><th>Order matter?</th><th>Example</th></tr><tr><td>1</td><td>Multiple event per trial</td><td>kⁿ</td><td>-</td><td>6³ = 216</td></tr><tr><td>2</td><td>Varying events per trial</td><td>k₁ × k₂ × … × kₙ</td><td>-</td><td>6 × 2 = 12</td></tr><tr><td>3</td><td>Factorial</td><td>n!</td><td>Yes (all items)</td><td>5! = 120</td></tr><tr><td>4</td><td>Permutations</td><td>n! / (n − x)!</td><td>Yes</td><td>⁵P₃ = 60</td></tr><tr><td>5</td><td>Combinations</td><td>n! / [x! (n − x)!]</td><td>No</td><td>⁵C₃ = 10</td></tr></table>
+<p><b>Key Takeaways</b></p>
+<ul><li>Rules 1–2 count outcomes of repeated trials; Rules 3–5 count arrangements/selections of items.</li><li>The difference between Rule 4 and Rule 5 is whether order matters — combinations divide permutations by x! to remove duplicate orderings.</li><li>These five rules provide the toolkit for determining total outcomes needed for probability calculations.</li></ul>
+<h3>'n!'</h3>
+<p>n! is spoken as "n factorial" and is a product of 'n' numbers, each one less than the preceding value. You can write a factorial n! by starting with the number n, multiplying it by one less than the previous number, and repeat until you reach 1, at which time you stop: n × (n−1) × ... × 2 × 1.</p>
+<p>Note also that zero factorial is defined to be equal to 1, that is, 0! = 1.</p>
+<h3>Counting Rules</h3>
+<ul><li>Counting rule 1 determines the number of possible outcomes when k events can occur on each of n trials.</li><li>Counting rule 2 is a generalised version of counting rule 1. It allows the number of possible events to differ from trial to trial.</li><li>The third counting rule involves computing the number of ways that a set of items can be arranged in order.</li><li>Counting rule 4 allows you to find out the number of ways in which a subset of an entire group of items can be arranged in order. Each possible arrangement is called a permutation.</li></ul>
+<h2>3.6 Ethical Considerations</h2>
+<h3>Ethical issues and probability</h3>
+<p>Ethical issues can arise when statements related to probability are presented to the public. Probability statements are often incorporated into advertising campaigns to strengthen a particular product or position.</p>
+<p><b>Example 1: Lotteries</b></p>
+<p>In some instances, the misinterpretation is not intentional, but in other cases - it may be misleading or even unethical.</p>
+<p>"We won't stop (the lottery) until we have made everyone a millionaire!" — US state lottery commercial</p>
+<p>Although virtually all participants know they are very unlikely to win the lottery, they also have very little idea of how unlikely it is for them to select the winning numbers. They have even less of an idea of the probability of not selecting any winning numbers. Is it possible that the lottery can make everyone a millionaire? Is it ethical to suggest that the purpose of the lottery is to make everyone a millionaire?</p>
+<p><b>Example 2: Investments</b></p>
+<p>Another example of a potentially unethical application of probability relates to an investment service promising a 90% probability of a 20% return on investment. To make such a claim ethical — the investment service needs to do at least these three things:</p>
+<ul><li>Explain the basis on which this probability estimate rests.</li><li>Provide the probability statement in another format (such as 9 chances in 10).</li><li>Explain what happens in the 10% of cases in which the promised 20% of returns do not occur. For example, would this mean the entire investment is lost?</li></ul>
+`;
+
+const NOTE_BUSS1020_W3P = `
+<h2>Week 3 Prepare</h2>
+<h3>Part A — In-class Activities</h3>
+<h3>Question 1 — Joint, Marginal and Conditional Probability</h3>
+<p>Complete contingency table (total 400):</p>
+<table><tr><th></th><th>Single</th><th>Not Single</th><th>Total</th></tr><tr><td>Having pets</td><td>80</td><td>120</td><td>200</td></tr><tr><td>No pets</td><td>20</td><td>180</td><td>200</td></tr><tr><td>Total</td><td>100</td><td>300</td><td>400</td></tr></table>
+<ul><li>a) Example of a simple event: "A randomly selected person has a pet" (or "the person is single") — an event consisting of a single outcome/category.</li><li>b) Example of a joint event: "A person has a pet and is single" (Pets ∩ Single).</li><li>c) Complement of "Having a pet": "Not having a pet" (No pets).</li><li>d) No. "Single or having pets" is the union of two simple events (S ∪ P), not a joint event. A joint event requires the intersection of two events (e.g., single AND having pets).</li><li>e) P(has a pet and is single) = 80 / 400 = 0.20</li><li>f) P(single) = 100 / 400 = 0.25</li><li>g) P(single | has a pet) = 80 / 200 = 0.40</li><li>h) P(single ∪ has a pet) = P(S) + P(P) − P(S∩P) = 0.25 + 0.50 − 0.20 = 0.55</li><li>i) Not independent. Check: P(Single) = 0.25 but P(Single | Pets) = 0.40; they are not equal, so "Single" and "Having pets" are not independent. (Equivalent check: P(S∩P) = 0.20 ≠ 0.25 × 0.50 = 0.125.)</li></ul>
+<h3>Question 2 — Bayes' Theorem</h3>
+<p>Given: P(P) = 0.4, P(S|P) = 0.5, P(S|P') = 0.3, so P(P') = 0.6.</p>
+<p>Joint probability table:</p>
+<table><tr><th></th><th>S (single)</th><th>S' (not single)</th><th>Total</th></tr><tr><td>P (has pets)</td><td>0.4 × 0.5 = 0.20</td><td>0.4 × 0.5 = 0.20</td><td>0.40</td></tr><tr><td>P' (no pets)</td><td>0.6 × 0.3 = 0.18</td><td>0.6 × 0.7 = 0.42</td><td>0.60</td></tr><tr><td>Total</td><td>0.38</td><td>0.62</td><td>1.00</td></tr></table>
+<ul><li>a) P(a random person in this country is single) = P(S|P)P(P) + P(S|P')P(P') = 0.5×0.4 + 0.3×0.6 = 0.20 + 0.18 = 0.38</li><li>b) P(has pets | single) = P(P∩S) / P(S) = 0.20 / 0.38 = 0.5263 (≈ 52.63%)</li></ul>
+<h3>Question 3 — Airport Screening System</h3>
+<p>a) 2×2 table (1,000 bags):</p>
+<table><tr><th></th><th>F (Flagged)</th><th>F' (Cleared)</th><th>Total</th></tr><tr><td>P (contains prohibited items)</td><td>102</td><td>18</td><td>120</td></tr><tr><td>P' (no prohibited items)</td><td>55</td><td>825</td><td>880</td></tr><tr><td>Total</td><td>157</td><td>843</td><td>1000</td></tr></table>
+<ul><li>b) P(a randomly selected bag is flagged) = 157 / 1000 = 0.157</li><li>c) P(flagged bag actually contains prohibited items) = 102 / 157 = 0.6497 (≈ 64.97%)</li><li>d) P(bag with no prohibited items is correctly cleared) = 825 / 880 = 0.9375 (93.75%)</li><li>e) Not independent. P(P) = 120/1000 = 0.12, while P(P|F) = 0.6497 — they are not equal; likewise P(F|P) = 102/120 = 0.85 ≠ P(F) = 0.157. If the events were independent, the conditional probability would equal the unconditional probability. Therefore "bag is flagged" and "bag contains prohibited items" are not independent.</li></ul>
+<h3>Question 4 — Counting Rules</h3>
+<ul><li>a) Selecting winner, first runner-up and second runner-up from 15 contestants:
+<ul><li>Multiplication rule: 15 × 14 × 13 = 2,730 ways</li><li>Permutation formula: P(15,3) = 15!/12! = 2,730; Excel command: =PERMUT(15,3) → 2,730</li></ul></li>
+<li>b) Class with 9 boys and 3 girls (12 students total), committee of 4:
+<ul><li>(i) Total committees: C(12,4) = 12!/(4!·8!) = 495; Excel: =COMBIN(12,4)</li><li>(ii) Exactly one girl: C(3,1) × C(9,3) = 3 × 84 = 252; Excel: =COMBIN(3,1)*COMBIN(9,3)</li><li>(iii) At least one girl: total − all-boys = 495 − C(9,4) = 495 − 126 = 369; Excel: =COMBIN(12,4)-COMBIN(9,4)</li></ul></li></ul>
+<h3>Part B — Bonus Questions</h3>
+<h3>Question 4 — S&amp;P 500 "First Week" Omen</h3>
+<p>Totals: first week higher 40 years, lower 22; annual higher 46, lower 16; total 62 years.</p>
+<ul><li>a) P(S&amp;P 500 finished higher for the year) = 46 / 62 = 0.7419</li><li>b) P(higher for the year | higher after first five days) = 35 / 40 = 0.875</li><li>c) No, they are not independent. If independent, P(higher year | higher first week) would equal P(higher year); since 0.875 ≠ 0.7419, a good first week is indeed a good omen for the year.</li></ul>
+<h3>Question 5 — Coke vs Pepsi (total 500)</h3>
+<ul><li>a) P(male prefers Pepsi) = 80 / 220 = 0.3636 = 36.36%</li><li>b) P(female prefers Pepsi) = 95 / 280 = 0.3393 = 33.93%</li><li>c) Not independent. If preference were independent of gender, P(Pepsi | Male) would equal P(Pepsi) = 175/500 = 0.35; since 36.36% ≠ 35%, preference and gender are related (males are slightly more likely to prefer Pepsi).</li></ul>
+<h3>Question 6 — Textbook Reviews (Bayes revision)</h3>
+<p>Priors: P(H)=0.10, P(M)=0.20, P(BE)=0.40, P(L)=0.30; conditionals: P(Fav|H)=0.99, P(Fav|M)=0.70, P(Fav|BE)=0.40, P(Fav|L)=0.20.</p>
+<p>Joint probabilities: P(Fav∩H)=0.099, P(Fav∩M)=0.14, P(Fav∩BE)=0.16, P(Fav∩L)=0.06</p>
+<ul><li>a) P(textbook receives a favourable review) = 0.099 + 0.14 + 0.16 + 0.06 = 0.459</li><li>b) Revised (reverse conditional) probabilities given a favourable review:
+<ul><li>P(Huge | Favourable) = 0.099 / 0.459 = 0.2157</li><li>P(Modest | Favourable) = 0.14 / 0.459 = 0.3050</li><li>P(Break-even | Favourable) = 0.16 / 0.459 = 0.3486</li><li>P(Loser | Favourable) = 0.06 / 0.459 = 0.1307</li></ul></li>
+<li>I.e., after a favourable review, the editor should revise the probabilities to: Huge success 21.57%, Modest success 30.50%, Break-even 34.86%, Loser 13.07%.</li></ul>
+`;
+
 const NOTE_PMGT1852_W1ML = `
 <h2>Week 1 Mini-lecture</h2>
 <h3>Definition of Stakeholder</h3>
@@ -3838,6 +4127,9 @@ const SECTIONS = [
       {num:"004",title:"Week 2 Lecture",html:NOTE_BUSS1020_W2L},
       {num:"005",title:"Week 2 Online Modules",html:NOTE_BUSS1020_W2M},
       {num:"006",title:"Week 2 Prepare",html:NOTE_BUSS1020_W2P},
+      {num:"007",title:"Week 3 Lecture",html:NOTE_BUSS1020_W3L},
+      {num:"008",title:"Week 3 Online Modules",html:NOTE_BUSS1020_W3M},
+      {num:"009",title:"Week 3 Prepare",html:NOTE_BUSS1020_W3P},
   ]},
   { id:"pmgt1711",           title:"PMGT1711",                   notes:[
       {num:"001",title:"Week 1 Online Modules",html:NOTE_PMGT1711_W1M},
