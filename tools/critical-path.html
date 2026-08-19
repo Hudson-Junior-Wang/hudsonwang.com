@@ -221,6 +221,8 @@ body.sidebar-hidden #viewport { left: 0; }
 .node-cpa {
   display: none; grid-template-columns: 42px 1fr 42px; gap: 1px;
   background: var(--node-border); padding: 6px;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 .node.mode-cpa .node-cpa { display: grid; }
 /* CPA users should never have to hunt for a connection handle. */
@@ -228,6 +230,12 @@ body.mode-cpa .node .port { opacity: 1; pointer-events: auto; }
 .cpa-cell {
   background: var(--node-bg); padding: 2px 4px;
   font-size: 10px; text-align: center; color: var(--text); line-height: 1.25;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.cpa-cell .cpa-val {
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 .cpa-cell .cpa-lbl { display: block; font-size: 8px; color: #A99B80; }
 .cpa-desc { grid-column: 2 / 4; text-align: left; }
@@ -319,7 +327,7 @@ body.mode-cpa .node.critical {
 .gantt-row .gantt-link {
   position: absolute; height: 2px; background: #968C79; transform: translateY(6px);
 }
-#cpa-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+#cpa-table { border-collapse: collapse; width: 100%; font-size: 12px; direction: ltr; unicode-bidi: isolate; }
 #cpa-table th, #cpa-table td {
   border: 1px solid var(--node-border); padding: 4px 8px; text-align: center;
 }
@@ -563,14 +571,14 @@ function buildNodeEl(n) {
     '<div class="node-header"><span class="node-title" contenteditable="true" spellcheck="false"></span></div>' +
     '<div class="node-body" contenteditable="true" spellcheck="false"></div>' +
     '<div class="node-cpa">' +
-      '<div class="cpa-cell"><span class="cpa-lbl">ES</span><span class="cpa-val cpa-es" contenteditable="true" spellcheck="false" data-cpa="es"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">ES</span><span class="cpa-val cpa-es" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="es"></span></div>' +
       '<div class="cpa-cell"><span class="cpa-lbl">ID</span><span class="cpa-val cpa-id" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="id"></span></div>' +
-      '<div class="cpa-cell"><span class="cpa-lbl">EF</span><span class="cpa-val cpa-ef" contenteditable="true" spellcheck="false" data-cpa="ef"></span></div>' +
-      '<div class="cpa-cell cpa-float"><span class="cpa-lbl">Float</span><span class="cpa-val cpa-calc cpa-fl" title="Auto-calculated (read-only)"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">EF</span><span class="cpa-val cpa-ef" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="ef"></span></div>' +
+      '<div class="cpa-cell cpa-float"><span class="cpa-lbl">Float</span><span class="cpa-val cpa-calc cpa-fl" dir="ltr" title="Auto-calculated (read-only)"></span></div>' +
       '<div class="cpa-cell cpa-desc"><span class="cpa-lbl">Activity</span><span class="cpa-val cpa-desc-text" contenteditable="true" spellcheck="false" title="Click to edit the activity name"></span></div>' +
-      '<div class="cpa-cell"><span class="cpa-lbl">LS</span><span class="cpa-val cpa-ls" contenteditable="true" spellcheck="false" data-cpa="ls"></span></div>' +
-      '<div class="cpa-cell"><span class="cpa-lbl">Dur</span><span class="cpa-val cpa-calc cpa-dur" title="Auto-calculated (read-only)"></span></div>' +
-      '<div class="cpa-cell"><span class="cpa-lbl">LF</span><span class="cpa-val cpa-lf" contenteditable="true" spellcheck="false" data-cpa="lf"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">LS</span><span class="cpa-val cpa-ls" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="ls"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">Dur</span><span class="cpa-val cpa-calc cpa-dur" dir="ltr" title="Auto-calculated (read-only)"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">LF</span><span class="cpa-val cpa-lf" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="lf"></span></div>' +
     '</div>';
   el.querySelector('.node-title').textContent = n.title;
   el.querySelector('.node-body').textContent  = n.note;
