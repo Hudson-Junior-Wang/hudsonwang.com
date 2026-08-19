@@ -1643,7 +1643,7 @@ nodesLayer.addEventListener('input', e => {
     persist();
     return;
   }
-  // Activity-name edits sync to the node title (hidden in CPA mode, visible again in other modes)
+  // Activity-name edits sync to the node title while the CPA card stays visible
   if (e.target.classList.contains('cpa-desc-text')) {
     n.title = e.target.textContent.replace(/\n+/g, ' ');
     const titleEl = nodeEl.querySelector('.node-title');
