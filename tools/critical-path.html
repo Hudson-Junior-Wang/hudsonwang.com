@@ -97,6 +97,7 @@ body.sidebar-hidden #viewport { left: 0; }
 /* ---------- Canvas ---------- */
 #viewport {
   position: absolute; inset: 48px 0 0 0; overflow: hidden;
+  touch-action: none;
   background-image:
     linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
@@ -1457,9 +1458,13 @@ function updateMarqueeEl() {
   marqueeEl.style.height = (y1 - y0) * state.zoom + 'px';
 }
 
-viewport.addEventListener('mousedown', e => {
+viewport.addEventListener('pointerdown', e => {
   const nodeEl = e.target.closest('.node');
   const portEl = e.target.closest('.port');
+  // Pointer capture keeps a line drag alive even when the pointer leaves the tiny port.
+  if (viewport.setPointerCapture && e.pointerId != null) {
+    try { viewport.setPointerCapture(e.pointerId); } catch (_) {}
+  }
 
   if (e.button === 1) {  // Middle-button pan
     drag = { type: 'pan', sx: e.clientX, sy: e.clientY, pan: { ...state.pan } };
@@ -1532,7 +1537,7 @@ viewport.addEventListener('mousedown', e => {
 viewport.addEventListener('contextmenu', e => e.preventDefault());
 window.addEventListener('blur', cancelLink);
 
-window.addEventListener('mousemove', e => {
+window.addEventListener('pointermove', e => {
   if (!drag) return;
   if (drag.type === 'pan') {
     state.pan.x = drag.pan.x + (e.clientX - drag.sx);
@@ -1571,7 +1576,7 @@ window.addEventListener('mousemove', e => {
   }
 });
 
-window.addEventListener('mouseup', e => {
+window.addEventListener('pointerup', e => {
   if (!drag) return;
   if (drag.type === 'link') {
     const fromNode = drag.fromNode, fromPort = drag.fromPort;
@@ -1601,8 +1606,24 @@ window.addEventListener('mouseup', e => {
   }
   if (drag.type === 'group' && drag.moved) { History.push(drag.preState); persist(); }
   else if (drag.type === 'pan') persist();
+  if (e.pointerId != null && viewport.releasePointerCapture) {
+    try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
+  }
   drag = null;
   viewport.classList.remove('panning');
+});
+
+window.addEventListener('pointercancel', e => {
+  if (!drag) return;
+  if (drag.type === 'link') cancelLink();
+  else {
+    if (drag.type === 'marquee') marqueeEl.style.display = 'none';
+    drag = null;
+    viewport.classList.remove('panning');
+  }
+  if (e.pointerId != null && viewport.releasePointerCapture) {
+    try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
+  }
 });
 
 // ================= Zoom =================
