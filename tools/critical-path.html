@@ -262,6 +262,10 @@ body.mode-cpa .node.critical {
   border-color: #B5483E;
   box-shadow: 0 0 0 2px rgba(181,72,62,.35), 0 4px 12px rgba(51,48,42,.12);
 }
+.node.link-source {
+  border-color: #5B8AA5;
+  box-shadow: 0 0 0 3px rgba(91,138,165,.35), 0 4px 12px rgba(51,48,42,.12);
+}
 /* ---------- CPA modal ---------- */
 #cpa-modal {
   position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
@@ -353,6 +357,7 @@ body.mode-cpa .node.critical {
   <div class="help-sec">Nodes &amp; Connections</div>
   <div class="help-row"><span class="help-key">Click a node</span><span class="help-val">Select &amp; edit; highlight its network</span></div>
   <div class="help-row"><span class="help-key">Drag a visible port dot</span><span class="help-val">Connect activities; release on a port or node</span></div>
+  <div class="help-row"><span class="help-key">Click port → click port</span><span class="help-val">Alternative connection method</span></div>
   <div class="help-row"><span class="help-key">Right-drag a node</span><span class="help-val">Quick move</span></div>
   <div class="help-row"><span class="help-key">↓ on the last title line</span><span class="help-val">Jump into the note body</span></div>
 
@@ -1411,10 +1416,35 @@ function autoArrange() {
 
 // ================= Interaction: drag / link / pan =================
 let drag = null;  // {type:'pan'|'group'|'link'|'marquee', ...}
+let clickConnectSource = null;
+let suppressPortClick = false;
 
-function beginLink(nodeId, port) {
+function clearConnectSource() {
+  clickConnectSource = null;
+  nodesLayer.querySelectorAll('.link-source').forEach(el => el.classList.remove('link-source'));
+}
+
+function armConnectSource(nodeId, port) {
+  clearConnectSource();
+  clickConnectSource = { nodeId, port };
+  const el = nodesLayer.querySelector(`.node[data-id="${nodeId}"]`);
+  if (el) el.classList.add('link-source');
+}
+
+function beginLink(nodeId, port, clientX, clientY) {
   if (!state.nodes.has(nodeId) || !PORTS.includes(port)) return false;
-  drag = { type: 'link', fromNode: nodeId, fromPort: port, drop: null };
+  // A second port click completes a connection even if drag events are unavailable.
+  if (clickConnectSource) {
+    const source = clickConnectSource;
+    clearConnectSource();
+    drag = null;
+    if (source.nodeId !== nodeId) addEdge(source.nodeId, source.port, nodeId, port);
+    suppressPortClick = true;
+    setTimeout(() => { suppressPortClick = false; }, 120);
+    return false;
+  }
+  drag = { type: 'link', fromNode: nodeId, fromPort: port, drop: null,
+           sx: clientX, sy: clientY, moved: false };
   viewport.classList.add('linking');
   tempPath.style.display = 'block';
   return true;
@@ -1502,7 +1532,7 @@ viewport.addEventListener('pointerdown', e => {
 
   // Left button: only for linking / selecting / editing text (never moves nodes)
   if (portEl && nodeEl) {  // Start a line from any port
-    beginLink(nodeEl.dataset.id, portEl.dataset.port);
+    beginLink(nodeEl.dataset.id, portEl.dataset.port, e.clientX, e.clientY);
     e.preventDefault();
     e.stopPropagation();
     return;
@@ -1523,7 +1553,7 @@ viewport.addEventListener('pointerdown', e => {
   // Empty space: try snapping first — a press near a port dot (tiny at low zoom) counts as dragging a line from that port
   const sp = snapPort(e.clientX, e.clientY, 18, null);
   if (sp) {
-    beginLink(sp.nodeId, sp.port);
+    beginLink(sp.nodeId, sp.port, e.clientX, e.clientY);
     e.preventDefault();
     return;
   }
@@ -1561,6 +1591,7 @@ window.addEventListener('pointermove', e => {
     drag.x = c.x; drag.y = c.y;
     updateMarqueeEl();
   } else if (drag.type === 'link') {
+    if (drag.sx != null && Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 4) drag.moved = true;
     const c = toCanvas(e.clientX, e.clientY);
     const source = state.nodes.get(drag.fromNode);
     if (!source) { cancelLink(); return; }
@@ -1580,12 +1611,18 @@ window.addEventListener('pointerup', e => {
   if (!drag) return;
   if (drag.type === 'link') {
     const fromNode = drag.fromNode, fromPort = drag.fromPort;
-    // Re-check on release so a final mousemove is not required to commit the edge.
+    const moved = !!drag.moved;
+    // Re-check on release so a final pointermove is not required to commit the edge.
     const target = linkTargetAt(e.clientX, e.clientY) || drag.drop;
     tempPath.style.display = 'none';
     viewport.classList.remove('linking');
-    if (target && target.toNode && target.toNode !== fromNode)
+    if (moved && target && target.toNode && target.toNode !== fromNode)
       addEdge(fromNode, fromPort, target.toNode, target.toPort);
+    // A short press is intentionally left for the click-to-connect fallback.
+    if (moved) {
+      suppressPortClick = true;
+      setTimeout(() => { suppressPortClick = false; }, 120);
+    }
   }
   if (drag.type === 'marquee') {
     marqueeEl.style.display = 'none';
@@ -1624,6 +1661,27 @@ window.addEventListener('pointercancel', e => {
   if (e.pointerId != null && viewport.releasePointerCapture) {
     try { viewport.releasePointerCapture(e.pointerId); } catch (_) {}
   }
+});
+
+// Fallback for browsers where a drag is awkward: click one port, then click another.
+nodesLayer.addEventListener('click', e => {
+  const target = e.target && e.target.closest ? e.target.closest('.port') : null;
+  const nodeEl = e.target && e.target.closest ? e.target.closest('.node') : null;
+  if (!target || !nodeEl || suppressPortClick) {
+    if (suppressPortClick) suppressPortClick = false;
+    return;
+  }
+  const nodeId = nodeEl.dataset.id, port = target.dataset.port;
+  if (!state.nodes.has(nodeId) || !PORTS.includes(port)) return;
+  if (clickConnectSource) {
+    const source = clickConnectSource;
+    clearConnectSource();
+    if (source.nodeId !== nodeId) addEdge(source.nodeId, source.port, nodeId, port);
+  } else {
+    armConnectSource(nodeId, port);
+  }
+  e.preventDefault();
+  e.stopPropagation();
 });
 
 // ================= Zoom =================
@@ -1785,7 +1843,7 @@ window.addEventListener('keydown', e => {
     return;
   }
   if (e.key === 'Delete' || e.key === 'Backspace') deleteSelected();
-  else if (e.key === 'Escape') clearSelection();
+  else if (e.key === 'Escape') { clearConnectSource(); clearSelection(); }
 });
 
 // ================= Toolbar =================
