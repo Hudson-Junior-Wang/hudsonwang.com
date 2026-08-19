@@ -5,5 +5,6 @@
 - Open: `https://hudsonwang.com/tools/critical-path.html`
 - Design activities and dependencies in memory.
 - View the CPM timeline and schedule.
-- Export PDF, PNG and Excel-compatible `.xls` files.
+- Export the network as PDF or PNG.
+- Export the visual Timeline / Schedule as an Excel-compatible `.xls` file or a separate PNG image.
 - No local storage, account, server persistence or autosave is used. Reloading or closing the page discards the current graph.

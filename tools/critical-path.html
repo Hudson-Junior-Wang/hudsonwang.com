@@ -377,6 +377,7 @@ body.mode-cpa .node.critical {
   <div class="help-sec">Export</div>
   <div class="help-row"><span class="help-key">Export PDF / PNG</span><span class="help-val">Download the network drawing</span></div>
   <div class="help-row"><span class="help-key">Timeline → Export Excel</span><span class="help-val">Download the CPM schedule</span></div>
+  <div class="help-row"><span class="help-key">Timeline → Export Image</span><span class="help-val">Download a visual schedule / Excel-style PNG</span></div>
   <div class="help-row"><span class="help-key">Reload or close the page</span><span class="help-val">The current design is discarded; nothing is saved</span></div>
 </div>
 
@@ -390,6 +391,7 @@ body.mode-cpa .node.critical {
     <span>Critical Path Analysis</span>
     <div class="cpa-actions">
       <button id="btn-cpa-export" title="Export the schedule as an Excel-compatible file">Export Excel</button>
+      <button id="btn-cpa-image" title="Export the visual timeline and schedule as a PNG image">Export Image</button>
       <button id="btn-cpa-close" title="Close">✕</button>
     </div>
   </div>
@@ -2425,9 +2427,164 @@ function exportCpaXls() {
     bytesToBase64(new TextEncoder().encode(html)));
 }
 
+// Render the visual Timeline + Schedule as an Excel-style PNG.
+function cpaImageText(value) {
+  if (typeof value === 'number' && Number.isFinite(value)) return fmtNum(value);
+  return String(value ?? '');
+}
+
+function drawCpaImageCell(ctx, x, y, w, h, value, opts = {}) {
+  ctx.fillStyle = opts.fill || '#FBF5E8';
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = '#D9CCB2';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(x + 1, y + 1, w - 2, h - 2);
+  ctx.clip();
+  ctx.textAlign = opts.align || 'center';
+  ctx.textBaseline = 'middle';
+  ctx.font = opts.bold ? '600 13px "Helvetica Neue", sans-serif' : '13px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = opts.color || '#33302A';
+  const tx = opts.align === 'left' ? x + 8 : x + w / 2;
+  const lines = wrapLines(ctx, cpaImageText(value), Math.max(10, w - 16)).slice(0, opts.maxLines || 2);
+  const lineH = 16;
+  const start = y + h / 2 - (lines.length - 1) * lineH / 2;
+  lines.forEach((line, i) => ctx.fillText(line, tx, start + i * lineH));
+  ctx.restore();
+}
+
+function renderCpaImage() {
+  const { rows, projEnd } = cpaRows();
+  if (!rows.length) {
+    alert('Add at least one activity before exporting the visual schedule');
+    return null;
+  }
+
+  const crit = rows.filter(row => row.critical).length;
+  const maxDays = Math.max(1, projEnd);
+  const tableCols = [78, 126, 78, 82, 430, 78, 78, 78, 118];
+  const tableW = tableCols.reduce((sum, w) => sum + w, 0);
+  const timelineLeft = 270;
+  const px = Math.max(18, Math.min(52, Math.floor((tableW - timelineLeft - 40) / maxDays)));
+  const chartRight = timelineLeft + maxDays * px + 34;
+  const contentW = Math.max(tableW, chartRight);
+  const margin = 34;
+  const width = contentW + margin * 2;
+  const titleH = 112;
+  const timelineHeadH = 34;
+  const timelineRowH = 40;
+  const timelineH = timelineHeadH + rows.length * timelineRowH;
+  const tableTitleH = 50;
+  const tableHeadH = 38;
+  const tableRowH = 44;
+  const height = titleH + timelineH + tableTitleH + tableHeadH + rows.length * tableRowH + 42;
+  const scale = Math.min(3, 8000 / width, 8000 / height);
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(width * scale);
+  cv.height = Math.round(height * scale);
+  const ctx = cv.getContext('2d');
+  ctx.scale(scale, scale);
+
+  ctx.fillStyle = '#F3ECDD';
+  ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = '#FBF5E8';
+  ctx.fillRect(margin, margin, width - margin * 2, height - margin * 2);
+
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#33302A';
+  ctx.font = '600 26px "Helvetica Neue", sans-serif';
+  ctx.fillText('Critical Path Analysis — Visual Schedule', margin + 22, margin + 18);
+  ctx.font = '14px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = '#6E6659';
+  ctx.fillText(`Project duration: ${fmtNum(projEnd)} days   |   Critical activities: ${crit}   |   Session-only export`, margin + 22, margin + 58);
+
+  const timelineX = margin;
+  const timelineY = titleH;
+  ctx.fillStyle = '#EAE0CC';
+  ctx.fillRect(timelineX, timelineY, contentW, timelineHeadH);
+  ctx.fillStyle = '#5E574C';
+  ctx.font = '600 13px "Helvetica Neue", sans-serif';
+  ctx.fillText('Timeline / Gantt', timelineX + 12, timelineY + 10);
+  ctx.textAlign = 'center';
+  for (let d = 0; d <= maxDays + 1e-6; d += (px >= 34 ? 1 : px >= 20 ? 2 : 5)) {
+    const x = timelineX + timelineLeft + d * px;
+    ctx.strokeStyle = '#E6DAC1';
+    ctx.beginPath(); ctx.moveTo(x, timelineY); ctx.lineTo(x, timelineY + timelineH); ctx.stroke();
+    ctx.fillStyle = '#6E6659';
+    ctx.fillText(fmtNum(d), x, timelineY + 10);
+  }
+
+  rows.forEach((row, i) => {
+    const y = timelineY + timelineHeadH + i * timelineRowH;
+    ctx.fillStyle = row.critical ? '#F8E3DF' : (i % 2 ? '#FFFDF6' : '#FBF5E8');
+    ctx.fillRect(timelineX, y, contentW, timelineRowH);
+    ctx.strokeStyle = '#E6DAC1';
+    ctx.beginPath(); ctx.moveTo(timelineX, y + timelineRowH); ctx.lineTo(timelineX + contentW, y + timelineRowH); ctx.stroke();
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.font = row.critical ? '600 13px "Helvetica Neue", sans-serif' : '13px "Helvetica Neue", sans-serif';
+    ctx.fillStyle = '#33302A';
+    const label = `${row.id} — ${row.title}`;
+    const labelLines = wrapLines(ctx, label, timelineLeft - 24).slice(0, 2);
+    labelLines.forEach((line, li) => ctx.fillText(line, timelineX + 12, y + timelineRowH / 2 + (li - (labelLines.length - 1) / 2) * 15));
+
+    const barX = timelineX + timelineLeft + row.es * px;
+    const barY = y + 12;
+    const floatW = Math.max(0, (row.ls - row.es) * px);
+    if (floatW > 2) { ctx.fillStyle = '#F0D66B'; ctx.fillRect(barX, barY, floatW, 16); }
+    ctx.fillStyle = row.critical ? '#B5483E' : '#355C7D';
+    ctx.fillRect(barX, barY + 2, Math.max(4, row.dur * px), 12);
+  });
+
+  const tableX = margin;
+  const tableY = timelineY + timelineH + tableTitleH;
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.font = '600 18px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = '#33302A';
+  ctx.fillText('Schedule / Excel View', tableX + 2, tableY - 34);
+
+  const headers = ['ES', 'Activity ID', 'EF', 'Float', 'Activity Description', 'LS', 'Dur', 'LF', 'Critical Path'];
+  let x = tableX;
+  headers.forEach((header, i) => {
+    drawCpaImageCell(ctx, x, tableY, tableCols[i], tableHeadH, header, { fill: '#EAE0CC', bold: true });
+    x += tableCols[i];
+  });
+  rows.forEach((row, ri) => {
+    const y = tableY + tableHeadH + ri * tableRowH;
+    const fill = row.critical ? '#F8E3DF' : (ri % 2 ? '#FFFDF6' : '#FBF5E8');
+    const values = [row.es, row.id, row.ef, row.float, row.title, row.ls, row.dur, row.lf, row.critical ? 'YES' : ''];
+    x = tableX;
+    values.forEach((value, i) => {
+      drawCpaImageCell(ctx, x, y, tableCols[i], tableRowH, value, {
+        fill, align: i === 4 ? 'left' : 'center', bold: row.critical && i === 8,
+        color: row.critical && i === 8 ? '#B5483E' : '#33302A', maxLines: i === 4 ? 2 : 1,
+      });
+      x += tableCols[i];
+    });
+  });
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'top';
+  ctx.font = '11px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = '#968C79';
+  ctx.fillText('HudsonOffice · Critical Path Analysis', width - margin, height - 22);
+  return { cv, width, height };
+}
+
+function exportCpaImage() {
+  const r = renderCpaImage();
+  if (!r) return;
+  saveExport((Docs.current ? Docs.current.name : 'graph') + '_CPA.png', 'image/png',
+    r.cv.toDataURL('image/png').split(',')[1]);
+}
+
 // CPA timeline and modal events
 document.getElementById('btn-cpa-view').addEventListener('click', openCpaModal);
 document.getElementById('btn-cpa-export').addEventListener('click', exportCpaXls);
+document.getElementById('btn-cpa-image').addEventListener('click', exportCpaImage);
 document.getElementById('btn-cpa-close').addEventListener('click', closeCpaModal);
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeCpaModal();
