@@ -220,6 +220,8 @@ body.sidebar-hidden #viewport { left: 0; }
   background: var(--node-border); padding: 6px;
 }
 .node.mode-cpa .node-cpa { display: grid; }
+/* CPA users should never have to hunt for a connection handle. */
+body.mode-cpa .node .port { opacity: 1; pointer-events: auto; }
 .cpa-cell {
   background: var(--node-bg); padding: 2px 4px;
   font-size: 10px; text-align: center; color: var(--text); line-height: 1.25;
@@ -349,7 +351,7 @@ body.mode-cpa .node.critical {
 
   <div class="help-sec">Nodes &amp; Connections</div>
   <div class="help-row"><span class="help-key">Click a node</span><span class="help-val">Select &amp; edit; highlight its network</span></div>
-  <div class="help-row"><span class="help-key">Hover + drag a port dot</span><span class="help-val">Connect lines; snaps to the nearest port</span></div>
+  <div class="help-row"><span class="help-key">Drag a visible port dot</span><span class="help-val">Connect activities; release on a port or node</span></div>
   <div class="help-row"><span class="help-key">Right-drag a node</span><span class="help-val">Quick move</span></div>
   <div class="help-row"><span class="help-key">↓ on the last title line</span><span class="help-val">Jump into the note body</span></div>
 
@@ -631,6 +633,8 @@ function addNode(data) {
 }
 
 function addEdge(from, fromPort, to, toPort) {
+  if (from === to || !state.nodes.has(from) || !state.nodes.has(to) ||
+      !PORTS.includes(fromPort) || !PORTS.includes(toPort)) return;
   for (const e of state.edges.values())
     if ((e.from === from && e.to === to && e.fromPort === fromPort && e.toPort === toPort) ||
         (e.from === to && e.to === from && e.fromPort === toPort && e.toPort === fromPort))
@@ -1407,6 +1411,36 @@ function autoArrange() {
 // ================= Interaction: drag / link / pan =================
 let drag = null;  // {type:'pan'|'group'|'link'|'marquee', ...}
 
+function beginLink(nodeId, port) {
+  if (!state.nodes.has(nodeId) || !PORTS.includes(port)) return false;
+  drag = { type: 'link', fromNode: nodeId, fromPort: port, drop: null };
+  viewport.classList.add('linking');
+  tempPath.style.display = 'block';
+  return true;
+}
+
+function linkTargetAt(clientX, clientY) {
+  if (!drag || drag.type !== 'link') return null;
+  // Prefer a real port hit, then fall back to the nearest port on a node.
+  const snapped = snapPort(clientX, clientY, 34, drag.fromNode);
+  if (snapped) return { toNode: snapped.nodeId, toPort: snapped.port, pos: snapped.pos };
+  const target = document.elementFromPoint(clientX, clientY);
+  const nodeEl = target && target.closest ? target.closest('.node') : null;
+  if (!nodeEl || nodeEl.dataset.id === drag.fromNode) return null;
+  const portEl = target && target.closest ? target.closest('.port') : null;
+  return {
+    toNode: nodeEl.dataset.id,
+    toPort: (portEl && portEl.dataset.port) || nearestPort(nodeEl.dataset.id, clientX, clientY),
+  };
+}
+
+function cancelLink() {
+  if (!drag || drag.type !== 'link') return;
+  tempPath.style.display = 'none';
+  viewport.classList.remove('linking');
+  drag = null;
+}
+
 // Shift+Space drag: rubber-band select (screen coords for positioning, canvas coords for hit-testing)
 function startMarquee(e) {
   const c = toCanvas(e.clientX, e.clientY);
@@ -1463,9 +1497,9 @@ viewport.addEventListener('mousedown', e => {
 
   // Left button: only for linking / selecting / editing text (never moves nodes)
   if (portEl && nodeEl) {  // Start a line from any port
-    drag = { type: 'link', fromNode: nodeEl.dataset.id, fromPort: portEl.dataset.port };
-    viewport.classList.add('linking');   // Show all ports while linking
+    beginLink(nodeEl.dataset.id, portEl.dataset.port);
     e.preventDefault();
+    e.stopPropagation();
     return;
   }
   if (nodeEl) {
@@ -1482,10 +1516,9 @@ viewport.addEventListener('mousedown', e => {
   // Empty space: Shift+drag = rubber-band select (click-to-select uses Shift+click on a node, see above)
   if (e.shiftKey) { startMarquee(e); e.preventDefault(); return; }
   // Empty space: try snapping first — a press near a port dot (tiny at low zoom) counts as dragging a line from that port
-  const sp = snapPort(e.clientX, e.clientY, 14, null);
+  const sp = snapPort(e.clientX, e.clientY, 18, null);
   if (sp) {
-    drag = { type: 'link', fromNode: sp.nodeId, fromPort: sp.port };
-    viewport.classList.add('linking');
+    beginLink(sp.nodeId, sp.port);
     e.preventDefault();
     return;
   }
@@ -1497,6 +1530,7 @@ viewport.addEventListener('mousedown', e => {
 
 // Suppress the context menu (right button drags nodes)
 viewport.addEventListener('contextmenu', e => e.preventDefault());
+window.addEventListener('blur', cancelLink);
 
 window.addEventListener('mousemove', e => {
   if (!drag) return;
@@ -1523,11 +1557,16 @@ window.addEventListener('mousemove', e => {
     updateMarqueeEl();
   } else if (drag.type === 'link') {
     const c = toCanvas(e.clientX, e.clientY);
-    const p = portPos(state.nodes.get(drag.fromNode), drag.fromPort);
-    // When the drop is near a port, the preview snaps right to it — WYSIWYG
-    const sp = snapPort(e.clientX, e.clientY, 26, drag.fromNode);
-    if (sp) tempPath.setAttribute('d', edgePathD(p, drag.fromPort, sp.pos, sp.port));
-    else tempPath.setAttribute('d', edgePathD(p, drag.fromPort, c, PORT_OPP[drag.fromPort]));
+    const source = state.nodes.get(drag.fromNode);
+    if (!source) { cancelLink(); return; }
+    const p = portPos(source, drag.fromPort);
+    const target = linkTargetAt(e.clientX, e.clientY);
+    drag.drop = target;
+    if (target && target.pos) {
+      tempPath.setAttribute('d', edgePathD(p, drag.fromPort, target.pos, target.toPort));
+    } else {
+      tempPath.setAttribute('d', edgePathD(p, drag.fromPort, c, PORT_OPP[drag.fromPort]));
+    }
     tempPath.style.display = 'block';
   }
 });
@@ -1535,23 +1574,13 @@ window.addEventListener('mousemove', e => {
 window.addEventListener('mouseup', e => {
   if (!drag) return;
   if (drag.type === 'link') {
+    const fromNode = drag.fromNode, fromPort = drag.fromPort;
+    // Re-check on release so a final mousemove is not required to commit the edge.
+    const target = linkTargetAt(e.clientX, e.clientY) || drag.drop;
     tempPath.style.display = 'none';
     viewport.classList.remove('linking');
-    let toNode = null, toPort = null;
-    const t = document.elementFromPoint(e.clientX, e.clientY);
-    const nodeEl = t && t.closest ? t.closest('.node') : null;
-    if (nodeEl && nodeEl.dataset.id !== drag.fromNode) {
-      // On a port, use it; elsewhere on the node, take the nearest port
-      const portEl = t.closest('.port');
-      toNode = nodeEl.dataset.id;
-      toPort = (portEl && portEl.dataset.port) ||
-               nearestPort(toNode, e.clientX, e.clientY);
-    } else {
-      // Not on a node: snap to a nearby port (hard to hit precisely at low zoom)
-      const sp = snapPort(e.clientX, e.clientY, 26, drag.fromNode);
-      if (sp) { toNode = sp.nodeId; toPort = sp.port; }
-    }
-    if (toNode) addEdge(drag.fromNode, drag.fromPort, toNode, toPort);
+    if (target && target.toNode && target.toNode !== fromNode)
+      addEdge(fromNode, fromPort, target.toNode, target.toPort);
   }
   if (drag.type === 'marquee') {
     marqueeEl.style.display = 'none';
