@@ -197,41 +197,24 @@ body.sidebar-hidden #viewport { left: 0; }
   box-shadow: 0 1px 0 rgba(51,48,42,.08);
 }
 
-/* ---------- Mode picker (bottom-right corner) ---------- */
+/* ---------- CPA control (bottom-right corner) ---------- */
 #mode-fab {
   position: fixed; right: 18px; bottom: 18px; z-index: 30;
-  display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  display: flex; align-items: center; gap: 8px;
 }
-#btn-mode, #btn-cpa-view {
-  background: var(--node-header); color: var(--text);
+.cpa-only-label {
+  color: var(--muted); font-size: 12px; letter-spacing: .02em;
+}
+#btn-cpa-view {
+  display: block; background: var(--node-header); color: var(--text);
   border: 1px solid var(--node-border); border-radius: 6px;
   padding: 7px 14px; font-size: 13px; cursor: pointer;
   box-shadow: 0 3px 10px rgba(51,48,42,.18);
 }
-#btn-mode:hover, #btn-cpa-view:hover { background: #F3EBD7; }
-#btn-cpa-view { display: none; }
-#mode-menu {
-  display: none; flex-direction: column;
-  background: #FBF5E8; border: 1px solid var(--node-border); border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(51,48,42,.2); overflow: hidden;
-}
-#mode-fab.open #mode-menu { display: flex; }
-.mode-opt {
-  border: 0; background: transparent; padding: 8px 18px; font-size: 13px;
-  cursor: pointer; text-align: left; color: var(--text);
-}
-.mode-opt:hover { background: #F3EBD7; }
-.mode-opt.active { font-weight: 700; }
-.mode-opt.active::before { content: "\2713 "; color: var(--accent); }
+#btn-cpa-view:hover { background: #F3EBD7; }
 
-/* ---------- Node display modes ----------
-   Each node has its own mode (chosen from the Mode menu at creation time):
-   Existing text boxes keep their style when the menu changes; only newly created ones follow the current selection */
-.node.mode-mindmap .node-body { display: none; }
+/* ---------- Critical Path Analysis nodes ---------- */
 .node.mode-cpa .node-title, .node.mode-cpa .node-body { display: none; }
-.node.mode-mindmap .node-header { text-align: center; padding: 14px 10px; }
-.node.mode-mindmap { border-radius: 24px; }
-.node.mode-mindmap .node-header { border-radius: 24px; }
 .node-cpa {
   display: none; grid-template-columns: 42px 1fr 42px; gap: 1px;
   background: var(--node-border); padding: 6px;
@@ -276,14 +259,6 @@ body.mode-cpa .node.critical {
   border-color: #B5483E;
   box-shadow: 0 0 0 2px rgba(181,72,62,.35), 0 4px 12px rgba(51,48,42,.12);
 }
-.mode-divider { height: 1px; background: var(--node-border); margin: 4px 0; }
-.mode-note { padding: 6px 14px 8px; font-size: 11px; color: #A99B80; max-width: 220px; line-height: 1.4; }
-/* The hosted edition is focused on CPA; the general Blueprint/Mindmap modes stay out of the way. */
-#mode-menu .mode-opt[data-mode="blueprint"],
-#mode-menu .mode-opt[data-mode="mindmap"],
-#mode-menu .mode-divider,
-#mode-menu .mode-note { display: none; }
-
 /* ---------- CPA modal ---------- */
 #cpa-modal {
   position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
@@ -396,15 +371,7 @@ body.mode-cpa .node.critical {
 </div>
 
 <div id="mode-fab">
-  <button id="btn-mode" title="CPA workspace">CPA Workspace ▾</button>
-  <div id="mode-menu">
-    <button class="mode-opt" data-mode="blueprint">Blueprint (hidden in CPA edition)</button>
-    <button class="mode-opt" data-mode="mindmap">Mindmap (hidden in CPA edition)</button>
-    <button class="mode-opt" data-mode="cpa">Critical Path Analysis</button>
-    <div class="mode-divider"></div>
-    <button id="btn-cpa-open" class="mode-opt">View Timeline / Export Excel</button>
-    <div class="mode-note">This hosted edition is session-only: export your work before leaving.</div>
-  </div>
+  <span class="cpa-only-label">Critical Path Analysis</span>
   <button id="btn-cpa-view" title="View timeline + export Excel">Timeline / Excel</button>
 </div>
 
@@ -457,7 +424,7 @@ const state = {
   pan: { x: 80, y: 60 },
   zoom: 1,
   depth: 1,              // Highlight depth: 1 = directly connected, Infinity = the whole network
-  mode: 'cpa',           // The hosted edition is dedicated to Critical Path Analysis
+  mode: 'cpa',           // The only node mode in the hosted CPA edition
 };
 
 const nid = () => 'n' + (uid++);
@@ -563,7 +530,8 @@ function snapPort(clientX, clientY, radiusPx, excludeNode) {
 
 function buildNodeEl(n) {
   const el = document.createElement('div');
-  el.className = 'node mode-' + (n.mode || 'blueprint');
+  // The hosted tool has one visual language: Critical Path Analysis.
+  el.className = 'node mode-cpa';
   el.dataset.id = n.id;
   el.style.left = n.x + 'px';
   el.style.top  = n.y + 'px';
@@ -652,8 +620,8 @@ function addNode(data) {
     x: data.x, y: data.y,
     title: data.title ?? 'New Node',
     note:  data.note  ?? '',
-    mode:  ['blueprint', 'mindmap', 'cpa'].includes(state.mode) ? state.mode : 'blueprint',
-    cpa:   state.mode === 'cpa' ? cpaDefaults() : undefined,
+    mode:  'cpa',
+    cpa:   cpaDefaults(),
   };
   state.nodes.set(n.id, n);
   nodesLayer.appendChild(buildNodeEl(n));
@@ -1785,7 +1753,7 @@ document.getElementById('sel-depth').addEventListener('change', e => {
 });
 
 // ================= Export PDF / image =================
-// The whole graph is redrawn on an offscreen canvas at 3× resolution, so exported text stays crisp no matter how big the blueprint
+// The whole CPA network is redrawn on an offscreen canvas at 3× resolution, so exported text stays crisp
 function exportBounds() {
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
   for (const n of state.nodes.values()) {
@@ -1823,15 +1791,38 @@ function wrapLines(ctx, text, maxW) {
   return out;
 }
 
-function drawExportNode(ctx, el) {
+function exportCell(ctx, x, y, w, h, label, value, opts = {}) {
+  ctx.fillStyle = opts.fill || '#FBF5E8';
+  ctx.fillRect(x, y, w, h);
+  ctx.strokeStyle = '#D9CCB2';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(x + 0.5, y + 0.5, w - 1, h - 1);
+
+  const align = opts.align || 'center';
+  const tx = align === 'left' ? x + 4 : x + w / 2;
+  ctx.textAlign = align;
+  ctx.textBaseline = 'top';
+  ctx.font = '8px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = '#A99B80';
+  ctx.fillText(label, tx, y + 3);
+
+  ctx.font = opts.bold ? '600 10px "Helvetica Neue", sans-serif' : '10px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = '#33302A';
+  const text = value == null || Number.isNaN(value) ? '' : String(value);
+  const lines = wrapLines(ctx, text, Math.max(8, w - 8)).slice(0, opts.maxLines || 1);
+  lines.forEach((line, i) => ctx.fillText(line, tx, y + 12 + i * 11));
+}
+
+// Render the CPA card itself, including all schedule fields.
+function drawExportNode(ctx, el, cpm) {
   const x = parseFloat(el.style.left), y = parseFloat(el.style.top);
   const w = NODE_W, h = el.offsetHeight;
-  const headerEl = el.querySelector('.node-header');
-  const bodyEl = el.querySelector('.node-body');
-  const hh = headerEl.offsetHeight;
-  const padX = 16, textW = w - padX * 2;   // Matches the CSS padding (16px left/right)
+  const n = state.nodes.get(el.dataset.id);
+  const d = n && cpm ? cpm.map.get(n.id) : null;
+  const c = n ? effectiveCpa(n, d) : { es: 0, ef: 0, ls: 0, lf: 0, dur: 0, float: 0, id: '', comp: 1 };
+  const fmt = value => typeof value === 'number' && Number.isFinite(value) ? fmtNum(value) : (value ?? '');
+  const critical = !!(d && d.comp > 1 && Math.abs(c.float) < 1e-9);
 
-  // Node fill + shadow
   ctx.save();
   ctx.shadowColor = 'rgba(51,48,42,.12)';
   ctx.shadowBlur = 12;
@@ -1844,29 +1835,26 @@ function drawExportNode(ctx, el) {
   ctx.save();
   rrPath(ctx, x, y, w, h, 8);
   ctx.clip();
-  ctx.fillStyle = '#EAE0CC';
-  ctx.fillRect(x, y, w, hh);
+  const gx = x + 6, gy = y + 6, gw = w - 12, gh = Math.max(1, h - 12);
+  const gap = 1, col1 = 42, col3 = 42;
+  const col2 = Math.max(10, gw - col1 - col3 - gap * 2);
+  const rowH = Math.max(18, (gh - gap * 2) / 3);
+  const rowY = i => gy + i * (rowH + gap);
+  const x2 = gx + col1 + gap, x3 = x2 + col2 + gap;
 
-  // Line height is derived from the DOM's actual height so text sits exactly where it does on screen
-  ctx.textBaseline = 'top';
-  ctx.font = '600 14px "Helvetica Neue", sans-serif';
-  ctx.fillStyle = '#33302A';
-  const titleLines = wrapLines(ctx, el.querySelector('.node-title').innerText, textW);
-  const tLH = (hh - 20) / titleLines.length;   // Header top/bottom padding: 10px each
-  titleLines.forEach((ln, i) => ctx.fillText(ln, x + padX, y + 10 + i * tLH));
-
-  const note = bodyEl.innerText.replace(/\n+$/, '');
-  if (note) {
-    ctx.font = '12px "Helvetica Neue", sans-serif';
-    ctx.fillStyle = '#5E574C';
-    const bodyLines = wrapLines(ctx, note, textW);
-    bodyLines.forEach((ln, i) => ctx.fillText(ln, x + padX, y + hh + 8 + i * 18));   // CSS line height 1.5 × 12px
-  }
+  exportCell(ctx, gx, rowY(0), col1, rowH, 'ES', fmt(c.es));
+  exportCell(ctx, x2, rowY(0), col2, rowH, 'ID', c.id || n.id);
+  exportCell(ctx, x3, rowY(0), col3, rowH, 'EF', fmt(c.ef));
+  exportCell(ctx, gx, rowY(1), col1, rowH, 'Float', fmt(c.float), { fill: '#F6EFDA' });
+  exportCell(ctx, x2, rowY(1), col2 + gap + col3, rowH, 'Activity', n.title, { align: 'left', maxLines: 2, bold: true });
+  exportCell(ctx, gx, rowY(2), col1, rowH, 'LS', fmt(c.ls));
+  exportCell(ctx, x2, rowY(2), col2, rowH, 'Dur', fmt(c.dur));
+  exportCell(ctx, x3, rowY(2), col3, rowH, 'LF', fmt(c.lf));
   ctx.restore();
 
   rrPath(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 8);
-  ctx.strokeStyle = '#D9CCB2';
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = critical ? '#B5483E' : '#D9CCB2';
+  ctx.lineWidth = critical ? 2 : 1;
   ctx.stroke();
 }
 
@@ -1874,7 +1862,7 @@ function drawExportNode(ctx, el) {
 function renderExport() {
   const b = exportBounds();
   if (!b) { alert('The current document has no nodes to export'); return null; }
-  // 3× resolution with a canvas-size cap (WebKit may fail to allocate oversized single canvases); very large blueprints automatically downscale
+  // 3× resolution with a canvas-size cap; very large CPA networks automatically downscale
   let scale = Math.min(3, 8000 / b.w, 8000 / b.h);
   while (scale > 1 && b.w * scale * b.h * scale > 5e7) scale *= 0.8;
   scale = Math.max(1, scale);
@@ -1895,13 +1883,17 @@ function renderExport() {
   for (let gy = Math.ceil(b.y / 24) * 24; gy < b.y + b.h; gy += 24) { ctx.moveTo(b.x, gy); ctx.lineTo(b.x + b.w, gy); }
   ctx.stroke();
 
-  // Edges (reuse the currently rendered paths with a uniform default colour; highlight state is not exported)
-  ctx.strokeStyle = '#968C79';
-  ctx.lineWidth = 2.5;
-  for (const p of edgesSvg.querySelectorAll('g.edge .edge-path'))
+  // Draw dependency edges, highlighting an edge when both activities are critical.
+  const cpm = computeCPM();
+  for (const p of edgesSvg.querySelectorAll('g.edge .edge-path')) {
+    const edge = state.edges.get(p.dataset.id);
+    const critical = !!(edge && cpm.map.get(edge.from)?.critical && cpm.map.get(edge.to)?.critical);
+    ctx.strokeStyle = critical ? '#B5483E' : '#968C79';
+    ctx.lineWidth = critical ? 3.5 : 2.5;
     ctx.stroke(new Path2D(p.getAttribute('d')));
+  }
 
-  for (const el of nodesLayer.querySelectorAll('.node')) drawExportNode(ctx, el);
+  for (const el of nodesLayer.querySelectorAll('.node')) drawExportNode(ctx, el, cpm);
   return { cv, w: b.w, h: b.h };
 }
 
@@ -1928,7 +1920,7 @@ function exportImage() {
     'image/png', r.cv.toDataURL('image/png').split(',')[1]);
 }
 
-// Minimal PDF generator: a single page with an embedded JPEG (DCTDecode). The page matches the blueprint's 1× logical size,
+// Minimal PDF generator: a single page with an embedded JPEG (DCTDecode). The page matches the CPA network's 1× logical size,
 // and the image is 3× resolution so text stays sharp at any zoom
 function exportPdf() {
   const r = renderExport();
@@ -1976,7 +1968,7 @@ function graphData() {
     edges: [...state.edges.values()],
     pan: state.pan,
     zoom: state.zoom,
-    mode: state.mode,
+    mode: 'cpa',
     uid,
   };
 }
@@ -1988,10 +1980,13 @@ function loadData(d) {
   state.selectedNodes = new Set();
   state.selectedEdge = null;
   uid = d.uid || 1;
-  const savedMode = ['blueprint', 'mindmap', 'cpa'].includes(d.mode) ? d.mode : 'blueprint';
+  // Ignore any legacy mode value: every node in this hosted tool is CPA.
+  const savedMode = 'cpa';
   for (const nd of d.nodes || []) {
-    const n = { id: nd.id, x: nd.x, y: nd.y, title: nd.title ?? '', note: nd.note ?? '', mode: nd.mode || savedMode };
-    if (nd.cpa) n.cpa = { ...cpaDefaults(), ...nd.cpa };   // Restore the user-typed CPA values (otherwise the recomputation below would overwrite them)
+    const n = {
+      id: nd.id, x: nd.x, y: nd.y, title: nd.title ?? '', note: nd.note ?? '',
+      mode: 'cpa', cpa: { ...cpaDefaults(), ...(nd.cpa || {}) },
+    };
     state.nodes.set(n.id, n);
     nodesLayer.appendChild(buildNodeEl(n));
   }
@@ -2111,7 +2106,7 @@ const Docs = { current: { id: 'cpa-session', name: 'critical-path-analysis' } };
 function persist() {}
 persist.now = function () {};
 
-// ================= Display modes: Blueprint / Mindmap / Critical Path Analysis =================
+// ================= Critical Path Analysis calculations =================
 const fmtNum = v => {
   const r = Math.round(v * 100) / 100;
   return Math.abs(r % 1) < 1e-9 ? String(Math.round(r)) : String(r);
@@ -2211,14 +2206,11 @@ function computeCPM() {
   return { map, projEnd };
 }
 
-// Mode menu: the state only decides the style of text boxes created afterwards; existing ones are unchanged
+// The hosted edition has one node mode: CPA is always active.
 function applyMode() {
-  const names = { blueprint: 'Blueprint', mindmap: 'Mindmap', cpa: 'Critical Path Analysis' };
-  document.body.classList.toggle('mode-cpa', state.mode === 'cpa');
-  document.getElementById('btn-mode').textContent = 'Mode: ' + names[state.mode] + ' ▾';
-  document.querySelectorAll('.mode-opt').forEach(b =>
-    b.classList.toggle('active', b.dataset.mode === state.mode));
-  document.getElementById('btn-cpa-view').style.display = state.mode === 'cpa' ? '' : 'none';
+  state.mode = 'cpa';
+  document.body.classList.add('mode-cpa');
+  document.getElementById('btn-cpa-view').style.display = '';
   refreshCpa();
 }
 
@@ -2323,34 +2315,12 @@ function exportCpaXls() {
     bytesToBase64(new TextEncoder().encode(html)));
 }
 
-// Bottom-right "Mode" menu & modal events
-const modeFab = document.getElementById('mode-fab');
-const modeMenu = document.getElementById('mode-menu');
-document.getElementById('btn-mode').addEventListener('click', e => {
-  e.stopPropagation();
-  modeFab.classList.toggle('open');
-});
-modeMenu.querySelectorAll('.mode-opt').forEach(opt => {
-  opt.addEventListener('click', () => {
-    state.mode = opt.dataset.mode;
-    modeFab.classList.remove('open');
-    applyMode();
-    persist();
-    // Switching modes does not auto-open the CPA modal: it would cover the canvas and block text editing; open it via "Timeline" when needed
-  });
-});
+// CPA timeline and modal events
 document.getElementById('btn-cpa-view').addEventListener('click', openCpaModal);
-document.getElementById('btn-cpa-open').addEventListener('click', () => {
-  modeFab.classList.remove('open');
-  openCpaModal();
-});
 document.getElementById('btn-cpa-export').addEventListener('click', exportCpaXls);
 document.getElementById('btn-cpa-close').addEventListener('click', closeCpaModal);
-document.addEventListener('click', e => {
-  if (!modeFab.contains(e.target)) modeFab.classList.remove('open');
-});
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { closeCpaModal(); modeFab.classList.remove('open'); }
+  if (e.key === 'Escape') closeCpaModal();
 });
 
 // ================= Demo data =================
