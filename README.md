@@ -9,7 +9,7 @@ Everything lives in `index.html` (HTML + CSS + content, no build step). The note
 | File | Purpose |
 |------|---------|
 | `index.html` | The whole notes site and the tool entry point. |
-| `tools/critical-path.html` | Session-only Critical Path Analysis designer; exports PNG, PDF and Excel-compatible `.xls`. |
+| `tools/critical-path.html` | Session-only Critical Path Analysis designer; exports PDF and PNG, including a visual schedule PNG. |
 | `tools/README.md` | Tool behavior and public URL. |
 | `CNAME` | Tells GitHub Pages to serve the site at `hudsonwang.com`. |
 | `.nojekyll` | Disables Jekyll so files are served as-is. |
