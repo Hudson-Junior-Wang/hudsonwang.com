@@ -240,6 +240,16 @@ body.mode-cpa .node .port { opacity: 1; pointer-events: auto; }
   white-space: normal; overflow: visible; text-overflow: clip;
 }
 .cpa-float { background: #F6EFDA; }
+.cpa-id {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
+#cpa-table .cpa-id-col {
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: left;
+}
 .cpa-cell .cpa-val[contenteditable] {
   /* Fill the whole cell: an empty editable box rendered inline collapses to 0×0 and can't be clicked or typed into */
   display: block;
@@ -554,7 +564,7 @@ function buildNodeEl(n) {
     '<div class="node-body" contenteditable="true" spellcheck="false"></div>' +
     '<div class="node-cpa">' +
       '<div class="cpa-cell"><span class="cpa-lbl">ES</span><span class="cpa-val cpa-es" contenteditable="true" spellcheck="false" data-cpa="es"></span></div>' +
-      '<div class="cpa-cell"><span class="cpa-lbl">ID</span><span class="cpa-val cpa-id" contenteditable="true" spellcheck="false" data-cpa="id"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">ID</span><span class="cpa-val cpa-id" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="id"></span></div>' +
       '<div class="cpa-cell"><span class="cpa-lbl">EF</span><span class="cpa-val cpa-ef" contenteditable="true" spellcheck="false" data-cpa="ef"></span></div>' +
       '<div class="cpa-cell cpa-float"><span class="cpa-lbl">Float</span><span class="cpa-val cpa-calc cpa-fl" title="Auto-calculated (read-only)"></span></div>' +
       '<div class="cpa-cell cpa-desc"><span class="cpa-lbl">Activity</span><span class="cpa-val cpa-desc-text" contenteditable="true" spellcheck="false" title="Click to edit the activity name"></span></div>' +
@@ -2385,7 +2395,7 @@ function renderCpa() {
     '<th>Activity Description</th><th>LS</th><th>Dur</th><th>LF</th><th>Critical</th></tr>';
   for (const row of rows) {
     html += `<tr${row.critical ? ' class="critical-row"' : ''}>` +
-      `<td>${fmtNum(row.es)}</td><td>${row.id}</td><td>${fmtNum(row.ef)}</td>` +
+      `<td>${fmtNum(row.es)}</td><td class="cpa-id-col" dir="ltr">${escHtml(row.id)}</td><td>${fmtNum(row.ef)}</td>` +
       `<td>${fmtNum(row.float)}</td><td class="cpa-desc-col">${escHtml(row.title)}</td>` +
       `<td>${fmtNum(row.ls)}</td><td>${fmtNum(row.dur)}</td><td>${fmtNum(row.lf)}</td>` +
       `<td>${row.critical ? '✔' : ''}</td></tr>`;
@@ -2535,7 +2545,7 @@ function renderCpaImage() {
     x = tableX;
     values.forEach((value, i) => {
       drawCpaImageCell(ctx, x, y, tableCols[i], tableRowH, value, {
-        fill, align: i === 4 ? 'left' : 'center', bold: row.critical && i === 8,
+        fill, align: (i === 1 || i === 4) ? 'left' : 'center', bold: row.critical && i === 8,
         color: row.critical && i === 8 ? '#B5483E' : '#33302A', maxLines: i === 4 ? 2 : 1,
       });
       x += tableCols[i];
