@@ -78,6 +78,21 @@
   .brand{font-size:25px;font-weight:600;letter-spacing:-.01em;line-height:1.15;margin:0 0 4px}
   .brand a{display:block}
   .brand-sub{font-family:"Inter",sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 26px}
+  .tool-link{
+    display:block; margin:0 0 24px; padding:11px 12px; border:1px solid var(--line);
+    border-radius:8px; background:#fbfaf7; color:var(--ink); font-family:"Inter",sans-serif;
+    font-size:13px; line-height:1.35;
+  }
+  .tool-link:hover{border-color:var(--accent); color:var(--accent)}
+  .tool-link small{display:block; margin-top:4px; color:var(--faint); font-size:11px}
+  .tool-card{
+    display:block; margin:24px 0 34px; padding:16px 18px; border:1px solid var(--line);
+    border-radius:10px; background:var(--sidebar); font-family:"Inter",sans-serif;
+  }
+  .tool-card:hover{border-color:var(--accent)}
+  .tool-card .tool-card-kicker{font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent)}
+  .tool-card strong{display:block; margin-top:5px; font-size:17px; font-weight:600; color:var(--ink)}
+  .tool-card span{display:block; margin-top:5px; font-size:13px; line-height:1.45; color:var(--muted)}
 
   /* ---------- nav ---------- */
   nav{font-family:"Inter",system-ui,sans-serif;font-size:14px}
@@ -206,6 +221,10 @@
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Hide sidebar" title="Hide sidebar">«</button>
       <h1 class="brand"><a href="#/" data-home>Hudson Junior's Notes</a></h1>
       <p class="brand-sub">Learning in public</p>
+      <a class="tool-link" href="tools/critical-path.html">
+        Critical Path Analysis
+        <small>Online designer · export only</small>
+      </a>
       <nav id="nav"></nav>
     </aside>
 
@@ -4326,6 +4345,11 @@ function renderHome(){
     <p class="crumb">Welcome</p>
     <h1 style="font-size:36px;font-weight:600;letter-spacing:-.02em;margin:0 0 18px">A quiet place for my notes.</h1>
     <p class="home-lead">Hi — I'm Hudson Junior. This is where I keep and share the notes I take from the courses I'm working through. It grows slowly, in public.</p>
+    <a class="tool-card" href="tools/critical-path.html">
+      <span class="tool-card-kicker">HudsonOffice tool</span>
+      <strong>Critical Path Analysis designer →</strong>
+      <span>Draw activities and dependencies online, inspect the critical path, then export PDF, PNG or Excel. Nothing is saved.</span>
+    </a>
     <p class="crumb" style="margin-top:26px">Courses</p>
     <div class="toc">${rows}</div>
   `;

@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Critical Path Analysis — HudsonOffice</title>
+<meta name="description" content="A session-only Critical Path Analysis designer. Build a dependency network online and export PNG, PDF or Excel." />
+<style>
+:root {
+  --bg: #F3ECDD;
+  --grid-line: #E6DAC1;
+  --node-bg: #FBF5E8;
+  --node-header: #EAE0CC;
+  --node-border: #D9CCB2;
+  --text: #33302A;
+  --muted: #968C79;
+  --accent: #9E3D34;
+  --edge: #968C79;
+  --port: #5B8AA5;
+  --sidebar-w: 0px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  width: 100%; height: 100%; overflow: hidden;
+  background: var(--bg); color: var(--text);
+  font-family: -apple-system, sans-serif;
+  user-select: none;
+}
+
+/* ---------- Document sidebar ---------- */
+#sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+  background: #EAE0CC; border-right: 1px solid #D9CCB2; z-index: 20;
+  display: flex; flex-direction: column;
+}
+.side-header {
+  height: 48px; flex-shrink: 0; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 12px; border-bottom: 1px solid #D9CCB2;
+  font-weight: 700; font-size: 14px;
+}
+.side-header button {
+  background: #FBF5E8; color: var(--text); border: 1px solid var(--node-border);
+  border-radius: 6px; width: 26px; height: 26px; font-size: 15px; cursor: pointer; line-height: 1;
+}
+.side-header button:hover { background: #F3EBD7; }
+#doc-list { flex: 1; overflow-y: auto; }
+.doc-item {
+  padding: 8px 12px; cursor: pointer; border-bottom: 1px solid #DED2B7;
+  position: relative; display: flex; flex-direction: column; gap: 2px;
+}
+.doc-item:hover { background: #F1E7D3; }
+.doc-item.active { background: #FBF5E8; box-shadow: inset 3px 0 0 var(--accent); }
+.doc-name { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 18px; }
+.doc-time { font-size: 11px; color: var(--muted); }
+.doc-del {
+  position: absolute; right: 8px; top: 8px; display: none;
+  background: none; border: none; color: var(--muted);
+  font-size: 15px; cursor: pointer; padding: 0 4px;
+}
+.doc-del:hover { color: #B5483E; }
+.doc-item:hover .doc-del { display: block; }
+.doc-item.dragging { opacity: .4; }
+.doc-item.drop-before { box-shadow: inset 0 2px 0 var(--accent); }
+.doc-item.drop-after { box-shadow: inset 0 -2px 0 var(--accent); }
+
+/* ---------- Sidebar toggle ---------- */
+#sidebar, #toolbar, #viewport { transition: left .18s ease, transform .18s ease; }
+body.sidebar-hidden #sidebar { transform: translateX(-100%); }
+body.sidebar-hidden #toolbar,
+body.sidebar-hidden #viewport { left: 0; }
+
+/* ---------- Toolbar ---------- */
+#toolbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 48px;
+  display: flex; align-items: center; gap: 8px; padding: 0 14px;
+  background: #E6DAC2; border-bottom: 1px solid #D9CCB2; z-index: 10;
+  overflow-x: auto; white-space: nowrap;
+}
+#toolbar button, #toolbar select {
+  background: #FBF5E8; color: var(--text);
+  border: 1px solid var(--node-border); border-radius: 6px;
+  padding: 5px 12px; font-size: 13px; cursor: pointer;
+}
+#toolbar button:hover, #toolbar select:hover { background: #F3EBD7; }
+#toolbar button:disabled { opacity: .35; cursor: default; }
+#toolbar button:disabled:hover { background: #FBF5E8; }
+#toolbar .spacer { flex: 1; }
+#saved-label { font-size: 12px; color: var(--muted); }
+.site-link { color: var(--muted); text-decoration: none; font-size: 12px; }
+.site-link:hover { color: var(--accent); }
+.tool-badge {
+  color: var(--accent); border: 1px solid rgba(158,61,52,.28); border-radius: 999px;
+  padding: 3px 8px; font-size: 11px; letter-spacing: .02em;
+}
+#zoom-label { font-size: 12px; color: var(--muted); min-width: 44px; text-align: right; }
+
+/* ---------- Canvas ---------- */
+#viewport {
+  position: absolute; inset: 48px 0 0 0; overflow: hidden;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+#viewport.panning { cursor: grabbing; }
+#canvas { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; transform-origin: 0 0; }
+#edges { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; pointer-events: none; }
+#nodes { position: absolute; top: 0; left: 0; width: 0; height: 0; overflow: visible; }
+
+/* ---------- Edges ---------- */
+.edge-path { fill: none; stroke: var(--edge); stroke-width: 2.5; pointer-events: none; transition: opacity .15s, stroke .15s; }
+.edge-hit { fill: none; stroke: transparent; stroke-width: 16; pointer-events: stroke; cursor: pointer; }
+.edge-path.connected { stroke: var(--accent); stroke-width: 3.5; filter: drop-shadow(0 0 5px rgba(158,61,52,.5)); }
+.edge-path.selected { stroke: #B5483E; stroke-width: 3.5; }
+#temp-link { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 6 4; display: none; pointer-events: none; }
+/* Shift+Space drag: rubber-band selection */
+#marquee {
+  position: absolute; display: none; z-index: 15; pointer-events: none;
+  border: 1px dashed var(--accent); background: rgba(158,61,52,.10);
+}
+
+/* ---------- Nodes ---------- */
+.node {
+  position: absolute; width: 220px;
+  background: var(--node-bg); border: 1px solid var(--node-border);
+  border-radius: 8px; box-shadow: 0 4px 12px rgba(51,48,42,.12);
+  transition: opacity .15s, box-shadow .15s;
+}
+.node-header {
+  background: var(--node-header); border-radius: 8px 8px 0 0;
+  padding: 10px 16px; font-weight: 600; font-size: 14px;
+}
+.node-title { display: block; outline: none; cursor: text; user-select: text; min-height: 1.2em; word-break: break-all; }
+.node-body {
+  padding: 8px 16px 12px; font-size: 12px; line-height: 1.5; color: #5E574C;
+  min-height: 30px; outline: none; cursor: text; user-select: text;
+  white-space: pre-wrap; word-break: break-all;
+}
+.node-body:empty::before { content: "Notes…"; color: #A99B80; }
+.port {
+  position: absolute; width: 14px; height: 14px;
+  border-radius: 50%; border: 2px solid #FBF5E8; cursor: crosshair; z-index: 2;
+  background: var(--port);
+  opacity: 0; pointer-events: none;
+  transition: opacity .12s, transform .1s;
+}
+.port[data-port="n"] { top: -7px; left: 50%; margin-left: -7px; background: #D9CCB2; }
+.port[data-port="s"] { bottom: -7px; left: 50%; margin-left: -7px; background: #7FA8BE; }
+.port[data-port="w"] { left: -7px; top: 50%; margin-top: -7px; background: #4E7CA3; }
+.port[data-port="e"] { right: -7px; top: 50%; margin-top: -7px; background: #9E3D34; }
+/* Port dots appear only when needed: on hover / when selected / while linking / when already connected */
+.node:hover .port,
+.node.selected .port,
+#viewport.linking .port,
+.port.linked { opacity: 1; pointer-events: auto; }
+.port:hover { transform: scale(1.3); }
+
+/* ---------- Highlight / dim ---------- */
+#viewport.has-selection .node { opacity: .18; }
+#viewport.has-selection .node.selected,
+#viewport.has-selection .node.connected { opacity: 1; }
+#viewport.has-selection .edge-path { opacity: .12; }
+#viewport.has-selection .edge-path.connected { opacity: 1; }
+.node.selected { box-shadow: 0 0 0 2px var(--accent), 0 0 24px rgba(158,61,52,.35); z-index: 3; }
+.node.connected { box-shadow: 0 0 0 2px rgba(158,61,52,.55); z-index: 2; }
+
+/* ---------- Help panel ---------- */
+#help-panel {
+  position: fixed; top: 56px; right: 14px; width: 420px; max-height: calc(100% - 72px);
+  overflow-y: auto; display: none;
+  background: var(--node-bg); border: 1px solid var(--node-border);
+  border-radius: 8px; box-shadow: 0 8px 24px rgba(51,48,42,.18); z-index: 30;
+  padding: 0 0 8px; font-size: 13px; line-height: 1.5; color: var(--text);
+}
+#help-panel.open { display: block; }
+#help-panel .help-title {
+  position: sticky; top: 0; z-index: 1;
+  font-weight: 700; font-size: 14px; color: var(--accent);
+  padding: 12px 16px 10px; border-bottom: 1px solid var(--node-border);
+  background: var(--node-bg);
+}
+#help-panel .help-sec {
+  font-size: 11px; font-weight: 600; letter-spacing: .6px;
+  color: var(--muted); text-transform: uppercase;
+  padding: 12px 16px 4px;
+}
+#help-panel .help-row { display: flex; align-items: baseline; gap: 10px; padding: 2.5px 16px; }
+#help-panel .help-key {
+  flex-shrink: 0; min-width: 200px; font-weight: 500;
+  color: #5E574C; user-select: text;
+}
+#help-panel .help-val { user-select: text; }
+#help-panel kbd {
+  display: inline-block; padding: 1px 7px; margin: 0 3px 0 0;
+  border-radius: 5px; font-family: inherit; font-size: 12px;
+  background: var(--node-header); border: 1px solid var(--node-border);
+  border-bottom-width: 2px; color: var(--text);
+  box-shadow: 0 1px 0 rgba(51,48,42,.08);
+}
+
+/* ---------- Mode picker (bottom-right corner) ---------- */
+#mode-fab {
+  position: fixed; right: 18px; bottom: 18px; z-index: 30;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+}
+#btn-mode, #btn-cpa-view {
+  background: var(--node-header); color: var(--text);
+  border: 1px solid var(--node-border); border-radius: 6px;
+  padding: 7px 14px; font-size: 13px; cursor: pointer;
+  box-shadow: 0 3px 10px rgba(51,48,42,.18);
+}
+#btn-mode:hover, #btn-cpa-view:hover { background: #F3EBD7; }
+#btn-cpa-view { display: none; }
+#mode-menu {
+  display: none; flex-direction: column;
+  background: #FBF5E8; border: 1px solid var(--node-border); border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(51,48,42,.2); overflow: hidden;
+}
+#mode-fab.open #mode-menu { display: flex; }
+.mode-opt {
+  border: 0; background: transparent; padding: 8px 18px; font-size: 13px;
+  cursor: pointer; text-align: left; color: var(--text);
+}
+.mode-opt:hover { background: #F3EBD7; }
+.mode-opt.active { font-weight: 700; }
+.mode-opt.active::before { content: "\2713 "; color: var(--accent); }
+
+/* ---------- Node display modes ----------
+   Each node has its own mode (chosen from the Mode menu at creation time):
+   Existing text boxes keep their style when the menu changes; only newly created ones follow the current selection */
+.node.mode-mindmap .node-body { display: none; }
+.node.mode-cpa .node-title, .node.mode-cpa .node-body { display: none; }
+.node.mode-mindmap .node-header { text-align: center; padding: 14px 10px; }
+.node.mode-mindmap { border-radius: 24px; }
+.node.mode-mindmap .node-header { border-radius: 24px; }
+.node-cpa {
+  display: none; grid-template-columns: 42px 1fr 42px; gap: 1px;
+  background: var(--node-border); padding: 6px;
+}
+.node.mode-cpa .node-cpa { display: grid; }
+.cpa-cell {
+  background: var(--node-bg); padding: 2px 4px;
+  font-size: 10px; text-align: center; color: var(--text); line-height: 1.25;
+}
+.cpa-cell .cpa-lbl { display: block; font-size: 8px; color: #A99B80; }
+.cpa-desc { grid-column: 2 / 4; text-align: left; }
+.cpa-desc .cpa-val {
+  display: block; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap; max-width: 100%;
+}
+.cpa-desc .cpa-val.cpa-editing {
+  /* Allow wrapping while editing the activity name so long names aren't clipped */
+  white-space: normal; overflow: visible; text-overflow: clip;
+}
+.cpa-float { background: #F6EFDA; }
+.cpa-cell .cpa-val[contenteditable] {
+  /* Fill the whole cell: an empty editable box rendered inline collapses to 0×0 and can't be clicked or typed into */
+  display: block;
+  margin: -2px -4px;   /* Cover the whole cell (incl. padding): click anywhere in the cell to edit */
+  padding: 2px 4px;
+  user-select: text; -webkit-user-select: text;
+  cursor: text; caret-color: var(--text); outline: none;
+  min-width: 10px; min-height: 1.25em;
+}
+.cpa-cell .cpa-val[contenteditable]:focus { background: #F3EBD7; }
+.cpa-cell .cpa-val.cpa-calc {
+  /* Auto-calculated columns (Dur / Float): read-only, fill the cell; italics show derivation from ES/EF/LS/LF */
+  display: block;
+  margin: -2px -4px;
+  padding: 2px 4px;
+  cursor: default;
+  font-style: italic;
+  color: #6E6659;
+  min-width: 10px; min-height: 1.25em;
+}
+body.mode-cpa .node.critical {
+  border-color: #B5483E;
+  box-shadow: 0 0 0 2px rgba(181,72,62,.35), 0 4px 12px rgba(51,48,42,.12);
+}
+.mode-divider { height: 1px; background: var(--node-border); margin: 4px 0; }
+.mode-note { padding: 6px 14px 8px; font-size: 11px; color: #A99B80; max-width: 220px; line-height: 1.4; }
+/* The hosted edition is focused on CPA; the general Blueprint/Mindmap modes stay out of the way. */
+#mode-menu .mode-opt[data-mode="blueprint"],
+#mode-menu .mode-opt[data-mode="mindmap"],
+#mode-menu .mode-divider,
+#mode-menu .mode-note { display: none; }
+
+/* ---------- CPA modal ---------- */
+#cpa-modal {
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
+  width: min(1100px, 94vw); max-height: 86vh; display: none; flex-direction: column;
+  background: #FBF5E8; border: 1px solid var(--node-border); border-radius: 10px;
+  box-shadow: 0 18px 60px rgba(51,48,42,.32); z-index: 40;
+}
+#cpa-modal.open { display: flex; }
+#cpa-modal .cpa-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; background: var(--node-header);
+  border-radius: 10px 10px 0 0; font-weight: 700; font-size: 14px;
+}
+#cpa-modal .cpa-actions { display: flex; gap: 8px; }
+#cpa-modal button {
+  background: #FBF5E8; color: var(--text); border: 1px solid var(--node-border);
+  border-radius: 6px; padding: 4px 12px; font-size: 12px; cursor: pointer;
+}
+#cpa-modal button:hover { background: #F3EBD7; }
+#cpa-modal .cpa-body { overflow: auto; padding: 12px 16px 18px; }
+#cpa-modal .cpa-section { font-weight: 700; font-size: 13px; margin: 12px 0 6px; }
+#cpa-modal .cpa-note { font-size: 12px; color: var(--muted); margin: 2px 0 8px; }
+#cpa-gantt { overflow-x: auto; background: #FFFDF6; border: 1px solid var(--node-border); border-radius: 6px; padding: 8px; }
+.gantt-head { position: relative; height: 20px; }
+.gantt-tick {
+  position: absolute; font-size: 9px; color: var(--muted);
+  transform: translateX(-50%); white-space: nowrap;
+}
+.gantt-row { display: flex; height: 24px; align-items: center; margin-top: 3px; }
+.gantt-lbl {
+  width: 190px; flex-shrink: 0; font-size: 11px; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.gantt-track { position: relative; flex: 1; height: 20px; background: #F1E9D8; }
+.gantt-bar { position: absolute; top: 3px; height: 14px; border-radius: 3px; }
+.gantt-floatbar { background: #E0D6BF; }
+.gantt-workbar { background: #5B7FA6; }
+.gantt-row.critical .gantt-workbar { background: #B5483E; }
+.gantt-row .gantt-link {
+  position: absolute; height: 2px; background: #968C79; transform: translateY(6px);
+}
+#cpa-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+#cpa-table th, #cpa-table td {
+  border: 1px solid var(--node-border); padding: 4px 8px; text-align: center;
+}
+#cpa-table .cpa-desc-col { text-align: left; }
+#cpa-table tr.critical-row { background: #F8E3DF; }
+</style>
+</head>
+<body>
+
+<div id="toolbar">
+  <a class="site-link" href="../" title="Back to hudsonwang.com">← hudsonwang.com</a>
+  <span style="font-weight:700;font-size:15px;margin-right:2px;">Critical Path Analysis</span>
+  <span class="tool-badge">Online only · not saved</span>
+  <button id="btn-add">＋ New Activity</button>
+  <button id="btn-arrange" title="Arrange connected activities by port direction">⌗ Arrange</button>
+  <button id="btn-undo" title="Undo (⌘Z)" disabled>↶ Undo</button>
+  <button id="btn-redo" title="Redo (⌘Y)" disabled>↷ Redo</button>
+  <button id="btn-del" title="Delete selected (⌘D)" disabled>🗑 Delete</button>
+  <select id="sel-depth">
+    <option value="1">Highlight: Direct connections</option>
+    <option value="all">Highlight: Whole network</option>
+  </select>
+  <button id="btn-export-pdf" title="Export the network as a PDF">⤓ Export PDF</button>
+  <button id="btn-export-img" title="Export the network as a PNG image">⤓ Export PNG</button>
+  <button id="btn-help" title="Show tips">Tips</button>
+  <span class="spacer"></span>
+  <span id="saved-label">Not saved — export before leaving</span>
+  <span id="zoom-label">100%</span>
+</div>
+
+<div id="viewport">
+  <div id="canvas">
+    <svg id="edges"><path id="temp-link" d=""/></svg>
+    <div id="nodes"></div>
+  </div>
+  <div id="marquee"></div>
+</div>
+
+<div id="help-panel">
+  <div class="help-title">How to Use</div>
+
+  <div class="help-sec">Canvas</div>
+  <div class="help-row"><span class="help-key">Double-click blank space</span><span class="help-val">Create a node</span></div>
+  <div class="help-row"><span class="help-key">Scroll wheel</span><span class="help-val">Zoom</span></div>
+  <div class="help-row"><span class="help-key">Drag blank space</span><span class="help-val">Pan the canvas</span></div>
+
+  <div class="help-sec">Nodes &amp; Connections</div>
+  <div class="help-row"><span class="help-key">Click a node</span><span class="help-val">Select &amp; edit; highlight its network</span></div>
+  <div class="help-row"><span class="help-key">Hover + drag a port dot</span><span class="help-val">Connect lines; snaps to the nearest port</span></div>
+  <div class="help-row"><span class="help-key">Right-drag a node</span><span class="help-val">Quick move</span></div>
+  <div class="help-row"><span class="help-key">↓ on the last title line</span><span class="help-val">Jump into the note body</span></div>
+
+  <div class="help-sec">Multi-select</div>
+  <div class="help-row"><span class="help-key">Shift+click a node</span><span class="help-val">Add / remove from selection</span></div>
+  <div class="help-row"><span class="help-key">Shift+drag blank space</span><span class="help-val">Rubber-band select</span></div>
+  <div class="help-row"><span class="help-key">While multi-selected</span><span class="help-val">Drag as a group; typing syncs to all</span></div>
+
+  <div class="help-sec">Layout</div>
+  <div class="help-row"><span class="help-key">⌗ Arrange</span><span class="help-val">Align by port direction; fan-in / fan-out centered</span></div>
+
+  <div class="help-sec">Shortcuts</div>
+  <div class="help-row"><span class="help-key"><kbd>⌘Z</kbd><kbd>⌘Y</kbd><kbd>⌘D</kbd></span><span class="help-val">Undo · Redo · Delete selected</span></div>
+
+  <div class="help-sec">Export</div>
+  <div class="help-row"><span class="help-key">Export PDF / PNG</span><span class="help-val">Download the network drawing</span></div>
+  <div class="help-row"><span class="help-key">Timeline → Export Excel</span><span class="help-val">Download the CPM schedule</span></div>
+  <div class="help-row"><span class="help-key">Reload or close the page</span><span class="help-val">The current design is discarded; nothing is saved</span></div>
+</div>
+
+<div id="mode-fab">
+  <button id="btn-mode" title="CPA workspace">CPA Workspace ▾</button>
+  <div id="mode-menu">
+    <button class="mode-opt" data-mode="blueprint">Blueprint (hidden in CPA edition)</button>
+    <button class="mode-opt" data-mode="mindmap">Mindmap (hidden in CPA edition)</button>
+    <button class="mode-opt" data-mode="cpa">Critical Path Analysis</button>
+    <div class="mode-divider"></div>
+    <button id="btn-cpa-open" class="mode-opt">View Timeline / Export Excel</button>
+    <div class="mode-note">This hosted edition is session-only: export your work before leaving.</div>
+  </div>
+  <button id="btn-cpa-view" title="View timeline + export Excel">Timeline / Excel</button>
+</div>
+
+<div id="cpa-modal">
+  <div class="cpa-head">
+    <span>Critical Path Analysis</span>
+    <div class="cpa-actions">
+      <button id="btn-cpa-export" title="Export the schedule as an Excel-compatible file">Export Excel</button>
+      <button id="btn-cpa-close" title="Close">✕</button>
+    </div>
+  </div>
+  <div class="cpa-body">
+    <div class="cpa-section">Timeline</div>
+    <div class="cpa-note">Dark blue = work span ES→EF, light yellow = Float, red = critical path. The ES / EF / LS / LF you enter in a node sync to this timeline, the schedule and the exported Excel; Dur and Float are auto-calculated (read-only). Empty fields are estimated from the node text (e.g. '5 days' / 'Duration: 3'); unspecified values count as 1.</div>
+    <div id="cpa-gantt"></div>
+    <div class="cpa-section">Schedule</div>
+    <div id="cpa-table"></div>
+  </div>
+</div>
+
+
+<script>
+'use strict';
+
+// ================= Constants & state =================
+const SVGNS = 'http://www.w3.org/2000/svg';
+const NODE_W = 220;   // Node width (matches CSS)
+const PORTS = ['n', 's', 'w', 'e'];                          // The four ports: top / bottom / left / right
+const PORT_DIRS = { n: [0, -1], s: [0, 1], w: [-1, 0], e: [1, 0] };
+const PORT_OPP = { n: 's', s: 'n', w: 'e', e: 'w' };         // Opposite port
+const PORT_MARGIN = 8;    // Clearance from the edge ends when several anchors spread on one side (= corner radius; anchors fill the straight side)
+const GAP_X = 228;    // Auto-arrange: horizontal gap between layers (180 + 2 background grid cells)
+const GAP_Y = 40;     // Auto-arrange: vertical gap between nodes
+
+const viewport  = document.getElementById('viewport');
+const canvasEl  = document.getElementById('canvas');
+const nodesLayer = document.getElementById('nodes');
+const edgesSvg  = document.getElementById('edges');
+const tempPath  = document.getElementById('temp-link');
+const marqueeEl = document.getElementById('marquee');
+const zoomLabel = document.getElementById('zoom-label');
+const savedLabel = document.getElementById('saved-label');
+
+let uid = 1;
+const state = {
+  nodes: new Map(),      // id -> {id, x, y, title, note}
+  edges: new Map(),      // id -> {id, from, fromPort, to, toPort}
+  selectedNodes: new Set(),   // Multi-selection (Shift+click toggles; a single selection has size 1)
+  selectedEdge: null,
+  pan: { x: 80, y: 60 },
+  zoom: 1,
+  depth: 1,              // Highlight depth: 1 = directly connected, Infinity = the whole network
+  mode: 'cpa',           // The hosted edition is dedicated to Critical Path Analysis
+};
+
+const nid = () => 'n' + (uid++);
+const eid = () => 'e' + (uid++);
+
+// ================= Coordinate transforms =================
+function toCanvas(clientX, clientY) {
+  const r = viewport.getBoundingClientRect();
+  return {
+    x: (clientX - r.left - state.pan.x) / state.zoom,
+    y: (clientY - r.top  - state.pan.y) / state.zoom,
+  };
+}
+
+function applyTransform() {
+  canvasEl.style.transform = `translate(${state.pan.x}px, ${state.pan.y}px) scale(${state.zoom})`;
+  const g = 24 * state.zoom;
+  viewport.style.backgroundSize = `${g}px ${g}px`;
+  viewport.style.backgroundPosition = `${state.pan.x}px ${state.pan.y}px`;
+  zoomLabel.textContent = Math.round(state.zoom * 100) + '%';
+}
+
+// ================= Nodes & edges =================
+function nodeHeight(id) {
+  const el = nodesLayer.querySelector(`.node[data-id="${id}"]`);
+  return el ? el.offsetHeight : 60;
+}
+
+// Canvas coordinates of a node port (n/s/w/e); height varies with content.
+// frac (0–1, default 0.5 = edge center) moves the anchor along its edge:
+// when several edges share a port, different fracs spread them evenly
+function portPos(n, port, frac = 0.5, h = nodeHeight(n.id)) {
+  const fx = PORT_MARGIN + frac * Math.max(0, NODE_W - PORT_MARGIN * 2);
+  const fy = PORT_MARGIN + frac * Math.max(0, h - PORT_MARGIN * 2);
+  switch (port) {
+    case 'n': return { x: n.x + fx,     y: n.y };
+    case 's': return { x: n.x + fx,     y: n.y + h };
+    case 'w': return { x: n.x,          y: n.y + fy };
+    default:  return { x: n.x + NODE_W, y: n.y + fy };   // 'e'
+  }
+}
+
+// The relative position of the two nodes decides which edge the line exits and enters:
+// horizontal dominance exits right/enters left (or the reverse), vertical dominance exits bottom/enters top (or the reverse).
+// Used in two places: normalizing ports once after auto-arrange; backfilling default ports when loading old data.
+function autoPorts(a, b, heights) {
+  const ha = heights.get(a.id) || 60, hb = heights.get(b.id) || 60;
+  const dx = b.x - a.x;
+  const dy = (b.y + hb / 2) - (a.y + ha / 2);
+  if (Math.abs(dx) >= Math.abs(dy))
+    return dx >= 0 ? { fromPort: 'e', toPort: 'w' } : { fromPort: 'w', toPort: 'e' };
+  return dy >= 0 ? { fromPort: 's', toPort: 'n' } : { fromPort: 'n', toPort: 's' };
+}
+
+// Bezier handles extend along each port's exit direction; length is computed per end.
+// Handle length follows the forward projection: the closer the target is to straight ahead of the port, the longer the handle; off to the side, it shrinks.
+// Old logic keyed handle length to total distance — steep lines swung into C shapes that swept across neighbouring curves from the same port
+// and crossed them; with projection-based handles, bundles from one port stay nested and non-crossing (verified on real
+// document data: 38 crossings → 0).
+function edgePathD(p1, port1, p2, port2) {
+  const [ax, ay] = PORT_DIRS[port1], [bx, by] = PORT_DIRS[port2];
+  const d1 = handleLen(p2.x - p1.x, p2.y - p1.y, ax, ay);
+  const d2 = handleLen(p1.x - p2.x, p1.y - p2.y, bx, by);
+  return `M ${p1.x} ${p1.y} C ${p1.x + ax * d1} ${p1.y + ay * d1}, ${p2.x + bx * d2} ${p2.y + by * d2}, ${p2.x} ${p2.y}`;
+}
+
+function handleLen(dx, dy, ux, uy) {
+  const proj = dx * ux + dy * uy;          // Target's projection onto the exit direction
+  if (proj > 0) return Math.max(6, proj * 0.4);
+  return Math.max(6, Math.hypot(dx, dy) * 0.15);   // Target behind the port: short handle that turns close to the edge
+}
+
+// Port on a node closest to the given screen coordinates (used when a line drops on node whitespace)
+function nearestPort(nodeId, clientX, clientY) {
+  const n = state.nodes.get(nodeId);
+  const c = toCanvas(clientX, clientY);
+  let best = 'w', bestD = Infinity;
+  for (const p of PORTS) {
+    const q = portPos(n, p);
+    const d = (q.x - c.x) ** 2 + (q.y - c.y) ** 2;
+    if (d < bestD) { bestD = d; best = p; }
+  }
+  return best;
+}
+
+// Snapping: find the port nearest the screen point within the snap radius → {nodeId, port, pos}.
+// The radius is in screen pixels and scales with zoom — at low zoom nodes and dots are tiny,
+// so a drop near a node still connects (fixes lines that often fail to connect).
+function snapPort(clientX, clientY, radiusPx, excludeNode) {
+  const c = toCanvas(clientX, clientY);
+  const maxD = radiusPx / state.zoom;
+  let best = null, bestD = maxD;
+  for (const n of state.nodes.values()) {
+    if (n.id === excludeNode) continue;
+    for (const p of PORTS) {
+      const q = portPos(n, p);
+      const d = Math.hypot(q.x - c.x, q.y - c.y);
+      if (d < bestD) { bestD = d; best = { nodeId: n.id, port: p, pos: q }; }
+    }
+  }
+  return best;
+}
+
+function buildNodeEl(n) {
+  const el = document.createElement('div');
+  el.className = 'node mode-' + (n.mode || 'blueprint');
+  el.dataset.id = n.id;
+  el.style.left = n.x + 'px';
+  el.style.top  = n.y + 'px';
+  el.innerHTML =
+    '<div class="port" data-port="n" title="Drag to connect"></div>' +
+    '<div class="port" data-port="s" title="Drag to connect"></div>' +
+    '<div class="port" data-port="w" title="Drag to connect"></div>' +
+    '<div class="port" data-port="e" title="Drag to connect"></div>' +
+    '<div class="node-header"><span class="node-title" contenteditable="true" spellcheck="false"></span></div>' +
+    '<div class="node-body" contenteditable="true" spellcheck="false"></div>' +
+    '<div class="node-cpa">' +
+      '<div class="cpa-cell"><span class="cpa-lbl">ES</span><span class="cpa-val cpa-es" contenteditable="true" spellcheck="false" data-cpa="es"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">ID</span><span class="cpa-val cpa-id" contenteditable="true" spellcheck="false" data-cpa="id"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">EF</span><span class="cpa-val cpa-ef" contenteditable="true" spellcheck="false" data-cpa="ef"></span></div>' +
+      '<div class="cpa-cell cpa-float"><span class="cpa-lbl">Float</span><span class="cpa-val cpa-calc cpa-fl" title="Auto-calculated (read-only)"></span></div>' +
+      '<div class="cpa-cell cpa-desc"><span class="cpa-lbl">Activity</span><span class="cpa-val cpa-desc-text" contenteditable="true" spellcheck="false" title="Click to edit the activity name"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">LS</span><span class="cpa-val cpa-ls" contenteditable="true" spellcheck="false" data-cpa="ls"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">Dur</span><span class="cpa-val cpa-calc cpa-dur" title="Auto-calculated (read-only)"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">LF</span><span class="cpa-val cpa-lf" contenteditable="true" spellcheck="false" data-cpa="lf"></span></div>' +
+    '</div>';
+  el.querySelector('.node-title').textContent = n.title;
+  el.querySelector('.node-body').textContent  = n.note;
+  const c = n.cpa || cpaDefaults();
+  el.querySelector('.cpa-es').textContent = c.es;
+  el.querySelector('.cpa-id').textContent = c.id;
+  el.querySelector('.cpa-ef').textContent = c.ef;
+  el.querySelector('.cpa-fl').textContent = c.fl;
+  el.querySelector('.cpa-ls').textContent = c.ls;
+  el.querySelector('.cpa-dur').textContent = c.dur;
+  el.querySelector('.cpa-lf').textContent = c.lf;
+  el.querySelector('.cpa-desc-text').textContent = n.title;
+  el.querySelector('.cpa-desc').title = n.title;
+  return el;
+}
+
+// CPA form fields: new critical-path boxes start empty for the user to fill in
+function cpaDefaults() {
+  return { es: '', id: '', ef: '', fl: '', ls: '', dur: '', lf: '' };
+}
+
+// Effective CPA values of a node: hand-typed values win; empty fields fall back to values computed from the graph structure.
+// Used by the timeline / schedule / Excel export so the box data ↔ the visualization always agree.
+function effectiveCpa(n, d) {
+  const num = s => { const v = parseFloat(s); return Number.isFinite(v) ? v : NaN; };
+  const c = n.cpa;
+  const pick = (key, fb) => (c && !Number.isNaN(num(c[key]))) ? num(c[key]) : (fb ?? 0);
+  const es = pick('es', d && d.es), ef = pick('ef', d && d.ef),
+        ls = pick('ls', d && d.ls), lf = pick('lf', d && d.lf),
+        dur = pick('dur', d && d.dur), fl = pick('fl', d && d.float);
+  return {
+    es, ef, ls, lf, dur, float: fl,
+    id: (c && c.id !== '') ? c.id : n.id,
+    comp: (d && d.comp) || 1,
+  };
+}
+
+// Derive Dur (= EF − ES) and Float (= LS − ES, or LF − EF when LS is missing) from the entered ES/EF/LS/LF.
+// With fillOnly=true (document load) only gaps are filled — nothing is overwritten or cleared; during live editing, an incomplete driver clears stale derived values.
+function recomputeCpaDerived(c, fillOnly) {
+  const num = s => { const v = parseFloat(s); return Number.isFinite(v) ? v : NaN; };
+  const es = num(c.es), ef = num(c.ef), ls = num(c.ls), lf = num(c.lf);
+  const empty = v => v === '' || v == null;
+  let changed = false;
+  const apply = (key, val, ok) => {
+    if (ok) {
+      if (!fillOnly || empty(c[key])) {
+        const s = fmtNum(val);
+        if (c[key] !== s) { c[key] = s; changed = true; }
+      }
+    } else if (!fillOnly && !empty(c[key])) {
+      c[key] = '';   // Driver incomplete: clear the stale derived value
+      changed = true;
+    }
+  };
+  apply('dur', ef - es, !Number.isNaN(es) && !Number.isNaN(ef));
+  const fl = !Number.isNaN(ls) && !Number.isNaN(es) ? ls - es
+           : !Number.isNaN(lf) && !Number.isNaN(ef) ? lf - ef : NaN;
+  apply('fl', fl, !Number.isNaN(fl));
+  return changed;
+}
+
+function addNode(data) {
+  History.push();
+  const n = {
+    id: data.id || nid(),
+    x: data.x, y: data.y,
+    title: data.title ?? 'New Node',
+    note:  data.note  ?? '',
+    mode:  ['blueprint', 'mindmap', 'cpa'].includes(state.mode) ? state.mode : 'blueprint',
+    cpa:   state.mode === 'cpa' ? cpaDefaults() : undefined,
+  };
+  state.nodes.set(n.id, n);
+  nodesLayer.appendChild(buildNodeEl(n));
+  persist();
+  refreshCpa();
+  return n;
+}
+
+function addEdge(from, fromPort, to, toPort) {
+  for (const e of state.edges.values())
+    if ((e.from === from && e.to === to && e.fromPort === fromPort && e.toPort === toPort) ||
+        (e.from === to && e.to === from && e.fromPort === toPort && e.toPort === fromPort))
+      return;   // Dedupe (direction-agnostic; different ports count as different edges, spread out so they don't overlap)
+  History.push();
+  keepOnPortSide(from, fromPort, to);
+  const e = { id: eid(), from, fromPort, to, toPort };
+  state.edges.set(e.id, e);
+  renderEdges();
+  persist();
+  refreshCpa();
+}
+
+// The port a line is dragged from states the layout intent: children connected from the left port go to the left of the parent,
+// from the right port to the right. If the target is on the wrong side (or the same column), mirror it to the correct side;
+// if it still overlaps horizontally after mirroring, push it to the minimum gap. Lines never loop back and left/right bundles never cross.
+function keepOnPortSide(fromId, fromPort, toId) {
+  if (fromPort !== 'w' && fromPort !== 'e') return;
+  const a = state.nodes.get(fromId), b = state.nodes.get(toId);
+  if (!a || !b) return;
+  const GAP = 48;   // Minimum horizontal gap after mirroring (2 background grid cells)
+  const dx = b.x - a.x;
+  if (fromPort === 'w' && dx >= 0) b.x = a.x - dx;   // On the right / same column → mirror to the left
+  else if (fromPort === 'e' && dx <= 0) b.x = a.x - dx;   // On the left / same column → mirror to the right
+  else return;                                        // Already on the correct side: leave it
+  if (Math.abs(b.x - a.x) < NODE_W + GAP)
+    b.x = fromPort === 'w' ? a.x - NODE_W - GAP : a.x + NODE_W + GAP;
+  const el = nodesLayer.querySelector(`.node[data-id="${b.id}"]`);
+  if (el) el.style.left = b.x + 'px';
+}
+
+function renderEdges() {
+  edgesSvg.querySelectorAll('g.edge').forEach(g => g.remove());
+
+  // Read heights in one batch to avoid a layout measurement per edge
+  const heights = new Map();
+  nodesLayer.querySelectorAll('.node').forEach(el => heights.set(el.dataset.id, el.offsetHeight));
+
+  // Multiple edges on the same node port: anchors spread evenly along the edge, sorted by the other end's center projection
+  // (the further up/left the other end, the further up/left the anchor), so bundles never cross or tangle
+  const groups = new Map();    // "nodeId|port" -> [{key, pos}]
+  const addEnd = (e, nodeId, port, other) => {
+    const gk = nodeId + '|' + port;
+    if (!groups.has(gk)) groups.set(gk, []);
+    groups.get(gk).push({
+      key: e.id + '|' + nodeId,
+      pos: (port === 'e' || port === 'w')
+        ? other.y + (heights.get(other.id) || 60) / 2   // Vertical side: sort by the other end's center y
+        : other.x + NODE_W / 2,                          // Top/bottom edge: sort by the other end's center x
+    });
+  };
+  for (const e of state.edges.values()) {
+    const a = state.nodes.get(e.from), b = state.nodes.get(e.to);
+    if (!a || !b) continue;
+    addEnd(e, e.from, e.fromPort, b);
+    addEnd(e, e.to, e.toPort, a);
+  }
+  const fracs = new Map();     // "edgeId|nodeId" -> 0~1
+  for (const g of groups.values()) {
+    if (g.length < 2) continue;
+    g.sort((p, q) => p.pos - q.pos);
+    g.forEach((entry, i) => fracs.set(entry.key, (i + 1) / (g.length + 1)));
+  }
+
+  for (const e of state.edges.values()) {
+    const a = state.nodes.get(e.from), b = state.nodes.get(e.to);
+    if (!a || !b) continue;
+    const p1 = portPos(a, e.fromPort, fracs.get(e.id + '|' + e.from) ?? 0.5, heights.get(a.id));
+    const p2 = portPos(b, e.toPort,  fracs.get(e.id + '|' + e.to)   ?? 0.5, heights.get(b.id));
+    const d = edgePathD(p1, e.fromPort, p2, e.toPort);
+    const g = document.createElementNS(SVGNS, 'g');
+    g.setAttribute('class', 'edge');
+    const hit = document.createElementNS(SVGNS, 'path');
+    hit.setAttribute('class', 'edge-hit');
+    hit.setAttribute('d', d);
+    hit.dataset.id = e.id;
+    const vis = document.createElementNS(SVGNS, 'path');
+    vis.setAttribute('class', 'edge-path');
+    vis.setAttribute('d', d);
+    vis.dataset.id = e.id;
+    g.appendChild(hit);
+    g.appendChild(vis);
+    edgesSvg.appendChild(g);
+  }
+  updatePortBadges();
+  applyHighlight();
+}
+
+// Connected ports stay visible; unconnected ones are hidden
+function updatePortBadges() {
+  const used = new Map();   // nodeId -> Set<port>
+  const use = (id, p) => {
+    if (!used.has(id)) used.set(id, new Set());
+    used.get(id).add(p);
+  };
+  for (const e of state.edges.values()) { use(e.from, e.fromPort); use(e.to, e.toPort); }
+  nodesLayer.querySelectorAll('.node').forEach(el => {
+    const ports = used.get(el.dataset.id);
+    el.querySelectorAll('.port').forEach(p =>
+      p.classList.toggle('linked', !!(ports && ports.has(p.dataset.port))));
+  });
+}
+
+// ================= Highlighting (core feature) =================
+function applyHighlight() {
+  const sel = state.selectedNodes;
+  const has = sel.size > 0;
+  viewport.classList.toggle('has-selection', has);
+
+  nodesLayer.querySelectorAll('.node').forEach(el => el.classList.remove('selected', 'connected'));
+  edgesSvg.querySelectorAll('.edge-path').forEach(el => el.classList.remove('connected', 'selected'));
+
+  if (state.selectedEdge) {
+    const el = edgesSvg.querySelector(`.edge-path[data-id="${state.selectedEdge}"]`);
+    if (el) el.classList.add('selected');
+  }
+  if (!has) return;
+
+  // Multi-source BFS from all selected nodes (direction-agnostic), depth limited by state.depth
+  const dist = new Map([...sel].map(id => [id, 0]));
+  const hlEdges = new Set();
+  let frontier = [...sel];
+  while (frontier.length) {
+    const next = [];
+    for (const id of frontier) {
+      const d = dist.get(id);
+      if (d >= state.depth) continue;
+      for (const e of state.edges.values()) {
+        let other = null;
+        if (e.from === id) other = e.to;
+        else if (e.to === id) other = e.from;
+        if (other === null) continue;
+        hlEdges.add(e.id);
+        if (!dist.has(other)) { dist.set(other, d + 1); next.push(other); }
+      }
+    }
+    frontier = next;
+  }
+
+  for (const [id] of dist) {
+    const el = nodesLayer.querySelector(`.node[data-id="${id}"]`);
+    if (el) el.classList.add(sel.has(id) ? 'selected' : 'connected');
+  }
+  for (const eid2 of hlEdges) {
+    const el = edgesSvg.querySelector(`.edge-path[data-id="${eid2}"]`);
+    if (el) el.classList.add('connected');
+  }
+}
+
+function selectNode(id) { state.selectedNodes = new Set([id]); state.selectedEdge = null; applyHighlight(); updateDelBtn(); }
+// Shift+click: add/remove a node from the multi-selection
+function toggleSelectNode(id) {
+  const s = new Set(state.selectedNodes);
+  if (s.has(id)) s.delete(id); else s.add(id);
+  state.selectedNodes = s;
+  state.selectedEdge = null;
+  applyHighlight();
+  updateDelBtn();
+}
+function selectEdge(id) { state.selectedEdge = id; state.selectedNodes = new Set(); applyHighlight(); updateDelBtn(); }
+function clearSelection() { state.selectedNodes = new Set(); state.selectedEdge = null; applyHighlight(); updateDelBtn(); }
+
+function deleteSelected() {
+  if (!state.selectedNodes.size && !state.selectedEdge) return;
+  History.push();
+  if (state.selectedNodes.size) {
+    for (const id of state.selectedNodes) {
+      for (const e of [...state.edges.values()])
+        if (e.from === id || e.to === id) state.edges.delete(e.id);
+      state.nodes.delete(id);
+      nodesLayer.querySelector(`.node[data-id="${id}"]`)?.remove();
+    }
+    state.selectedNodes = new Set();
+  } else {
+    state.edges.delete(state.selectedEdge);
+    state.selectedEdge = null;
+  }
+  renderEdges();
+  persist();
+  updateDelBtn();
+  refreshCpa();
+}
+
+// ================= Auto-arrange (connected nodes only) =================
+function autoArrange() {
+  // Adjacency list (edges treated as undirected); port records which side of this node the neighbour connects to —
+  // a child's placement direction is decided by the connecting port's direction:
+  // left port → left column, right port → right column, top port → row above, bottom port → row below, consistently across the graph
+  const adj = new Map();      // id -> [{id, port}]
+  const indeg = new Map(), outdeg = new Map();
+  const bump = (m, k) => m.set(k, (m.get(k) || 0) + 1);
+  const link = (a, b, p) => (adj.get(a) || adj.set(a, []).get(a)).push({ id: b, port: p });
+  for (const e of state.edges.values()) {
+    if (!state.nodes.get(e.from) || !state.nodes.get(e.to)) continue;
+    link(e.from, e.to, e.fromPort);
+    link(e.to, e.from, e.toPort);
+    bump(outdeg, e.from);
+    bump(indeg, e.to);
+  }
+  if (!adj.size) { alert('No connected nodes to arrange'); return; }
+
+  History.push();
+
+  const posOf = id => state.nodes.get(id);
+  const heightOf = id => {
+    const el = nodesLayer.querySelector(`.node[data-id="${id}"]`);
+    return el ? el.offsetHeight : 60;
+  };
+
+  // Split into connected components, processed top to bottom by their topmost node
+  const seen = new Set();
+  const comps = [];
+  for (const id of adj.keys()) {
+    if (seen.has(id)) continue;
+    const comp = [];
+    const queue = [id];
+    seen.add(id);
+    while (queue.length) {
+      const cur = queue.shift();
+      comp.push(cur);
+      for (const o of adj.get(cur) || [])
+        if (!seen.has(o.id)) { seen.add(o.id); queue.push(o.id); }
+    }
+    comps.push(comp);
+  }
+  comps.sort((a, b) =>
+    Math.min(...a.map(id => posOf(id).y)) - Math.min(...b.map(id => posOf(id).y)));
+
+  // Isolated nodes keep their positions and act as obstacles during arrangement
+  const fixedRects = [];
+  for (const n of state.nodes.values())
+    if (!adj.has(n.id))
+      fixedRects.push({ x: n.x, y: n.y, w: NODE_W, h: heightOf(n.id) });
+
+  let stackBottom = null;   // Bottom edge occupied by the previous component
+  for (const comp of comps) {
+    // Root: prefer a node with no incoming edges and the largest out-degree (following drag direction); for pure cycles take the highest degree.
+    // Exception: with a hub of fan-out/fan-in ≥ 2, root at the hub — in many-to-one graphs the parents can then
+    // line up in one column like one-to-many and the single node receiving many lines centres; rooting at a leaf source
+    // makes children on the hub's far side fold back and squeezes the parent into a protruding column (bulge shape).
+    // The hub is chosen by the largest total degree (in+out) — one-way fan-in/fan-out alone picks the middle of a diamond chain
+    // (large fan-in but small fan-out), whose root stretches the graph into a long chain and splits same-level nodes across columns
+    const deg = id => (outdeg.get(id) || 0) + (indeg.get(id) || 0);
+    const fan = id => Math.max(outdeg.get(id) || 0, indeg.get(id) || 0);
+    const byPos = (a, b) => posOf(a).y - posOf(b).y || posOf(a).x - posOf(b).x;
+    const pref = comp.filter(id => !indeg.get(id) && outdeg.get(id));
+    const head = (pref.length ? pref : comp).slice().sort((a, b) => deg(b) - deg(a) || byPos(a, b))[0];
+    // When hubs tie on degree, the one nearer the head wins — with serially tied hubs (e.g. Chapter → Category
+    // chains), rooting at the downstream hub makes upstream sibling columns fold back between the root and its parent, splitting same-column children
+    const distHead = new Map([[head, 0]]);
+    const dq = [head];
+    for (let i = 0; i < dq.length; i++)
+      for (const o of adj.get(dq[i]) || [])
+        if (!distHead.has(o.id)) { distHead.set(o.id, distHead.get(dq[i]) + 1); dq.push(o.id); }
+    const hub = comp.slice().sort((a, b) =>
+      deg(b) - deg(a) || (distHead.get(a) ?? 1e9) - (distHead.get(b) ?? 1e9) || byPos(a, b))[0];
+    // Root selection ignores edge drag direction (a graph drawn child→parent is identical but would trick
+    // head/hub onto a downstream hub); instead, whole trees are scored by fewest fold-backs, fewest columns and shallowest depth:
+    // placing a child on the opposite side of its parent is a fold-back; fold-back branches insert an extra column between two existing ones,
+    // splitting same-column siblings (e.g. Technical squeezed between a sibling column and its subtree). Candidates = head,
+    // hubs with fan-in/fan-out ≥ 2, in original priority order; replace only when strictly better
+    const treeScore = r => {
+      const seen2 = new Set([r]), q = [r];
+      const dirOf = new Map([[r, null]]), colOf = new Map([[r, 0]]), depOf = new Map([[r, 0]]);
+      let rev = 0, mn = 0, mx = 0, depth = 0;
+      for (let i = 0; i < q.length; i++) {
+        const cur = q[i];
+        const ps = dirOf.get(cur) === 'e' ? 1 : dirOf.get(cur) === 'w' ? -1 : 0;
+        for (const o of adj.get(cur) || []) {
+          if (seen2.has(o.id)) continue;
+          seen2.add(o.id); q.push(o.id);
+          const s = o.port === 'e' ? 1 : o.port === 'w' ? -1 : 0;
+          if (s && ps && s !== ps) rev++;
+          dirOf.set(o.id, o.port);
+          const cd = colOf.get(cur) + s;
+          colOf.set(o.id, cd);
+          mn = Math.min(mn, cd); mx = Math.max(mx, cd);
+          const dp = depOf.get(cur) + 1;
+          depOf.set(o.id, dp);
+          depth = Math.max(depth, dp);
+        }
+      }
+      return { rev, span: mx - mn, depth };
+    };
+    const cands = [...new Set([head, hub, ...comp.slice().sort((a, b) =>
+      deg(b) - deg(a) || (distHead.get(a) ?? 1e9) - (distHead.get(b) ?? 1e9) || byPos(a, b))
+      .filter(id => fan(id) >= 2)])].slice(0, 8);
+    let root = cands[0], bestScore = treeScore(root);
+    for (const c of cands.slice(1)) {
+      const s = treeScore(c);
+      if (s.rev < bestScore.rev ||
+          s.rev === bestScore.rev && (s.span < bestScore.span ||
+          s.span === bestScore.span && s.depth < bestScore.depth)) {
+        root = c; bestScore = s;
+      }
+    }
+
+    // BFS spanning tree: each child records which side of its parent's ports it was placed from
+    const inTree = new Set([root]);
+    const kids = new Map();   // id -> [{id, dir}]
+    const parentOf = new Map();   // childId -> tree parent (used by the fan-in fix)
+    const bfs = [root];
+    for (let i = 0; i < bfs.length; i++) {
+      const cur = bfs[i];
+      const cs = [];
+      for (const o of adj.get(cur) || []) {   // A node pair may have several edges; dedupe
+        if (inTree.has(o.id)) continue;
+        inTree.add(o.id);
+        parentOf.set(o.id, cur);
+        cs.push({ id: o.id, dir: o.port });
+        bfs.push(o.id);
+      }
+      kids.set(cur, cs);
+    }
+
+    // Row-flight fix helper: rewrite both ports of an edge to a given direction (when a row merges into a column, update the lines too,
+    // avoiding diagonals where children sit in a column but lines exit row ports)
+    const fixEdgePorts = (a, b, dir) => {
+      for (const e of state.edges.values()) {
+        if (e.from === a && e.to === b) { e.fromPort = dir; e.toPort = PORT_OPP[dir]; }
+        else if (e.from === b && e.to === a) { e.toPort = dir; e.fromPort = PORT_OPP[dir]; }
+      }
+    };
+
+    // Four-direction box layout: layout(id) returns the subtree bounding box (relative to this node's top-left),
+    // child offsets relative to this node go into rel. Placement always reserves bounding boxes (incl. fold-back branches),
+    // so no combination of the four directions overlaps. The whole layout may retry because of row flights:
+    // when a parent mixes rows and columns (columns e/w with rows s/n), a row pushed by same-layer obstacles far from its parent
+    // counts as a flight; the parent's rows then merge into the majority column direction and relayout (a few retries max).
+    const sbBase = stackBottom;   // Component baseline: not polluted by this layout pass
+    const FLY_THRESH = 240;   // A row farther than this from its parent's edge counts as a flight (P×GAP_Y ≈ one push amount)
+    for (let attempt = 0; attempt < 3; attempt++) {
+    const rel = new Map();    // childId -> {dx, dy}
+    const boxes = new Map();  // childId -> subtree bounding box (used by the row-alignment pass)
+    const profiles = new Map();   // id -> rectangles of every node in the subtree [{l,r,t,b}] (relative to this node's top-left)
+    let fixDirAfterFlight = [];   // ids of row parents that flew this pass
+    const layout = id => {
+      const g = { e: [], w: [], s: [], n: [] };
+      for (const c of kids.get(id) || []) {
+        const box = layout(c.id);
+        boxes.set(c.id, box);
+        g[c.dir].push({ id: c.id, box });
+      }
+      // Siblings keep their original relative order: columns by y, rows by x
+      for (const d of ['e', 'w']) g[d].sort((a, b) => posOf(a.id).y - posOf(b.id).y);
+      for (const d of ['s', 'n']) g[d].sort((a, b) => posOf(a.id).x - posOf(b.id).x);
+
+      const H = heightOf(id), W = NODE_W;
+
+      // Stack a column of subtrees (e/w group), returning the column's vertical span {top, bottom}; child y goes into it.y.
+      // x-aware: vertical gaps are kept only where x projections truly overlap — stacking by full subtree
+      // bounding-box heights would count branches reaching into other columns as this column's space, leaving big holes
+      // (e.g. a sibling above the hub column that never overlaps the hub subtree yet gets pushed hundreds of pixels)
+      const stack = items => {
+        const placed = [];   // {y, prof}
+        let top = 0, bottom = 0;
+        for (const it of items) {
+          const prof = profiles.get(it.id);
+          let Y = -Math.min(0, it.box.minY);
+          for (const p of placed) {
+            let need = -Infinity;
+            for (const a of p.prof)
+              for (const b of prof)
+                if (a.l < b.r && b.l < a.r)
+                  need = Math.max(need, p.y + a.b - b.t);
+            if (need + GAP_Y > Y) Y = need + GAP_Y;
+          }
+          it.y = Y;
+          placed.push({ y: Y, prof });
+          top = Math.min(top, Y + it.box.minY);
+          bottom = Math.max(bottom, Y + it.box.maxY);
+        }
+        return { top, bottom };
+      };
+      // Lay out a row of subtrees (s/n group), returning the row width; each child's x goes into it.x
+      const row = items => {
+        let x = 0;
+        for (const it of items) {
+          it.x = x - Math.min(0, it.box.minX);
+          x = it.x + it.box.maxX + GAP_X;
+        }
+        return items.length ? x - GAP_X : 0;
+      };
+
+      const stE = stack(g.e), stW = stack(g.w);
+      row(g.s); row(g.n);   // Rows only compute it.x per child
+
+      // Left/right columns centre vertically on this node's midline: using the first/last child's node-rectangle midline,
+      // subtree boxes are only for stacking — a single node with many lines (fan-in/fan-out alike)
+      // centres relative to the whole column; centring on bounding-box midlines lets lopsided subtrees drag the visual centre off
+      const colMid = items => items.length
+        ? (items[0].y + heightOf(items[0].id) / 2 +
+           items[items.length - 1].y + heightOf(items[items.length - 1].id) / 2) / 2
+        : 0;
+      const yE = H / 2 - colMid(g.e), yW = H / 2 - colMid(g.w);
+      const xE = W + GAP_X - Math.min(0, ...g.e.map(it => it.box.minX));
+      const wMaxX = Math.max(W, ...g.w.map(it => it.box.maxX));
+      for (const it of g.w) it.x = -GAP_X - wMaxX;
+      // Top/bottom rows centre on this node the same way via first/last child midline; a row only avoids node rectangles
+      // whose x projections truly intersect (not whole-column boxes — a side column's branches reaching into other columns
+      // push the box bottom hundreds of pixels away and shove the row to the bottom, making nodes fly away)
+      const sideRects = [];
+      for (const it of g.e)
+        for (const p of profiles.get(it.id))
+          sideRects.push({ l: p.l + xE, r: p.r + xE, t: p.t + yE + it.y, b: p.b + yE + it.y });
+      for (const it of g.w)
+        for (const p of profiles.get(it.id))
+          sideRects.push({ l: p.l + it.x, r: p.r + it.x, t: p.t + yW + it.y, b: p.b + yW + it.y });
+      const placeRow = (items, below) => {
+        if (!items.length) return;
+        const shiftX = -(items[0].x + items[items.length - 1].x) / 2;
+        let edge = below ? H + GAP_Y : -GAP_Y;
+        for (const it of items) {
+          const itL = shiftX + it.x + it.box.minX, itR = shiftX + it.x + it.box.maxX;
+          for (const o of sideRects)
+            if (itR > o.l && itL < o.r)
+              edge = below ? Math.max(edge, o.b + GAP_Y) : Math.min(edge, o.t - GAP_Y);
+        }
+        for (const it of items) {
+          rel.set(it.id, {
+            dx: shiftX + it.x,
+            dy: below ? edge - Math.min(0, it.box.minY) : edge - it.box.maxY,
+          });
+        }
+      };
+      placeRow(g.s, true);
+      placeRow(g.n, false);
+      for (const it of g.e) rel.set(it.id, { dx: xE, dy: yE + it.y });
+      for (const it of g.w) rel.set(it.id, { dx: it.x, dy: yW + it.y });
+
+      // This subtree's bounding box: own rectangle ∪ each child subtree box (translated by rel)
+      const box = { minX: 0, minY: 0, maxX: W, maxY: H };
+      for (const d of ['e', 'w', 's', 'n'])
+        for (const it of g[d]) {
+          const r = rel.get(it.id);
+          box.minX = Math.min(box.minX, r.dx + it.box.minX);
+          box.maxX = Math.max(box.maxX, r.dx + it.box.maxX);
+          box.minY = Math.min(box.minY, r.dy + it.box.minY);
+          box.maxY = Math.max(box.maxY, r.dy + it.box.maxY);
+        }
+      // All node rectangles of the subtree (for x-aware stacking): own rectangle ∪ each subtree's (translated by rel)
+      const prof = [{ l: 0, r: W, t: 0, b: H }];
+      for (const d of ['e', 'w', 's', 'n'])
+        for (const it of g[d]) {
+          const r = rel.get(it.id);
+          for (const p of profiles.get(it.id))
+            prof.push({ l: p.l + r.dx, r: p.r + r.dx, t: p.t + r.dy, b: p.b + r.dy });
+        }
+      profiles.set(id, prof);
+      return box;
+    };
+
+    // Lay out and write absolute coordinates
+    const rootNode = posOf(root);
+    const rootBox = layout(root);
+    boxes.set(root, rootBox);
+    const offX = rootNode.x;
+    const offY = sbBase === null ? rootNode.y : sbBase + GAP_Y * 2 - rootBox.minY;
+    const setPos = (id, x, y) => {
+      const n = posOf(id);
+      n.x = x; n.y = y;
+      for (const c of kids.get(id) || []) {
+        const r = rel.get(c.id);
+        setPos(c.id, x + r.dx, y + r.dy);
+      }
+    };
+    setPos(root, offX, offY);
+
+    // Second pass: align top/bottom rows of the same level to one horizontal band (columns align naturally via column gaps).
+    // Each level's band = extremes of that level's row parent bottoms/tops; rows yield by moving down/up when they hit columns or other rows
+    const rw = new Map([[root, 0]]);
+    for (const id of bfs)
+      for (const c of kids.get(id) || [])
+        rw.set(c.id, rw.get(id) + (c.dir === 's' ? 1 : c.dir === 'n' ? -1 : 0));
+
+    for (const sign of [1, -1]) {
+      const dir = sign > 0 ? 's' : 'n';
+      const layers = [...new Set([...rw.values()].filter(v => sign > 0 ? v > 0 : v < 0))]
+        .sort((a, b) => sign > 0 ? a - b : b - a);
+      for (const L of layers) {
+        const parents = bfs.filter(id => rw.get(id) === L - sign &&
+          (kids.get(id) || []).some(c => c.dir === dir));
+        if (!parents.length) continue;
+        const band = sign > 0
+          ? Math.max(...parents.map(id => posOf(id).y + heightOf(id))) + GAP_Y
+          : Math.min(...parents.map(id => posOf(id).y)) - GAP_Y;
+
+        // Obstacles: left/right column subtrees of shallower-level nodes (positions already fixed), sensed per node rectangle —
+        // a row only avoids rectangles whose x projections truly intersect; whole-subtree boxes would push the row
+        // below the farthest node of a side branch (e.g. the centre node's bottom row crushed to the graph bottom by the whole left tree).
+        // Ancestor subtrees containing this row's parent are not obstacles — the row itself is inside them
+        const obstacles = [];
+        for (const oid of bfs) {
+          const lv = rw.get(oid);
+          if (sign > 0 ? lv >= L : lv <= L) continue;
+          for (const c of kids.get(oid) || []) {
+            if (c.dir !== 'e' && c.dir !== 'w') continue;
+            const cn = posOf(c.id);
+            for (const p of profiles.get(c.id))
+              obstacles.push({ l: cn.x + p.l, r: cn.x + p.r, t: cn.y + p.t, b: cn.y + p.b });
+          }
+        }
+
+        // Each row's minimum feasible position: band first; if blocked by obstacles, move down/up
+        const rows = parents.slice().sort((a, b) => posOf(a).x - posOf(b).x).map(id => {
+          const u = posOf(id), H = heightOf(id);
+          const rowKids = (kids.get(id) || []).filter(c => c.dir === dir);
+          const l = Math.min(...rowKids.map(c => posOf(c.id).x + boxes.get(c.id).minX));
+          const r = Math.max(...rowKids.map(c => posOf(c.id).x + boxes.get(c.id).maxX));
+          const ext = Math.max(...rowKids.map(c => sign > 0
+            ? boxes.get(c.id).maxY - Math.min(0, boxes.get(c.id).minY)
+            : boxes.get(c.id).maxY - boxes.get(c.id).minY));
+          const obs = obstacles.filter(o =>
+            !(u.x < o.r && u.x + NODE_W > o.l && u.y < o.b && u.y + H > o.t));
+          let t = sign > 0 ? band : band - ext;
+          let b = sign > 0 ? band + ext : band;
+          for (let again = 1; again;) {
+            again = 0;
+            for (const o of obs)
+              if (r > o.l && l < o.r && b > o.t && t < o.b) {
+                const d = sign > 0 ? o.b + GAP_Y - t : o.t - GAP_Y - b;
+                t += d; b += d; again = 1;
+              }
+          }
+          return { id, u, rowKids, l, r, t, b };
+        });
+
+        // The level's unified band = extreme of each row's minimum feasible position; later rows yield on collision
+        const line = sign > 0
+          ? Math.max(...rows.map(ri => ri.t))
+          : Math.min(...rows.map(ri => ri.b));
+        const placed = [];   // Rows placed on this level {l, r, t, b}
+        for (const ri of rows) {
+          let { t, b } = ri;
+          const d0 = sign > 0 ? line - t : line - b;
+          t += d0; b += d0;
+          for (let again = 1; again;) {
+            again = 0;
+            for (const pr of placed)
+              if (ri.r > pr.l && ri.l < pr.r && b > pr.t && t < pr.b) {
+                const d = sign > 0 ? pr.b + GAP_Y - t : pr.t - GAP_Y - b;
+                t += d; b += d; again = 1;
+              }
+          }
+          placed.push({ l: ri.l, r: ri.r, t, b });
+          for (const c of ri.rowKids) {
+            const cb = boxes.get(c.id);
+            rel.get(c.id).dy = (sign > 0 ? t - Math.min(0, cb.minY) : b - cb.maxY) - ri.u.y;
+          }
+          // Flight detection: a row whose final position leaves this level's band beyond the threshold counts as flown
+          // (e.g. a whole row pushed to the graph bottom by same-layer obstacles). A deliberate single-s-child layout hugs the parent edge and never triggers
+          const fly = sign > 0 ? t - band : b - band;
+          if (fly > FLY_THRESH) fixDirAfterFlight.push(ri.id);
+        }
+        setPos(root, offX, offY);   // The next level's band depends on this level's positions
+      }
+    }
+
+    // Fan-in hub fix: in a diamond (A→{B,C,D}→hub) the spanning tree can only hang hub under the first parent,
+    // so hub sticks at the first parent's height instead of centring on the column. Eligible fan-in hubs are translated with their subtrees
+    // to the parents' column midline — requirements: in-degree ≥ 2; parents in the same column on the hub's corresponding side;
+    // the hub is the tree parent's only child on that side (so moving it keeps sibling centring); nodes that are themselves hubs
+    // stay as tree descendants of their hub parent; the move is abandoned if it would overlap any node
+    const subtreeOf = hid => {
+      const sub = new Set([hid]);
+      const qq = [hid];
+      while (qq.length)
+        for (const c of kids.get(qq.shift()) || [])
+          if (!sub.has(c.id)) { sub.add(c.id); qq.push(c.id); }
+      return sub;
+    };
+    const tryMove = (sub, delta) => {   // Collision pre-check; translate if safe, return whether it moved
+      const moving = [...sub];
+      const rects = moving.map(id => ({
+        l: posOf(id).x, r: posOf(id).x + NODE_W,
+        t: posOf(id).y + delta, b: posOf(id).y + delta + heightOf(id),
+      }));
+      for (const n of state.nodes.values()) {
+        if (!adj.has(n.id) || sub.has(n.id)) continue;
+        for (const r of rects)
+          if (n.x < r.r && n.x + NODE_W > r.l && n.y < r.b && n.y + heightOf(n.id) > r.t)
+            return false;
+      }
+      for (const id of moving) posOf(id).y += delta;
+      return true;
+    };
+    const colMidOf = col => {           // Midline of first/last member (by y) node centres
+      const cs = col.slice().sort((a, b) => posOf(a).y - posOf(b).y);
+      return (posOf(cs[0]).y + heightOf(cs[0]) / 2 +
+              posOf(cs[cs.length - 1]).y + heightOf(cs[cs.length - 1]) / 2) / 2;
+    };
+    // After the hub moves to the sibling column's midline, gaps appear between members whose space held the hub subtree
+    // (the first member used to span the whole column height). Repack column members by their own heights: each member's subtree follows it
+    // (except the hub subtree — already in place), keeping the column midline at the hub's; if repacking overlaps other
+    // nodes, abandon it entirely (conservative: keep the gaps rather than introduce overlaps).
+    const compactCol = (colIds, keepMid, hubId) => {
+      const members = colIds.slice().sort((a, b) => posOf(a).y - posOf(b).y);
+      if (members.length < 2) return;
+      const hs = members.map(heightOf);
+      const total = hs.reduce((s, h) => s + h, 0) + GAP_Y * (members.length - 1);
+      const y0 = keepMid - (hs[0] / 2 + total - hs[hs.length - 1] / 2) / 2;
+      const hubSub = subtreeOf(hubId);
+      const moves = [];
+      let y = y0;
+      for (let i = 0; i < members.length; i++) {
+        const dy = y - posOf(members[i]).y;
+        if (Math.abs(dy) >= 1) moves.push({ id: members[i], dy });
+        y += hs[i] + GAP_Y;
+      }
+      if (!moves.length) return;
+      const rects = [];
+      for (const m of moves) {
+        const sub = subtreeOf(m.id);
+        for (const s2 of hubSub) sub.delete(s2);
+        for (const sid of sub)
+          rects.push({ own: sid, l: posOf(sid).x, r: posOf(sid).x + NODE_W,
+            t: posOf(sid).y + m.dy, b: posOf(sid).y + m.dy + heightOf(sid) });
+      }
+      const movingIds = new Set(rects.map(r => r.own));
+      for (const n of state.nodes.values()) {
+        if (!adj.has(n.id) || movingIds.has(n.id)) continue;
+        for (const r of rects)
+          if (n.x < r.r && n.x + NODE_W > r.l && n.y < r.b && n.y + heightOf(n.id) > r.t)
+            return;
+      }
+      for (const m of moves) {
+        const sub = subtreeOf(m.id);
+        for (const s2 of hubSub) sub.delete(s2);
+        for (const sid of sub) posOf(sid).y += m.dy;
+      }
+    };
+    for (const hid of bfs) {
+      let moved = false;
+      // Rule A: inbound parents in the same column → hub centres on the parents' column
+      if ((indeg.get(hid) || 0) >= 2) {
+        const tp = parentOf.get(hid);
+        const tpc = tp ? (kids.get(tp) || []).find(c => c.id === hid) : null;
+        if (tp && tpc && (tpc.dir === 'e' || tpc.dir === 'w') &&
+            (kids.get(tp) || []).filter(c => c.dir === tpc.dir).length === 1) {
+          const parents = [];
+          for (const e2 of state.edges.values())
+            if (e2.to === hid && state.nodes.get(e2.from)) parents.push(e2.from);
+          if (parents.length >= 2 && parents.includes(tp)) {
+            const px = posOf(parents[0]).x;
+            const hn = posOf(hid);
+            const okx = parents.every(p => Math.abs(posOf(p).x - px) < 0.5);   // Parents in the same column
+            const okcol = tpc.dir === 'e'
+              ? parents.every(p => posOf(p).x + NODE_W <= hn.x + 0.5)
+              : parents.every(p => posOf(p).x >= hn.x + NODE_W - 0.5);
+            if (okx && okcol) {
+              const delta = colMidOf(parents) - (hn.y + heightOf(hid) / 2);
+              if (Math.abs(delta) >= 1) {
+                // Move set = the hub's subtree (excluding parents inside it — they stay put)
+                const sub = subtreeOf(hid);
+                for (const p of parents) sub.delete(p);
+                moved = tryMove(sub, delta);
+                if (moved) {
+                  // Once the hub frees its spot, repack the parents' column (the tree parent's same-side sibling column)
+                  const gpA = parentOf.get(tp);
+                  const dirA = gpA ? ((kids.get(gpA) || []).find(c => c.id === tp) || {}).dir : null;
+                  if (dirA === 'e' || dirA === 'w') {
+                    const colA = (kids.get(gpA) || []).filter(c => c.dir === dirA).map(c => c.id);
+                    compactCol(colA, posOf(hid).y + heightOf(hid) / 2, hid);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      // Rule B: two hubs sandwiching a column (A→{B,C,D} and hub also connects the whole column, e.g. Methods ↔ metrics column ↔ Select)
+      // — the hub's tree parent belongs to a same-side child column, and the hub is adjacent to every member of that column,
+      // so translate the hub subtree to that column's midline (its members are the hub's ancestors/uncles, outside its subtree)
+      if (!moved) {
+        const tp = parentOf.get(hid);
+        const tpc = tp ? (kids.get(tp) || []).find(c => c.id === hid) : null;
+        if (tpc && (tpc.dir === 'e' || tpc.dir === 'w') &&
+            (kids.get(tp) || []).filter(c => c.dir === tpc.dir).length === 1) {
+          const gp = parentOf.get(tp);
+          const tpd = gp ? ((kids.get(gp) || []).find(c => c.id === tp) || {}).dir : null;
+          const col = (tpd === 'e' || tpd === 'w')
+            ? (kids.get(gp) || []).filter(c => c.dir === tpd).map(c => c.id) : [];
+          if (col.length >= 2) {
+            const adjset = new Set((adj.get(hid) || []).map(o => o.id));
+            if (col.every(m => adjset.has(m))) {
+              const delta = colMidOf(col) - (posOf(hid).y + heightOf(hid) / 2);
+              if (Math.abs(delta) >= 1) {
+                moved = tryMove(subtreeOf(hid), delta);
+                // After the hub frees its spot, repack that sibling column (keeping its midline = the hub's)
+                if (moved) compactCol(col, posOf(hid).y + heightOf(hid) / 2, hid);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    // Subtree boxes are stale after moves; recompute bottom-up (reverse BFS guarantees children before parents)
+    for (let bi = bfs.length - 1; bi >= 0; bi--) {
+      const id = bfs[bi];
+      const box = { minX: 0, minY: 0, maxX: NODE_W, maxY: heightOf(id) };
+      for (const c of kids.get(id) || []) {
+        const cb = boxes.get(c.id);
+        const dx = posOf(c.id).x - posOf(id).x, dy = posOf(c.id).y - posOf(id).y;
+        box.minX = Math.min(box.minX, cb.minX + dx);
+        box.maxX = Math.max(box.maxX, cb.maxX + dx);
+        box.minY = Math.min(box.minY, cb.minY + dy);
+        box.maxY = Math.max(box.maxY, cb.maxY + dy);
+      }
+      boxes.set(id, box);
+    }
+
+    // Row alignment may inflate boxes; after recomputing the component's bounds, avoid isolated nodes (they keep their positions)
+    let compL = Infinity, compR = -Infinity, compT = Infinity, compB = -Infinity;
+    for (const id of bfs) {
+      const n = posOf(id), bx = boxes.get(id);
+      compL = Math.min(compL, n.x + bx.minX);
+      compR = Math.max(compR, n.x + bx.maxX);
+      compT = Math.min(compT, n.y + bx.minY);
+      compB = Math.max(compB, n.y + bx.maxY);
+    }
+    let shift = 0;
+    for (let pass = 0; pass <= fixedRects.length; pass++) {
+      let hit = false;
+      for (const r of fixedRects) {
+        if (r.x >= compR || r.x + r.w <= compL) continue;   // No horizontal intersection
+        const top = compT + shift, bot = compB + shift;
+        const oTop = r.y - GAP_Y, oBot = r.y + r.h + GAP_Y;
+        if (bot > oTop && top < oBot) { shift += oBot - top; hit = true; }
+      }
+      if (!hit) break;
+    }
+    for (const id of bfs) {
+      const n = posOf(id);
+      n.y += shift;
+      const el = nodesLayer.querySelector(`.node[data-id="${id}"]`);
+      el.style.left = n.x + 'px';
+      el.style.top = n.y + 'px';
+    }
+    stackBottom = compB + shift;
+
+    // Flight fix: merge a flown row into its parent node's (the row's owner's) own column direction — preferring
+    // the majority column side; with no column children, reuse the direction the node was placed from its tree parent (e.g. when a whole WBS-phase row
+    // skews, merge it into the phase column). Rewrite ports, then relayout this component; no flights → retries end
+    if (fixDirAfterFlight.length) {
+      let normalized = false;
+      for (const id of fixDirAfterFlight) {
+        const cs = kids.get(id);
+        const colKids = cs.filter(c => c.dir === 'e' || c.dir === 'w');
+        const rowKids = cs.filter(c => c.dir === 's' || c.dir === 'n');
+        if (!rowKids.length) continue;
+        let side;
+        if (colKids.length) {
+          side = colKids.filter(c => c.dir === 'e').length >=
+                 colKids.filter(c => c.dir === 'w').length ? 'e' : 'w';
+        } else {
+          const pdir = (kids.get(parentOf.get(id)) || []).find(c => c.id === id);
+          side = pdir ? pdir.dir : 'e';
+        }
+        for (const c of rowKids) { c.dir = side; fixEdgePorts(id, c.id, side); }
+        normalized = true;
+      }
+      if (normalized) continue;   // After repacking, relayout with the new directions
+    }
+    break;
+    }
+    }
+
+  // Ports carry direction/colour semantics; layout places nodes by port as much as possible; ports are only rewritten when rows merge into columns
+  renderEdges();
+  persist();
+}
+
+// ================= Interaction: drag / link / pan =================
+let drag = null;  // {type:'pan'|'group'|'link'|'marquee', ...}
+
+// Shift+Space drag: rubber-band select (screen coords for positioning, canvas coords for hit-testing)
+function startMarquee(e) {
+  const c = toCanvas(e.clientX, e.clientY);
+  drag = { type: 'marquee', sx: c.x, sy: c.y, x: c.x, y: c.y };
+  updateMarqueeEl();
+}
+function updateMarqueeEl() {
+  const x0 = Math.min(drag.sx, drag.x), x1 = Math.max(drag.sx, drag.x);
+  const y0 = Math.min(drag.sy, drag.y), y1 = Math.max(drag.sy, drag.y);
+  marqueeEl.style.display = 'block';
+  marqueeEl.style.left = state.pan.x + x0 * state.zoom + 'px';
+  marqueeEl.style.top = state.pan.y + y0 * state.zoom + 'px';
+  marqueeEl.style.width = (x1 - x0) * state.zoom + 'px';
+  marqueeEl.style.height = (y1 - y0) * state.zoom + 'px';
+}
+
+viewport.addEventListener('mousedown', e => {
+  const nodeEl = e.target.closest('.node');
+  const portEl = e.target.closest('.port');
+
+  if (e.button === 1) {  // Middle-button pan
+    drag = { type: 'pan', sx: e.clientX, sy: e.clientY, pan: { ...state.pan } };
+    viewport.classList.add('panning');
+    e.preventDefault();
+    return;
+  }
+
+  if (e.button === 2) {  // Right button: drag to move nodes (whole group when multi-selected) / pan the canvas
+    if (nodeEl) {
+      const id = nodeEl.dataset.id;
+      if (e.shiftKey) toggleSelectNode(id);              // Shift+right-click: toggle in multi-selection
+      else if (!state.selectedNodes.has(id)) selectNode(id);
+      if (state.selectedNodes.has(id)) {                 // Nodes removed from the selection don't take part in the drag
+        const c = toCanvas(e.clientX, e.clientY);
+        const start = new Map();
+        for (const sid of state.selectedNodes) {
+          const n = state.nodes.get(sid);
+          if (n) start.set(sid, { x: n.x, y: n.y });
+        }
+        drag = { type: 'group', sx: c.x, sy: c.y, start, moved: false,
+                 preState: History.snapshot() };
+      }
+    } else {
+      if (e.shiftKey) { startMarquee(e); e.preventDefault(); return; }   // Shift+right-drag on empty space: marquee select
+      clearSelection();
+      drag = { type: 'pan', sx: e.clientX, sy: e.clientY, pan: { ...state.pan } };
+      viewport.classList.add('panning');
+    }
+    e.preventDefault();
+    return;
+  }
+
+  if (e.button !== 0) return;
+
+  // Left button: only for linking / selecting / editing text (never moves nodes)
+  if (portEl && nodeEl) {  // Start a line from any port
+    drag = { type: 'link', fromNode: nodeEl.dataset.id, fromPort: portEl.dataset.port };
+    viewport.classList.add('linking');   // Show all ports while linking
+    e.preventDefault();
+    return;
+  }
+  if (nodeEl) {
+    const id = nodeEl.dataset.id;
+    if (e.shiftKey) {                 // Shift+left-click: toggle multi-selection without moving cursor/focus
+      toggleSelectNode(id);
+      e.preventDefault();
+    } else if (!state.selectedNodes.has(id) || state.selectedNodes.size === 1) {
+      selectNode(id);   // Single click selects + highlights; text editing is left to contenteditable
+    }
+    // Clicking an already-selected node keeps the multi-selection and enters editing; input syncs to the whole group
+    return;
+  }
+  // Empty space: Shift+drag = rubber-band select (click-to-select uses Shift+click on a node, see above)
+  if (e.shiftKey) { startMarquee(e); e.preventDefault(); return; }
+  // Empty space: try snapping first — a press near a port dot (tiny at low zoom) counts as dragging a line from that port
+  const sp = snapPort(e.clientX, e.clientY, 14, null);
+  if (sp) {
+    drag = { type: 'link', fromNode: sp.nodeId, fromPort: sp.port };
+    viewport.classList.add('linking');
+    e.preventDefault();
+    return;
+  }
+  // Empty space: clear selection + pan
+  clearSelection();
+  drag = { type: 'pan', sx: e.clientX, sy: e.clientY, pan: { ...state.pan } };
+  viewport.classList.add('panning');
+});
+
+// Suppress the context menu (right button drags nodes)
+viewport.addEventListener('contextmenu', e => e.preventDefault());
+
+window.addEventListener('mousemove', e => {
+  if (!drag) return;
+  if (drag.type === 'pan') {
+    state.pan.x = drag.pan.x + (e.clientX - drag.sx);
+    state.pan.y = drag.pan.y + (e.clientY - drag.sy);
+    applyTransform();
+  } else if (drag.type === 'group') {   // Group drag: move all selected nodes together
+    const c = toCanvas(e.clientX, e.clientY);
+    const dx = c.x - drag.sx, dy = c.y - drag.sy;
+    for (const [sid, p] of drag.start) {
+      const n = state.nodes.get(sid);
+      if (!n) continue;
+      n.x = p.x + dx;
+      n.y = p.y + dy;
+      const el = nodesLayer.querySelector(`.node[data-id="${sid}"]`);
+      if (el) { el.style.left = n.x + 'px'; el.style.top = n.y + 'px'; }
+    }
+    drag.moved = true;
+    renderEdges();
+  } else if (drag.type === 'marquee') {
+    const c = toCanvas(e.clientX, e.clientY);
+    drag.x = c.x; drag.y = c.y;
+    updateMarqueeEl();
+  } else if (drag.type === 'link') {
+    const c = toCanvas(e.clientX, e.clientY);
+    const p = portPos(state.nodes.get(drag.fromNode), drag.fromPort);
+    // When the drop is near a port, the preview snaps right to it — WYSIWYG
+    const sp = snapPort(e.clientX, e.clientY, 26, drag.fromNode);
+    if (sp) tempPath.setAttribute('d', edgePathD(p, drag.fromPort, sp.pos, sp.port));
+    else tempPath.setAttribute('d', edgePathD(p, drag.fromPort, c, PORT_OPP[drag.fromPort]));
+    tempPath.style.display = 'block';
+  }
+});
+
+window.addEventListener('mouseup', e => {
+  if (!drag) return;
+  if (drag.type === 'link') {
+    tempPath.style.display = 'none';
+    viewport.classList.remove('linking');
+    let toNode = null, toPort = null;
+    const t = document.elementFromPoint(e.clientX, e.clientY);
+    const nodeEl = t && t.closest ? t.closest('.node') : null;
+    if (nodeEl && nodeEl.dataset.id !== drag.fromNode) {
+      // On a port, use it; elsewhere on the node, take the nearest port
+      const portEl = t.closest('.port');
+      toNode = nodeEl.dataset.id;
+      toPort = (portEl && portEl.dataset.port) ||
+               nearestPort(toNode, e.clientX, e.clientY);
+    } else {
+      // Not on a node: snap to a nearby port (hard to hit precisely at low zoom)
+      const sp = snapPort(e.clientX, e.clientY, 26, drag.fromNode);
+      if (sp) { toNode = sp.nodeId; toPort = sp.port; }
+    }
+    if (toNode) addEdge(drag.fromNode, drag.fromPort, toNode, toPort);
+  }
+  if (drag.type === 'marquee') {
+    marqueeEl.style.display = 'none';
+    const x0 = Math.min(drag.sx, drag.x), x1 = Math.max(drag.sx, drag.x);
+    const y0 = Math.min(drag.sy, drag.y), y1 = Math.max(drag.sy, drag.y);
+    // Only a valid marquee rectangle merges nodes into the selection; tiny jitters count as Shift+click on empty space and change nothing
+    if ((x1 - x0) * state.zoom > 4 || (y1 - y0) * state.zoom > 4) {
+      const s = new Set(state.selectedNodes);
+      for (const n of state.nodes.values()) {
+        if (n.x < x1 && n.x + NODE_W > x0 && n.y < y1 && n.y + nodeHeight(n.id) > y0)
+          s.add(n.id);
+      }
+      state.selectedNodes = s;
+      state.selectedEdge = null;
+      applyHighlight();
+      updateDelBtn();
+    }
+  }
+  if (drag.type === 'group' && drag.moved) { History.push(drag.preState); persist(); }
+  else if (drag.type === 'pan') persist();
+  drag = null;
+  viewport.classList.remove('panning');
+});
+
+// ================= Zoom =================
+viewport.addEventListener('wheel', e => {
+  e.preventDefault();
+  const r = viewport.getBoundingClientRect();
+  const mx = e.clientX - r.left, my = e.clientY - r.top;
+  const factor = e.deltaY < 0 ? 1.1 : 1 / 1.1;
+  const nz = Math.min(2.5, Math.max(0.2, state.zoom * factor));
+  const wx = (mx - state.pan.x) / state.zoom;
+  const wy = (my - state.pan.y) / state.zoom;
+  state.pan.x = mx - wx * nz;
+  state.pan.y = my - wy * nz;
+  state.zoom = nz;
+  applyTransform();
+  persist();
+}, { passive: false });
+
+// ================= Double-click to create a node =================
+viewport.addEventListener('dblclick', e => {
+  if (e.target.closest('.node')) return;
+  const c = toCanvas(e.clientX, e.clientY);
+  const n = addNode({ x: c.x - NODE_W / 2, y: c.y - 20 });
+  const titleEl = nodesLayer.querySelector(`.node[data-id="${n.id}"] .node-title`);
+  titleEl.focus();
+  const range = document.createRange();
+  range.selectNodeContents(titleEl);
+  const sel = getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+});
+
+// ================= Selecting edges =================
+edgesSvg.addEventListener('click', e => {
+  const p = e.target.closest('.edge-hit');
+  if (p) selectEdge(p.dataset.id);
+});
+
+// ================= Text editing =================
+let editSnap = null;   // Snapshot before text edits: one undo step per editing session
+nodesLayer.addEventListener('focusin', e => {
+  if (e.target.closest && e.target.closest('[contenteditable]')) editSnap = History.snapshot();
+  if (e.target.classList && e.target.classList.contains('cpa-desc-text'))
+    e.target.classList.add('cpa-editing');   // Allow wrapping while editing the activity name
+});
+nodesLayer.addEventListener('focusout', e => {
+  if (e.target.classList && e.target.classList.contains('cpa-desc-text'))
+    e.target.classList.remove('cpa-editing');
+  editSnap = null;
+});
+nodesLayer.addEventListener('input', e => {
+  if (editSnap) { History.push(editSnap); editSnap = null; }
+  const nodeEl = e.target.closest('.node');
+  if (!nodeEl) return;
+  const n = state.nodes.get(nodeEl.dataset.id);
+  if (!n) return;
+  const cell = e.target.closest('[data-cpa]');
+  if (cell) {
+    if (!n.cpa) n.cpa = cpaDefaults();
+    cell.textContent = cell.textContent.replace(/\n/g, '');
+    n.cpa[cell.dataset.cpa] = cell.textContent;
+    // Derive Dur (EF−ES) and Float (LS−ES / LF−EF) after entering ES/EF/LS/LF
+    if (['es', 'ef', 'ls', 'lf'].includes(cell.dataset.cpa) && recomputeCpaDerived(n.cpa)) {
+      nodeEl.querySelector('.cpa-dur').textContent = n.cpa.dur;
+      nodeEl.querySelector('.cpa-fl').textContent = n.cpa.fl;
+    }
+    persist();
+    return;
+  }
+  // Activity-name edits sync to the node title (hidden in CPA mode, visible again in other modes)
+  if (e.target.classList.contains('cpa-desc-text')) {
+    n.title = e.target.textContent.replace(/\n+/g, ' ');
+    const titleEl = nodeEl.querySelector('.node-title');
+    if (titleEl) titleEl.textContent = n.title;
+    nodeEl.querySelector('.cpa-desc').title = n.title;
+    renderEdges();   // A longer name may wrap and change the node height
+    persist();
+    return;
+  }
+  const isTitle = e.target.classList.contains('node-title');
+  // Body text uses innerText: Enter creates <div>/<br> in contenteditable; textContent would drop line breaks
+  const text = isTitle ? e.target.textContent : e.target.innerText.replace(/\n$/, '');
+  if (isTitle) n.title = text; else n.note = text;
+  // Multi-select sync: write the same text into the same field of other selected nodes (title→title, body→body)
+  if (state.selectedNodes.size > 1 && state.selectedNodes.has(n.id)) {
+    for (const sid of state.selectedNodes) {
+      if (sid === n.id) continue;
+      const m = state.nodes.get(sid);
+      if (!m) continue;
+      if (isTitle) m.title = text; else m.note = text;
+      const field = nodesLayer.querySelector(`.node[data-id="${sid}"] ${isTitle ? '.node-title' : '.node-body'}`);
+      if (field) field.textContent = text;
+    }
+  }
+  renderEdges();   // Text changes may alter node heights, moving edge endpoints
+  persist();
+  refreshCpa();   // Sync CPA cells when durations/titles change
+});
+nodesLayer.addEventListener('keydown', e => {
+  if (e.target.hasAttribute('data-cpa')) {
+    if (e.key === 'Enter') { e.preventDefault(); e.target.blur(); }
+    return;
+  }
+  const isTitleEdit = e.target.classList.contains('node-title');
+  const isDescEdit = e.target.classList.contains('cpa-desc-text');
+  if (!isTitleEdit && !isDescEdit) return;
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    e.target.blur();
+    return;
+  }
+  if (!isTitleEdit) return;   // Only titles support ↓ to jump into the body
+  // Pressing ↓ with the caret on the title's last line (nothing below it): jump straight to the body's start.
+  // Same during multi-select typing — subsequent input goes into the body field and syncs to the whole group
+  if (e.key === 'ArrowDown') {
+    const sel = getSelection();
+    if (!sel.rangeCount) return;
+    const r = sel.getRangeAt(0).getBoundingClientRect();
+    if (!r.bottom) return;
+    const er = e.target.getBoundingClientRect();
+      range.collapse(true);   // Place the caret at the body's start
+    if (er.bottom - r.bottom < 8 * state.zoom) {
+      e.preventDefault();
+      const body = e.target.closest('.node').querySelector('.node-body');
+      body.focus();
+      const range = document.createRange();
+      range.selectNodeContents(body);
+      range.collapse(true);   // Place the caret at the body's start
+      sel.removeAllRanges();
+      sel.addRange(range);
+    }
+  }
+});
+// Pasting keeps plain text only: drop fonts, colours, tables etc. brought in from web pages / Word.
+// insertText uses the browser's native input path, so the undo stack and input events work normally.
+nodesLayer.addEventListener('paste', e => {
+  const ce = e.target.closest && e.target.closest('[contenteditable]');
+  if (!ce) return;
+  e.preventDefault();
+  let text = (e.clipboardData || window.clipboardData).getData('text/plain');
+  if (!text) return;
+  if (ce.classList.contains('node-title') || ce.classList.contains('cpa-desc-text'))
+  text = text.replace(/\s*\n\s*/g, ' ');   // Titles / activity names: single line
+  document.execCommand('insertText', false, text);
+});
+
+// ================= Keyboard =================
+window.addEventListener('keydown', e => {
+  const ae = document.activeElement;
+  const editing = ae && ae.isContentEditable;
+  if ((e.metaKey || e.ctrlKey) && !editing) {
+    const k = e.key.toLowerCase();
+    if (k === 'z' && !e.shiftKey) { e.preventDefault(); History.undo(); return; }
+    if (k === 'y' || (k === 'z' && e.shiftKey)) { e.preventDefault(); History.redo(); return; }
+    if (k === 'd') { e.preventDefault(); deleteSelected(); return; }
+  }
+  if (editing) {
+    if (e.key === 'Escape') ae.blur();
+    return;
+  }
+  if (e.key === 'Delete' || e.key === 'Backspace') deleteSelected();
+  else if (e.key === 'Escape') clearSelection();
+});
+
+// ================= Toolbar =================
+document.getElementById('btn-add').addEventListener('click', () => {
+  const r = viewport.getBoundingClientRect();
+  const c = toCanvas(r.left + r.width / 2, r.top + r.height / 2);
+  addNode({ x: c.x - NODE_W / 2, y: c.y - 20 });
+});
+
+document.getElementById('btn-arrange').addEventListener('click', autoArrange);
+
+document.getElementById('sel-depth').addEventListener('change', e => {
+  state.depth = e.target.value === 'all' ? Infinity : 1;
+  applyHighlight();
+});
+
+// ================= Export PDF / image =================
+// The whole graph is redrawn on an offscreen canvas at 3× resolution, so exported text stays crisp no matter how big the blueprint
+function exportBounds() {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const n of state.nodes.values()) {
+    minX = Math.min(minX, n.x);
+    minY = Math.min(minY, n.y);
+    maxX = Math.max(maxX, n.x + NODE_W);
+    maxY = Math.max(maxY, n.y + nodeHeight(n.id));
+  }
+  if (!isFinite(minX)) return null;
+  const PAD = 40;
+  return { x: minX - PAD, y: minY - PAD, w: maxX - minX + PAD * 2, h: maxY - minY + PAD * 2 };
+}
+
+function rrPath(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+// Character-by-character wrapping matching CSS word-break: break-all
+function wrapLines(ctx, text, maxW) {
+  const out = [];
+  for (const para of String(text).split('\n')) {
+    let line = '';
+    for (const ch of para) {
+      if (line && ctx.measureText(line + ch).width > maxW) { out.push(line); line = ch; }
+      else line += ch;
+    }
+    out.push(line);
+  }
+  return out;
+}
+
+function drawExportNode(ctx, el) {
+  const x = parseFloat(el.style.left), y = parseFloat(el.style.top);
+  const w = NODE_W, h = el.offsetHeight;
+  const headerEl = el.querySelector('.node-header');
+  const bodyEl = el.querySelector('.node-body');
+  const hh = headerEl.offsetHeight;
+  const padX = 16, textW = w - padX * 2;   // Matches the CSS padding (16px left/right)
+
+  // Node fill + shadow
+  ctx.save();
+  ctx.shadowColor = 'rgba(51,48,42,.12)';
+  ctx.shadowBlur = 12;
+  ctx.shadowOffsetY = 4;
+  rrPath(ctx, x, y, w, h, 8);
+  ctx.fillStyle = '#FBF5E8';
+  ctx.fill();
+  ctx.restore();
+
+  ctx.save();
+  rrPath(ctx, x, y, w, h, 8);
+  ctx.clip();
+  ctx.fillStyle = '#EAE0CC';
+  ctx.fillRect(x, y, w, hh);
+
+  // Line height is derived from the DOM's actual height so text sits exactly where it does on screen
+  ctx.textBaseline = 'top';
+  ctx.font = '600 14px "Helvetica Neue", sans-serif';
+  ctx.fillStyle = '#33302A';
+  const titleLines = wrapLines(ctx, el.querySelector('.node-title').innerText, textW);
+  const tLH = (hh - 20) / titleLines.length;   // Header top/bottom padding: 10px each
+  titleLines.forEach((ln, i) => ctx.fillText(ln, x + padX, y + 10 + i * tLH));
+
+  const note = bodyEl.innerText.replace(/\n+$/, '');
+  if (note) {
+    ctx.font = '12px "Helvetica Neue", sans-serif';
+    ctx.fillStyle = '#5E574C';
+    const bodyLines = wrapLines(ctx, note, textW);
+    bodyLines.forEach((ln, i) => ctx.fillText(ln, x + padX, y + hh + 8 + i * 18));   // CSS line height 1.5 × 12px
+  }
+  ctx.restore();
+
+  rrPath(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 8);
+  ctx.strokeStyle = '#D9CCB2';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+}
+
+// Render the whole graph to an offscreen canvas, returning {cv, w, h} (w/h at 1× logical size, used for PDF page size)
+function renderExport() {
+  const b = exportBounds();
+  if (!b) { alert('The current document has no nodes to export'); return null; }
+  // 3× resolution with a canvas-size cap (WebKit may fail to allocate oversized single canvases); very large blueprints automatically downscale
+  let scale = Math.min(3, 8000 / b.w, 8000 / b.h);
+  while (scale > 1 && b.w * scale * b.h * scale > 5e7) scale *= 0.8;
+  scale = Math.max(1, scale);
+  const cv = document.createElement('canvas');
+  cv.width = Math.round(b.w * scale);
+  cv.height = Math.round(b.h * scale);
+  const ctx = cv.getContext('2d');
+  ctx.scale(scale, scale);
+  ctx.translate(-b.x, -b.y);
+
+  ctx.fillStyle = '#F3ECDD';
+  ctx.fillRect(b.x, b.y, b.w, b.h);
+  // Background grid (aligned with the canvas's 24px grid)
+  ctx.strokeStyle = '#E6DAC1';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  for (let gx = Math.ceil(b.x / 24) * 24; gx < b.x + b.w; gx += 24) { ctx.moveTo(gx, b.y); ctx.lineTo(gx, b.y + b.h); }
+  for (let gy = Math.ceil(b.y / 24) * 24; gy < b.y + b.h; gy += 24) { ctx.moveTo(b.x, gy); ctx.lineTo(b.x + b.w, gy); }
+  ctx.stroke();
+
+  // Edges (reuse the currently rendered paths with a uniform default colour; highlight state is not exported)
+  ctx.strokeStyle = '#968C79';
+  ctx.lineWidth = 2.5;
+  for (const p of edgesSvg.querySelectorAll('g.edge .edge-path'))
+    ctx.stroke(new Path2D(p.getAttribute('d')));
+
+  for (const el of nodesLayer.querySelectorAll('.node')) drawExportNode(ctx, el);
+  return { cv, w: b.w, h: b.h };
+}
+
+function bytesToBase64(bytes) {
+  let s = '';
+  for (let i = 0; i < bytes.length; i += 0x8000)
+    s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+
+function saveExport(filename, mime, base64) {
+  // Native app: WKWebView doesn't support <a download>; go through the bridge to open the save panel
+  if (Native.ok) { Native.send({ action: 'saveFile', name: filename, data: base64 }); return; }
+  const a = document.createElement('a');
+  a.href = 'data:' + mime + ';base64,' + base64;
+  a.download = filename;
+  a.click();
+}
+
+function exportImage() {
+  const r = renderExport();
+  if (!r) return;
+  saveExport((Docs.current ? Docs.current.name : 'graph') + '.png',
+    'image/png', r.cv.toDataURL('image/png').split(',')[1]);
+}
+
+// Minimal PDF generator: a single page with an embedded JPEG (DCTDecode). The page matches the blueprint's 1× logical size,
+// and the image is 3× resolution so text stays sharp at any zoom
+function exportPdf() {
+  const r = renderExport();
+  if (!r) return;
+  const bin = atob(r.cv.toDataURL('image/jpeg', 0.95).split(',')[1]);
+  const jpeg = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) jpeg[i] = bin.charCodeAt(i);
+  const pw = Math.round(r.w), ph = Math.round(r.h);
+
+  const enc = new TextEncoder();
+  const chunks = [];
+  let len = 0;
+  const pushStr = s => { const c = enc.encode(s); chunks.push(c); len += c.length; };
+  const offsets = [0];
+  pushStr('%PDF-1.4\n');
+  offsets[1] = len; pushStr('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  offsets[2] = len; pushStr('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
+  offsets[3] = len; pushStr('3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + pw + ' ' + ph + '] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n');
+  offsets[4] = len;
+  pushStr('4 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + r.cv.width + ' /Height ' + r.cv.height + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + jpeg.length + ' >>\nstream\n');
+  chunks.push(jpeg); len += jpeg.length;
+  pushStr('\nendstream\nendobj\n');
+  const contents = 'q\n' + pw + ' 0 0 ' + ph + ' 0 0 cm\n/Im0 Do\nQ\n';
+  offsets[5] = len;
+  pushStr('5 0 obj\n<< /Length ' + contents.length + ' >>\nstream\n' + contents + 'endstream\nendobj\n');
+  const xrefPos = len;
+  let x = 'xref\n0 6\n0000000000 65535 f \n';
+  for (let i = 1; i <= 5; i++) x += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
+  pushStr(x + 'trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n' + xrefPos + '\n%%EOF');
+
+  const pdf = new Uint8Array(len);
+  let o = 0;
+  for (const c of chunks) { pdf.set(c, o); o += c.length; }
+  saveExport((Docs.current ? Docs.current.name : 'graph') + '.pdf',
+    'application/pdf', bytesToBase64(pdf));
+}
+
+document.getElementById('btn-export-img').addEventListener('click', exportImage);
+document.getElementById('btn-export-pdf').addEventListener('click', exportPdf);
+
+// ================= Graph data serialization =================
+function graphData() {
+  return {
+    nodes: [...state.nodes.values()],
+    edges: [...state.edges.values()],
+    pan: state.pan,
+    zoom: state.zoom,
+    mode: state.mode,
+    uid,
+  };
+}
+
+function loadData(d) {
+  state.nodes.clear();
+  state.edges.clear();
+  nodesLayer.innerHTML = '';
+  state.selectedNodes = new Set();
+  state.selectedEdge = null;
+  uid = d.uid || 1;
+  const savedMode = ['blueprint', 'mindmap', 'cpa'].includes(d.mode) ? d.mode : 'blueprint';
+  for (const nd of d.nodes || []) {
+    const n = { id: nd.id, x: nd.x, y: nd.y, title: nd.title ?? '', note: nd.note ?? '', mode: nd.mode || savedMode };
+    if (nd.cpa) n.cpa = { ...cpaDefaults(), ...nd.cpa };   // Restore the user-typed CPA values (otherwise the recomputation below would overwrite them)
+    state.nodes.set(n.id, n);
+    nodesLayer.appendChild(buildNodeEl(n));
+  }
+  const heights = new Map();
+  nodesLayer.querySelectorAll('.node').forEach(el => heights.set(el.dataset.id, el.offsetHeight));
+  for (const ed of d.edges || []) {
+    if (state.nodes.has(ed.from) && state.nodes.has(ed.to)) {
+      // Old data has no port info: derive a sensible default port from the current geometry
+      const p = autoPorts(state.nodes.get(ed.from), state.nodes.get(ed.to), heights);
+      state.edges.set(ed.id, {
+        id: ed.id, from: ed.from, to: ed.to,
+        fromPort: ed.fromPort || p.fromPort,
+        toPort: ed.toPort || p.toPort,
+      });
+    }
+  }
+  // Older data has no CPA form: backfill once from the computed values so existing boxes don't go blank
+  const r0 = computeCPM();
+  for (const n of state.nodes.values()) {
+    if (n.cpa) continue;
+    n.cpa = cpaDefaults();
+    const d = r0.map.get(n.id);
+    if (!d) continue;
+    n.cpa.es = fmtNum(d.es); n.cpa.ef = fmtNum(d.ef);
+    n.cpa.ls = fmtNum(d.ls); n.cpa.lf = fmtNum(d.lf);
+    n.cpa.dur = fmtNum(d.dur); n.cpa.fl = fmtNum(d.float);
+    n.cpa.id = n.id;
+  }
+  // Dur / Float are read-only computed columns: always recompute from ES/EF/LS/LF on load and sync to the cells
+  for (const n of state.nodes.values()) {
+    if (!n.cpa) continue;
+    recomputeCpaDerived(n.cpa);
+    const el = nodesLayer.querySelector(`.node[data-id="${n.id}"]`);
+    if (!el) continue;
+    el.querySelector('.cpa-dur').textContent = n.cpa.dur;
+    el.querySelector('.cpa-fl').textContent = n.cpa.fl;
+  }
+  // Prevent id collisions
+  for (const id of [...state.nodes.keys(), ...state.edges.keys()]) {
+    const m = /^[ne](\d+)$/.exec(id);
+    if (m) uid = Math.max(uid, +m[1] + 1);
+  }
+  if (d.pan) state.pan = d.pan;
+  if (d.zoom) state.zoom = d.zoom;
+  state.mode = savedMode;
+  applyTransform();
+  renderEdges();
+  applyHighlight();
+  updateDelBtn();
+  applyMode();
+}
+
+// ================= Undo / redo =================
+const History = {
+  undoStack: [],
+  redoStack: [],
+  limit: 100,
+
+  snapshot() {
+    return JSON.stringify({
+      nodes: [...state.nodes.values()],
+      edges: [...state.edges.values()],
+      uid,
+    });
+  },
+  push(snap) {
+    this.undoStack.push(snap ?? this.snapshot());
+    if (this.undoStack.length > this.limit) this.undoStack.shift();
+    this.redoStack.length = 0;
+    this.updateUI();
+  },
+  undo() {
+    if (!this.undoStack.length) return;
+    this.redoStack.push(this.snapshot());
+    this.restore(this.undoStack.pop());
+  },
+  redo() {
+    if (!this.redoStack.length) return;
+    this.undoStack.push(this.snapshot());
+    this.restore(this.redoStack.pop());
+  },
+  restore(snap) {
+    const d = JSON.parse(snap);
+    // Restore data but keep the current view; the selection is unchanged and each node's style is restored from the snapshot
+    loadData({ nodes: d.nodes, edges: d.edges, uid: d.uid, pan: state.pan, zoom: state.zoom, mode: state.mode });
+    persist.now();
+    this.updateUI();
+  },
+  clear() {
+    this.undoStack.length = 0;
+    this.redoStack.length = 0;
+    this.updateUI();
+  },
+  updateUI() {
+    document.getElementById('btn-undo').disabled = !this.undoStack.length;
+    document.getElementById('btn-redo').disabled = !this.redoStack.length;
+  },
+};
+
+document.getElementById('btn-undo').addEventListener('click', () => History.undo());
+document.getElementById('btn-redo').addEventListener('click', () => History.redo());
+document.getElementById('btn-del').addEventListener('click', () => deleteSelected());
+
+function updateDelBtn() {
+  document.getElementById('btn-del').disabled = !(state.selectedNodes.size || state.selectedEdge);
+}
+
+// ================= Session-only runtime =================
+// This hosted edition deliberately keeps the graph in memory only. There is no
+// browser persistence, server persistence or account state; export before leaving the page.
+const Native = { ok: false };
+const Docs = { current: { id: 'cpa-session', name: 'critical-path-analysis' } };
+
+// ================= No persistence by design =================
+// Mutations still call persist() so the shared editor logic remains simple, but
+// both functions are intentionally no-ops in the online CPA edition.
+function persist() {}
+persist.now = function () {};
+
+// ================= Display modes: Blueprint / Mindmap / Critical Path Analysis =================
+const fmtNum = v => {
+  const r = Math.round(v * 100) / 100;
+  return Math.abs(r % 1) < 1e-9 ? String(Math.round(r)) : String(r);
+};
+function escHtml(s) {
+  return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Duration: parsed from the node text (5 days / Duration: 3 / 2 weeks); unspecified defaults to 1 day
+function durationOf(n) {
+  const s = ((n.title || '') + '\n' + (n.note || '')) + '';
+  let m = /dur(?:ation)?\s*[:=]?\s*(\d+(?:\.\d+)?)/i.exec(s);
+  let v, unit = '';
+  if (m) v = parseFloat(m[1]);
+  else {
+    m = /(\d+(?:\.\d+)?)\s*(days?|weeks?|wks?|months?|mos?|hrs?|hours?|d|w|m|h)\b/i.exec(s);
+    if (!m) return 1;
+    v = parseFloat(m[1]);
+    unit = m[2].toLowerCase();
+  }
+  v = Math.max(0.1, v);
+  if (/week|wk/.test(unit)) return v * 7;
+  if (/month|mo/.test(unit)) return v * 30;
+  if (/hr/.test(unit) || unit === 'h') return v / 8;
+  return v;
+}
+
+// Critical Path Method (CPM): forward/backward passes per weakly-connected component.
+// Edge direction from → to means predecessor activity; ES/EF take the max forward, LS/LF take the min backward.
+// Float = LS - ES; Float = 0 with >1 node in the component → critical path.
+// With cycles, up to n+1 relaxation rounds guarantee convergence (cycles have no strict meaning; use the relaxed result).
+function computeCPM() {
+  const dur = new Map();
+  for (const n of state.nodes.values()) dur.set(n.id, durationOf(n));
+  const adjU = new Map();
+  for (const e of state.edges.values()) {
+    if (!state.nodes.has(e.from) || !state.nodes.has(e.to)) continue;
+    (adjU.get(e.from) || adjU.set(e.from, []).get(e.from)).push(e.to);
+    (adjU.get(e.to) || adjU.set(e.to, []).get(e.to)).push(e.from);
+  }
+  const visited = new Set(), comps = [];
+  for (const id of state.nodes.keys()) {
+    if (visited.has(id)) continue;
+    const comp = [], q = [id];
+    visited.add(id);
+    while (q.length) {
+      const c = q.shift(); comp.push(c);
+      for (const o of adjU.get(c) || [])
+        if (!visited.has(o)) { visited.add(o); q.push(o); }
+    }
+    comps.push(comp);
+  }
+  const map = new Map();
+  let projEnd = 0;
+  for (const comp of comps) {
+    const succ = new Map(), pred = new Map();
+    for (const e of state.edges.values()) {
+      if (!comp.includes(e.from) || !comp.includes(e.to)) continue;
+      (succ.get(e.from) || succ.set(e.from, []).get(e.from)).push(e.to);
+      (pred.get(e.to) || pred.set(e.to, []).get(e.to)).push(e.from);
+    }
+    const ES = new Map(), EF = new Map();
+    for (const id of comp) { ES.set(id, 0); EF.set(id, dur.get(id)); }
+    for (let i = 0; i <= comp.length; i++) {
+      let changed = false;
+      for (const id of comp)
+        for (const p of pred.get(id) || []) {
+          const v = EF.get(p);
+          if (v > ES.get(id)) { ES.set(id, v); EF.set(id, v + dur.get(id)); changed = true; }
+        }
+      if (!changed) break;
+    }
+    const end = Math.max(...comp.map(id => EF.get(id)));
+    projEnd = Math.max(projEnd, end);
+    const LF = new Map(), LS = new Map();
+    for (const id of comp) { LF.set(id, end); LS.set(id, end - dur.get(id)); }
+    for (let i = 0; i <= comp.length; i++) {
+      let changed = false;
+      for (const id of comp)
+        for (const s of succ.get(id) || []) {
+          const v = LS.get(s);
+          if (v < LF.get(id)) { LF.set(id, v); LS.set(id, v - dur.get(id)); changed = true; }
+        }
+      if (!changed) break;
+    }
+    for (const id of comp) {
+      const fl = LS.get(id) - ES.get(id);
+      map.set(id, {
+        es: ES.get(id), ef: EF.get(id), ls: LS.get(id), lf: LF.get(id),
+        dur: dur.get(id), float: fl,
+        comp: comp.length,
+        critical: comp.length > 1 && Math.abs(fl) < 1e-9,
+      });
+    }
+  }
+  return { map, projEnd };
+}
+
+// Mode menu: the state only decides the style of text boxes created afterwards; existing ones are unchanged
+function applyMode() {
+  const names = { blueprint: 'Blueprint', mindmap: 'Mindmap', cpa: 'Critical Path Analysis' };
+  document.body.classList.toggle('mode-cpa', state.mode === 'cpa');
+  document.getElementById('btn-mode').textContent = 'Mode: ' + names[state.mode] + ' ▾';
+  document.querySelectorAll('.mode-opt').forEach(b =>
+    b.classList.toggle('active', b.dataset.mode === state.mode));
+  document.getElementById('btn-cpa-view').style.display = state.mode === 'cpa' ? '' : 'none';
+  refreshCpa();
+}
+
+// Only the critical-path red outline follows the current selection; CPA cell values are user-edited and never overwritten.
+// The Activity field follows the node title (edits elsewhere sync here)
+function refreshCpa() {
+  const r = computeCPM();
+  const isCpaView = state.mode === 'cpa';
+  for (const n of state.nodes.values()) {
+    const el = nodesLayer.querySelector(`.node[data-id="${n.id}"]`);
+    if (!el) continue;
+    const d = r.map.get(n.id);
+    const e = effectiveCpa(n, d);
+    el.classList.toggle('critical', isCpaView && e.comp > 1 && Math.abs(e.float) < 1e-9);
+    if (n.mode === 'cpa') {
+      el.querySelector('.cpa-desc-text').textContent = n.title;
+      el.querySelector('.cpa-desc').title = n.title;
+    }
+  }
+}
+
+// CPA modal: timeline (Gantt style) + schedule
+function cpaRows() {
+  const r = computeCPM();
+  const rows = [...state.nodes.values()]
+    .map(n => {
+      const e = effectiveCpa(n, r.map.get(n.id));
+      return {
+        id: e.id, title: n.title,
+        es: e.es, ef: e.ef, ls: e.ls, lf: e.lf, dur: e.dur, float: e.float,
+        critical: e.comp > 1 && Math.abs(e.float) < 1e-9,
+      };
+    })
+    .sort((a, b) => (a.es - b.es) || (a.float - b.float) || (a.id < b.id ? -1 : 1));
+  const projEnd = rows.reduce((m, x) => Math.max(m, x.ef), 0);
+  return { rows, projEnd };
+}
+
+function renderCpa() {
+  const { rows, projEnd } = cpaRows();
+  const maxDays = Math.max(1, projEnd);
+  const px = Math.max(16, Math.min(46, Math.round(980 / Math.max(1, maxDays))));
+  const tickStep = px >= 34 ? 1 : px >= 20 ? 2 : 5;
+  let head = '<div class="gantt-head">';
+  for (let d = 0; d <= maxDays + 1e-6; d += tickStep)
+    head += `<span class="gantt-tick" style="left:${190 + d * px}px">${fmtNum(d)}</span>`;
+  head += '</div>';
+  let html = head;
+  for (const row of rows) {
+    const floatW = (row.ls - row.es) * px, workW = Math.max(3, row.dur * px);
+    html += `<div class="gantt-row${row.critical ? ' critical' : ''}">` +
+      `<div class="gantt-lbl" title="${escHtml(row.title)}">${row.id} — ${escHtml(row.title)}</div>` +
+      `<div class="gantt-track">` +
+      (floatW > 3
+        ? `<div class="gantt-bar gantt-floatbar" style="left:${row.es * px}px;width:${floatW}px"></div>`
+        : '') +
+      `<div class="gantt-bar gantt-workbar" style="left:${row.es * px}px;width:${workW}px"></div>` +
+      `</div></div>`;
+  }
+  document.getElementById('cpa-gantt').innerHTML = html;
+  html = '<table><tr><th>ES</th><th>Activity ID</th><th>EF</th><th>Float</th>' +
+    '<th>Activity Description</th><th>LS</th><th>Dur</th><th>LF</th><th>Critical</th></tr>';
+  for (const row of rows) {
+    html += `<tr${row.critical ? ' class="critical-row"' : ''}>` +
+      `<td>${fmtNum(row.es)}</td><td>${row.id}</td><td>${fmtNum(row.ef)}</td>` +
+      `<td>${fmtNum(row.float)}</td><td class="cpa-desc-col">${escHtml(row.title)}</td>` +
+      `<td>${fmtNum(row.ls)}</td><td>${fmtNum(row.dur)}</td><td>${fmtNum(row.lf)}</td>` +
+      `<td>${row.critical ? '✔' : ''}</td></tr>`;
+  }
+  html += '</table>';
+  document.getElementById('cpa-table').innerHTML = html;
+}
+
+function openCpaModal() {
+  renderCpa();
+  document.getElementById('cpa-modal').classList.add('open');
+}
+function closeCpaModal() {
+  document.getElementById('cpa-modal').classList.remove('open');
+}
+
+// Export Excel (an HTML table wrapped as .xls, openable directly by Excel/WPS)
+function exportCpaXls() {
+  const { rows, projEnd } = cpaRows();
+  const crit = rows.filter(x => x.critical).length;
+  let h = '<table border="1" cellpadding="4" style="border-collapse:collapse">' +
+    `<tr><th colspan="9">Critical Path Analysis — ${escHtml(Docs.current ? Docs.current.name : '')}</th></tr>` +
+    `<tr><td colspan="9">Project duration: ${fmtNum(projEnd)} &nbsp;|&nbsp; Critical activities: ${crit}</td></tr>` +
+    '<tr><th>ES</th><th>Activity ID</th><th>EF</th><th>Float</th><th>Activity Description</th>' +
+    '<th>LS</th><th>Dur</th><th>LF</th><th>Critical Path</th></tr>';
+  for (const row of rows)
+    h += `<tr${row.critical ? ' style="background:#F8E3DF"' : ''}>` +
+      `<td>${fmtNum(row.es)}</td><td>${row.id}</td><td>${fmtNum(row.ef)}</td>` +
+      `<td>${fmtNum(row.float)}</td><td>${escHtml(row.title)}</td>` +
+      `<td>${fmtNum(row.ls)}</td><td>${fmtNum(row.dur)}</td><td>${fmtNum(row.lf)}</td>` +
+      `<td>${row.critical ? 'YES' : ''}</td></tr>`;
+  h += '</table>';
+  const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" ' +
+    'xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
+    '<head><meta charset="UTF-8"></head><body>' + h + '</body></html>';
+  saveExport((Docs.current ? Docs.current.name : 'graph') + '_CPA.xls', 'application/vnd.ms-excel',
+    bytesToBase64(new TextEncoder().encode(html)));
+}
+
+// Bottom-right "Mode" menu & modal events
+const modeFab = document.getElementById('mode-fab');
+const modeMenu = document.getElementById('mode-menu');
+document.getElementById('btn-mode').addEventListener('click', e => {
+  e.stopPropagation();
+  modeFab.classList.toggle('open');
+});
+modeMenu.querySelectorAll('.mode-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    state.mode = opt.dataset.mode;
+    modeFab.classList.remove('open');
+    applyMode();
+    persist();
+    // Switching modes does not auto-open the CPA modal: it would cover the canvas and block text editing; open it via "Timeline" when needed
+  });
+});
+document.getElementById('btn-cpa-view').addEventListener('click', openCpaModal);
+document.getElementById('btn-cpa-open').addEventListener('click', () => {
+  modeFab.classList.remove('open');
+  openCpaModal();
+});
+document.getElementById('btn-cpa-export').addEventListener('click', exportCpaXls);
+document.getElementById('btn-cpa-close').addEventListener('click', closeCpaModal);
+document.addEventListener('click', e => {
+  if (!modeFab.contains(e.target)) modeFab.classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeCpaModal(); modeFab.classList.remove('open'); }
+});
+
+// ================= Demo data =================
+function demoGraph() {
+  return {
+    nodes: [
+      { id: 'n1', x: 60,  y: 220, title: 'Core Concept', note: 'Double-click empty space to create a node\nHover a node and drag a port to connect' },
+      { id: 'n2', x: 460, y: 60,  title: 'Branch A', note: 'Click any node\nto highlight its network' },
+      { id: 'n3', x: 460, y: 230, title: 'Branch B', note: '' },
+      { id: 'n4', x: 460, y: 400, title: 'Branch C', note: 'Press Delete to remove selected nodes or connections' },
+    ],
+    edges: [
+      { id: 'e1', from: 'n1', to: 'n2' },
+      { id: 'e2', from: 'n1', to: 'n3' },
+      { id: 'e3', from: 'n1', to: 'n4' },
+    ],
+    pan: { x: 80, y: 60 },
+    zoom: 1,
+    uid: 100,
+  };
+}
+
+// ================= Help panel =================
+const helpBtn = document.getElementById('btn-help');
+const helpPanel = document.getElementById('help-panel');
+function setHelp(open) {
+  helpPanel.classList.toggle('open', open);
+  helpBtn.classList.toggle('active', open);
+}
+helpBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  setHelp(!helpPanel.classList.contains('open'));
+});
+document.addEventListener('click', e => {
+  if (!helpPanel.classList.contains('open')) return;
+  if (!helpPanel.contains(e.target) && e.target !== helpBtn) setHelp(false);
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') setHelp(false);
+});
+
+// ================= Initialization =================
+// Start a fresh in-memory CPA canvas on every page load.
+loadData({ nodes: [], edges: [], pan: { x: 80, y: 60 }, zoom: 1, mode: 'cpa', uid: 1 });
+applyTransform();
+renderEdges();
+History.updateUI();
+updateDelBtn();
+</script>
+</body>
+</html>
