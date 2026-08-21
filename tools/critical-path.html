@@ -269,7 +269,7 @@ body.mode-cpa .node .port { opacity: 1; pointer-events: auto; }
 }
 .cpa-cell .cpa-val[contenteditable]:focus { background: #F3EBD7; }
 .cpa-cell .cpa-val.cpa-calc {
-  /* Auto-calculated columns (Dur / Float): read-only, fill the cell; italics show derivation from ES/EF/LS/LF */
+  /* Auto-calculated column (Float): read-only, fills the cell; italics show derivation from LS/ES */
   display: block;
   margin: -2px -4px;
   padding: 2px 4px;
@@ -413,7 +413,7 @@ body.mode-cpa .node.critical {
   </div>
   <div class="cpa-body">
     <div class="cpa-section">Timeline</div>
-    <div class="cpa-note">Dark blue = work span ES→EF, light yellow = Float, red = critical path. The ES / EF / LS / LF you enter in a node sync to this timeline, the schedule and the exported image; Dur and Float are auto-calculated (read-only). Empty fields are estimated from the node text (e.g. '5 days' / 'Duration: 3'); unspecified values count as 1.</div>
+    <div class="cpa-note">Dark blue = work span ES→EF, light yellow = Float, red = critical path. Enter any of ES / EF / LS / LF together with Dur and the matching value fills in automatically (ES + Dur → EF, EF − Dur → ES; the same for LS / LF). Float is auto-calculated (read-only). Empty fields are estimated from the node text (e.g. '5 days' / 'Duration: 3'); unspecified values count as 1.</div>
     <div id="cpa-gantt"></div>
     <div class="cpa-section">Schedule</div>
     <div id="cpa-table"></div>
@@ -577,7 +577,7 @@ function buildNodeEl(n) {
       '<div class="cpa-cell cpa-float"><span class="cpa-lbl">Float</span><span class="cpa-val cpa-calc cpa-fl" dir="ltr" title="Auto-calculated (read-only)"></span></div>' +
       '<div class="cpa-cell cpa-desc"><span class="cpa-lbl">Activity</span><span class="cpa-val cpa-desc-text" contenteditable="true" spellcheck="false" title="Click to edit the activity name"></span></div>' +
       '<div class="cpa-cell"><span class="cpa-lbl">LS</span><span class="cpa-val cpa-ls" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="ls"></span></div>' +
-      '<div class="cpa-cell"><span class="cpa-lbl">Dur</span><span class="cpa-val cpa-calc cpa-dur" dir="ltr" title="Auto-calculated (read-only)"></span></div>' +
+      '<div class="cpa-cell"><span class="cpa-lbl">Dur</span><span class="cpa-val cpa-dur" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="dur" title="Enter duration; with ES/EF/LS/LF it fills in the matching value"></span></div>' +
       '<div class="cpa-cell"><span class="cpa-lbl">LF</span><span class="cpa-val cpa-lf" dir="ltr" contenteditable="true" spellcheck="false" data-cpa="lf"></span></div>' +
     '</div>';
   el.querySelector('.node-title').textContent = n.title;
@@ -616,14 +616,20 @@ function effectiveCpa(n, d) {
   };
 }
 
-// Derive Dur (= EF − ES) and Float (= LS − ES, or LF − EF when LS is missing) from the entered ES/EF/LS/LF.
-// With fillOnly=true (document load) only gaps are filled — nothing is overwritten or cleared; during live editing, an incomplete driver clears stale derived values.
-function recomputeCpaDerived(c, fillOnly) {
+// Derive the ES↔EF and LS↔LF pairs from each other and from Dur, plus Float from the four.
+// Rule: any one side of a pair + Dur derives the other side — ES + Dur → EF, EF − Dur → ES,
+// LS + Dur → LF, LF − Dur → LS (the pair is reversible). Without Dur, an entered pair (ES+EF or
+// LS+LF) derives Dur = end − start. Float = LS − ES (or LF − EF when LS is missing).
+// With fillOnly=true (document load) only gaps are filled — nothing is overwritten or cleared.
+// During live editing the field just typed in (driver) is never overwritten, and an incomplete
+// driver clears stale derived values instead of refilling them mid-typing.
+function recomputeCpaDerived(c, fillOnly, driver) {
   const num = s => { const v = parseFloat(s); return Number.isFinite(v) ? v : NaN; };
-  const es = num(c.es), ef = num(c.ef), ls = num(c.ls), lf = num(c.lf);
+  const dur = num(c.dur);
   const empty = v => v === '' || v == null;
   let changed = false;
   const apply = (key, val, ok) => {
+    if (key === driver) return;   // Never overwrite the field the user is editing right now
     if (ok) {
       if (!fillOnly || empty(c[key])) {
         const s = fmtNum(val);
@@ -634,9 +640,21 @@ function recomputeCpaDerived(c, fillOnly) {
       changed = true;
     }
   };
-  apply('dur', ef - es, !Number.isNaN(es) && !Number.isNaN(ef));
-  const fl = !Number.isNaN(ls) && !Number.isNaN(es) ? ls - es
-           : !Number.isNaN(lf) && !Number.isNaN(ef) ? lf - ef : NaN;
+  // Pair derivation: start = ES/LS (the earlier point), end = EF/LF (start + Dur)
+  const derive = (startKey, endKey) => {
+    const s = num(c[startKey]), e = num(c[endKey]);
+    if (!Number.isNaN(dur)) {
+      if (driver === endKey && !Number.isNaN(e)) apply(startKey, e - dur, true);   // End side just edited → reverse
+      else if (!Number.isNaN(s)) apply(endKey, s + dur, true);                    // Start side known → forward
+      else if (!Number.isNaN(e)) apply(startKey, e - dur, true);                  // Only end side known → reverse
+    } else if (!Number.isNaN(s) && !Number.isNaN(e)) {
+      apply('dur', e - s, true);                                                   // Pair entered without Dur → Dur = end − start
+    }
+  };
+  derive('es', 'ef');
+  derive('ls', 'lf');
+  const fl = !Number.isNaN(num(c.ls)) && !Number.isNaN(num(c.es)) ? num(c.ls) - num(c.es)
+           : !Number.isNaN(num(c.lf)) && !Number.isNaN(num(c.ef)) ? num(c.lf) - num(c.ef) : NaN;
   apply('fl', fl, !Number.isNaN(fl));
   return changed;
 }
@@ -1763,10 +1781,12 @@ nodesLayer.addEventListener('input', e => {
     if (!n.cpa) n.cpa = cpaDefaults();
     cell.textContent = cell.textContent.replace(/\n/g, '');
     n.cpa[cell.dataset.cpa] = cell.textContent;
-    // Derive Dur (EF−ES) and Float (LS−ES / LF−EF) after entering ES/EF/LS/LF
-    if (['es', 'ef', 'ls', 'lf'].includes(cell.dataset.cpa) && recomputeCpaDerived(n.cpa)) {
-      nodeEl.querySelector('.cpa-dur').textContent = n.cpa.dur;
-      nodeEl.querySelector('.cpa-fl').textContent = n.cpa.fl;
+    // Derive the ES↔EF / LS↔LF pairs from Dur (either direction) and Float, after any related edit; sync every derived cell
+    if (['es', 'ef', 'ls', 'lf', 'dur'].includes(cell.dataset.cpa) && recomputeCpaDerived(n.cpa, false, cell.dataset.cpa)) {
+      for (const k of ['es', 'ef', 'ls', 'lf', 'dur', 'fl']) {
+        const synced = nodeEl.querySelector('.cpa-' + k);
+        if (synced && synced !== e.target) synced.textContent = n.cpa[k];
+      }
     }
     persist();
     return;
@@ -2143,12 +2163,16 @@ function loadData(d) {
     n.cpa.dur = fmtNum(d.dur); n.cpa.fl = fmtNum(d.float);
     n.cpa.id = n.id;
   }
-  // Dur / Float are read-only computed columns: always recompute from ES/EF/LS/LF on load and sync to the cells
+  // Reconcile every node's CPA fields on load: an entered value + Dur derives its pair mate (ES↔EF, LS↔LF); sync all cells
   for (const n of state.nodes.values()) {
     if (!n.cpa) continue;
     recomputeCpaDerived(n.cpa);
     const el = nodesLayer.querySelector(`.node[data-id="${n.id}"]`);
     if (!el) continue;
+    el.querySelector('.cpa-es').textContent = n.cpa.es;
+    el.querySelector('.cpa-ef').textContent = n.cpa.ef;
+    el.querySelector('.cpa-ls').textContent = n.cpa.ls;
+    el.querySelector('.cpa-lf').textContent = n.cpa.lf;
     el.querySelector('.cpa-dur').textContent = n.cpa.dur;
     el.querySelector('.cpa-fl').textContent = n.cpa.fl;
   }
