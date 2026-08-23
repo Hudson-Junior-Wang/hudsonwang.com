@@ -107,13 +107,17 @@ body.sidebar-hidden #viewport { left: 0; }
    on interactive descendants of a zero-sized absolute parent; Safari is more lenient. */
 #canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; transform-origin: 0 0; }
 #edges { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
-#nodes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; pointer-events: auto; }
+/* The layer box itself must not swallow clicks — otherwise it covers the SVG connections below it.
+   Pointer events are re-enabled per node (and per port when visible). */
+#nodes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 
 /* ---------- Edges ---------- */
 .edge-path { fill: none; stroke: var(--edge); stroke-width: 2.5; pointer-events: none; transition: opacity .15s, stroke .15s; }
 .edge-hit { fill: none; stroke: transparent; stroke-width: 16; pointer-events: stroke; cursor: pointer; }
 .edge-path.connected { stroke: var(--accent); stroke-width: 3.5; filter: drop-shadow(0 0 5px rgba(158,61,52,.5)); }
 .edge-path.selected { stroke: #B5483E; stroke-width: 3.5; }
+/* Hover feedback: a connection can be clicked / right-clicked */
+g.edge:hover .edge-path { stroke: #6E6659; stroke-width: 3; }
 #temp-link { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-dasharray: 6 4; display: none; pointer-events: none; }
 /* Shift+Space drag: rubber-band selection */
 #marquee {
@@ -121,9 +125,23 @@ body.sidebar-hidden #viewport { left: 0; }
   border: 1px dashed var(--accent); background: rgba(158,61,52,.10);
 }
 
+/* ---------- Disconnect button on a selected connection ---------- */
+#edge-del-btn {
+  position: absolute; z-index: 16; width: 26px; height: 26px;
+  border-radius: 50%; border: 2px solid #FBF5E8;
+  background: #B5483E; color: #FBF5E8;
+  display: none; align-items: center; justify-content: center;
+  font-size: 13px; line-height: 1; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(51,48,42,.35);
+  user-select: none; -webkit-user-select: none;
+}
+#edge-del-btn:hover { background: #9E3D34; transform: scale(1.12); }
+#edge-del-btn:active { transform: scale(1.02); }
+
 /* ---------- Nodes ---------- */
 .node {
   position: absolute; width: 220px;
+  pointer-events: auto;
   background: var(--node-bg); border: 1px solid var(--node-border);
   border-radius: 8px; box-shadow: 0 4px 12px rgba(51,48,42,.12);
   transition: opacity .15s, box-shadow .15s;
@@ -364,6 +382,7 @@ body.mode-cpa .node.critical {
     <div id="nodes"></div>
   </div>
   <div id="marquee"></div>
+  <div id="edge-del-btn" title="Disconnect this connection" aria-label="Disconnect this connection">✕</div>
 </div>
 
 <div id="help-panel">
@@ -378,6 +397,8 @@ body.mode-cpa .node.critical {
   <div class="help-row"><span class="help-key">Click a node</span><span class="help-val">Select &amp; edit; highlight its network</span></div>
   <div class="help-row"><span class="help-key">Drag a visible port dot</span><span class="help-val">Connect activities; release on a port or node</span></div>
   <div class="help-row"><span class="help-key">Click port → click port</span><span class="help-val">Alternative connection method</span></div>
+  <div class="help-row"><span class="help-key">Click a connection</span><span class="help-val">Select it — press Delete / Backspace, or click the ✕ on it, to disconnect</span></div>
+  <div class="help-row"><span class="help-key">Right-click a connection</span><span class="help-val">Disconnect immediately (⌘Z undoes it)</span></div>
   <div class="help-row"><span class="help-key">Right-drag a node</span><span class="help-val">Quick move</span></div>
   <div class="help-row"><span class="help-key">↓ on the last title line</span><span class="help-val">Jump into the note body</span></div>
 
@@ -473,6 +494,11 @@ function applyTransform() {
   viewport.style.backgroundSize = `${g}px ${g}px`;
   viewport.style.backgroundPosition = `${state.pan.x}px ${state.pan.y}px`;
   zoomLabel.textContent = Math.round(state.zoom * 100) + '%';
+  // Keep the hit area of every connection usable at low zoom: at least ~14 screen px wide
+  edgesSvg.querySelectorAll('.edge-hit').forEach(p => {
+    p.setAttribute('stroke-width', Math.max(16, 14 / state.zoom));
+  });
+  updateEdgeDeleteBtn();
 }
 
 // ================= Nodes & edges =================
@@ -795,6 +821,7 @@ function applyHighlight() {
     const el = edgesSvg.querySelector(`.edge-path[data-id="${state.selectedEdge}"]`);
     if (el) el.classList.add('selected');
   }
+  updateEdgeDeleteBtn();
   if (!has) return;
 
   // Multi-source BFS from all selected nodes (direction-agnostic), depth limited by state.depth
@@ -853,13 +880,50 @@ function deleteSelected() {
     }
     state.selectedNodes = new Set();
   } else {
-    state.edges.delete(state.selectedEdge);
-    state.selectedEdge = null;
+    if (state.selectedEdge) {
+      state.edges.delete(state.selectedEdge);
+      state.selectedEdge = null;
+    }
   }
   renderEdges();
   persist();
   updateDelBtn();
   refreshCpa();
+}
+
+// ================= Deleting a single connection =================
+// One edge only, independent of nodes: used by the ✕ disconnect button and right-click.
+function removeEdge(id) {
+  if (!state.edges.has(id)) return;
+  History.push();
+  state.edges.delete(id);
+  if (state.selectedEdge === id) state.selectedEdge = null;
+  renderEdges();
+  persist();
+  updateDelBtn();
+  refreshCpa();
+}
+
+// Places the ✕ disconnect button on the midpoint of the selected connection (canvas → screen coords).
+// Called whenever the selection, the edge geometry or the pan/zoom changes.
+// The button appears after a short delay: a double-click's second click lands on the connection
+// itself (not on a freshly shown button), so double-clicking a connection selects it, never deletes it.
+let edgeBtnTimer = null;
+function updateEdgeDeleteBtn() {
+  const btn = document.getElementById('edge-del-btn');
+  const id = state.selectedEdge;
+  const el = id ? edgesSvg.querySelector(`.edge-hit[data-id="${id}"]`) : null;
+  if (edgeBtnTimer) { clearTimeout(edgeBtnTimer); edgeBtnTimer = null; }
+  if (!id || !el) { btn.style.display = 'none'; return; }
+  edgeBtnTimer = setTimeout(() => {
+    if (state.selectedEdge !== id) return;   // Selection changed while waiting
+    const cur = edgesSvg.querySelector(`.edge-hit[data-id="${id}"]`);
+    if (!cur) return;
+    const pt = cur.getPointAtLength(cur.getTotalLength() / 2);
+    btn.style.left = (state.pan.x + pt.x * state.zoom - 13) + 'px';
+    btn.style.top  = (state.pan.y + pt.y * state.zoom - 13) + 'px';
+    btn.style.display = 'flex';
+  }, 220);
 }
 
 // ================= Auto-arrange (connected nodes only) =================
@@ -1529,6 +1593,10 @@ function updateMarqueeEl() {
 viewport.addEventListener('pointerdown', e => {
   const nodeEl = e.target.closest('.node');
   const portEl = e.target.closest('.port');
+  const edgeEl = e.target.closest('.edge-hit');
+  // Remember what the press hit: dblclick can't be trusted for hit-testing under pointer capture
+  lastDownOnNode = !!nodeEl;
+  lastDownOnEdge = !!edgeEl;
   // Pointer capture keeps a line drag alive even when the pointer leaves the tiny port.
   if (viewport.setPointerCapture && e.pointerId != null) {
     try { viewport.setPointerCapture(e.pointerId); } catch (_) {}
@@ -1541,7 +1609,12 @@ viewport.addEventListener('pointerdown', e => {
     return;
   }
 
-  if (e.button === 2) {  // Right button: drag to move nodes (whole group when multi-selected) / pan the canvas
+  if (e.button === 2) {  // Right button: disconnect a connection, drag to move nodes / pan the canvas
+    if (edgeEl) {        // Right-click a connection: short-circuit to disconnect (⌘Z restores it)
+      removeEdge(edgeEl.dataset.id);
+      e.preventDefault();
+      return;
+    }
     if (nodeEl) {
       const id = nodeEl.dataset.id;
       if (e.shiftKey) toggleSelectNode(id);              // Shift+right-click: toggle in multi-selection
@@ -1569,6 +1642,11 @@ viewport.addEventListener('pointerdown', e => {
   if (e.button !== 0) return;
 
   // Left button: only for linking / selecting / editing text (never moves nodes)
+  if (edgeEl) {  // Click a connection to select it (no pan) — Delete/Backspace/✕ removes it
+    selectEdge(edgeEl.dataset.id);
+    e.preventDefault();
+    return;
+  }
   if (portEl && nodeEl) {  // Start a line from any port
     beginLink(nodeEl.dataset.id, portEl.dataset.port, e.clientX, e.clientY);
     e.preventDefault();
@@ -1739,8 +1817,12 @@ viewport.addEventListener('wheel', e => {
 }, { passive: false });
 
 // ================= Double-click to create a node =================
+// Under pointer capture the dblclick target is unreliable, so hit-testing uses what
+// the last pointerdown actually landed on: double-clicking a node or a connection is a no-op.
+let lastDownOnNode = false, lastDownOnEdge = false;
 viewport.addEventListener('dblclick', e => {
-  if (e.target.closest('.node')) return;
+  if (lastDownOnNode || lastDownOnEdge) return;
+  if (e.target.closest && (e.target.closest('.node') || e.target.closest('.edge-hit'))) return;
   const c = toCanvas(e.clientX, e.clientY);
   const n = addNode({ x: c.x - NODE_W / 2, y: c.y - 20 });
   const titleEl = nodesLayer.querySelector(`.node[data-id="${n.id}"] .node-title`);
@@ -1756,6 +1838,16 @@ viewport.addEventListener('dblclick', e => {
 edgesSvg.addEventListener('click', e => {
   const p = e.target.closest('.edge-hit');
   if (p) selectEdge(p.dataset.id);
+});
+
+// ✕ disconnect button: removes the selected connection (one click, no keyboard needed).
+// pointerdown is swallowed so it never starts a pan / clears the selection.
+const edgeDelBtn = document.getElementById('edge-del-btn');
+edgeDelBtn.addEventListener('pointerdown', e => { e.preventDefault(); e.stopPropagation(); });
+edgeDelBtn.addEventListener('click', e => {
+  e.preventDefault();
+  e.stopPropagation();
+  if (state.selectedEdge) removeEdge(state.selectedEdge);
 });
 
 // ================= Text editing =================
