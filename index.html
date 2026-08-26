@@ -5111,6 +5111,181 @@ const NOTE_PMGT1711_W4P = `<h2>Week 4 Prepare</h2>
 <ul><li><a href="https://www.audit.nsw.gov.au/our-work/reports/westconnex-changes-since-2014" target="_blank" rel="noopener">https://www.audit.nsw.gov.au/our-work/reports/westconnex-changes-since-2014</a></li><li><a href="https://www.transurban.com/news/rozelle-interchange-opening" target="_blank" rel="noopener">https://www.transurban.com/news/rozelle-interchange-opening</a></li><li><a href="https://www.lowyinstitute.org/the-interpreter/indonesia-high-cost-high-speed-rail" target="_blank" rel="noopener">https://www.lowyinstitute.org/the-interpreter/indonesia-high-cost-high-speed-rail</a></li><li><a href="https://railwaynews.net/jakarta-bandung-high-speed-rail-cost-overruns-challenges.html" target="_blank" rel="noopener">https://railwaynews.net/jakarta-bandung-high-speed-rail-cost-overruns-challenges.html</a></li><li><a href="https://apnews.com/article/indonesia-southeast-asia-highspeed-railway-e7a53ecbcb077b4403d9232e7b93bcf3" target="_blank" rel="noopener">https://apnews.com/article/indonesia-southeast-asia-highspeed-railway-e7a53ecbcb077b4403d9232e7b93bcf3</a></li><li><a href="https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2024-59-the-nusantara-project-in-progress-risks-and-challenges-by-siwage-dharma-negara-and-neo-hui-yun-rebecca/" target="_blank" rel="noopener">https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2024-59-the-nusantara-project-in-progress-risks-and-challenges-by-siwage-dharma-negara-and-neo-hui-yun-rebecca/</a></li></ul>
 <p>The guide also mentions “Focus Question 5,” but it does not include the actual question. That question would need to be provided separately to answer it accurately.</p>`;
 
+const NOTE_BUSS1020_W4M = `
+<h2>Week 4 Online Modules</h2>
+<h3>4.0 Introduction to discrete probability distributions</h3>
+<h4>What you’ll learn this week</h4>
+<p>By the end of this week, you should be able to understand and explain:</p>
+<ul><li>Some properties of discrete random variables and their probability distributions</li><li>How to compute the expected value and variance of a discrete probability distribution</li><li>How to compute probabilities from binomial, hypergeometric and Poisson distributions</li><li>The applications of covariance and summing random variables</li><li>How to use discrete distributions to help solve some business problems</li></ul>
+
+<h3>4.1 Discrete random variables and probability distributions</h3>
+<p>Numerical random variables can be discrete or continuous. This week, we’re focusing on discrete random variables and their probability distributions. We learn how to calculate the mean, variance and standard deviation of these variables.</p>
+
+<h4>Note of Video</h4>
+<p><b>What is a random variable (r.v.)?</b> A random variable assigns a numerical value to each outcome of an experiment. E.g., toss a coin → assign 0 to heads, 1 to tails. That mapping is your random variable.</p>
+<ul><li><b>Discrete r.v.</b> — can only assume a countable number of values. E.g., roll a die 3× and let X = number of times a 4 appears (X = 0, 1, 2, 3); or the number of people who buy a book (0 up to the total printed).</li><li><b>Continuous r.v.</b> — can take any value within a range (covered in Ch. 6).</li></ul>
+<p><b>Probability distribution of a discrete r.v.</b> A list of all possible values the r.v. can take, with the probability of each. Requirements:</p>
+<ul><li>Mutually exclusive — no overlap between outcomes</li><li>Collectively exhaustive — covers every possible outcome</li><li>Probabilities sum to 1: Σ pᵢ = 1</li></ul>
+<p>Can be shown as a table, a bar chart, or a formula.</p>
+<p><b>Worked example</b> — toss 2 coins, X = # heads: 4 outcomes (TT, TH, HT, HH) but only 3 values of X, since both TH and HT map to X = 1.</p>
+<table><tr><th>X</th><th>P(X)</th></tr><tr><td>0</td><td>0.25</td></tr><tr><td>1</td><td>0.50</td></tr><tr><td>2</td><td>0.25</td></tr></table>
+<p><b>Expected value (the mean)</b> µ = E(X) = Σ xᵢ · P(X = xᵢ) — multiply each value by its probability, then sum them all.</p>
+<p>2-coin example: E(X) = 0(0.25) + 1(0.50) + 2(0.25) = 1.0 (which is also the mode and median here).</p>
+<p>The expected value doesn’t have to be a possible value of X.</p>
+<table><tr><th>X</th><th>0</th><th>1</th><th>2</th><th>3</th></tr><tr><td>P(X)</td><td>0.20</td><td>0.40</td><td>0.24</td><td>0.16</td></tr></table>
+<p>E(X) = 0(0.2) + 1(0.4) + 2(0.24) + 3(0.16) = 1.36 accidents</p>
+<p><b>Variance &amp; standard deviation (dispersion)</b> Variance = expected squared distance from the mean: σ² = Σ [xᵢ − E(X)]² · P(X = xᵢ). Then standard deviation = √variance.</p>
+<p>Traffic example (mean = 1.36): σ² = (0−1.36)²(0.2) + (1−1.36)²(0.4) + (2−1.36)²(0.24) + (3−1.36)²(0.16) = 0.95 → σ = √0.95 ≈ 0.975 accidents.</p>
+<p class="aside">Summary of the video: r.v. → numerical mapping of outcomes → probability distribution (table/chart/formula, probabilities sum to 1) → from that you can compute mean (E(X)), variance and standard deviation — and this works for any discrete distribution as long as you have all outcomes and their probabilities listed.</p>
+
+<h4>Recap — probability distribution for a discrete random variable</h4>
+<p>The probability distribution of a discrete random variable is a mutually exclusive list of all possible outcomes, together with the associated probability of occurrence for each outcome. Discrete probability distributions can be represented in a table, in a graph, or with a formula.</p>
+<ul><li>A random variable assigns numerical values to the possible outcomes of an experiment.</li><li>Discrete random variables can only have probabilities at certain (typically integer) values.</li><li>Formula for the mean of a discrete r.v.: E(X) = Σ xᵢ · P(X = xᵢ) — note the “expected” value may not be a possible value of X.</li><li>Formula for the variance of a discrete r.v.: σ² = Σ [xᵢ − E(X)]² · P(X = xᵢ); standard deviation = √σ².</li></ul>
+<p class="aside">E(X) = expected value of the discrete random variable X | xᵢ = the i-th outcome of X | P(X = xᵢ) = probability of the i-th occurrence of X</p>
+
+<h3>4.2 Binomial distributions</h3>
+<h4>Events of interest</h4>
+<p>There are many situations in business where a mathematical model can be used to help us calculate a discrete probability distribution. We consider three common models: the binomial distribution, the Poisson distribution and the hypergeometric distribution. Let’s start with the binomial distribution.</p>
+
+<h4>Note of Video</h4>
+<p><b>1. What it is</b> — A binomial probability distribution is used when a random variable X counts the number of “events of interest” occurring from a fixed number of trials/observations.</p>
+<ul><li>Coin tossed twice → count heads</li><li>10 light bulbs from a warehouse → count defects</li><li>5 trading days → count high-volatility days</li></ul>
+<p><b>2. The four properties (requirements)</b></p>
+<ol>
+<li>Fixed number of trials, denoted n</li>
+<li>Each observation falls into one of two mutually exclusive &amp; collectively exhaustive categories (event of interest happens or not — head/not, defective/not, volatile/not)</li>
+<li>Constant probability π of the event in each trial; probability of no event = 1 − π, also constant</li>
+<li>Independence between observations — guaranteed by sampling from an infinite population without replacement, or sampling from a finite population with replacement</li>
+</ol>
+<p><b>3. The formula</b></p>
+<p class="aside">P(X = x | n, π) = n! / [x! (n−x)!] · πˣ (1−π)^(n−x)</p>
+<ul><li>X = # of events of interest (x = 0, 1, 2, …, n)</li><li>n = number of trials | π = probability of event | 1−π = probability of no event</li></ul>
+<p>Useful special cases: P(X = n) = πⁿ, P(X = 0) = (1−π)ⁿ.</p>
+<p><b>4. Worked example</b> (from the slides) — P(one success in five trials, π = 0.1): x = 1, n = 5, π = 0.1<br>P(X=1) = [5!/(1!·4!)] × 0.1¹ × (0.9)⁴ = 5 × 0.1 × 0.6561 = 0.32805</p>
+<p><b>5. Summary measures (binomial-only formulas)</b></p>
+<ul><li>Mean: µ = E(X) = nπ</li><li>Variance: σ² = nπ(1−π)</li><li>Standard deviation: σ = √[nπ(1−π)]</li></ul>
+<p>Example: coin tossed 5 times (n = 5, π = 0.5) → mean = 5 × 0.5 = 2.5 heads on average.</p>
+<p><b>6. Shape depends on π and n</b> (two examples, n = 5)</p>
+<table><tr><th></th><th>π = 0.1 (rare event)</th><th>π = 0.5 (even odds)</th></tr><tr><td>Mean</td><td>0.5</td><td>2.5</td></tr><tr><td>SD</td><td>0.6708</td><td>1.118</td></tr><tr><td>Shape</td><td>Right-skewed — mass concentrated 0–3; 4 or 5 successes very unlikely</td><td>Left-skewed — most likely 2 or 3; 1↔4 and 0↔5 equally likely</td></tr><tr><td>Spread</td><td>Narrow</td><td>Wide → larger variance &amp; SD</td></tr></table>
+<p><b>7. Takeaway</b> — The binomial distribution is widely used in business to find the probability of getting different numbers of events of interest out of a fixed number of trials. You need the 4 properties (fixed n, two categories, constant π, independence), the formula, and the mean/variance/SD shortcuts.</p>
+
+<h4>Recap — binomial distribution properties</h4>
+<p>The four requirements for the binomial probability distribution:</p>
+<ol>
+<li>There must be a fixed number of trials or observations (n)</li>
+<li>Each observation is classified into one of two mutually exclusive and collectively exhaustive categories</li>
+<li>Each observation has a constant probability for the event of interest occurring (π)</li>
+<li>Each observation is independent</li>
+</ol>
+<p><b>Formula:</b> P(X = x | n, π) = n! / [x! (n−x)!] · πˣ (1−π)^(n−x)</p>
+<ul><li>x = number of “events of interest” in the sample (x = 0, 1, 2, …, n)</li><li>n = sample size (number of trials or observations)</li><li>π = probability of “event of interest”</li></ul>
+<p><b>Summary measures:</b> mean µ = nπ; variance σ² = nπ(1−π); standard deviation σ = √[nπ(1−π)].</p>
+<p><b>Excel:</b> use <code>=BINOM.DIST(…)</code> (not BINOMDIST()); sample size = n.</p>
+
+<h3>4.3 Poisson distribution</h3>
+<h4>Window of opportunity</h4>
+<p>The next model we consider is the Poisson distribution. The Poisson distribution is used when counting the number of occurrences of an event in a fixed interval of time, area, volume or distance. This is often referred to as a “window of opportunity”.</p>
+
+<h4>Note of Video</h4>
+<p><b>1. What it is</b> — The Poisson distribution is used when counting the number of occurrences of an event in a fixed interval of time, area, volume or distance, called a “window of opportunity”. This differs from the binomial, which counts events of interest in a fixed number of trials.</p>
+<ul><li>For Poisson: no upper limit on potential counts, and the window of opportunity is a continuous interval (time, distance, area, volume, etc.) in which at least one occurrence can happen.</li></ul>
+<p>Examples:</p>
+<ul><li>Insurance claims in a month</li><li>Flat tyres per 100,000 km of driving</li><li>Customer service complaints in a 5-minute period</li><li>Koalas in a 1-hectare area of bush</li><li>Fleas on a dog</li></ul>
+<p><b>2. The five properties</b></p>
+<ol>
+<li>The count is the number of times an event occurs in a window of opportunity</li>
+<li>The probability that an event occurs in one window is the same for all other windows</li>
+<li>The number of events in one window is independent of the number in another window</li>
+<li>The probability of two or more events in a window approaches 0 as the window becomes smaller</li>
+<li>The average number of events per window is denoted λ (lambda)</li>
+</ol>
+<p><b>3. The formula</b></p>
+<p class="aside">P(X = x | λ) = e^(−λ) · λˣ / x!</p>
+<ul><li>x = number of events observed</li><li>λ = expected number of events (the only parameter)</li><li>e = base of the natural logarithm system (2.71828…)</li></ul>
+<p><b>4. Worked example</b> (from the slides) — customers arrive at a fast food outlet at a rate of 3 per minute. Window of opportunity = 1 minute, λ = 3, arrivals assumed independent:<br>P(5 arrivals in 1 minute) = e^(−3) × 3⁵ / 5! = e^(−3) × 243 / 120 ≈ 0.101</p>
+<p><b>5. Building the full distribution</b> — To find the distribution of arrivals per minute, calculate probabilities for all possible outcomes — theoretically infinite (0, 1, 2, … up to infinity), so compute values only until probabilities become negligible. Plotted as a bar chart (0–13 shown, but it extends to infinity); the bar at 5 matches the 0.101 calculated above.</p>
+<p><b>6. Characteristics &amp; summary measures</b></p>
+<ul><li>Right-skewed — longer tail to the right, since counts extend to infinity</li><li>Only defined for non-negative integer values of x</li><li>Mean = λ</li><li>Variance = λ (mean equals variance — a hallmark of Poisson)</li><li>Standard deviation = √λ</li></ul>
+<p><b>7. Takeaway</b> — The Poisson distribution counts how many times an event occurs in a given window of opportunity (time, area, volume, distance). It has one parameter, λ, which serves as both the mean and the variance, and it is right-skewed with support only on non-negative integers.</p>
+
+<h4>Recap — Poisson distribution</h4>
+<p>For the Poisson model to be applied:</p>
+<ol>
+<li>There should be no upper limit on the potential counts</li>
+<li>The window of opportunity is a continuous interval in which at least one occurrence of an event can occur</li>
+</ol>
+<p>A window of opportunity could be: time, area, volume, distance, or perhaps something else (shipment of goods, textbook page, car body).</p>
+<p>The five requirements: the data count is the number of times an event occurs in a window; the probability that an event occurs in one window is the same for all other windows; the number of events in one window is independent of the number that occur in other windows; the probability that 2 or more events occur in a window approaches 0 as the window becomes smaller; the average number of events per window is denoted λ (λ &gt; 0).</p>
+<p><b>Formulas:</b> P(X = x | λ) = e^(−λ) · λˣ / x!; mean E(X) = λ; variance V(X) = σ² = λ; standard deviation σ = √λ.</p>
+<p class="aside">Note: mean = variance!</p>
+<ul><li>Mean: E(X) = λ</li><li>Variance: V(X) = σ² = λ</li><li>Standard deviation: σ = √λ</li></ul>
+<p><b>Excel:</b> use <code>=POISSON.DIST(…)</code>.</p>
+
+<h3>4.4 Hypergeometric distribution</h3>
+<h4>A return to events of interest</h4>
+<p>The final model we will cover is for the hypergeometric distribution. Similar to the binomial distribution, the hypergeometric distribution models probabilities for the number of “events of interest” in a sample or in a fixed number of trials. Let’s take a look at the differences and when to use it.</p>
+
+<h4>Note of Video</h4>
+<p>The hypergeometric distribution, like the binomial distribution, models the probability of obtaining a certain number of events of interest in a sample.</p>
+<p>The key difference is that the hypergeometric distribution is used when:</p>
+<ul><li>The population is finite</li><li>Sampling is done without replacement</li><li>The outcomes of the trials are dependent</li><li>The probability changes after each selection</li></ul>
+<p>By contrast, the binomial distribution assumes independent trials with a constant probability. It is appropriate when sampling is with replacement or from an effectively infinite population.</p>
+<p>For example, suppose an urn contains 10 balls: 5 red and 5 blue. If a red ball is selected without replacement, the probability of selecting another red ball becomes 4/9. If a blue ball is selected first, the probability of selecting a red ball becomes 5/9. Therefore, the probability changes between trials.</p>
+<p class="aside">P(X = x | n, N, A) = C(A, x) · C(N − A, n − x) / C(N, n)</p>
+<ul><li>N = total population size</li><li>A = number of items of interest in the population</li><li>N − A = number of items not of interest</li><li>n = sample size</li><li>X = number of items of interest in the sample</li><li>x = desired number of items of interest</li><li>n − x = number of items not of interest in the sample</li></ul>
+<p>The mean of a hypergeometric distribution is: µ = E(X) = nA / N. The standard deviation also has a formula, but it is more complicated and was not required in the lesson.</p>
+<p><b>Example:</b> suppose 3 computers are selected from a department containing 10 computers. Four computers have illegal software installed. The probability that exactly 2 of the 3 selected computers have illegal software is:</p>
+<p class="aside">P(X = 2 | n = 3, N = 10, A = 4) = C(4, 2) · C(6, 1) / C(10, 3) = (6 · 6) / 120 = 0.3</p>
+<p>Therefore, the probability is 0.3, or 30%.</p>
+<p>In short, use the hypergeometric distribution when selecting a sample from a finite population without replacement. It allows the probabilities to change based on the results of earlier events, so the probability of an event of interest is no longer constant over all observations.</p>
+
+<h4>Recap — hypergeometric distribution</h4>
+<p>When comparing hypergeometric and binomial distributions, note the key differences:</p>
+<ul><li>The binomial distribution is applicable when selecting from a finite population with replacement, OR selecting a finite sample of n from an infinite population without replacement.</li><li>The hypergeometric distribution is applicable when selecting from a finite population without replacement.</li></ul>
+<p>The four requirements for the hypergeometric probability distribution:</p>
+<ol>
+<li>“n” trials in a sample taken from a finite population of size “N”</li>
+<li>The sample is taken without replacement</li>
+<li>The outcomes of the trials are dependent</li>
+<li>Finding the probability of a particular number of events of interest</li>
+</ol>
+<p><b>Formulas:</b> P(X = x | n, N, A) = C(A, x) · C(N − A, n − x) / C(N, n); mean µ = E(X) = nA / N.</p>
+<p><b>Excel:</b> use <code>=HYPGEOM.DIST(…)</code>.</p>
+
+<h3>4.5 Covariance and summing random variables</h3>
+<h4>Linear relationships &amp; random variables</h4>
+<p>We are now ready to take a look at the covariance between two variables. The covariance of a probability distribution measures the strength of the linear relationship between two random variables and is an important measure when assessing portfolio risk in finance.</p>
+
+<h4>Note of Video</h4>
+<p>Covariance describes how two numerical random variables, X and Y, move together.</p>
+<ul><li><b>Positive covariance:</b> X and Y tend to increase or decrease together</li><li><b>Negative covariance:</b> when X increases, Y tends to decrease</li><li><b>Zero covariance:</b> there is no linear relationship. Independent variables always have zero covariance</li></ul>
+<p class="aside">Cov(X, Y) = E[(X − µᵪ)(Y − µᵧ)]</p>
+<p>To calculate it:</p>
+<ol>
+<li>Find the means of X and Y</li>
+<li>Subtract each mean from every possible value</li>
+<li>Multiply the two deviations</li>
+<li>Multiply by the probability of that outcome</li>
+<li>Add all the results together</li>
+</ol>
+<p>In the investment example, there are three economic conditions: recession, stable economy and expansion. The expected returns are E(X) = 50, E(Y) = 95.</p>
+<p>The covariance is Cov(X, Y) = 8250. Since the covariance is positive, the two investments generally move in the same direction.</p>
+<p>Covariance is also important when calculating the variance of a sum:</p>
+<p class="aside">Var(X + Y) = Var(X) + Var(Y) + 2Cov(X, Y)</p>
+<p>For a weighted sum, such as a two-stock portfolio:</p>
+<p class="aside">E(aX + bY) = aE(X) + bE(Y) &nbsp;|&nbsp; Var(aX + bY) = a²Var(X) + b²Var(Y) + 2abCov(X, Y)</p>
+<p>Here, a and b are the proportions invested in the two assets. Portfolio variance measures risk, and covariance is an important part of that risk.</p>
+<p>Main takeaway: covariance shows whether two variables move together or in opposite directions, and it is essential for calculating the risk of combined investments.</p>
+
+<h4>Recap — Covariance &amp; summing random variables</h4>
+<p>The covariance is useful for calculating the variance of sums of random variables.</p>
+<ul><li><b>Positive covariance:</b> there is a positive linear relationship between X and Y — when X increases, Y also increases, on average</li><li><b>Negative covariance:</b> the variables have a negative linear relationship — as one variable increases, the other decreases, on average</li><li>If the two random variables are independent, then their covariance MUST be zero</li></ul>
+<p>Summing two random variables:</p>
+<ul><li>Expected value: E(X + Y) = E(X) + E(Y)</li><li>Standard deviation: σ(x+y) = √[Var(X + Y)]</li></ul>
+<p>Weighted sum of two asset returns X, Y:</p>
+<ul><li>E(aX + bY) = E(aX) + E(bY) = aE(X) + bE(Y)</li><li>Var(aX + bY) = a²Var(X) + b²Var(Y) + 2abCov(X, Y)</li><li>E[wX + (1 − w)Y] = wE(X) + (1 − w)E(Y)</li><li>Var[wX + (1 − w)Y] = w²Var(X) + (1 − w)²Var(Y) + 2w(1 − w)Cov(X, Y)</li></ul>
+`;
+
 const SECTIONS = [
   { id:"buss1020",           title:"BUSS1020",                   notes:[
       {num:"001",title:"Week 1 Lecture",html:NOTE_BUSS1020_W1},
@@ -5122,6 +5297,7 @@ const SECTIONS = [
       {num:"007",title:"Week 3 Lecture",html:NOTE_BUSS1020_W3L},
       {num:"008",title:"Week 3 Online Modules",html:NOTE_BUSS1020_W3M},
       {num:"009",title:"Week 3 Prepare",html:NOTE_BUSS1020_W3P},
+      {num:"010",title:"Week 4 Online Modules",html:NOTE_BUSS1020_W4M},
   ]},
   { id:"pmgt1711",           title:"PMGT1711",                   notes:[
       {num:"001",title:"Week 1 Online Modules",html:NOTE_PMGT1711_W1M},
