@@ -4532,10 +4532,586 @@ const NOTE_PMGT1711_W3P = `<h2>Week 3 Prepare</h2>
 <ul><li>Which behaviours are emerging;</li><li>Which loops amplify problems;</li><li>Which loops stabilise the system;</li><li>Where an intervention may have the greatest effect.</li></ul>`;
 
 const NOTE_PMGT1711_W4M = `<h2>Week 4 Online Modules</h2>
-<p class="aside"><a href="files/PMGT1711-Week-4-Online-Modules.docx" download>Download the original Word document</a></p>`;
+<p class="aside">本周主题：系统动力学、存量—流量图、行为随时间变化、反馈回路、延迟、返工循环与杠杆点。</p>
+<h3>Learning Objectives</h3>
+<p>After completing this module, you will be able to:</p>
+<ul><li>Explain the basic components of a stock and flow model</li><li>Identify feedback loops, delays, and non-linear behaviour in project systems</li><li>Describe how system dynamics can support the understanding and management of complex projects</li><li>Use stock and flow diagrams to represent and analyse project behaviour over time</li></ul>
+<h3>Note of Slides</h3>
+<p>The lecture introduces system dynamics as a way to understand why projects develop unexpected behaviours such as delays, cost overruns, excessive staffing, declining productivity, and repeated rework.</p>
+<p>The main topics are:</p>
+<ul><li>Stock-and-flow diagrams</li><li>Behaviour-over-time graphs</li><li>Simulation and feedback structures</li><li>Applications to project management</li><li>The rework cycle</li><li>Ripple and knock-on effects</li><li>Project completion behaviour</li></ul>
+<h3>1. Why traditional project management can be insufficient</h3>
+<p>Traditional project management often assumes that a project:</p>
+<ul><li>Is made up of clearly defined stages</li><li>Progresses in a predictable order</li><li>Can be planned through separate work packages</li><li>Will meet its targets if the planned work is completed</li><li>Can be estimated mainly by considering task logic and resource requirements</li></ul>
+<p>The lecture challenges this assumption. Real projects are affected by feedback, delays, human decisions, errors, changing requirements, and interactions between different parts of the project.</p>
+<p>The traditional approach focuses mainly on the project work and the immediate “problem.” The system dynamics approach focuses on the wider situation, including feedback processes and the behaviour of the people involved.</p>
+<p>The differences can be understood as follows:</p>
+<ul><li>Traditional project management often studies considerable detail in selected areas, while ignoring other important parts of the system.</li><li>System dynamics may use less detail in individual areas, but attempts to capture the behaviour of the project as a whole.</li><li>Traditional approaches usually emphasise factors that are easy to quantify.</li><li>System dynamics also considers subjective factors, human behaviour, decision-making, and feedback.</li><li>Traditional project models treat work as a set of separate but related packages.</li><li>System dynamics treats project work as a continuous flow.</li><li>Traditional estimates often assume that the project will succeed and therefore reflect a desired outcome.</li><li>System dynamics simulations try to represent reality, including human limitations, errors, delays, and system weaknesses.</li></ul>
+<p>The important shift is from asking:</p>
+<p>“What tasks need to be completed?”</p>
+<p>to asking:</p>
+<p>“What structure and feedback processes will determine how the project actually behaves?”</p>
+<h3>2. What is system dynamics?</h3>
+<p>System dynamics is defined in the slides as:</p>
+<p>A methodology for applying systems thinking and understanding systems through modelling and computer simulations.</p>
+<p>Systems thinking becomes system dynamics when the relationships in a system are quantified. The lecture identifies four important elements:</p>
+<h3>Causal relationships</h3>
+<ul><li>How one variable affects another.</li></ul>
+<h3>Stocks and flows</h3>
+<ul><li>What accumulates in the system and what changes the accumulation.</li></ul>
+<h3>Nonlinearities and delays</h3>
+<ul><li>Situations where effects are not proportional to causes, or where actions take time to produce results.</li></ul>
+<h3>Feedbacks</h3>
+<ul><li>Situations where the consequences of an action eventually influence the original situation.</li></ul>
+<p>A system dynamics model is therefore more than a diagram. It represents the relationships between variables and can be simulated to explore how the system may behave over time.</p>
+<h3>3. Stock-and-flow diagrams</h3>
+<p>A stock is a measurable quantity or resource within a system at a particular point in time.</p>
+<p>Examples include:</p>
+<ul><li>The amount of work remaining</li><li>The number of completed tasks</li><li>The number of unresolved errors</li><li>The number of employees</li><li>The number of eggs or chickens</li><li>The amount of water in a tank</li><li>The level of project resources</li></ul>
+<p>Stocks usually change gradually because they are changed by flows.</p>
+<p>A flow is a rate that increases or decreases a stock. For example:</p>
+<ul><li>Work completion increases the stock of completed work.</li><li>Error generation increases the stock of undiscovered rework.</li><li>Rework discovery moves work into the rework backlog.</li><li>Staff recruitment increases the number of available staff.</li><li>Staff leaving decreases the staffing stock.</li></ul>
+<p>The basic relationship is:</p>
+<p class="aside">Change in stock = inflow − outflow</p>
+<p>In differential form:</p>
+<p class="aside">dStock/dt = Inflow − Outflow</p>
+<p>In integral form:</p>
+<p>Stock at time t = initial stock + accumulated inflows − accumulated outflows</p>
+<p>The slides use a hydraulic or bathtub metaphor:</p>
+<ul><li>The water in the bathtub represents the stock.</li><li>The tap represents an inflow.</li><li>The drain represents an outflow.</li><li>The level of water changes according to the difference between the incoming and outgoing rates.</li></ul>
+<p>This is important because a stock measures the accumulated result of past flows. A project may appear to be progressing because work is being completed, but if errors are also accumulating, the project may still have a large hidden stock of rework.</p>
+<p>Stock-and-flow diagrams are useful because they reveal the structure that produces observed behaviour.</p>
+<h3>4. Behaviour-over-time graphs</h3>
+<p>Behaviour-over-time graphs, or BOTGs, show how important variables change over time.</p>
+<p>They can be used to:</p>
+<ul><li>Identify trends</li><li>Compare different variables</li><li>Describe growth, decline, oscillation, or delay</li><li>Compare real-world behaviour with simulation results</li><li>Establish a “reference mode” before building a detailed model</li></ul>
+<p>For example, the lecture shows population trends for Australia, Canada, and California. The purpose is not simply to display population numbers. The graph shows the pattern of change over time.</p>
+<p>A BOTG can reveal whether a variable:</p>
+<ul><li>Grows exponentially</li><li>Declines gradually</li><li>Oscillates around a target</li><li>Remains stable</li><li>Grows quickly and then levels off</li><li>Experiences a delayed response</li></ul>
+<p>In system dynamics, the shape of behaviour is often more important than one isolated data point.</p>
+<h3>5. Feedback and simulation</h3>
+<p>The structure of a system produces its behaviour.</p>
+<p>The lecture illustrates this through several feedback examples.</p>
+<p>A reinforcing loop, marked with an “R,” amplifies change. It can generate exponential growth.</p>
+<p>The example of eggs and chickens shows this logic:</p>
+<ul><li>More chickens produce more eggs.</li><li>More eggs hatch into more chickens.</li><li>More chickens then produce even more eggs.</li></ul>
+<p>This creates a self-reinforcing cycle.</p>
+<p>A balancing loop, marked with a “B,” counteracts change and tends to move the system toward a limit or target.</p>
+<p>A balancing structure may produce:</p>
+<ul><li>Stabilisation</li><li>Decline</li><li>Goal-seeking behaviour</li><li>Slower growth</li><li>Correction of discrepancies</li></ul>
+<p>Multiple feedback loops can operate at the same time. When reinforcing and balancing loops interact, the system can produce much more complicated behaviour. The dominant behaviour depends on the relative strength and timing of the different loops.</p>
+<h3>6. The chicken-and-egg stock-and-flow example</h3>
+<p>The chicken-and-egg example is shown more clearly using a stock-and-flow diagram.</p>
+<p>The main stocks are:</p>
+<ul><li>Eggs</li><li>Chickens</li></ul>
+<p>The flows include:</p>
+<ul><li>Laying, which increases the egg stock</li><li>Hatching, which transfers eggs into chickens</li><li>Deaths, which reduce the chicken stock</li></ul>
+<p>Important auxiliary variables include:</p>
+<ul><li>Laying frequency</li><li>Hatch time</li><li>Average lifetime</li></ul>
+<p>The structure contains several feedback relationships:</p>
+<ul><li>More chickens can increase egg-laying activity.</li><li>More eggs create the potential for more chickens.</li><li>More chickens also create more deaths.</li><li>A longer average lifetime reduces the death rate.</li><li>Longer hatch times delay the conversion of eggs into chickens.</li></ul>
+<p>The diagram demonstrates that a simple verbal relationship can become much more precise when represented using stocks, flows, feedback loops, and delays.</p>
+<h3>7. Delays and oscillations</h3>
+<p>One of the key system dynamics insights is that a balancing feedback loop does not always produce smooth stability.</p>
+<p>The slides show a system with:</p>
+<ul><li>The current state of the system</li><li>A desired goal</li><li>A discrepancy between the current state and the goal</li><li>Measurement and reporting delays</li><li>Perception delays</li><li>Administrative and decision-making delays</li><li>Action delays</li><li>Corrective action</li></ul>
+<p>The process is:</p>
+<p>The current state is compared with the desired goal.</p>
+<p>A discrepancy is identified.</p>
+<p>Managers decide on corrective action.</p>
+<p>The action affects the system.</p>
+<p>The result is measured after a delay.</p>
+<p>If the delays are significant, managers may act on outdated information. They may overcorrect or undercorrect. As a result, the system can oscillate around the goal rather than smoothly reaching it.</p>
+<p>This is relevant to project management because staffing, work completion, quality, and deadlines often respond slowly to managerial decisions.</p>
+<h3>8. Where model information comes from</h3>
+<p>A system dynamics model is intended to represent something that exists in reality.</p>
+<p>The model builder uses several types of knowledge:</p>
+<ul><li>Direct observations</li><li>Written documents</li><li>Numerical data</li><li>Interviews</li><li>Expert knowledge</li><li>Personal experience</li><li>Knowledge of how decisions are made</li></ul>
+<p>The slides emphasise the importance of the mental database. People often possess detailed knowledge about:</p>
+<ul><li>Where information is available</li><li>How decisions are made</li><li>How people and materials move</li><li>Which problems are normally hidden</li><li>How staff actually respond to pressure</li><li>What happens at different decision-making points</li></ul>
+<p>However, information is often lost when it moves from:</p>
+<p>Mental knowledge</p>
+<p>Written descriptions</p>
+<p>Numerical databases</p>
+<p>The diagram shows this as a narrowing funnel. Numerical data are useful, but they may contain less structural detail than people’s practical understanding of how the system works.</p>
+<p>This means that a good model should not rely only on easily available numerical data. It should also capture the causal structure and decision processes that generate the data.</p>
+<p>The quote from Jay Forrester expresses this idea:</p>
+<p>The image of the world that we carry in our heads is only a model. We select certain concepts and relationships to represent the real system.</p>
+<h3>9. The rework cycle in project management</h3>
+<p>The rework cycle is presented as the most important single feature of system dynamics project models.</p>
+<p>It is important because rework:</p>
+<ul><li>Can continue for much of the project duration</li><li>Creates delays and additional work</li><li>Changes staffing requirements</li><li>Reduces productivity</li><li>Produces further errors</li><li>Occurs across many industries and project types</li></ul>
+<p>The main stocks in the rework cycle are:</p>
+<ul><li>Original Work to Do</li><li>Work Done</li><li>Undiscovered Rework</li><li>Rework to Do</li></ul>
+<p>The process works as follows:</p>
+<p>At the beginning of the project, all work is in the Original Work to Do stock.</p>
+<p>The team applies effort to the work.</p>
+<p>Some work is completed correctly and moves into the Work Done stock.</p>
+<p>Some work contains errors and moves into the Undiscovered Rework stock.</p>
+<p>The errors are not necessarily identified immediately.</p>
+<p>Errors may be discovered later through downstream work, inspections, testing, or customer feedback.</p>
+<p>Once discovered, the work enters the Rework to Do stock.</p>
+<p>Additional effort must be applied to complete the rework.</p>
+<p>Reworking one item may reveal or create additional problems.</p>
+<p>The new problems feed back into the rework cycle.</p>
+<p>Work that is completed correctly normally remains in the “Work Done” stock. However, later design changes may make previously completed work obsolete, creating another source of rework.</p>
+<p>The key problem is that undiscovered rework is hidden. Managers may believe that the project is nearly complete because visible progress appears high, while a large amount of defective or incomplete work remains in the system.</p>
+<h3>10. Effects of the rework cycle on project completion</h3>
+<p>The most common behaviour reported for real projects is failure to meet performance targets.</p>
+<p>Typical consequences include:</p>
+<ul><li>Schedule overruns</li><li>Budget overruns</li><li>Reduced project scope</li><li>Lower quality</li><li>Additional staffing requirements</li><li>Extended project completion time</li></ul>
+<p>The staffing graph in the lecture compares the original plan with the additional effort caused by rework.</p>
+<p>The original plan shows staffing rising and then declining relatively normally. When rework is included:</p>
+<ul><li>The staffing peak occurs later.</li><li>The peak may be higher.</li><li>Staffing remains high for longer.</li><li>A second staffing peak may appear.</li><li>Completion is extended beyond the original schedule.</li></ul>
+<p>Rework therefore creates an extended “tail” in the project. Even when most of the original work appears to be complete, rework continues to consume staff time.</p>
+<h3>11. Foundational example: Ingalls Shipbuilding and the US Navy</h3>
+<p>The lecture gives a practical example involving a legal dispute between Ingalls Shipbuilding and the US Navy.</p>
+<p>The dispute concerned:</p>
+<ul><li>Cost overruns</li><li>Schedule overruns</li><li>Multibillion-dollar shipbuilding programs</li></ul>
+<p>A system dynamics model developed by Pugh-Roberts/PA Consulting showed how Navy-related delays and design changes contributed to the poor project outcomes.</p>
+<p>The model was used in court to support the shipbuilding contractor’s claims. It helped settle a claim worth at least approximately $200–300 million.</p>
+<p>The slides note that the US Navy requested changes to the model, but the revised model still indicated that the Navy had contributed to the project outcomes.</p>
+<p>This example demonstrates that system dynamics models can be used not only for planning but also for:</p>
+<ul><li>Explaining responsibility</li><li>Testing alternative scenarios</li><li>Showing how delays propagate</li><li>Supporting legal and contractual analysis</li><li>Identifying the structural causes of project failure</li></ul>
+<h3>12. Controlling feedbacks</h3>
+<p>Managers normally try to reduce the gap between actual project performance and the target.</p>
+<p>There are two broad strategies:</p>
+<h3>Move project behaviour closer to the target</h3>
+<ul><li>Work overtime</li><li>Add staff</li><li>Increase work intensity</li><li>Work faster</li></ul>
+<h3>Move the target closer to project behaviour</h3>
+<ul><li>Delay the deadline</li><li>Reduce the scope</li><li>Adjust the expected completion date</li><li>Relax performance requirements</li></ul>
+<p>Both approaches have limitations.</p>
+<p>There may be limits on:</p>
+<ul><li>How quickly staff can be hired</li><li>How much overtime people can work</li><li>How fast work can be completed</li><li>How much a deadline can be moved</li><li>How much scope can be reduced</li></ul>
+<p>Both strategies also impose costs. These costs may be:</p>
+<ul><li>Financial</li><li>Physical</li><li>Psychological</li><li>Organisational</li><li>Political</li><li>Related to quality or reputation</li></ul>
+<p>A manager may appear to improve one performance measure while creating new problems elsewhere.</p>
+<h3>13. Ripple effects and policy resistance</h3>
+<p>Actions intended to close a performance gap can create unintended side effects. These side effects may generate policy resistance.</p>
+<p>Policy resistance occurs when a seemingly sensible action produces other consequences that weaken or reverse the intended improvement.</p>
+<p>For example, hiring additional staff may appear to solve a schedule problem, but it may also:</p>
+<ul><li>Dilute the experience level of the team</li><li>Increase communication requirements</li><li>Create congestion</li><li>Make the project too large to manage</li><li>Increase coordination effort</li><li>Reduce productivity</li><li>Increase the error fraction</li><li>Generate more rework</li></ul>
+<p>Similarly, overtime may:</p>
+<ul><li>Cause fatigue</li><li>Increase burnout</li><li>Reduce attention</li><li>Lower quality</li><li>Increase mistakes</li><li>Generate additional rework</li></ul>
+<p>These effects are called ripple effects because the original intervention spreads through other parts of the system.</p>
+<h3>14. Knock-on effects</h3>
+<p>Ripple effects can produce further secondary and tertiary feedback loops. These are referred to as knock-on effects.</p>
+<p>The lecture identifies several examples:</p>
+<ul><li>Haste creates out-of-sequence work.</li><li>Errors create more errors.</li><li>Errors generate additional work.</li><li>Pressure reduces quality.</li><li>Reduced quality creates more rework.</li><li>Rework increases pressure.</li><li>Hopelessness and morale problems make the situation worse.</li><li>Communication problems spread across the project.</li><li>Problems inside the project can affect clients and customers.</li><li>Client and customer reactions can then amplify the internal project problems.</li></ul>
+<p>The important point is that the original problem may be relatively small, but feedback can amplify it over time.</p>
+<p>A schedule delay may trigger overtime. Overtime may reduce productivity. Lower productivity may increase errors. Errors may create rework. Rework may create further delays. The project then enters a self-reinforcing downward cycle.</p>
+<h3>15. Effects on project outcomes</h3>
+<p>Actual staffing can differ substantially from planned staffing.</p>
+<p>A common pattern is:</p>
+<ul><li>Staffing ramp-up is delayed.</li><li>Staffing later rises above the planned peak.</li><li>Staffing remains high for longer than expected.</li><li>A second staffing peak may occur.</li><li>The project experiences schedule and budget overruns.</li><li>Scope or quality is reduced.</li></ul>
+<p>Undiscovered rework makes the problem worse because it hides the true amount of work remaining. Managers therefore recognise the need for additional staff too late.</p>
+<p>The project may appear to make steady progress for a long period. Near completion, however, progress slows significantly.</p>
+<p>This happens because:</p>
+<ul><li>The true work scope was underestimated.</li><li>Undiscovered rework accumulated.</li><li>Errors were found late.</li><li>Management responses created additional feedback effects.</li><li>Productivity declined.</li><li>More errors were generated.</li><li>The remaining work became increasingly difficult to complete.</li></ul>
+<h3>16. The “90% syndrome”</h3>
+<p>The “90% syndrome” refers to the familiar project situation where a project appears to be almost complete for a long time, but completion keeps being delayed.</p>
+<p>The project may reach 90% completion according to early estimates, but the final portion takes much longer than expected.</p>
+<p>The reason is that the last part of the project often contains:</p>
+<ul><li>Hidden errors</li><li>Integration problems</li><li>Undiscovered rework</li><li>Testing failures</li><li>Unresolved dependencies</li><li>Customer changes</li><li>Quality problems</li><li>Work that must be redone several times</li></ul>
+<p>The final work is constrained by the discovery and correction of the remaining rework.</p>
+<p>This explains why a project can show strong apparent progress at first and then slow down near completion.</p>
+<h3>17. Overall system dynamics insight</h3>
+<p>The central message of the entire lecture is:</p>
+<p class="aside">Project structure produces project behaviour.</p>
+<p>Project structure includes:</p>
+<ul><li>Stocks</li><li>Flows</li><li>Feedback loops</li><li>Delays</li><li>Decision rules</li><li>Error rates</li><li>Rework processes</li><li>Staffing policies</li><li>Performance targets</li><li>Management responses</li></ul>
+<p>Project behaviour includes:</p>
+<ul><li>Progress over time</li><li>Staffing patterns</li><li>Schedule performance</li><li>Cost performance</li><li>Quality outcomes</li><li>Delays</li><li>Oscillations</li><li>Extended completion tails</li></ul>
+<p>Behaviour-over-time graphs show what is happening. Stock-and-flow diagrams and simulations help explain why it is happening.</p>
+<p>Therefore, when a project is late, the correct response is not always to work harder or hire more people. Managers should first examine the underlying structure that is generating the delay.</p>
+<h3>18. Practical project-management implications</h3>
+<p>The lecture suggests several practical lessons:</p>
+<ul><li>Track hidden rework, not just visible progress.</li><li>Monitor error rates and quality, not only the percentage completed.</li><li>Identify delays between action and result.</li><li>Avoid assuming that work packages behave independently.</li><li>Consider how overtime affects fatigue and quality.</li><li>Consider how hiring affects communication and experience.</li><li>Use realistic targets rather than assuming perfect execution.</li><li>Distinguish between actual completion and reported completion.</li><li>Look for reinforcing cycles that amplify problems.</li><li>Look for balancing loops that may overcorrect.</li><li>Use simulations to test policies before implementing them.</li><li>Treat delays, quality problems, and rework as connected parts of one system.</li><li>Focus on improving the project structure rather than repeatedly reacting to symptoms.</li></ul>
+<h3>Key terms to remember</h3>
+<ul><li>System dynamics</li><li>Systems thinking</li><li>Stock</li><li>Flow</li><li>Inflow</li><li>Outflow</li><li>Stock-and-flow diagram</li><li>Behaviour-over-time graph</li><li>Reference mode</li><li>Reinforcing feedback</li><li>Balancing feedback</li><li>Nonlinearity</li><li>Delay</li><li>Discrepancy</li><li>Corrective action</li><li>Original Work to Do</li><li>Work Done</li><li>Undiscovered Rework</li><li>Rework to Do</li><li>Rework cycle</li><li>Ripple effects</li><li>Knock-on effects</li><li>Policy resistance</li><li>90% syndrome</li></ul>
+<h3>One-paragraph exam-style conclusion</h3>
+<p>System dynamics provides a way to explain project performance by linking project structure to behaviour over time. Stocks such as remaining work, completed work, and undiscovered rework are changed by flows such as progress, error generation, rework discovery, and correction. Feedback loops and delays can create unexpected outcomes, including oscillations, staffing overruns, declining productivity, and the 90% syndrome. The rework cycle is particularly important because hidden errors generate additional work and delay completion. Effective project management therefore requires understanding and redesigning the underlying structure that generates the behaviour.</p>
+<h3>Note of Video 1</h3>
+<p>Main purpose of the video</p>
+<p>A stock-flow diagram is a visual way to show:</p>
+<ul><li>The important parts of a system</li><li>What accumulates in the system</li><li>What causes those accumulations to increase or decrease</li><li>How different parts of the system affect one another</li></ul>
+<p>The video presents stock-flow diagrams mainly as a learning and discussion tool, especially for classroom use.</p>
+<h3>1. What a stock-flow diagram represents</h3>
+<p>A stock-flow diagram shows the structure of a system.</p>
+<p>The basic symbols are:</p>
+<ul><li>Stock: drawn as a box; represents something that accumulates.</li><li>Inflow: a flow entering the stock; increases the stock.</li><li>Outflow: a flow leaving the stock; decreases the stock.</li><li>Cloud: represents a source or destination outside the part of the system being modelled.</li><li>Connector arrows: show variables or factors that influence the flows.</li></ul>
+<p>The basic relationship is:</p>
+<p>A stock changes according to its inflows and outflows.</p>
+<p>If the inflow is greater than the outflow, the stock increases.</p>
+<p>If the outflow is greater than the inflow, the stock decreases.</p>
+<p>If the inflow and outflow are equal, the stock remains relatively stable.</p>
+<p>The video emphasises that stocks can go up and down depending on their flows or rates of change.</p>
+<h3>2. Why stocks are also called accumulations</h3>
+<p>A stock is not just an individual object. It is the total amount of something that has accumulated over time.</p>
+<p>For example:</p>
+<ul><li>One wolf is an individual.</li><li>The population of wolves in a forest is an accumulation.</li><li>One patch of snow is an individual piece of snow.</li><li>The amount of snow on the ground is an accumulation.</li><li>One emotional event is an individual event.</li><li>A person’s overall level of happiness can be treated as an accumulation.</li></ul>
+<p>The key shift is from looking at individual parts to looking at the larger quantity formed by those parts.</p>
+<p>The video describes this as moving away from:</p>
+<p>Seeing individual parts or individuals in a system</p>
+<p>towards:</p>
+<p>Seeing those individuals as part of a larger accumulation.</p>
+<p>This change in perspective helps people recognise patterns that are difficult to see when focusing only on individual events.</p>
+<h3>3. Examples of accumulations</h3>
+<p>The video states that accumulations are everywhere around us.</p>
+<p>Examples include:</p>
+<ul><li>A population of wolves or bison in a forest</li><li>A character’s level of happiness</li><li>A real person’s level of happiness</li><li>Snow on the ground</li><li>Water in a lake</li><li>Grass on rangeland</li><li>Trees in a forest</li></ul>
+<p>Some accumulations are physical and easy to observe, such as water, snow, grass, and animals.</p>
+<p>Other accumulations are more abstract. For example, happiness cannot be physically measured in the same way as water, but it can still be considered a changing level that is influenced by different factors.</p>
+<p>This is an important idea: stock-flow diagrams can be used for both physical and abstract concepts.</p>
+<h3>4. Basic stock-flow behaviour</h3>
+<p>The video gives three simple cases:</p>
+<p>A stock with an inflow</p>
+<p>An inflow adds something to the stock, so the stock can increase.</p>
+<p>Examples:</p>
+<ul><li>Births increase a population.</li><li>Rainfall increases the amount of water in a lake.</li><li>New grass growth increases the amount of grass.</li><li>Positive experiences may increase a person’s level of happiness.</li></ul>
+<p>A stock with an outflow</p>
+<p>An outflow removes something from the stock, so the stock can decrease.</p>
+<p>Examples:</p>
+<ul><li>Deaths reduce a population.</li><li>Evaporation reduces water in a lake.</li><li>Grazing reduces grass.</li><li>Isolation or negative experiences may reduce happiness.</li></ul>
+<p>A stock with both an inflow and an outflow</p>
+<p>When both flows operate, the stock may increase or decrease depending on which flow is stronger.</p>
+<p>For example:</p>
+<ul><li>A wolf population increases when births exceed deaths.</li><li>It decreases when deaths exceed births.</li><li>A lake level rises when rainfall exceeds evaporation and drainage.</li><li>A person’s happiness changes depending on the balance between positive and negative experiences.</li></ul>
+<p>This is the central logic of stock-flow modelling.</p>
+<h3>5. Example: population of wolves</h3>
+<p>The video shows a simple stock-flow diagram for a wolf population in a national park.</p>
+<p>The main stock is:</p>
+<ul><li>Wolves</li></ul>
+<p>The main flows are:</p>
+<ul><li>Births, which increase the wolf population</li><li>Deaths, which decrease the wolf population</li></ul>
+<p>The diagram also includes factors that influence these flows:</p>
+<ul><li>Birth fraction</li><li>Death fraction</li><li>Carrying capacity</li><li>Effect of crowding</li></ul>
+<p>The structure suggests that:</p>
+<ul><li>The number of wolves affects the population dynamics.</li><li>Crowding may increase as the population approaches the carrying capacity.</li><li>Crowding can influence the death rate.</li><li>Births and deaths determine whether the wolf population grows or declines.</li></ul>
+<p>This example shows why a population should be treated as a stock rather than simply a collection of separate animals. The important question is not only “What is happening to one wolf?” but also:</p>
+<p>What processes are causing the total wolf population to change?</p>
+<h3>6. Example: a character’s level of happiness</h3>
+<p>The video also demonstrates how an abstract concept can be modelled as a stock.</p>
+<p>The stock is:</p>
+<ul><li>Cinderella’s Happiness or Happiness of Cinderella</li></ul>
+<p>The flows are:</p>
+<ul><li>Increasing happiness or gaining happiness</li><li>Decreasing happiness or losing happiness</li></ul>
+<p>The first diagram includes factors such as:</p>
+<ul><li>Ability to participate</li><li>Fairy Godmother’s concern</li><li>Isolation</li><li>Cruelty of the sisters</li></ul>
+<p>A second diagram represents another person’s interpretation of Cinderella’s happiness. It includes factors such as:</p>
+<ul><li>Help from the Fairy Godmother</li><li>Being kind to others</li><li>The death of her father</li><li>Her mean sisters and stepmother</li></ul>
+<p>The two diagrams describe the same character, but they do not use exactly the same factors or causal explanations.</p>
+<p>This demonstrates that system diagrams are influenced by people’s assumptions and perspectives.</p>
+<h3>7. Why different diagrams can be useful</h3>
+<p>The purpose is not necessarily to decide immediately which person’s diagram is “correct.”</p>
+<p>Instead, the diagrams can be used as a basis for discussion.</p>
+<p>Two people may:</p>
+<ul><li>Identify different factors</li><li>Draw different causal connections</li><li>Interpret the same event differently</li><li>Focus on different parts of the system</li><li>Make different assumptions about what changes the stock</li></ul>
+<p>By comparing their diagrams, they can discuss:</p>
+<ul><li>Why they see the system differently</li><li>Which factors they consider important</li><li>Whether any variables are missing</li><li>Whether their causal assumptions are reasonable</li><li>How their own thinking might be improved</li></ul>
+<p>The process allows one or both people to refine their mental models.</p>
+<p>This is especially valuable in education because drawing the diagram makes invisible assumptions visible.</p>
+<h3>8. A general method for creating a stock-flow diagram</h3>
+<p>The video suggests that stock-flow diagrams can be created for almost anything that accumulates.</p>
+<p>A practical process is:</p>
+<p>Identify what accumulates.<br>Ask: “What quantity or condition can become more or less over time?”</p>
+<p>Represent it as a stock.<br>Draw the stock as a box.</p>
+<p>Identify the inflows.<br>Ask: “What causes the stock to increase?”</p>
+<p>Identify the outflows.<br>Ask: “What causes the stock to decrease?”</p>
+<p>Add factors that affect the flows.<br>These may include rates, constraints, behaviours, or external conditions.</p>
+<p>Check the causal logic.<br>Ask whether each factor actually changes an inflow or outflow.</p>
+<p>Compare perspectives.<br>Ask whether another person would identify the same stock, flows, and influencing factors.</p>
+<p>Use the diagram for discussion or further modelling.</p>
+<h3>9. Why stock-flow diagrams are useful</h3>
+<p>According to the video, stock-flow diagrams are useful because they:</p>
+<ul><li>Make system structure visible</li><li>Show how quantities accumulate</li><li>Clarify the difference between a quantity and its rate of change</li><li>Help people see relationships between parts of a system</li><li>Shift attention from isolated individuals to larger patterns</li><li>Make abstract concepts easier to discuss</li><li>Reveal different assumptions about the same system</li><li>Provide a starting point for more detailed system dynamics models</li></ul>
+<p>The diagram itself does not automatically provide a complete explanation. It is a representation that helps people ask better questions.</p>
+<h3>10. Important distinction: stock versus flow</h3>
+<p>A common mistake is to confuse a stock with a flow.</p>
+<p>For example:</p>
+<ul><li>Population of wolves is a stock.</li><li>Births per year is a flow.</li><li>Amount of water in a lake is a stock.</li><li>Rainfall per day is an inflow.</li><li>Happiness level is a stock.</li><li>Positive or negative experiences over time influence the flows.</li></ul>
+<p>A stock is the accumulated quantity.</p>
+<p>A flow is the rate at which that quantity changes.</p>
+<h3>11. Key learning point</h3>
+<p>The central message of the video is:</p>
+<p>Almost anything that accumulates can be represented as a stock, and its changes can be explained through inflows and outflows.</p>
+<p>The diagram helps us move from simply describing individual events to understanding the larger structure that produces change over time.</p>
+<p>Exam-style answer</p>
+<p>A stock-flow diagram is a visual representation of a system in which stocks represent accumulated quantities and flows represent the rates that increase or decrease those quantities. Stock-flow diagrams can be used to represent physical accumulations, such as water, snow, grass, and animal populations, as well as abstract accumulations, such as happiness. They are useful because they make system structure visible, show how change occurs over time, and provide a basis for comparing different perspectives and discussing the assumptions behind a system model.</p>
+<h3>Note of Video 2</h3>
+<h3>1. Why system dynamics matters for system innovation</h3>
+<p>System innovation requires understanding the relationships between the different parts of a system.</p>
+<p>Instead of looking at isolated events or individual components, system dynamics helps us model:</p>
+<ul><li>How the parts of a system are connected</li><li>How one part affects another</li><li>How these relationships create broader patterns of behaviour</li><li>How the system changes over time</li></ul>
+<p>A model provides a way to represent these connections visually and analyse their consequences.</p>
+<p>System dynamics is particularly useful for understanding complex organisations, societies, economies, environmental systems, and other systems where simple cause-and-effect explanations are insufficient.</p>
+<h3>2. What is system dynamics?</h3>
+<p>System dynamics is a branch of systems theory that attempts to model and understand the dynamic behaviour of complex systems as they change over time.</p>
+<p>The central idea is that the behaviour of a system is generated by interactions between its parts.</p>
+<p>A system dynamics model can be used to:</p>
+<ul><li>Map relationships between variables</li><li>Identify feedback loops</li><li>Study how a change in one part affects the rest of the system</li><li>Explore possible future patterns</li><li>Test interventions through computer simulation</li></ul>
+<p>The process usually begins with a diagram of the major relationships and feedback loops. These diagrams can then be converted into computer simulations.</p>
+<h3>3. Jay Forrester and the need for system dynamics</h3>
+<p>System dynamics was developed in the mid-1950s by Professor Jay Forrester at MIT.</p>
+<p>Forrester argued that human beings are not naturally good at understanding complex social systems. Our normal thinking tends to rely on simple, linear cause-and-effect reasoning:</p>
+<p>A causes B, and B produces C.</p>
+<p>However, social systems are often:</p>
+<ul><li>Multi-loop</li><li>Nonlinear</li><li>Delayed</li><li>Highly interdependent</li><li>Influenced by feedback</li></ul>
+<p>Human beings evolved without needing to understand systems of this complexity. As a result, we may misinterpret the behaviour of the systems in which we now participate.</p>
+<p>System dynamics provides formal tools to compensate for these limitations in human reasoning.</p>
+<h3>4. Feedback loops</h3>
+<p>A feedback loop occurs when:</p>
+<p>A change in one quantity affects a second quantity.</p>
+<p>The change in the second quantity feeds back and affects the first quantity.</p>
+<p>The feedback reinforces or counteracts the original change.</p>
+<p>Feedback means that actions do not simply disappear. Their consequences circulate through the wider system and eventually influence the original conditions.</p>
+<p>Feedback loops can generate:</p>
+<ul><li>Growth</li><li>Decline</li><li>Stability</li><li>Oscillation</li><li>Sudden change</li><li>Collapse</li><li>Unintended consequences</li></ul>
+<p>The key concept is interdependence: what happens in one part of a system can eventually affect the part where the process began.</p>
+<h3>5. Causal loop diagrams</h3>
+<p>System dynamics uses causal loop diagrams (CLDs) to represent these relationships.</p>
+<p>A causal loop diagram is a simple map containing:</p>
+<ul><li>The main components of a system</li><li>Causal relationships between the components</li><li>The direction of influence</li><li>Feedback loops</li></ul>
+<p>CLDs help reveal the basic structure of a system before detailed numerical modelling begins.</p>
+<p>They are useful for asking questions such as:</p>
+<ul><li>What variables influence this outcome?</li><li>Which effects reinforce one another?</li><li>Which effects counteract one another?</li><li>Where are the delays?</li><li>Which part of the system could be changed to produce a different outcome?</li></ul>
+<h3>6. Positive feedback</h3>
+<p>A positive feedback relationship means that two connected variables change in the same direction.</p>
+<p>If one variable increases, the other tends to increase.</p>
+<p>If one variable decreases, the other tends to decrease.</p>
+<p>Positive feedback is also commonly called reinforcing feedback.</p>
+<p>Positive feedback can create:</p>
+<ul><li>Exponential growth</li><li>Rapid expansion</li><li>Instability</li><li>Oscillation</li><li>Runaway change</li><li>Collapse after a period of growth</li></ul>
+<p>Positive feedback is not necessarily “good.” It can create either a beneficial or harmful cycle.</p>
+<h3>7. Climate example: the ice-albedo feedback</h3>
+<p>One example is the relationship between ice and temperature.</p>
+<p>The process is:</p>
+<p>The climate becomes warmer.</p>
+<p>Ice melts.</p>
+<p>Ice is replaced by land or open water.</p>
+<p>Land and open water reflect less sunlight than ice.</p>
+<p>More solar radiation is absorbed.</p>
+<p>This causes additional warming.</p>
+<p>Additional warming causes more ice to melt.</p>
+<p>This is a reinforcing loop:</p>
+<p class="aside">Warming → ice melting → lower reflectivity → greater solar absorption → more warming</p>
+<p>The loop can accelerate climate change.</p>
+<h3>8. Permafrost methane feedback</h3>
+<p>Another climate-related example involves permafrost.</p>
+<p>The process is:</p>
+<p>Warming causes permafrost to thaw.</p>
+<p>Thawing permafrost releases carbon, potentially as methane.</p>
+<p>Methane contributes to further warming.</p>
+<p>Further warming causes more permafrost to thaw.</p>
+<p>This creates another reinforcing feedback loop.</p>
+<p>The example illustrates why climate systems can contain nonlinear and potentially accelerating processes.</p>
+<h3>9. Economies of scale as a virtuous cycle</h3>
+<p>The video also describes economies of scale as a positive feedback loop between a company and its customers.</p>
+<p>The process is:</p>
+<p>A company sells more products.</p>
+<p>Higher sales generate more revenue.</p>
+<p>More revenue allows the company to invest in expanding production.</p>
+<p>Larger-scale production reduces unit costs.</p>
+<p>Lower costs make the product more attractive to customers.</p>
+<p>More customers purchase the product.</p>
+<p>Sales increase further.</p>
+<p>This is a virtuous cycle, because growth benefits both the company and its customers.</p>
+<p>The general structure is:</p>
+<p class="aside">More sales → more revenue → more investment → lower costs → more customers → more sales</p>
+<h3>10. Vicious cycles</h3>
+<p>Positive feedback can also create a harmful cycle.</p>
+<p>The video uses a trade war as an example:</p>
+<p>One side imposes trade restrictions.</p>
+<p>The other side responds with tariffs or further restrictions.</p>
+<p>The first side reacts again.</p>
+<p>Restrictions continue to escalate.</p>
+<p>This is a vicious cycle.</p>
+<p>Although positive feedback may initially produce rapid growth or escalation, it cannot continue indefinitely. The system may eventually encounter a limit, destabilise, or crash.</p>
+<h3>11. The danger of linear thinking</h3>
+<p>Many conventional models assume that the future will develop through a smooth, linear projection.</p>
+<p>For example, a linear model might assume that:</p>
+<ul><li>Reducing CO₂ by a certain amount produces a proportional reduction in warming.</li><li>Future energy use will follow a predictable trend.</li><li>Future vehicle use will continue along a stable projection.</li><li>Food demand will change gradually and predictably.</li></ul>
+<p>The problem is that linear projections may ignore:</p>
+<ul><li>Tipping points</li><li>Threshold effects</li><li>Runaway feedback</li><li>Abrupt regime shifts</li><li>Financial crises</li><li>Technological disruption</li><li>Ecosystem collapse</li><li>Sudden changes in behaviour</li></ul>
+<p>A linear model may be accurate under normal conditions but fail badly when a system approaches a boundary or tipping point.</p>
+<p>System dynamics does not necessarily provide an exact prediction of the future. Instead, it helps identify:</p>
+<ul><li>The likely pattern of behaviour</li><li>Possible sources of exponential change</li><li>Critical feedback loops</li><li>Points where the system may become unstable</li><li>Conditions under which a plan could fail</li></ul>
+<p>The main benefit is awareness of possible nonlinear change.</p>
+<h3>12. Negative feedback</h3>
+<p>A negative causal relationship means that two connected variables change in opposite directions.</p>
+<ul><li>If one variable increases, the other tends to decrease.</li><li>If one variable decreases, the other tends to increase.</li></ul>
+<p>Negative feedback is also commonly called balancing feedback.</p>
+<p>Negative feedback generally promotes:</p>
+<ul><li>Stability</li><li>Balance</li><li>Goal-seeking behaviour</li><li>Equilibrium</li><li>Resistance to change</li></ul>
+<p>The video contrasts negative feedback with positive feedback:</p>
+<ul><li>Positive feedback tends to amplify change.</li><li>Negative feedback tends to counteract change.</li></ul>
+<p>Positive feedback may produce exponential growth, oscillation, or chaotic behaviour. Negative feedback usually helps keep the system within a more stable range.</p>
+<h3>13. Supply and demand as a balancing loop</h3>
+<p>The supply-and-demand mechanism in a market is an example of negative feedback.</p>
+<p>The process is:</p>
+<p>Demand increases.</p>
+<p>Demand becomes greater than supply.</p>
+<p>Producers can charge higher prices.</p>
+<p>Higher prices cause consumers to purchase less.</p>
+<p>Lower demand encourages suppliers to reduce production.</p>
+<p>The system moves back toward a balance between supply and demand.</p>
+<p>The loop attempts to restore equilibrium.</p>
+<p>The general structure is:</p>
+<p class="aside">Higher demand → higher prices → lower consumption → reduced production → supply-demand balance</p>
+<p>The system remains close to equilibrium until another change affects it.</p>
+<h3>14. Negative feedback and sustainability</h3>
+<p>The video argues that negative feedback is important for sustainability because a sustainable system must, in some sense, “pay its own bills.”</p>
+<p>The benefits received from an action eventually create costs or constraints that feed back into the system.</p>
+<p>For example:</p>
+<ul><li>A person buys an item and receives a benefit.</li><li>The person must also pay for the item.</li><li>The cost limits unlimited purchasing.</li></ul>
+<p>The payment mechanism reconnects the action with its consequences.</p>
+<p>Without this balancing feedback, a system may consume resources or impose costs without bearing the consequences.</p>
+<h3>15. Illegal dumping example</h3>
+<p>The video describes a small town in northern France that had a problem with rubbish being dumped in an unused public space.</p>
+<p>Local building companies were illegally disposing of waste in order to reduce their costs.</p>
+<p>The local authorities knew who was responsible, but national laws limited their ability to deal with the problem. Eventually, local residents were allowed to report illegal dumping.</p>
+<p>The authorities then:</p>
+<p>Collected the rubbish.</p>
+<p>Traced it back to the responsible company.</p>
+<p>Returned the waste to the company’s own property.</p>
+<p>This policy helped solve the problem because the companies were forced to experience the consequences of their own actions.</p>
+<h3>16. Positive and negative feedback in the dumping example</h3>
+<p>Initially, the system contained a reinforcing loop:</p>
+<p>Someone dumped rubbish illegally.</p>
+<p>No one was prosecuted.</p>
+<p>Illegal dumping appeared acceptable.</p>
+<p>More people dumped rubbish.</p>
+<p>The amount of rubbish increased.</p>
+<p>The growing rubbish made further dumping seem even more normal.</p>
+<p>This allowed the situation to get out of control.</p>
+<p>The new policy created a balancing loop:</p>
+<p>A company dumped rubbish.</p>
+<p>The authorities identified the company.</p>
+<p>The rubbish was returned to the company’s property.</p>
+<p>The company experienced the cost of its own behaviour.</p>
+<p>Illegal dumping became less attractive.</p>
+<p>The policy closed the positive feedback loop and replaced it with a negative feedback loop.</p>
+<h3>17. Negative externalities</h3>
+<p>The underlying issue in the dumping example is a negative externality.</p>
+<p>A negative externality occurs when someone receives the benefit of an action while shifting the costs onto other people or the wider environment.</p>
+<p>In this case:</p>
+<p>Building companies saved money by avoiding proper waste disposal.</p>
+<p>The public space and local community absorbed the environmental and social costs.</p>
+<p>The companies did not experience the full consequences of their own decisions.</p>
+<p>The new policy made the companies bear the cost of their actions again.</p>
+<p>The video argues that positive feedback based on externalising costs is fundamentally unsustainable. It can continue only while the system is able to draw resources or absorb damage from outside itself.</p>
+<p>A sustainable solution requires reconnecting actions with their consequences.</p>
+<h3>18. From causal loop diagrams to stock-and-flow diagrams</h3>
+<p>For a more detailed quantitative analysis, a causal loop diagram can be transformed into a stock-and-flow diagram.</p>
+<p>A stock is an entity that accumulates or depletes over time.</p>
+<p>Examples include:</p>
+<ul><li>Water in a reservoir</li><li>Money in a bank account</li><li>Population</li><li>Inventory</li><li>Carbon in the atmosphere</li><li>Number of unemployed people</li></ul>
+<p>A flow is the rate of change in a stock.</p>
+<p>For example:</p>
+<ul><li>The amount of water in a reservoir is a stock.</li><li>Water entering the reservoir is an inflow.</li><li>Water leaving through an outlet is an outflow.</li><li>The rate at which water enters or leaves is a flow variable.</li></ul>
+<p>The distinction is:</p>
+<ul><li>A stock is measured as a quantity at a particular point in time.</li><li>A flow is measured over an interval of time.</li></ul>
+<p>Stock-and-flow diagrams allow system dynamics models to be studied quantitatively, usually through computer simulation.</p>
+<h3>19. Behaviour generated by feedback loops</h3>
+<p>Different feedback structures generate different patterns over time.</p>
+<p>Positive feedback often produces:</p>
+<ul><li>Initial exponential growth</li><li>Rapid acceleration</li><li>Growth toward a boundary</li><li>A sudden crash when the boundary is reached</li></ul>
+<p>A financial bubble followed by a market crash is an example of this pattern.</p>
+<p>Negative feedback often produces:</p>
+<ul><li>Fluctuations within an upper and lower limit</li><li>Wave-like behaviour</li><li>Stabilisation</li><li>A relatively stable long-term condition</li></ul>
+<p>The actual pattern depends on:</p>
+<ul><li>The strength of the feedback</li><li>The timing of the feedback</li><li>The presence of delays</li><li>Environmental limits</li><li>Interactions with other feedback loops</li></ul>
+<h3>20. Leverage points and system change</h3>
+<p>System dynamics is useful not only for understanding behaviour but also for identifying where intervention may be most effective.</p>
+<p>These intervention points are often called leverage points.</p>
+<p>Identifying positive and negative feedback helps us understand the system’s potential for change:</p>
+<ul><li>Strong negative feedback tends to preserve the existing system.</li><li>Strong positive feedback can create rapid transformation.</li><li>Weak interventions may be absorbed by balancing forces.</li><li>A strategically placed intervention may strengthen a reinforcing loop and move the system into a new state.</li></ul>
+<p>The video refers to the rapid exponential change produced by positive feedback as a phase transition.</p>
+<p>A phase transition is a period in which a system shifts from one relatively stable pattern or state to another.</p>
+<h3>Overall conceptual chain</h3>
+<p>The lecture’s main logic can be represented as:</p>
+<p>System parts and relationships</p>
+<p class="aside">→ feedback loops</p>
+<p class="aside">→ causal loop diagrams</p>
+<p class="aside">→ stock-and-flow diagrams</p>
+<p class="aside">→ computer simulation</p>
+<p class="aside">→ behaviour-over-time patterns</p>
+<p class="aside">→ identification of leverage points</p>
+<h3>Final takeaway</h3>
+<p>System dynamics helps us move beyond simple linear cause-and-effect thinking. Complex systems are shaped by feedback loops, delays, accumulations, nonlinearities, and interactions between many variables. Positive feedback can accelerate growth or create harmful escalation, while negative feedback can stabilise a system or resist change. Causal loop diagrams reveal the structure of these relationships, and stock-and-flow diagrams allow them to be analysed quantitatively. The ultimate purpose is to understand how systems behave, recognise possible tipping points, and identify where interventions can create meaningful system change.</p>`;
 
 const NOTE_PMGT1711_W4P = `<h2>Week 4 Prepare</h2>
-<p class="aside"><a href="files/PMGT1711-Week-4-Prepare.docx" download>Download the original Word document</a></p>`;
+<p class="aside">本页把三个大型基础设施案例放在同一个系统动力学框架下阅读：关注计划与实际进度、返工循环、反馈回路，以及“结构驱动行为”的管理含义。</p>
+<h3>Scenario 1: WestConnex Motorway, Australia</h3>
+<h3>Activity 1 — Behaviour Over Time Graph</h3>
+<p>At launch, WestConnex was presented as a major motorway network costing approximately A$10 billion. Early business-case estimates were approximately A$11–11.5 billion, with a roughly ten-year delivery program. Later estimates increased to approximately A$16.8–17 billion, excluding some additional network-integration works. The network opened in stages, with the final Rozelle Interchange opening in November 2023.</p>
+<table><thead><tr><th>Year</th><th>Planned cumulative completion</th><th>Illustrative actual completion</th></tr></thead><tbody><tr><td>2012</td><td>0%</td><td>0%</td></tr><tr><td>2015</td><td>15%</td><td>10%</td></tr><tr><td>2017</td><td>35%</td><td>25%</td></tr><tr><td>2019</td><td>60%</td><td>45%</td></tr><tr><td>2021</td><td>80%</td><td>68%</td></tr><tr><td>2023</td><td>100%</td><td>100%</td></tr></tbody></table>
+<p>The planned line would normally be S-shaped: a slow start during design and approvals, rapid progress during construction, and a slower final stage during testing and integration. The actual line would initially follow the plan but begin to fall behind around 2014–2015, when scope, design, funding and delivery arrangements changed. The gap would then widen because tunnelling, property acquisition and network integration were highly interdependent.</p>
+<p>The most important feature is not simply that the final network opened in 2023. It is that the project’s cost and scope expanded significantly while delivery became more complicated and staged.</p>
+<h3>Activity 2 — The Rework Cycle</h3>
+<p>The flow of planned work into work in progress was slowed by:</p>
+<ul><li>environmental approvals and community opposition;</li><li>property acquisition and relocation disputes;</li><li>difficult urban tunnelling conditions;</li><li>utility relocation and traffic-management requirements;</li><li>changes to scope and network connections;</li><li>coordination between government, contractors and concession partners.</li></ul>
+<p>A simple rework cycle is:</p>
+<p class="aside">Planned work → Work in progress → Completed work</p>
+<p class="aside">Completed-looking work → defects/design changes → rework → Work in progress</p>
+<p>For WestConnex, work that appeared complete could return to rework when tunnel interfaces, road connections, utilities or safety requirements did not integrate correctly. Design changes could also require redesign, demolition, reconstruction or retesting.</p>
+<p>Rework reduced the project’s effective completion rate because crews were spending time correcting previous work instead of producing new accepted work. This increased work in progress and extended the schedule.</p>
+<p>Adding more staff or contractors could increase output only when tasks were independent and properly prepared. In tightly connected tunnel works, extra crews could create:</p>
+<ul><li>more handovers and communication requirements;</li><li>congestion in restricted work areas;</li><li>additional supervision and safety demands;</li><li>more chances for interface errors.</li></ul>
+<p>This illustrates Brooks’s Law: adding manpower to a late project can initially make it later. The principle comes from software development, so it is not a literal motorway rule, but the same systems effect can occur in complex construction projects. Targeted specialists may help, but simply increasing headcount does not remove design uncertainty, approval delays or coordination bottlenecks.</p>
+<h3>Scenario 2: Jakarta–Bandung High-Speed Rail, Indonesia</h3>
+<h3>Activity 1 — Behaviour Over Time Graph</h3>
+<p>The project agreement was reached in 2015, construction began in 2016, and the railway was originally expected to operate in 2019. The planned cost was approximately US$5.5–6 billion, although reported figures vary depending on the exchange rate and cost baseline.</p>
+<p>The railway opened commercially in October 2023. The final reported cost was approximately US$7.3–8 billion, representing an overrun of about US$1.2 billion compared with earlier estimates.</p>
+<table><thead><tr><th>Year</th><th>Planned cumulative completion</th><th>Illustrative actual completion</th></tr></thead><tbody><tr><td>2015</td><td>0%</td><td>0%</td></tr><tr><td>2016</td><td>15%</td><td>10%</td></tr><tr><td>2017</td><td>40%</td><td>22%</td></tr><tr><td>2018</td><td>75%</td><td>38%</td></tr><tr><td>2019</td><td>100%</td><td>50%</td></tr><tr><td>2020</td><td>100%</td><td>60%</td></tr><tr><td>2021</td><td>100%</td><td>73%</td></tr><tr><td>2022</td><td>100%</td><td>90%</td></tr><tr><td>2023</td><td>100%</td><td>100%</td></tr></tbody></table>
+<p>The planned curve reaches 100% in 2019 and then becomes flat. The actual curve is a delayed S-curve: progress is slow during land acquisition and design, improves during construction, and then flattens because of COVID-19, unfinished stations, testing and system integration.</p>
+<p>The clearest point of divergence was 2019, when the railway was supposed to open but remained incomplete. The delay was already developing before COVID-19 because of land-acquisition disputes, environmental concerns and engineering challenges.</p>
+<h3>Activity 2 — The Rework Cycle</h3>
+<p>The flow from planned work into work in progress was slowed by:</p>
+<ul><li>disputes over thousands of land parcels;</li><li>permitting and environmental requirements;</li><li>difficult terrain and tunnelling conditions;</li><li>changing designs and construction requirements;</li><li>financing and political disagreements between stakeholders;</li><li>COVID-19 restrictions and supply-chain disruption;</li><li>incomplete stations and connecting infrastructure.</li></ul>
+<p>The rework cycle can be described as:</p>
+<p class="aside">Planned railway work → WIP → completed structures and systems</p>
+<p class="aside">Defects, geological surprises or design changes → rework → WIP</p>
+<p>For example, unexpected ground conditions could require tunnel redesign or additional stabilisation. Land-access problems could leave construction crews waiting or force the sequence of work to change. Interfaces between tracks, signalling, stations and trains could reveal defects during testing, sending apparently completed work back into rework.</p>
+<p>The result is that gross activity does not equal usable completion. The project may have many active workers and visible construction while the amount of railway that is safe, tested and operational remains much lower.</p>
+<p>Adding staff could increase capacity only if work packages were independent and the necessary land, materials and designs were available. If the project was already congested, additional workers could increase communication costs, supervision requirements and interface errors.</p>
+<p>The feedback loop was:</p>
+<p class="aside">Delay → pressure to work faster → more parallel work and late decisions → defects and interface conflicts → rework → slower net completion → further delay</p>
+<p>A balancing response would be to complete land acquisition before releasing work, freeze designs earlier, use specialist teams for difficult tunnels, and require integration testing before declaring work complete.</p>
+<h3>Scenario 3: Nusantara New Capital City, Indonesia</h3>
+<h3>Activity 1 — Behaviour Over Time Graph</h3>
+<p>Nusantara was announced in 2019. The overall investment requirement has commonly been estimated at approximately US$30–35 billion, although estimates differ according to the project scope and date.</p>
+<p>The development plan has five stages extending from 2022 to 2045. Phase I was intended to deliver basic infrastructure, the presidential complex, government buildings and accommodation. The political centre was expected to begin operating around August 2024.</p>
+<p>The guide reports that only about 15% of planned works had been completed by August 2024. This should be treated as an approximate progress indicator rather than a precise measurement of every construction package.</p>
+<table><thead><tr><th>Milestone</th><th>Planned completion toward the 2024 operating milestone</th><th>Illustrative actual completion</th></tr></thead><tbody><tr><td>2019 announcement</td><td>0%</td><td>0%</td></tr><tr><td>2022 start of Phase I</td><td>20%</td><td>5%</td></tr><tr><td>2023</td><td>60%</td><td>10%</td></tr><tr><td>August 2024</td><td>100%</td><td>Approximately 15%</td></tr></tbody></table>
+<p>This BOTG should be understood as measuring progress toward the initial operating milestone, not completion of the entire city. Full development is planned to continue in stages through 2045.</p>
+<p>The actual curve is much flatter than planned. Some flagship buildings were progressing, but enabling systems such as water, electricity, roads, housing and airport access were not sufficiently complete to support a functioning capital city. The intended move was therefore postponed, and later political targets were revised.</p>
+<h3>Activity 2 — The Rework Cycle</h3>
+<p>The movement of planned work into work in progress was slowed by:</p>
+<ul><li>heavy rainfall and difficult construction conditions;</li><li>funding gaps and limited realisation of private investment;</li><li>uncertainty following changes in political leadership;</li><li>resignations of senior officials in the Nusantara authority;</li><li>incomplete water, electricity and waste systems;</li><li>access and airport delays;</li><li>land, environmental and Indigenous-community concerns;</li><li>limited population density and uncertainty about future demand.</li></ul>
+<p>The rework cycle was:</p>
+<p class="aside">Planned city works → WIP → completed buildings and infrastructure</p>
+<p class="aside">Design changes, incomplete interfaces or changed priorities → rework → WIP</p>
+<p>A building can appear physically complete but still not be operational if roads, electricity, water, telecommunications or public services are unfinished. This means that construction progress may be reported while usable completion remains low.</p>
+<p>The main reinforcing loop was:</p>
+<p class="aside">Incomplete infrastructure → delayed relocation and low occupancy → weak investor confidence → less private funding → slower construction → more incomplete infrastructure</p>
+<p>Another loop was:</p>
+<p class="aside">Schedule pressure → rushed construction and parallel work → defects and integration problems → rework → reduced productivity → further delay</p>
+<p>Adding workers would not automatically solve the problem. If utilities, materials, land access or design decisions were missing, more workers could create site congestion and additional coordination requirements. Brooks’s Law applies here as an analogy: adding people to a late and tightly coupled project can initially reduce productivity. However, specialist teams could still help where work packages were genuinely independent and ready to proceed.</p>
+<h3>Wrap-up Reflection</h3>
+<p>The statement “structure drives behaviour” means that project outcomes are shaped not only by individual effort, but also by the relationships, delays, incentives, information flows and feedback loops built into the project system.</p>
+<p>For megaproject management, this means:</p>
+<p>Planning must include dependencies, approvals, land access, learning, testing and rework—not only the original schedule.</p>
+<p>Managers should measure accepted and usable completion, not just activity or the number of workers on site.</p>
+<p>Work in progress, defects and rework should be monitored because they can reveal future delays before the final deadline is missed.</p>
+<p>When a project falls behind, managers should investigate the structure causing the problem rather than automatically adding staff or overtime.</p>
+<p>Design changes and interfaces between contractors should be managed early.</p>
+<p>Funding, political confidence and public support should be treated as part of the project system because they influence the flow of work.</p>
+<p>Recovery strategies should be tested for unintended effects, such as increasing congestion, errors and rework.</p>
+<p>The main lesson is that working harder does not guarantee better results. If the project structure creates bottlenecks and feedback loops, additional effort may increase activity without increasing net completion.</p>
+<h3>Useful references include:</h3>
+<ul><li><a href="https://www.audit.nsw.gov.au/our-work/reports/westconnex-changes-since-2014" target="_blank" rel="noopener">https://www.audit.nsw.gov.au/our-work/reports/westconnex-changes-since-2014</a></li><li><a href="https://www.transurban.com/news/rozelle-interchange-opening" target="_blank" rel="noopener">https://www.transurban.com/news/rozelle-interchange-opening</a></li><li><a href="https://www.lowyinstitute.org/the-interpreter/indonesia-high-cost-high-speed-rail" target="_blank" rel="noopener">https://www.lowyinstitute.org/the-interpreter/indonesia-high-cost-high-speed-rail</a></li><li><a href="https://railwaynews.net/jakarta-bandung-high-speed-rail-cost-overruns-challenges.html" target="_blank" rel="noopener">https://railwaynews.net/jakarta-bandung-high-speed-rail-cost-overruns-challenges.html</a></li><li><a href="https://apnews.com/article/indonesia-southeast-asia-highspeed-railway-e7a53ecbcb077b4403d9232e7b93bcf3" target="_blank" rel="noopener">https://apnews.com/article/indonesia-southeast-asia-highspeed-railway-e7a53ecbcb077b4403d9232e7b93bcf3</a></li><li><a href="https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2024-59-the-nusantara-project-in-progress-risks-and-challenges-by-siwage-dharma-negara-and-neo-hui-yun-rebecca/" target="_blank" rel="noopener">https://www.iseas.edu.sg/articles-commentaries/iseas-perspective/2024-59-the-nusantara-project-in-progress-risks-and-challenges-by-siwage-dharma-negara-and-neo-hui-yun-rebecca/</a></li></ul>
+<p>The guide also mentions “Focus Question 5,” but it does not include the actual question. That question would need to be provided separately to answer it accurately.</p>`;
 
 const SECTIONS = [
   { id:"buss1020",           title:"BUSS1020",                   notes:[
