@@ -167,30 +167,15 @@
   article th{background:var(--sidebar);font-weight:600;color:var(--ink);font-size:14px}
   article td{font-size:14px}
 
-  /* ---------- visual page editions ---------- */
-  .visual-document{min-width:0;margin:0 0 28px}
-  .visual-document-intro{min-width:0;
-    display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
-    margin:0 0 18px;padding:14px 16px;
-    background:var(--sidebar);border:1px solid var(--line);border-radius:10px;
-    font-family:"Inter",system-ui,sans-serif;
+  /* ---------- source formula visuals ---------- */
+  article .formula-visual{
+    margin:16px auto 22px;text-align:center;line-height:0;
   }
-  .visual-document-intro .visual-kicker{
-    margin:0 0 4px;color:var(--accent);font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;
+  article .formula-visual img{
+    display:inline-block;max-width:100%;height:auto;vertical-align:middle;
   }
-  .visual-document-intro strong{display:block;color:var(--ink);font-size:15px;font-weight:600;line-height:1.35}
-  .visual-document-intro p{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
-  .visual-document-status{
-    flex:0 0 auto;padding:4px 9px;border:1px solid var(--line);border-radius:999px;
-    color:var(--faint);font-size:11px;line-height:1.2;white-space:nowrap;
-  }
-  .visual-page-stack{display:grid;gap:22px;min-width:0}
-  .visual-page{
-    position:relative;min-width:0;margin:0;background:#fff;border:1px solid var(--line);
-    box-shadow:0 6px 18px rgba(35,33,29,.08);overflow:hidden;
-  }
-  .visual-page img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+  article .table-scroll{overflow-x:auto;margin:0 0 20px}
+  article .table-scroll table{min-width:560px;margin:0}
 
   /* ---------- home ---------- */
   .home-lead{font-size:21px;line-height:1.65;color:#46423b;margin:6px 0 8px;max-width:600px}
@@ -256,10 +241,7 @@
     .content{padding:30px 22px 90px}
     article h1{font-size:28px}
     .home-lead{font-size:19px}
-     .visual-document-intro{display:block}
-     .visual-document-status{display:inline-block;margin-top:10px}
-     .visual-page-stack{gap:14px}
-  }
+   }
 </style>
 </head>
 <body>
@@ -3206,32 +3188,351 @@ const NOTE_PMGT1865_W2P = `
 <p>15.3.3 Present final report to council</p>
 `;
 
-const NOTE_PMGT1865_W3V = `
-<div class="visual-document" data-visual-document="pmgt1865-week-3">
-  <div class="visual-document-intro">
-    <div>
-      <div class="visual-kicker">Visual page edition</div>
-      <strong>Week 3 Online Modules</strong>
-      <p>17 pages · the original page composition, formulas and diagrams are preserved as rendered.</p>
-    </div>
-    <span class="visual-document-status">Reading view · no document download</span>
-  </div>
-  <div class="visual-page-stack" data-visual-pages></div>
-</div>
+const NOTE_PMGT1865_W3M = `
+<h2>Week 3 Online Modules</h2>
+<p><b>Source</b></p>
+<ul>
+<li>Week 3 Online Modules: overlapping networks, special activity relationships, precedence networks, lag and lead time.</li>
+<li>Chapter 5.6: overlapping relationships between a preceding activity <i>I</i> and a succeeding activity <i>J</i>.</li>
+<li>Chapters 12.12–12.13 and the two short videos: precedence diagramming, activity boxes, lag, slack and lead.</li>
+</ul>
+
+<h3>Learning objectives</h3>
+<ul>
+<li>Understand overlapping network models.</li>
+<li>Understand special relationships between activities.</li>
+<li>Develop an overlapping network diagram.</li>
+<li>Use lead and lag times when calculating a schedule.</li>
+</ul>
+
+<h3>1. Why overlapping networks matter</h3>
+<p>Traditional Critical Path Method (CPM) schedules often use a finish-to-start relationship: a succeeding activity begins only after its predecessor is completely finished. This makes the calculation straightforward, but it does not always represent construction, production or service work realistically.</p>
+<p>Many activities can be performed concurrently or partially at the same time. Modelling that overlap can reduce the overall project duration, allow resources to be deployed earlier and represent the real working relationship more accurately.</p>
+<p>The module introduces five relationships:</p>
+<ol>
+<li>Finish-to-start (FTS, commonly FS)</li>
+<li>Start-to-start (STS, commonly SS)</li>
+<li>Finish-to-finish (FTF, commonly FF)</li>
+<li>Start-to-finish (STF, commonly SF)</li>
+<li>Compound link: STS and FTF between the same two activities</li>
+</ol>
+
+<h3>2. Notation</h3>
+<ul>
+<li><b>ESD</b>: earliest start date.</li>
+<li><b>EFD</b>: earliest finish date.</li>
+<li><b>LT</b>: lead-time or the offset attached to a relationship.</li>
+<li><b>LAG<sub>IJ</sub></b>: the lag between activities <i>I</i> and <i>J</i>.</li>
+<li><b>Duration<sub>J</sub></b>: the duration of activity <i>J</i>.</li>
+</ul>
+<p>When several preceding activities affect <i>J</i>, the applicable maximum constraint is used.</p>
+
+<h3>3. Finish-to-Start Link (FTS)</h3>
+<p>FTS is the conventional CPM relationship. Activity <i>J</i> cannot start until activity <i>I</i> has finished. A waiting period may be needed because of resource unavailability, curing, approvals or another required delay. The delay can be represented as lead-time on the link instead of as a separate activity.</p>
+<p><b>Source formula</b></p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-fts-esd.png" alt="Original Finish-to-Start calculation formula"></div>
+<p>The module also shows how the lag is obtained from the successor start and the predecessor finish:</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-fts-lag.png" alt="Original Finish-to-Start lag formula"></div>
+<p><b>Example:</b> after wall rendering is complete, painting may need to wait until the render has cured. The curing period can be a separate activity or an offset on the FTS link.</p>
+
+<h3>4. Start-to-Start Link (STS)</h3>
+<p>In an STS relationship, activity <i>J</i> may start after a specified portion of activity <i>I</i> has been completed. Once <i>J</i> starts, the two activities progress independently; finishing <i>I</i> does not control finishing <i>J</i>.</p>
+<p>Using only FTS links would require the preceding activity to be split into parts such as “Start excavation” and “Continue excavation”. An STS link can represent the same overlap with the original two activities.</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-sts-esd.png" alt="Original Start-to-Start calculation formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-sts-lag.png" alt="Original Start-to-Start lag formula"></div>
+<p>The STS relationship is relatively uncommon and should not be confused with a compound link. A compound link contains both STS and FTF constraints between the same pair of activities.</p>
+
+<h3>5. Finish-to-Finish Link (FTF)</h3>
+<p>In an FTF relationship, activity <i>J</i> cannot finish until activity <i>I</i> has been completed. The two activities may start independently, and the overlap occurs within the succeeding activity.</p>
+<p>Using only FTS links would require the succeeding activity to be split into “Start installation and testing” and “Finish installation and testing”. An FTF link represents the relationship with only two activities.</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ftf-efd.png" alt="Original Finish-to-Finish earliest finish formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ftf-esd.png" alt="Original Finish-to-Finish earliest start formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ftf-lag.png" alt="Original Finish-to-Finish lag formula"></div>
+<p>The widened part of the link near activity <i>J</i> identifies the FTF relationship.</p>
+
+<h3>6. Start-to-Finish Link (STF)</h3>
+<p>STF is more complex. Activities <i>I</i> and <i>J</i> start and finish independently, but at a specified point a portion of <i>I</i> must be completed before a portion of <i>J</i> can be completed. The relationship therefore contains two lead-times: one for the required portion of the preceding activity and one for the relevant portion of the succeeding activity.</p>
+<p>STF links can occur between service activities such as mechanical, electrical and hydraulic services, fire protection and vertical transportation. For example, electrical wiring may start early and continue through most of a project, while lift installation can proceed independently but still needs electrical power before installation and testing can finish.</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-stf-efd.png" alt="Original Start-to-Finish earliest finish formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-stf-esd.png" alt="Original Start-to-Finish earliest start formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-stf-lag.png" alt="Original Start-to-Finish lag formula"></div>
+<p>The STF link combines a start-related constraint from <i>I</i> with a finish-related constraint on <i>J</i>, without splitting both activities into separate pieces.</p>
+
+<h3>7. Compound link: STS + FTF</h3>
+<p>A compound link combines a start-to-start link and a finish-to-finish link. It is the most common type of overlap in the chapter’s examples.</p>
+<p><b>Example:</b> wall lining cannot begin until part of the timber stud wall installation is complete, while the final portion of wall lining cannot be completed until the timber stud walls are fully installed. The first condition is represented by STS and the second by FTF.</p>
+<p>If the wall-lining subcontractor progresses faster than the stud-wall subcontractor, the work may be interrupted. The planner can either split the succeeding activity and model the break explicitly, or delay its start so that the work remains continuous. A compound link can schedule the succeeding activity while preserving continuity.</p>
+<p>The two constraints are calculated independently, and the actual earliest start is the greater of the two resulting constraints:</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-compound-esd.png" alt="Original compound-link earliest start formula"></div>
+<p>The dominant link is the one producing the greater start-date constraint. A larger FTF lead-time may make FTF dominant; if that lead-time is reduced, STS may become dominant. If both produce the same start date, neither is dominant.</p>
+<p><b>Main takeaway:</b> a compound link can begin after partial progress, continue concurrently and still prevent completion until the preceding activity is fully complete. It avoids unnecessary activity splitting.</p>
+
+<h3>8. Precedence networks</h3>
+<p>Precedence networks show relationships and dependencies among project activities. They are widely used because computer systems and printers represent activities more effectively with straight lines than with circular diagrams.</p>
+<ul>
+<li>Activities are represented as nodes or boxes.</li>
+<li>Arrows show relationships or constraints between activities.</li>
+<li>Solid lines indicate activity relationships.</li>
+<li>Dotted lines may indicate slack.</li>
+<li>The critical path can be highlighted with asterisks, different colours or bold lines.</li>
+</ul>
+<p>This is also called the activity-on-node method because the work is performed within the activity node itself. A WBS identifies the work that must be completed; the network shows the logical relationships and order in which activities should occur.</p>
+
+<h3>9. Activity-box information</h3>
+<p>A computerized activity box may include:</p>
+<ul>
+<li>Early start date and late start date</li>
+<li>Early finish date and late finish date</li>
+<li>Activity duration</li>
+<li>Task name or number</li>
+<li>Responsibility or cost centre</li>
+<li>Cost information</li>
+</ul>
+<p>These fields allow a planner to perform the forward and backward passes, calculate float and identify the activities controlling completion.</p>
+
+<h3>10. Lag, slack and lead</h3>
+<p>Lag is the time interval between the early start or early finish of one activity and the corresponding early event of another activity in a sequential chain. It is measured <i>between</i> activities. Slack is measured <i>within</i> an activity.</p>
+<ul>
+<li>An FS lag means the successor starts a specified time after the predecessor finishes.</li>
+<li>An SS lag means the successor starts a specified time after the predecessor starts.</li>
+<li>An FF lag means the successor finishes a specified time after the predecessor finishes.</li>
+<li>An SF lag means the successor finishes a specified time after the predecessor starts.</li>
+</ul>
+<p>Lag may be caused by curing, waiting, approvals, preparation or unavailable resources. A lead is a negative lag: the successor begins or finishes before the predecessor is fully complete. Leads can be useful when resources become available early, but they should be managed carefully because they can depart from the original activity logic.</p>
+
+<h3>11. Video reminders</h3>
+<p>The videos use the usual PDM notation:</p>
+<div class="table-scroll"><table><tr><th>Relationship</th><th>What it controls</th></tr><tr><td>FS</td><td>Predecessor finish → successor start</td></tr><tr><td>SS</td><td>Predecessor start → successor start</td></tr><tr><td>FF</td><td>Predecessor finish → successor finish</td></tr><tr><td>SF</td><td>Predecessor start → successor finish</td></tr></table></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-fs.png" alt="Original precedence-network finish-to-start formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ss.png" alt="Original precedence-network start-to-start formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ff.png" alt="Original precedence-network finish-to-finish formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-sf.png" alt="Original precedence-network start-to-finish formula"></div>
+<p>The first letter refers to the predecessor event (start or finish); the second letter refers to the successor event. A number such as SS2 indicates a two-day lag. An unlabeled arrow normally means FS. The video briefly calls the diagrams Gantt charts, then corrects this: they are PDM network diagrams, while Gantt charts place activities along a timeline.</p>
 `;
 
-const NOTE_PMGT1865_W4V = `
-<div class="visual-document" data-visual-document="pmgt1865-week-4">
-  <div class="visual-document-intro">
-    <div>
-      <div class="visual-kicker">Visual page edition</div>
-      <strong>Week 4 Online Modules</strong>
-      <p>6 pages · the original page composition, formulas and diagrams are preserved as rendered.</p>
-    </div>
-    <span class="visual-document-status">Reading view · no document download</span>
-  </div>
-  <div class="visual-page-stack" data-visual-pages></div>
-</div>
+const NOTE_PMGT1865_W3S = `
+<h2>Week 3 Slides Summary</h2>
+<h3>Main learning goals</h3>
+<ul>
+<li>Understand overlapping network models and special relationships between activities.</li>
+<li>Convert a WBS into a precedence or network diagram.</li>
+<li>Calculate the critical path.</li>
+<li>Use networks for scheduling, resource allocation, progress tracking and communication.</li>
+</ul>
+
+<h3>WBS versus network diagram</h3>
+<ul>
+<li>A WBS explains what work needs to be completed.</li>
+<li>A network diagram explains how activities are related and which activities must occur before others.</li>
+<li>Overlapping networks show that activities may occur concurrently, partially at the same time or with a deliberate delay or overlap.</li>
+<li>They support Gantt-chart and schedule development in tools such as MS Project or Primavera.</li>
+</ul>
+
+<h3>Activity relationship types</h3>
+<p>The slide summary uses FTS/STS/FTF/STF, while the more common software abbreviations are FS/SS/FF/SF.</p>
+<h4>Finish-to-Start (FTS / FS)</h4>
+<ul><li>Activity <i>J</i> cannot start until activity <i>I</i> has finished.</li><li>Example: if rendering finishes at time 17 and curing takes 14 units, painting begins at time 31.</li></ul>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-fs.png" alt="Original Finish-to-Start formula from the source material"></div>
+<h4>Start-to-Start (STS / SS)</h4>
+<ul><li>Activity <i>J</i> cannot start until activity <i>I</i> has started.</li><li>Usually, part of <i>I</i> must be completed before <i>J</i> begins.</li><li>Example: if excavation starts at time 12, footings begin three units later.</li></ul>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ss.png" alt="Original Start-to-Start formula from the source material"></div>
+<h4>Finish-to-Finish (FTF / FF)</h4>
+<ul><li>Activity <i>J</i> cannot finish until activity <i>I</i> has finished.</li><li>The two activities may start independently.</li><li>Example: if power to ventilation finishes at time 21, installation and testing must finish four units later.</li></ul>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-ff.png" alt="Original Finish-to-Finish formula from the source material"></div>
+<h4>Start-to-Finish (STF / SF)</h4>
+<ul><li>The start of activity <i>I</i> controls the finish of activity <i>J</i>.</li><li>This is the least common relationship.</li></ul>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-sf.png" alt="Original Start-to-Finish formula from the source material"></div>
+
+<h3>Lag and lead time</h3>
+<ul>
+<li>A lag is a waiting period between related activities.</li>
+<li>A positive lag creates a delay or gap.</li>
+<li>A lead allows the succeeding activity to begin or finish before the preceding activity is completely finished; many systems represent this as negative lag.</li>
+</ul>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-lag.png" alt="Original lag formula from the source material"></div>
+
+<h3>Compound relationship: STS + FTF</h3>
+<p>A compound link means that activity <i>J</i> cannot start until part of activity <i>I</i> has been completed and cannot finish until <i>I</i> has finished. Each part can have a different lag.</p>
+<ul><li>Install Stud Walls: time 10–20.</li><li>Lining: time 14–23.</li><li>STS lag = 4, so lining starts at 14.</li><li>FTF lag = 3, so lining finishes at 23.</li></ul>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w3-compound-esd.png" alt="Original compound-link formula from the source material"></div>
+
+<h3>Activity-box information</h3>
+<p>An activity box normally contains early start, early finish, late start, late finish, duration, float, activity ID and description. The fields support the forward pass, backward pass and float calculation.</p>
+<ul>
+<li>Early finish is derived from early start and duration.</li>
+<li>Late start is derived from late finish and duration.</li>
+<li>Total float can be read from the difference between latest and earliest dates.</li>
+</ul>
+
+<h3>How to calculate the critical path</h3>
+<ol>
+<li>List all activities, durations, predecessors, relationship types and lags.</li>
+<li>Draw the detailed precedence network.</li>
+<li>Split activities into parts if necessary to show overlapping work.</li>
+<li>Draw a simplified network using labelled FTS, STS, FTF and STF links.</li>
+<li>Perform a forward pass to calculate early dates, using the maximum applicable constraint when there are multiple predecessors.</li>
+<li>Perform a backward pass to calculate late dates.</li>
+<li>Calculate float for every activity.</li>
+<li>Activities with zero float are critical. The critical path or critical network determines the project duration.</li>
+</ol>
+<p>With overlapping relationships, criticality may not look like one simple linear path. It is determined by the network constraints and float values.</p>
+
+<h3>Worked Activity 1</h3>
+<p><b>Activities</b></p>
+<ul><li>A: 5 units, no predecessor</li><li>B: 4 units, A–B FTS</li><li>C: 3 units, A–C STF + 4</li><li>D: 2 units, B–D FTS and C–D FTF + 4</li><li>E: 1 unit, D–E STS + 3</li></ul>
+<div class="table-scroll"><table><tr><th>Activity</th><th>ES</th><th>EF</th><th>LS</th><th>LF</th><th>Float</th></tr><tr><td>A</td><td>0</td><td>5</td><td>0</td><td>5</td><td>0</td></tr><tr><td>B</td><td>5</td><td>9</td><td>5</td><td>9</td><td>0</td></tr><tr><td>C</td><td>1</td><td>4</td><td>4</td><td>7</td><td>3</td></tr><tr><td>D</td><td>9</td><td>11</td><td>9</td><td>11</td><td>0</td></tr><tr><td>E</td><td>12</td><td>13</td><td>12</td><td>13</td><td>0</td></tr></table></div>
+<p>Project duration: 13 units. Critical path: A → B → D → E. Activity C is not critical because it has three units of float.</p>
+
+<h3>Worked Activity 2</h3>
+<p><b>Activities</b></p>
+<ul><li>A: 5 units</li><li>B: 3 units, A–B FTS</li><li>C: 4 units, A–C STF + 6</li><li>D: 2 units, B–D FTS and C–D FTF + 4</li><li>E: 1 unit, D–E STS + 3</li><li>F: 3 units, C–F FTF + 3 and E–F FTS</li></ul>
+<div class="table-scroll"><table><tr><th>Activity</th><th>ES</th><th>EF</th><th>LS</th><th>LF</th><th>Float</th></tr><tr><td>A</td><td>0</td><td>5</td><td>0</td><td>5</td><td>0</td></tr><tr><td>B</td><td>5</td><td>8</td><td>5</td><td>8</td><td>0</td></tr><tr><td>C</td><td>2</td><td>6</td><td>2</td><td>6</td><td>0</td></tr><tr><td>D</td><td>8</td><td>10</td><td>8</td><td>10</td><td>0</td></tr><tr><td>E</td><td>11</td><td>12</td><td>11</td><td>12</td><td>0</td></tr><tr><td>F</td><td>12</td><td>15</td><td>12</td><td>15</td><td>0</td></tr></table></div>
+<p>Project duration: 15 units. All activities have zero float, so all activities are critical. The network contains critical routes through both B and C before converging at D.</p>
+
+<h3>Key takeaway</h3>
+<p>Project activities do not always need to wait for one another to finish completely. STS, FTF, STF and compound relationships represent realistic overlap, shorten the schedule and identify the activities that truly control completion.</p>
+`;
+
+const NOTE_PMGT1865_W4M = `
+<h2>Week 4 Online Modules</h2>
+<p><b>Source</b></p>
+<ul>
+<li>Week 4 Online Modules: PERT, uncertainty, completion probability and PERT charts.</li>
+<li>The module connects three-point estimates with critical-path scheduling and precedence diagrams.</li>
+</ul>
+
+<h3>Learning objectives</h3>
+<ul><li>Understand PERT.</li><li>Understand how PERT differs from CPM and precedence diagramming.</li></ul>
+
+<h3>1. What PERT is for</h3>
+<p>PERT (Program Evaluation and Review Technique) is a project scheduling and control method for projects where activity durations are uncertain. It estimates not only expected completion time, but also the probability of completing by a specified deadline.</p>
+<p>PERT was developed in 1958 for the U.S. Navy’s Polaris missile programme. It was originally based on an event-oriented arrow network, whereas CPM is mainly activity-oriented. In PERT, events represent milestones such as contract awarded, site excavated or slab completed.</p>
+
+<h3>2. Three time estimates</h3>
+<p>For every activity, PERT uses three estimates:</p>
+<ul>
+<li><b>Optimistic time (a)</b>: the shortest reasonable duration.</li>
+<li><b>Most likely time (m)</b>: the normal or expected duration.</li>
+<li><b>Pessimistic time (b)</b>: the longest reasonable duration.</li>
+</ul>
+<p>The most likely estimate receives four times the weighting of the other two estimates. The original formula visuals are retained below rather than re-typeset.</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-te.png" alt="Original PERT expected activity duration formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-s.png" alt="Original PERT standard deviation formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-variance.png" alt="Original PERT variance formula"></div>
+<p>The wider the difference between <i>a</i> and <i>b</i>, the more uncertain the activity is.</p>
+
+<h3>3. Project-level uncertainty</h3>
+<p>After expected duration is calculated for each activity, the planner performs forward and backward passes to identify the critical path and calculate float.</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-project-te.png" alt="Original PERT expected project duration formula"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-project-s.png" alt="Original PERT project standard deviation formula"></div>
+<p>The completion probability is calculated with a normal-distribution z-score. The source presents the relationship visually:</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-z.png" alt="Original PERT completion probability z-score formula"></div>
+<p><i>Ts</i> is the target completion date, <i>Te</i> is the expected project duration and <i>S</i> is the project standard deviation. The z-score is converted into a probability using a standard normal-distribution table.</p>
+
+<h3>4. Worked refurbishment example</h3>
+<ul>
+<li>Expected completion time: 19.09 weeks.</li>
+<li>Standard deviation: 1.13 weeks.</li>
+<li>Probability of finishing within 22 weeks: approximately 99.5%.</li>
+<li>Probability of finishing within 20 weeks: just under 80%.</li>
+</ul>
+<p>PERT can also be applied to the modern precedence method used in CPM software. The usual process is to calculate the three activity statistics, perform forward and backward passes, identify the critical path and slack, and then calculate the overall project mean, standard deviation and deadline probability.</p>
+
+<h3>5. Strengths and limitations</h3>
+<p><b>Strengths</b></p>
+<ul><li>Incorporates uncertainty into project durations.</li><li>Provides a probability of meeting a deadline.</li><li>Helps managers focus on critical activities and schedule risk.</li><li>Useful for complex, innovative, military, aerospace and research projects.</li></ul>
+<p><b>Limitations</b></p>
+<ul><li>It assumes activity durations follow a beta distribution.</li><li>It generally assumes activity durations are independent.</li><li>The Central Limit Theorem works best when there are enough critical activities.</li><li>It may produce optimistic results if the critical path is assumed to remain unchanged.</li><li>Delays on non-critical paths can consume float and create a new critical path.</li><li>It has less software support than CPM or Monte Carlo simulation, which limits its use in some construction settings.</li></ul>
+
+<h3>6. Video note: what is PERT?</h3>
+<p>PERT is used to plan projects, develop schedules, control progress, analyse relationships between activities and identify important scheduling paths. It is closely related to critical-path planning and precedence diagrams.</p>
+
+<h3>7. The two basic rules of a PERT chart</h3>
+<p><b>Rule 1: activities are represented by arrows.</b> Project tasks or activities are shown as arrows in an activity-on-arrow diagram. An arrow may include the activity name, duration and direction of work.</p>
+<p><b>Rule 2: milestones are represented by nodes.</b> Milestone dates or events are usually shown as circles. Nodes indicate the beginning or completion of an activity, a significant project event or the connection between activities.</p>
+<p><b>Simple example:</b> Node 1 → Collect Project Data → Node 2. The activity lasts one day, after which the project reaches Node 2 and can proceed to Submit Project Report.</p>
+
+<h3>8. Multiple activities and the critical path</h3>
+<p>A larger PERT chart contains several activities connected through different nodes. Each arrow represents a task, each node represents a milestone or event, and numbers on arrows show activity durations. Some activities can occur at the same time; others cannot begin until earlier activities are complete.</p>
+<p>Several paths may connect the beginning and end of the project. The critical path is the sequence of dependent activities with the greatest effect on total project duration. Delays in critical activities can delay the entire project.</p>
+<p><b>Key takeaway:</b> a PERT chart converts a project into a visual network of activities and milestones. By displaying durations and dependencies, it helps project managers plan, schedule, control and analyse a project.</p>
+`;
+
+const NOTE_PMGT1865_W4S = `
+<h2>Week 4 Slides Summary</h2>
+<h3>1. The main idea</h3>
+<p>PERT is used when project activity durations are uncertain. Instead of asking only how long the project will take, PERT also asks how likely it is to finish by a particular date.</p>
+<p>The overall logic is:</p>
+<p><b>Three-point estimates → expected activity durations → critical path → project uncertainty → completion probability</b></p>
+
+<h3>2. PERT versus CPM</h3>
+<ul><li>CPM uses one fixed duration for each activity and is mainly deterministic.</li><li>PERT uses three time estimates for each activity and is probabilistic.</li><li>CPM asks for the planned project duration; PERT asks how likely the project is to finish by the planned date.</li><li>Both methods use a network diagram and identify the critical path.</li></ul>
+
+<h3>3. The three time estimates</h3>
+<ul><li><b>Optimistic time, a:</b> the shortest realistic duration if everything goes well.</li><li><b>Most likely time, m:</b> the duration most likely under normal conditions.</li><li><b>Pessimistic time, b:</b> the longest realistic duration if major problems occur.</li></ul>
+<p>The most likely estimate receives four times the weighting of the other two estimates:</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-te.png" alt="Original expected activity duration formula from the source material"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-s.png" alt="Original activity standard deviation formula from the source material"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-variance.png" alt="Original activity variance formula from the source material"></div>
+<p>A wider gap between optimistic and pessimistic estimates indicates greater uncertainty.</p>
+
+<h3>4. How to solve a PERT problem</h3>
+<ol>
+<li>Calculate expected duration, standard deviation and variance for every activity.</li>
+<li>Put the expected duration into the project network.</li>
+<li>Perform the forward pass to calculate earliest start and earliest finish.</li>
+<li>Perform the backward pass to calculate latest start and latest finish.</li>
+<li>Calculate float or slack; activities with zero float normally form the critical path.</li>
+<li>Add the expected durations on the critical path to obtain the expected project duration.</li>
+<li>Combine the critical-path variances and take the square root to obtain project standard deviation; do not add standard deviations directly.</li>
+<li>Compare the scheduled completion time with the expected project duration using the z-score.</li>
+<li>Use the z-score in a normal-distribution table to find the completion probability.</li>
+</ol>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-project-te.png" alt="Original expected project duration formula from the source material"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-project-s.png" alt="Original project standard deviation formula from the source material"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-z.png" alt="Original z-score formula from the source material"></div>
+
+<h3>5. Worked example: 20-day completion target</h3>
+<p>For the first network, the critical path is A → C → E → F. The expected activity durations on this path are A = 5 days, C = 6 days, E = 4 days and F = 4 days.</p>
+<ul><li>Expected project duration: 19 days.</li><li>Combined critical-path uncertainty: approximately 0.880 days.</li><li>For a 20-day target, the z-score is approximately 1.14.</li><li>The corresponding probability is approximately 0.8729, or 87.29%.</li></ul>
+<p>A 20-day schedule is one day longer than the expected duration, but it does not guarantee completion. It gives an estimated probability of about 87%.</p>
+
+<h3>6. Worked example: 30-day completion target</h3>
+<p>For the second network, the critical path is A → C → E → G → I.</p>
+<ul><li>Expected project duration: 28 days.</li><li>Project standard deviation: approximately 1.54 days.</li><li>For a 30-day target, the z-score is approximately 1.30.</li><li>The probability from the normal-distribution table is 0.9032, or approximately 90.32%.</li></ul>
+
+<h3>7. Planning for a 99% completion probability</h3>
+<p>A 99% completion probability corresponds to a z-value of approximately 2.33. Rearranging the z-score relationship gives the scheduled duration required for the target confidence level.</p>
+<p>Using the second example, the required schedule is approximately 31.6 days. The expected duration is 28 days, but a longer schedule is needed to achieve a high level of confidence. This is the role of schedule buffer.</p>
+
+<h3>8. How to interpret the z-value</h3>
+<ul><li>z = 0: completion probability is about 50%.</li><li>Positive z: the target date is later than the expected duration, so probability is above 50%.</li><li>Negative z: the target date is earlier than the expected duration, so probability is below 50%.</li><li>A larger z means more schedule allowance and a higher completion probability.</li></ul>
+<div class="table-scroll"><table><tr><th>z-value</th><th>Approximate probability</th></tr><tr><td>0.00</td><td>50%</td></tr><tr><td>0.84</td><td>80%</td></tr><tr><td>1.28</td><td>90%</td></tr><tr><td>1.645</td><td>95%</td></tr><tr><td>2.33</td><td>99%</td></tr></table></div>
+
+<h3>9. What PERT means for a project manager</h3>
+<p>PERT helps a project manager decide how much schedule risk is acceptable. A 50% schedule may be too risky; a 90% schedule may balance speed and reliability; a 99% schedule is safer but may require extra time and resources.</p>
+<ul><li>Schedule planning</li><li>Risk assessment</li><li>Resource planning</li><li>Deadline negotiation</li><li>Decisions about time buffers</li></ul>
+
+<h3>10. Common mistakes</h3>
+<ol>
+<li><b>Using the most likely time as the expected time:</b> the expected duration uses all three estimates and gives the most likely estimate four times the weighting.</li>
+<li><b>Adding all project activities:</b> only critical-path activities are used for expected project duration.</li>
+<li><b>Adding standard deviations directly:</b> add critical-path variances first, then take the square root.</li>
+<li><b>Finding the critical path using a, m or b:</b> the network should normally be analysed using expected durations.</li>
+<li><b>Treating probability as certainty:</b> a 90% completion probability does not guarantee on-time completion.</li>
+<li><b>Ignoring a changing critical path:</b> real uncertainty can make another path critical.</li>
+</ol>
+
+<h3>11. Riverside Sounds Community Festival activity</h3>
+<p>For the group activity, the project team needs to estimate the most likely and pessimistic durations for the 15 activities, calculate the PERT expected project duration, calculate the probability of completing the project in <i>y</i> − 10 days and <i>y</i> + 10 days, and calculate the schedule duration required for a 99% completion probability.</p>
+
+<h3>Final takeaway</h3>
+<p>PERT combines uncertainty analysis with critical-path scheduling. The three-point estimate is used at activity level, the critical-path values are combined at project level, and the resulting z-value is used to determine the probability of completing by the target date.</p>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-te.png" alt="Original PERT activity formula in the final formula chain"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-s.png" alt="Original PERT standard deviation formula in the final formula chain"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-project-te.png" alt="Original PERT project duration formula in the final formula chain"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-project-s.png" alt="Original PERT project uncertainty formula in the final formula chain"></div>
+<div class="formula-visual"><img src="assets/pmgt1865/formulas/w4-z.png" alt="Original PERT z-score formula in the final formula chain"></div>
 `;
 
 const NOTE_PMGT1852_W1L = `
@@ -5619,8 +5920,10 @@ const SECTIONS = [
       {num:"006",title:"Week 2 Slides Summary",html:NOTE_PMGT1865_W2S},
       {num:"007",title:"Week 2 Template",html:NOTE_PMGT1865_W2T},
       {num:"008",title:"Week 2 Prepare",html:NOTE_PMGT1865_W2P},
-      {num:"009",title:"Week 3 Online Modules · Visual",html:NOTE_PMGT1865_W3V},
-      {num:"010",title:"Week 4 Online Modules · Visual",html:NOTE_PMGT1865_W4V},
+      {num:"009",title:"Week 3 Online Modules",html:NOTE_PMGT1865_W3M},
+      {num:"010",title:"Week 3 Slides Summary",html:NOTE_PMGT1865_W3S},
+      {num:"011",title:"Week 4 Online Modules",html:NOTE_PMGT1865_W4M},
+      {num:"012",title:"Week 4 Slides Summary",html:NOTE_PMGT1865_W4S},
   ]},
   { id:"pmgt1850",           title:"PMGT1850",                   notes:[
       {num:"001",title:"Intro of PM",html:NOTE_PMGT1850},
@@ -5686,45 +5989,6 @@ const SECTIONS = [
 const view = document.getElementById("view");
 const nav  = document.getElementById("nav");
 const body = document.body;
-
-const VISUAL_DOCUMENTS = Object.freeze({
-  "pmgt1865-week-3": {
-    title: "PMGT1865 Week 3 Online Modules",
-    directory: "assets/pmgt1865/week-3-online-modules",
-    pages: 17,
-  },
-  "pmgt1865-week-4": {
-    title: "PMGT1865 Week 4 Online Modules",
-    directory: "assets/pmgt1865/week-4-online-modules",
-    pages: 6,
-  },
-});
-
-function hydrateVisualDocuments(){
-  document.querySelectorAll("[data-visual-document]").forEach(root=>{
-    const config=VISUAL_DOCUMENTS[root.dataset.visualDocument];
-    const stack=root.querySelector("[data-visual-pages]");
-    if(!config || !stack || stack.childElementCount) return;
-
-    const pages=document.createDocumentFragment();
-    for(let page=1; page<=config.pages; page++){
-      const figure=document.createElement("figure");
-      figure.className="visual-page";
-      figure.setAttribute("aria-label",`${config.title}, page ${page} of ${config.pages}`);
-
-      const image=document.createElement("img");
-      image.src=`${config.directory}/page-${String(page).padStart(2,"0")}.png`;
-      image.alt=`${config.title}, page ${page} of ${config.pages}`;
-      image.loading=page<=2?"eager":"lazy";
-      image.decoding="async";
-      image.draggable=false;
-
-      figure.appendChild(image);
-      pages.appendChild(figure);
-    }
-    stack.appendChild(pages);
-  });
-}
 
 function sectionDone(sec){ return sec.notes.filter(n=>n.html).length; }
 
@@ -5898,7 +6162,6 @@ function renderNote(sec,idx){
         <p class="sub">I'm adding pages whenever I find time between classes. Thanks for your patience.</p>
       </div>`;
   }
-  hydrateVisualDocuments();
   view.querySelectorAll("[data-go]").forEach(el=>{
     el.addEventListener("click",()=>location.hash=`#/${el.dataset.go}`);
   });

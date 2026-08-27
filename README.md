@@ -14,9 +14,9 @@ Everything lives in `index.html` (HTML + CSS + content, no build step). The note
 | `CNAME` | Tells GitHub Pages to serve the site at `hudsonwang.com`. |
 | `.nojekyll` | Disables Jekyll so files are served as-is. |
 
-## PMGT1865 visual pages
+## PMGT1865 notes
 
-The Week 3 and Week 4 module PDFs are published as page-rendered PNGs under `assets/pmgt1865/`. The PMGT1865 notes stack those page images inside the normal reading layout, preserving the original page composition, formulas, and diagrams. The source PDFs are intentionally not copied or linked, so these entries remain an in-page visual reading experience rather than document downloads.
+Week 3 and Week 4 Online Modules and their Slides Summary files are written into the PMGT1865 reading pages, following the existing article-note style. Formula crops under `assets/pmgt1865/formulas/` retain the source PDF’s original visual treatment; the source PDFs and DOCX files are not copied or linked as downloads.
 
 ## Deploy to GitHub Pages
 
