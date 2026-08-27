@@ -167,6 +167,31 @@
   article th{background:var(--sidebar);font-weight:600;color:var(--ink);font-size:14px}
   article td{font-size:14px}
 
+  /* ---------- visual page editions ---------- */
+  .visual-document{min-width:0;margin:0 0 28px}
+  .visual-document-intro{min-width:0;
+    display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
+    margin:0 0 18px;padding:14px 16px;
+    background:var(--sidebar);border:1px solid var(--line);border-radius:10px;
+    font-family:"Inter",system-ui,sans-serif;
+  }
+  .visual-document-intro .visual-kicker{
+    margin:0 0 4px;color:var(--accent);font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;
+  }
+  .visual-document-intro strong{display:block;color:var(--ink);font-size:15px;font-weight:600;line-height:1.35}
+  .visual-document-intro p{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.45}
+  .visual-document-status{
+    flex:0 0 auto;padding:4px 9px;border:1px solid var(--line);border-radius:999px;
+    color:var(--faint);font-size:11px;line-height:1.2;white-space:nowrap;
+  }
+  .visual-page-stack{display:grid;gap:22px;min-width:0}
+  .visual-page{
+    position:relative;min-width:0;margin:0;background:#fff;border:1px solid var(--line);
+    box-shadow:0 6px 18px rgba(35,33,29,.08);overflow:hidden;
+  }
+  .visual-page img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+
   /* ---------- home ---------- */
   .home-lead{font-size:21px;line-height:1.65;color:#46423b;margin:6px 0 8px;max-width:600px}
   .toc{display:grid;gap:0}
@@ -231,6 +256,9 @@
     .content{padding:30px 22px 90px}
     article h1{font-size:28px}
     .home-lead{font-size:19px}
+     .visual-document-intro{display:block}
+     .visual-document-status{display:inline-block;margin-top:10px}
+     .visual-page-stack{gap:14px}
   }
 </style>
 </head>
@@ -3178,6 +3206,34 @@ const NOTE_PMGT1865_W2P = `
 <p>15.3.3 Present final report to council</p>
 `;
 
+const NOTE_PMGT1865_W3V = `
+<div class="visual-document" data-visual-document="pmgt1865-week-3">
+  <div class="visual-document-intro">
+    <div>
+      <div class="visual-kicker">Visual page edition</div>
+      <strong>Week 3 Online Modules</strong>
+      <p>17 pages · the original page composition, formulas and diagrams are preserved as rendered.</p>
+    </div>
+    <span class="visual-document-status">Reading view · no document download</span>
+  </div>
+  <div class="visual-page-stack" data-visual-pages></div>
+</div>
+`;
+
+const NOTE_PMGT1865_W4V = `
+<div class="visual-document" data-visual-document="pmgt1865-week-4">
+  <div class="visual-document-intro">
+    <div>
+      <div class="visual-kicker">Visual page edition</div>
+      <strong>Week 4 Online Modules</strong>
+      <p>6 pages · the original page composition, formulas and diagrams are preserved as rendered.</p>
+    </div>
+    <span class="visual-document-status">Reading view · no document download</span>
+  </div>
+  <div class="visual-page-stack" data-visual-pages></div>
+</div>
+`;
+
 const NOTE_PMGT1852_W1L = `
 <h2>Week 1 Lecture</h2>
 <h3>Week 1 – Overview of Stakeholder Management</h3>
@@ -5563,6 +5619,8 @@ const SECTIONS = [
       {num:"006",title:"Week 2 Slides Summary",html:NOTE_PMGT1865_W2S},
       {num:"007",title:"Week 2 Template",html:NOTE_PMGT1865_W2T},
       {num:"008",title:"Week 2 Prepare",html:NOTE_PMGT1865_W2P},
+      {num:"009",title:"Week 3 Online Modules · Visual",html:NOTE_PMGT1865_W3V},
+      {num:"010",title:"Week 4 Online Modules · Visual",html:NOTE_PMGT1865_W4V},
   ]},
   { id:"pmgt1850",           title:"PMGT1850",                   notes:[
       {num:"001",title:"Intro of PM",html:NOTE_PMGT1850},
@@ -5628,6 +5686,45 @@ const SECTIONS = [
 const view = document.getElementById("view");
 const nav  = document.getElementById("nav");
 const body = document.body;
+
+const VISUAL_DOCUMENTS = Object.freeze({
+  "pmgt1865-week-3": {
+    title: "PMGT1865 Week 3 Online Modules",
+    directory: "assets/pmgt1865/week-3-online-modules",
+    pages: 17,
+  },
+  "pmgt1865-week-4": {
+    title: "PMGT1865 Week 4 Online Modules",
+    directory: "assets/pmgt1865/week-4-online-modules",
+    pages: 6,
+  },
+});
+
+function hydrateVisualDocuments(){
+  document.querySelectorAll("[data-visual-document]").forEach(root=>{
+    const config=VISUAL_DOCUMENTS[root.dataset.visualDocument];
+    const stack=root.querySelector("[data-visual-pages]");
+    if(!config || !stack || stack.childElementCount) return;
+
+    const pages=document.createDocumentFragment();
+    for(let page=1; page<=config.pages; page++){
+      const figure=document.createElement("figure");
+      figure.className="visual-page";
+      figure.setAttribute("aria-label",`${config.title}, page ${page} of ${config.pages}`);
+
+      const image=document.createElement("img");
+      image.src=`${config.directory}/page-${String(page).padStart(2,"0")}.png`;
+      image.alt=`${config.title}, page ${page} of ${config.pages}`;
+      image.loading=page<=2?"eager":"lazy";
+      image.decoding="async";
+      image.draggable=false;
+
+      figure.appendChild(image);
+      pages.appendChild(figure);
+    }
+    stack.appendChild(pages);
+  });
+}
 
 function sectionDone(sec){ return sec.notes.filter(n=>n.html).length; }
 
@@ -5801,6 +5898,7 @@ function renderNote(sec,idx){
         <p class="sub">I'm adding pages whenever I find time between classes. Thanks for your patience.</p>
       </div>`;
   }
+  hydrateVisualDocuments();
   view.querySelectorAll("[data-go]").forEach(el=>{
     el.addEventListener("click",()=>location.hash=`#/${el.dataset.go}`);
   });
