@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PMGT1852 · 4MA</title>
+  <meta name="description" content="PMGT1852's 4MA placeholder page">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #fbfaf7;
+      --ink: #23211d;
+      --muted: #7c776e;
+      --line: #e7e3da;
+      --accent: #8a5a44;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+    body {
+      margin: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      text-align: center;
+    }
+
+    main {
+      width: min(100%, 680px);
+      padding: clamp(42px, 9vw, 88px) clamp(24px, 7vw, 72px);
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.38);
+    }
+
+    .label {
+      margin: 0 0 28px;
+      color: var(--accent);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 38px);
+      line-height: 1.45;
+    }
+
+    p + p {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: clamp(18px, 3vw, 26px);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="label">PMGT1852 · 4MA</p>
+    <p>这个页面留作PMGT1852的4MA</p>
+    <p lang="en">This page is reserved for PMGT1852's 4MA</p>
+  </main>
+</body>
+</html>
