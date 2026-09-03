@@ -1,4 +1,0 @@
-# Load the local-first chat PDF exporter when this package is installed as a DSH bundle.
-- insert:
-    - id: dsh-chat-pdf-export
-      name: dsh-chat-pdf-export
