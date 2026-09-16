@@ -220,6 +220,33 @@
   .backlink{font-family:"Inter",sans-serif;font-size:13px;color:var(--accent);cursor:pointer;display:inline-block;margin-bottom:24px}
   .backlink:hover{text-decoration:underline}
 
+  /* ---------- maintenance cover ---------- */
+  body.maintenance-mode{overflow:hidden}
+  .maintenance-overlay{
+    position:fixed;inset:0;z-index:1000;
+    display:grid;place-items:center;padding:32px;
+    background:linear-gradient(135deg,#fbfaf7 0%,#f0e8e1 100%);
+    color:var(--ink);text-align:center;
+  }
+  .maintenance-card{
+    width:min(100%,680px);padding:clamp(38px,8vw,84px) clamp(24px,6vw,72px);
+    border:1px solid rgba(138,90,68,.28);border-radius:20px;
+    background:rgba(255,255,255,.62);box-shadow:0 24px 80px rgba(35,33,29,.12);
+  }
+  .maintenance-kicker{
+    margin:0 0 22px;font-family:"Inter",system-ui,sans-serif;font-size:11px;
+    font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);
+  }
+  .maintenance-title{
+    margin:0;font-family:"Newsreader",Georgia,serif;font-size:clamp(36px,7vw,64px);
+    font-weight:600;line-height:1.1;letter-spacing:-.025em;
+  }
+  .maintenance-divider{width:56px;height:1px;margin:30px auto;background:var(--accent)}
+  .maintenance-en{
+    margin:0;font-family:"Inter",system-ui,sans-serif;font-size:clamp(15px,2vw,18px);
+    line-height:1.5;letter-spacing:.01em;color:var(--muted);
+  }
+
   /* ---------- mobile ---------- */
   .menu-btn{display:none}
   @media(max-width:767px){
@@ -244,7 +271,16 @@
    }
 </style>
 </head>
-<body>
+<body class="maintenance-mode">
+  <div class="maintenance-overlay" role="dialog" aria-modal="true" aria-labelledby="maintenance-title" tabindex="-1">
+    <div class="maintenance-card">
+      <p class="maintenance-kicker">hudsonwang.com</p>
+      <h1 class="maintenance-title" id="maintenance-title" lang="zh-CN">大规模整改中...</h1>
+      <div class="maintenance-divider" aria-hidden="true"></div>
+      <p class="maintenance-en" lang="en">Under large-scale rectification...</p>
+    </div>
+  </div>
+
   <button class="menu-btn" id="menuBtn" aria-label="Open menu">☰&nbsp; Sections</button>
   <div class="scrim" id="scrim"></div>
   <button class="sidebar-show" id="sidebarShow" aria-label="Show sidebar" title="Show sidebar">»</button>
