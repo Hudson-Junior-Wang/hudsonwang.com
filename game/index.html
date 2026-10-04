@@ -694,7 +694,7 @@ var GAMES = [
    skill:'Week 3 · CATWOE, problem structuring', secs:45, levels:['C','A','T','W','O','E']},
   {id:'facilitate', no:'GAME 03', title:'What would a facilitator do?', tag:'Secrets of Facilitation · Weeks 4–5',
    desc:'Cold rooms, red herrings, sponsors who will not stop talking. Pick the move that guides by asking rather than telling.',
-   skill:'Weeks 4–5 · starting &amp; reacting questions, 5 Ps', secs:60, levels:[]},
+   skill:'Weeks 4–5 · starting and reacting questions, 5 Ps', secs:60, levels:[]},
   {id:'network', no:'GAME 04', title:'Stakeholder network maths', tag:'SNA · density, degree, betweenness',
    desc:'A little advice-seeking network drawn on screen. Count the ties, then compute density against the clock.',
    skill:'Week 6 · network analytics', secs:60, levels:[]}
@@ -1432,7 +1432,10 @@ function nav(view){
 function updateStatus(){
   var chip = $('#st-chip'), tx = $('#st-tx');
   chip.classList.remove('on','off','err');
-  if(state.net==='online'){ chip.classList.add('on'); tx.textContent = 'online · '+state.comments+' records'; }
+  if(state.net==='online'){
+    chip.classList.add('on');
+    tx.textContent = 'online · '+scores().length+' runs · '+leaderboard().length+' players';
+  }
   else if(state.net==='error'){ chip.classList.add('err'); tx.textContent = 'channel error'; }
   else { chip.classList.add('off'); tx.textContent = 'local mode · '+(state.events.length)+' local records'; }
 }
