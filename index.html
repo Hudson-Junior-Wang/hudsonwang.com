@@ -6159,6 +6159,7 @@ const SECTIONS = [
       {num:"007",title:"Week 3 Online Modules",html:NOTE_PMGT1852_W3M},
       {num:"008",title:"Week 4 Online Modules",html:NOTE_PMGT1852_W4M},
       {num:"009",title:"Week 5 Online Modules",html:NOTE_PMGT1852_W5M},
+      {num:"4MA",title:"4MA 引导台 (interactive tool)",href:"4ma.html",blank:true},
   ]},
   { id:"pmgt1865",           title:"PMGT1865",                   notes:[
       {num:"001",title:"Week 1 Online Modules",html:NOTE_PMGT1865_W1M},
@@ -6240,6 +6241,7 @@ const nav  = document.getElementById("nav");
 const body = document.body;
 
 function sectionDone(sec){ return sec.notes.filter(n=>n.html).length; }
+function isExternalNote(n){ return !!n.href; }
 
 function buildNav(){
   nav.innerHTML="";
@@ -6262,10 +6264,12 @@ function buildNav(){
     list.className="sec-notes";
     sec.notes.forEach((note,i)=>{
       const a=document.createElement("a");
-      a.className="note-link"+(note.html?"":" empty");
+      const ext=!!note.href;
+      a.className="note-link"+(note.html||ext?"":" empty");
       a.dataset.target=`${sec.id}/${i}`;
-      a.href=`#/${sec.id}/${i}`;
-      a.innerHTML=`<span class="nl-num">${note.num}</span>${note.html?note.title:"To be updated"}`;
+      a.href=ext?note.href:`#/${sec.id}/${i}`;
+      if(ext&&note.blank){ a.target="_blank"; a.rel="noopener"; }
+      a.innerHTML=`<span class="nl-num">${note.num}</span>${note.html||ext?note.title:"To be updated"}`;
       list.appendChild(a);
     });
     wrap.appendChild(list);
@@ -6300,10 +6304,12 @@ function buildNav(){
       sl.className="sec-notes";
       sec.notes.forEach((note,i)=>{
         const a=document.createElement("a");
-        a.className="note-link"+(note.html?"":" empty");
+        const ext=!!note.href;
+        a.className="note-link"+(note.html||ext?"":" empty");
         a.dataset.target=`${sec.id}/${i}`;
-        a.href=`#/${sec.id}/${i}`;
-        a.innerHTML=`<span class="nl-num">${note.num}</span>${note.html?note.title:"To be updated"}`;
+        a.href=ext?note.href:`#/${sec.id}/${i}`;
+        if(ext&&note.blank){ a.target="_blank"; a.rel="noopener"; }
+        a.innerHTML=`<span class="nl-num">${note.num}</span>${note.html||ext?note.title:"To be updated"}`;
         sl.appendChild(a);
       });
       sub.appendChild(sl);
@@ -6443,6 +6449,13 @@ const scrim=document.getElementById("scrim");
 function closeMobileNav(){ body.classList.remove("nav-open"); }
 menuBtn.addEventListener("click",()=>body.classList.toggle("nav-open"));
 scrim.addEventListener("click",closeMobileNav);
+
+document.querySelectorAll('.note-link[target="_blank"]').forEach(a=>{
+  a.addEventListener("click",()=>{
+    document.querySelectorAll(".note-link").forEach(x=>x.classList.remove("active"));
+    a.classList.add("active");
+  });
+});
 
 document.querySelector("[data-home]").addEventListener("click",e=>{
   // let hash change handle render
