@@ -1,250 +1,236 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>4MA 引导台 · PMGT1852 Stakeholder Management &amp; Facilitation</title>
-<meta name="description" content="PMGT1852 4MA（Four-Minute Activity）报名、活动设计、现场引导互动与数据汇总工具，纯静态托管。">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e1420'/%3E%3Ctext x='16' y='22' font-size='15' font-family='monospace' fill='%23c9a227' text-anchor='middle'%3E4%3C/text%3E%3C/svg%3E">
+<title>4MA Arcade · PMGT1852 Stakeholder Management &amp; Facilitation</title>
+<meta name="description" content="A four-minute arcade for PMGT1852: Salience Model sorting, CATWOE matching, facilitation decision drills and stakeholder network maths — generated around your own class list.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230e1420'/%3E%3Ctext x='16' y='22' font-size='13' font-family='monospace' fill='%23c9a227' text-anchor='middle'%3E4MA%3C/text%3E%3C/svg%3E">
 <style>
 *{box-sizing:border-box}
 :root{
   --bg:#f4f1ea; --card:#fff; --ink:#171a20; --ink2:#3d434e; --mut:#6d7480;
   --line:#e2ddd2; --line2:#cfc8b8; --gold:#a8811a; --gold2:#c9a227; --goldsoft:#f3ecd9;
-  --ok:#1f7a4d; --bad:#b3261e; --warn:#8a5a00; --blue:#2c5cc5;
+  --ok:#1f7a4d; --oksoft:#eef8f1; --bad:#b3261e; --badsoft:#fdf0ef; --warn:#8a5a00;
+  --blue:#2c5cc5; --navy:#0e1420;
   --shadow:0 1px 2px rgba(23,26,32,.05),0 8px 24px -18px rgba(23,26,32,.35);
   --r:14px;
 }
 html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; background:var(--bg); color:var(--ink);
-  font:15px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
-  overflow-wrap:anywhere;
-}
-h1,h2,h3,h4{margin:0;line-height:1.3;font-weight:650}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
+  overflow-wrap:anywhere}
+h1,h2,h3,h4{margin:0;line-height:1.25;font-weight:650;letter-spacing:-.01em}
 p{margin:0 0 8px}
 a{color:var(--blue)}
 button{font:inherit;color:inherit;cursor:pointer}
-input,select,textarea{font:inherit;color:inherit}
-code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:var(--goldsoft);padding:1px 5px;border-radius:5px}
-.en{color:var(--mut);font-size:12.5px;letter-spacing:.005em}
-.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+input,select,textarea{font:inherit;color:var(--ink)}
+code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 .mut{color:var(--mut)}
 .wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.spacer{flex:1}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 
 /* ---------- header ---------- */
-header.top{position:sticky;top:0;z-index:40;background:rgba(244,241,234,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.topin{display:flex;align-items:center;gap:14px;padding:11px 0}
+header.top{position:sticky;top:0;z-index:40;background:rgba(244,241,234,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topin{display:flex;align-items:center;gap:13px;padding:10px 0}
 .brand{display:flex;align-items:center;gap:11px;min-width:0}
-.brand .mark{width:36px;height:36px;border-radius:10px;background:#0e1420;color:var(--gold2);display:grid;place-items:center;font-weight:700;font-size:15px;font-family:ui-monospace,Menlo,monospace;flex:none}
+.brand .mark{width:38px;height:38px;border-radius:10px;background:var(--navy);color:var(--gold2);display:grid;place-items:center;font-weight:700;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;flex:none}
 .brand .t1{font-weight:650;font-size:14.5px;white-space:nowrap}
 .brand .t2{font-size:11.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.spacer{flex:1}
-.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line2);background:#fff;color:var(--mut);white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);background:#fff;color:var(--mut);white-space:nowrap}
 .chip .dot{width:7px;height:7px;border-radius:50%;background:#b9b3a6}
 .chip.on .dot{background:#25a35a;box-shadow:0 0 0 3px rgba(37,163,90,.16)}
 .chip.off .dot{background:#c9a227}
 .chip.err .dot{background:var(--bad)}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 11px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;padding:0 0 10px}
 .tab{border:1px solid var(--line2);background:#fff;border-radius:999px;padding:7px 15px;font-size:13.5px;color:var(--ink2);transition:.15s}
 .tab:hover{border-color:var(--gold2)}
-.tab[aria-selected="true"]{background:#0e1420;color:#fff;border-color:#0e1420}
-.tab .n{font-family:ui-monospace,Menlo,monospace;font-size:11px;opacity:.7;margin-right:5px}
+.tab[aria-selected="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
 
 /* ---------- generic ---------- */
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(232px,1fr))}
-.g4{grid-template-columns:repeat(auto-fit,minmax(176px,1fr))}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}
 .card h3{font-size:15.5px;margin-bottom:4px}
-.card .sub{color:var(--mut);font-size:12.5px;margin-bottom:12px}
-.sec{margin:22px 0}
-.sechead{display:flex;align-items:baseline;gap:10px;margin:0 0 12px}
+.sub{color:var(--mut);font-size:12.5px}
+.sec{margin:20px 0}
+.sechead{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;flex-wrap:wrap}
 .sechead h2{font-size:19px}
-.sechead .en{margin-left:auto}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.field{display:block;margin-bottom:12px}
-.field>span.lb{display:block;font-size:12.5px;font-weight:600;color:var(--ink2);margin-bottom:5px}
-.field>span.lb i{font-style:normal;color:var(--mut);font-weight:400}
-.inp{width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;background:#fff;color:var(--ink);transition:.15s}
-.inp:focus{outline:none;border-color:var(--gold2);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
-textarea.inp{min-height:64px;resize:vertical;line-height:1.5}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(172px,1fr))}
 .btn{border:1px solid var(--line2);background:#fff;border-radius:10px;padding:9px 15px;font-size:13.5px;font-weight:550;color:var(--ink);transition:.15s}
 .btn:hover{border-color:var(--gold2);background:#fffdf6}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.btn.pri{background:#0e1420;color:#fff;border-color:#0e1420}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.pri{background:var(--navy);color:#fff;border-color:var(--navy)}
 .btn.pri:hover{background:#1b2536}
 .btn.gold{background:var(--gold2);border-color:var(--gold2);color:#241f0c}
 .btn.gold:hover{background:#b8901f}
 .btn.sm{padding:6px 11px;font-size:12.5px;border-radius:9px}
 .btn.danger{color:var(--bad);border-color:#e8c8c5}
+.btn.wide{width:100%;justify-content:center}
+.inp{width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;background:#fff;color:var(--ink);transition:.15s}
+.inp:focus{outline:none;border-color:var(--gold2);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
+textarea.inp{min-height:66px;resize:vertical;line-height:1.5}
+.field{display:block;margin-bottom:12px}
+.field>span.lb{display:block;font-size:12.5px;font-weight:600;color:var(--ink2);margin-bottom:5px}
+.note{border-left:3px solid var(--gold2);background:#fffdf6;border-radius:0 10px 10px 0;padding:11px 14px;font-size:13px;color:var(--ink2)}
 .warn{border:1px solid #ecd9a8;background:#fdf6e4;border-radius:12px;padding:12px 14px;font-size:13.5px;color:#5c4a12}
-.note{border-left:3px solid var(--gold2);background:#fffdf6;border-radius:0 10px 10px 0;padding:10px 13px;font-size:13px;color:var(--ink2)}
-.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line2);color:var(--mut);background:#faf8f3}
-.badge.ok{color:#0f5c37;border-color:#b9dcc7;background:#eef8f1}
-.badge.bad{color:#8c1d17;border-color:#e8c8c5;background:#fdf0ef}
+.badge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--mut);background:#faf8f3}
+.badge.ok{color:#0f5c37;border-color:#b9dcc7;background:var(--oksoft)}
 .badge.gold{color:#6d5407;border-color:#e3cf94;background:var(--goldsoft)}
+.badge.bad{color:#8c1d17;border-color:#e8c8c5;background:var(--badsoft)}
+.hr{height:1px;background:var(--line);margin:14px 0;border:0}
 .kv{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed var(--line);padding:6px 0;font-size:13.5px}
 .kv:last-child{border-bottom:0}
 .kv b{font-weight:600}
 .stat{background:#faf8f3;border:1px solid var(--line);border-radius:11px;padding:12px}
 .stat .n{font-size:24px;font-weight:650;line-height:1.1;font-family:ui-monospace,Menlo,monospace}
 .stat .l{font-size:12px;color:var(--mut);margin-top:3px}
-.hr{height:1px;background:var(--line);margin:14px 0;border:0}
-details.acc{border:1px solid var(--line);border-radius:12px;background:#fff;padding:0;overflow:hidden}
+table.tb{width:100%;border-collapse:collapse;font-size:13px}
+table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+table.tb th{font-size:11.5px;color:var(--mut);font-weight:600;background:#faf8f3;text-transform:uppercase;letter-spacing:.04em}
+details.acc{border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
 details.acc>summary{cursor:pointer;padding:12px 15px;font-weight:600;font-size:13.5px;list-style:none}
 details.acc>summary::-webkit-details-marker{display:none}
 details.acc>summary:before{content:"▸";display:inline-block;margin-right:8px;color:var(--gold);transition:.15s}
 details.acc[open]>summary:before{transform:rotate(90deg)}
 details.acc .body{padding:0 15px 15px}
-table.tb{width:100%;border-collapse:collapse;font-size:13px}
-table.tb th,table.tb td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
-table.tb th{font-size:12px;color:var(--mut);font-weight:600;background:#faf8f3}
-.pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;background:var(--goldsoft);color:#6d5407;border:1px solid #e6d6a6}
+.cmd{background:var(--navy);color:#e9e6dc;border-radius:12px;padding:14px 16px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;line-height:1.7;overflow:auto;white-space:pre-wrap}
 
-/* ---------- home ---------- */
-.hero{background:#0e1420;color:#fff;border-radius:18px;padding:30px 30px 26px;position:relative;overflow:hidden}
-.hero:after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.22),transparent 70%)}
-.hero h1{font-size:29px;letter-spacing:-.01em}
-.hero .sub{color:#c9c4b6;font-size:13.5px;margin-top:7px;max-width:62ch}
-.hero .rule{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+/* ---------- hero ---------- */
+.hero{background:var(--navy);color:#fff;border-radius:18px;padding:28px 30px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.20),transparent 70%)}
+.hero h1{font-size:30px}
+.hero h1 span{color:var(--gold2)}
+.hero .sub{color:#c9c4b6;font-size:13.5px;margin-top:8px;max-width:70ch}
+.hero .rule{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
 .hero .rule span{font-size:12.5px;border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:5px 12px;color:#e8e4d8}
 .hero .rule span b{color:var(--gold2)}
-.mini{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--mut)}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
 
-/* ---------- signup ---------- */
-.weekgrid{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));grid-auto-rows:1fr}
-.wkcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:none;display:flex;flex-direction:column;gap:7px}
-.wkcard.full{border-color:#dcd3bd;background:#fdfbf5}
-.wkcard .wkh{display:flex;align-items:center;justify-content:space-between;gap:6px}
-.wkcard .wkh b{font-size:13.5px}
-.wkcard .wkh .badge{font-size:10px;padding:1px 7px}
-.slot{border:1px dashed var(--line2);border-radius:9px;padding:6px 8px;font-size:11.6px;line-height:1.45;background:#fcfbf8}
-.slot.free{color:var(--mut);font-size:11.2px}
-.slot b{display:block;font-size:12px}
-.slot.taken{border-style:solid;border-color:#dcd3bd;background:var(--goldsoft)}
-.slot .who{font-weight:650}
-.typegrid{display:flex;gap:7px;flex-wrap:wrap}
-.typegrid label{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:999px;padding:5px 11px;font-size:12.5px;cursor:pointer;background:#fff}
-.typegrid label:has(input:checked){border-color:var(--gold2);background:var(--goldsoft)}
-.typegrid input{accent-color:var(--gold)}
+/* ---------- game cards ---------- */
+.gamecard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden}
+.gamecard:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold2)}
+.gamecard .no{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--gold);letter-spacing:.08em}
+.gamecard h3{font-size:16px}
+.gamecard .desc{font-size:13px;color:var(--ink2);flex:1}
+.gamecard .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:11.5px;color:var(--mut)}
+.gamecard .pb{font-size:12px;color:var(--mut)}
+.gamecard .pb b{color:var(--ink);font-family:ui-monospace,Menlo,monospace}
+.diff{display:flex;gap:6px}
+.diff button{border:1px solid var(--line2);background:#fff;border-radius:999px;padding:4px 11px;font-size:12px}
+.diff button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
 
-/* ---------- design ---------- */
-.dchips{display:flex;gap:6px;flex-wrap:wrap}
-.dchip{border:1px solid var(--line2);background:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;color:var(--ink2)}
-.dchip[aria-pressed="true"]{background:#0e1420;color:#fff;border-color:#0e1420}
-.psrow{border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:11px;background:#fff}
-.psrow .h{display:flex;align-items:center;gap:9px;margin-bottom:8px}
-.psrow .h b{font-size:14px}
-.psrow .h .k{width:24px;height:24px;border-radius:7px;background:#0e1420;color:var(--gold2);display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;flex:none}
-.psrow.flag{border-color:#ecd9a8;background:#fffdf6}
-.chk{display:flex;gap:9px;align-items:flex-start;font-size:13.2px;padding:6px 0;border-bottom:1px dashed var(--line)}
-.chk:last-child{border-bottom:0}
-.chk .mk{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;margin-top:2px}
-.chk.ok .mk{background:#eef8f1;color:var(--ok);border:1px solid #b9dcc7}
-.chk.warn .mk{background:#fdf6e4;color:var(--warn);border:1px solid #ecd9a8}
-.chk.bad .mk{background:#fdf0ef;color:var(--bad);border:1px solid #e8c8c5}
-.chk .tx b{display:block}
-.chk .tx span{color:var(--mut);font-size:12.5px}
-#plan-out{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.75;background:#fbfaf6;border:1px solid var(--line);border-radius:11px;padding:14px;max-height:520px;overflow:auto}
-.mcq{border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-bottom:10px;background:#fff}
-.mcq .q{font-weight:600;font-size:13.6px;margin-bottom:8px}
-.mcq .opt{display:block;width:100%;text-align:left;border:1px solid var(--line2);background:#fff;color:var(--ink);border-radius:9px;padding:8px 11px;font-size:13px;margin-bottom:6px;transition:.12s}
-.mcq .opt:hover:not([disabled]){border-color:var(--gold2);background:#fffdf6}
-.mcq .opt[disabled]{cursor:default}
-.mcq .opt.right{border-color:#8fc9a8;background:#eef8f1;color:#0f5c37;font-weight:600}
-.mcq .opt.wrong{border-color:#e0a9a4;background:#fdf0ef;color:#8c1d17}
-.mcq .fb{font-size:12.8px;color:var(--ink2);background:#faf8f3;border-radius:9px;padding:9px 11px;margin-top:4px;display:none}
-.mcq.done .fb{display:block}
+/* ---------- play stage ---------- */
+.hud{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--navy);color:#fff;border-radius:var(--r);padding:12px 16px}
+.hud .item{font-size:11.5px;color:#b9b3a6;text-transform:uppercase;letter-spacing:.06em}
+.hud .val{font-family:ui-monospace,Menlo,monospace;font-size:20px;font-weight:700;color:#fff;line-height:1.1}
+.hud .val.gold{color:var(--gold2)}
+.hud .bar{height:6px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;min-width:120px;flex:1}
+.hud .bar i{display:block;height:100%;background:var(--gold2);transition:width .3s ease}
+.prompt{font-size:19px;font-weight:600;margin:16px 0 6px}
+.prompt small{display:block;font-size:12.5px;color:var(--mut);font-weight:400;margin-top:4px;letter-spacing:0}
+.pool{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));margin:12px 0}
+.pcard{border:1px solid var(--line2);background:#fff;border-radius:11px;padding:10px 12px;font-size:13.2px;text-align:left;transition:.12s;display:flex;gap:9px;align-items:flex-start}
+.pcard:hover{border-color:var(--gold2);background:#fffdf6;transform:translateY(-1px)}
+.pcard.sel{border-color:var(--gold2);background:var(--goldsoft);box-shadow:inset 0 0 0 1px var(--gold2)}
+.pcard.used{opacity:.35;pointer-events:none}
+.pcard .k{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--mut);flex:none;padding-top:2px}
+.slots{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(232px,1fr))}
+.slot{border:1.5px dashed var(--line2);border-radius:12px;padding:11px;min-height:88px;background:#fcfbf8;display:flex;flex-direction:column;gap:6px;transition:.15s}
+.slot.hot{border-color:var(--gold2);background:#fffdf6}
+.slot .lab{font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);font-weight:650}
+.slot .hint{font-size:11.5px;color:var(--mut)}
+.slot .fill{font-size:13px;background:#fff;border:1px solid var(--line2);border-radius:9px;padding:7px 9px}
+.slot.right{border-style:solid;border-color:#8fc9a8;background:var(--oksoft)}
+.slot.wrong{border-style:solid;border-color:#e0a9a4;background:var(--badsoft)}
+.answers{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:12px 0}
+.ans{border:1px solid var(--line2);background:#fff;border-radius:12px;padding:13px;font-size:14px;text-align:left;transition:.12s;display:flex;gap:10px;align-items:flex-start;min-height:60px}
+.ans:hover{border-color:var(--gold2);background:#fffdf6;transform:translateY(-1px)}
+.ans .k{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--mut);flex:none;padding-top:3px}
+.ans.right{border-color:#8fc9a8;background:var(--oksoft);font-weight:600}
+.ans.wrong{border-color:#e0a9a4;background:var(--badsoft)}
+.ans.dim{opacity:.55}
+.explain{margin-top:12px;border-radius:11px;padding:12px 14px;font-size:13.4px;display:none}
+.explain.show{display:block}
+.explain.good{background:var(--oksoft);border:1px solid #b9dcc7;color:#124f31}
+.explain.bad{background:var(--badsoft);border:1px solid #e8c8c5;color:#7c1a14}
+.explain b{font-weight:700}
+.explain .tag{display:inline-block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;opacity:.75;margin-right:6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.snap{border:1px solid var(--line2);background:#fff;border-radius:12px;padding:14px}
+.snap .t{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.snap .f{font-size:14px;margin:2px 0}
+.flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.flow i{font-style:normal;color:var(--gold);font-weight:700}
+.flow .box{border:1px solid var(--line2);border-radius:9px;padding:6px 10px;background:#fff}
+.flow .box.hit{border-color:var(--gold2);background:var(--goldsoft)}
+.flow .box.off{opacity:.35;text-decoration:line-through}
+.netrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;font-size:13px}
+.netrow .who{font-weight:600;min-width:78px}
+.netrow .ties{display:flex;gap:6px;flex-wrap:wrap}
+.tie{border:1px solid var(--line2);border-radius:999px;padding:3px 10px;font-size:12px;background:#fff}
+.tie.pick{border-color:var(--gold2);background:var(--goldsoft)}
+.tie.no{opacity:.4}
 
-/* ---------- live ---------- */
-.room{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:#0e1420;color:#fff;border-radius:var(--r);padding:16px 18px}
+/* ---------- results ---------- */
+.verdict{text-align:center;padding:20px 12px}
+.verdict .big{font-family:ui-monospace,Menlo,monospace;font-size:52px;font-weight:700;line-height:1;color:var(--gold)}
+.verdict .lab{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);margin-top:6px}
+.verdict h2{font-size:20px;margin:14px 0 4px}
+.medal{font-size:22px;width:34px;text-align:center;flex:none}
+.lb{display:flex;flex-direction:column;gap:7px}
+.lbrow{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:9px 12px;background:#fff}
+.lbrow.me{border-color:var(--gold2);background:var(--goldsoft)}
+.lbrow .nm{flex:1;font-size:14px}
+.lbrow .nm small{display:block;font-size:11.5px;color:var(--mut)}
+.lbrow .sc{font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:15px}
+
+/* ---------- live host ---------- */
+.room{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:var(--navy);color:#fff;border-radius:var(--r);padding:16px 18px}
 .room .code{font-family:ui-monospace,Menlo,monospace;font-size:30px;font-weight:700;letter-spacing:.09em;color:var(--gold2)}
 .room .lbl{font-size:11.5px;color:#b9b3a6;letter-spacing:.05em;text-transform:uppercase}
-.room .lnk{font-size:11.5px;color:#8f8a7d;word-break:break-all;max-width:46ch}
+.room .lnk{font-size:11.5px;color:#8f8a7d;word-break:break-all;max-width:44ch}
 #qrbox{background:#fff;border-radius:12px;padding:8px;line-height:0}
 #qrbox canvas{width:168px;height:168px;image-rendering:pixelated;display:block}
 .timer{font-family:ui-monospace,Menlo,monospace;font-size:34px;font-weight:700}
-.livename{font-size:17px;font-weight:650}
-.livehint{font-size:12.5px;color:var(--mut)}
-.bar{height:34px;border-radius:9px;background:#faf8f3;border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:7px}
-.bar .fill{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#e8d9a8,#d9c072);transition:width .35s ease}
-.bar .tx{position:relative;display:flex;justify-content:space-between;gap:10px;padding:7px 11px;font-size:13px}
-.bar .tx b{font-family:ui-monospace,Menlo,monospace}
-.cloud{display:flex;gap:9px 14px;flex-wrap:wrap;align-items:baseline;padding:6px 0}
-.cloud span{line-height:1.15}
-.stars{display:flex;gap:14px;align-items:flex-end;height:130px;padding-top:6px}
-.stars .col{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1}
-.stars .col .b{width:100%;max-width:62px;background:linear-gradient(180deg,#e8d9a8,#c9a227);border-radius:7px 7px 0 0;min-height:3px;transition:height .35s ease}
-.stars .col .n{font-size:12px;font-family:ui-monospace,Menlo,monospace}
-.stars .col .l{font-size:12px;color:var(--mut)}
-.qlist{display:flex;flex-direction:column;gap:9px}
-.qitem{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:11px 13px;background:#fff}
-.qitem.hot{border-color:#e6d6a6;background:#fffdf6}
-.qitem .up{flex:none;display:flex;flex-direction:column;align-items:center;gap:2px}
-.qitem .up button{border:1px solid var(--line2);background:#fff;border-radius:9px;width:44px;padding:4px 0;font-size:12px;line-height:1.3}
-.qitem .up button:hover{border-color:var(--gold2);background:#fffdf6}
-.qitem .up .c{font-family:ui-monospace,Menlo,monospace;font-weight:700;font-size:14px}
-.qitem .qt{font-size:14px}
-.qitem .meta{font-size:11.5px;color:var(--mut);margin-top:3px}
-.qitem .ans{margin-top:8px;font-size:12.8px;color:#0f5c37;background:#eef8f1;border:1px solid #b9dcc7;border-radius:9px;padding:8px 10px}
-.qitem.done{background:#fafdfb}
-.votegrid{display:grid;gap:11px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
-.votebtn{border:1px solid var(--line2);background:#fff;border-radius:13px;padding:15px 13px;font-size:14.5px;font-weight:600;text-align:left;transition:.12s;min-height:62px}
-.votebtn:hover{border-color:var(--gold2);background:#fffdf6;transform:translateY(-1px)}
-.votebtn.sel{border-color:var(--gold2);background:var(--goldsoft);box-shadow:inset 0 0 0 1px var(--gold2)}
-.votebtn .k{display:block;font-size:11px;color:var(--mut);font-family:ui-monospace,Menlo,monospace;font-weight:400;margin-bottom:3px}
-.scale{display:flex;gap:10px;flex-wrap:wrap}
-.scale button{flex:1;min-width:86px;border:1px solid var(--line2);background:#fff;border-radius:12px;padding:14px 6px;font-size:16px;font-weight:650}
-.scale button.sel{border-color:var(--gold2);background:var(--goldsoft)}
-.scale button small{display:block;font-size:11px;color:var(--mut);font-weight:400;margin-top:3px}
-.pname{display:flex;gap:9px;align-items:center;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:14px}
-.done{text-align:center;padding:22px 14px}
-.done .big{font-size:38px;line-height:1;margin-bottom:10px}
-.joinwrap{max-width:660px;margin:0 auto}
-.joinfoot{text-align:center;color:var(--mut);font-size:12px;padding:26px 0 34px}
-
-/* ---------- toast / modal ---------- */
-#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;z-index:90;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
-.toast{background:#0e1420;color:#fff;font-size:13px;padding:10px 16px;border-radius:11px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);opacity:0;transform:translateY(8px);transition:.22s;max-width:80vw}
-.toast.show{opacity:1;transform:none}
-.toast.err{background:#7a1a15}
-.toast.ok{background:#0f5c37}
+.joinwrap{max-width:640px;margin:0 auto}
 .modal{position:fixed;inset:0;background:rgba(14,20,32,.55);z-index:80;display:none;align-items:center;justify-content:center;padding:20px}
 .modal.show{display:flex}
 .modal .box{background:#fff;border-radius:16px;max-width:620px;width:100%;max-height:86vh;overflow:auto;padding:22px;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
-.modal h3{margin-bottom:6px}
 .steps{counter-reset:s;list-style:none;padding:0;margin:10px 0}
 .steps li{counter-increment:s;position:relative;padding:0 0 12px 30px;font-size:13.4px}
-.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:21px;height:21px;border-radius:50%;background:#0e1420;color:var(--gold2);font-size:11.5px;display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace}
+.steps li:before{content:counter(s);position:absolute;left:0;top:0;width:21px;height:21px;border-radius:50%;background:var(--navy);color:var(--gold2);font-size:11.5px;display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace}
+#toasts{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;z-index:90;display:flex;flex-direction:column;gap:8px;align-items:center;pointer-events:none}
+.toast{background:var(--navy);color:#fff;font-size:13px;padding:10px 16px;border-radius:11px;box-shadow:0 10px 30px -12px rgba(0,0,0,.5);opacity:0;transform:translateY(8px);transition:.22s;max-width:82vw}
+.toast.show{opacity:1;transform:none}
+.toast.err{background:#7a1a15}
+.toast.ok{background:#0f5c37}
 .view{display:none;padding-bottom:40px}
 .view.on{display:block}
+.modal.show{display:flex}
 .foot{border-top:1px solid var(--line);color:var(--mut);font-size:12px;padding:18px 0 30px;text-align:center}
-@media (max-width:720px){
+.pop{animation:pop .35s ease}
+@keyframes pop{0%{transform:scale(.96);opacity:.4}100%{transform:scale(1);opacity:1}}
+.shake{animation:shake .3s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.custom{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.custom .item{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}
+.custom .item b{display:block;font-size:13.5px;margin-bottom:3px}
+.custom .item span{font-size:12.5px;color:var(--mut)}
+.custom .item .ic{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--gold);letter-spacing:.06em;display:block;margin-bottom:5px}
+@media (max-width:760px){
   .brand .t2{display:none}
-  .brand .t1{font-size:13.5px;white-space:normal}
-  .topin{gap:8px}
-  #st-chip{font-size:11px;padding:4px 8px;max-width:44vw;overflow:hidden}
-  #st-chip span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hero{padding:22px 18px}
   .hero h1{font-size:23px}
+  .prompt{font-size:17px}
+  .hud .val{font-size:17px}
+  .wrap{padding:0 13px}
   .room .code{font-size:24px}
   #qrbox canvas{width:132px;height:132px}
-  .wrap{padding:0 14px}
 }
-/* 参与者端：只留互动界面 */
-body.is-join #st-chip,body.is-join #btn-setup{display:none}
-body.is-join .tabs{justify-content:center}
-body.is-join .brand{flex:1}
-body.is-join .brand .t1{white-space:normal}
-
-@media print{
-  header.top,.tabs,#toasts,.noprint{display:none!important}
-  body{background:#fff}
-  .card{box-shadow:none;break-inside:avoid}
-  .view{display:none}.view.on{display:block}
-}
+@media print{header.top,.tabs,#toasts,.noprint{display:none!important}body{background:#fff}.card{box-shadow:none;break-inside:avoid}.view{display:none}.view.on{display:block}}
 </style>
 </head>
 <body>
@@ -255,242 +241,164 @@ body.is-join .brand .t1{white-space:normal}
       <div class="brand">
         <div class="mark">4MA</div>
         <div>
-          <div class="t1">4MA 引导台 · Four-Minute Activity</div>
-          <div class="t2">PMGT1852 Stakeholder Management &amp; Facilitation · School of Project Management, USYD</div>
+          <div class="t1">4MA Arcade</div>
+          <div class="t2">PMGT1852 Stakeholder Management &amp; Facilitation · University of Sydney</div>
         </div>
       </div>
       <div class="spacer"></div>
-      <button class="chip" id="st-chip" type="button" title="点击打开数据通道设置"><span class="dot"></span><span id="st-tx">本地模式</span></button>
-      <button class="btn sm" id="btn-setup" type="button">数据通道</button>
+      <button class="chip" id="st-chip" type="button" title="Data channel"><span class="dot"></span><span id="st-tx">local mode</span></button>
+      <button class="btn sm" id="btn-setup" type="button">Data channel</button>
     </div>
     <div class="tabs" role="tablist">
-      <button class="tab" role="tab" data-nav="home" aria-selected="true"><span class="n">01</span>总览 &amp; 报名</button>
-      <button class="tab" role="tab" data-nav="design" aria-selected="false"><span class="n">02</span>活动设计</button>
-      <button class="tab" role="tab" data-nav="live" aria-selected="false"><span class="n">03</span>现场引导</button>
-      <button class="tab" role="tab" data-nav="data" aria-selected="false"><span class="n">04</span>数据汇总</button>
+      <button class="tab" role="tab" data-nav="play" aria-selected="true">Play</button>
+      <button class="tab" role="tab" data-nav="board" aria-selected="false">Leaderboard</button>
+      <button class="tab" role="tab" data-nav="live" aria-selected="false">Host a live round</button>
+      <button class="tab" role="tab" data-nav="plan" aria-selected="false">Plan your 4MA</button>
     </div>
   </div>
 </header>
 
 <main class="wrap">
 
-  <!-- ============================ HOME ============================ -->
-  <section class="view on" id="v-home">
-    <div class="sec">
-      <div class="hero">
-        <h1>把 4 分钟设计成一次真正的引导</h1>
-        <div class="sub">4MA 是 PMGT1852 的自愿环节：<b>每人 4 分钟</b>，微教学、主持讨论、小实验或小游戏都行。这份工具把「抢名额 → 用 5 Ps / 3 Hs 设计 → 现场跑互动 → 回收数据」串成一条线，全程静态托管、不依赖 Mentimeter 之类的外部站点。</div>
-        <div class="rule">
-          <span>每学期周 <b>2 个名额</b></span>
-          <span>完成即锁定参与分 <b>≥ 40%</b></span>
-          <span>自愿参加 · <b>voluntary</b></span>
-          <span>缺 4MA 也能靠 workshop / Canvas 拿到 <b>满分</b></span>
+  <!-- ============ PLAY ============ -->
+  <section class="view on" id="v-play">
+    <div id="play-home">
+      <div class="sec">
+        <div class="hero">
+          <h1>Four minutes. <span>Four games.</span> One unit's vocabulary.</h1>
+          <div class="sub">Every round here is drawn from PMGT1852 — the Salience Model, CATWOE, Bourne's stakeholder circle, MoSCoW, and the facilitation rules from <i>Secrets of Facilitation</i>. Scenarios are generated around <b>your own class list</b>, so no two sessions look the same.</div>
+          <div class="rule">
+            <span>Built for <b>PMGT1852</b></span>
+            <span>4 games × ~60 s</span>
+            <span>Weeks <b>3–6</b> + facilitation</span>
+            <span>Tap or keyboard <b>A–D</b></span>
+          </div>
+          <div class="cta">
+            <button class="btn gold" type="button" id="btn-quick">Play the 4MA run</button>
+            <button class="btn" type="button" id="btn-host-live" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.35)">Host a live round</button>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="sec grid g4" id="home-stats"></div>
+      <div class="sec grid g4" id="play-stats"></div>
 
-    <div class="sec">
-      <div class="grid g2" style="align-items:start">
+      <div class="sec">
+        <div class="sechead"><h2>Pick a game</h2><span class="sub">Solo practice, or join a live round with the room code your facilitator shows.</span></div>
+        <div class="grid g3" id="game-list"></div>
+      </div>
+
+      <div class="sec grid g2" style="align-items:start">
         <div class="card">
-          <h3>学期周占位总览</h3>
-          <div class="sub">每个学期周只有 2 个 slot（4MA.md 原文：two for each semester week）。在右边选中周次与 slot，填名字和活动类型即可占位。</div>
-          <div class="weekgrid" id="week-grid"></div>
-          <div class="note" style="margin-top:12px">报名数据走你自己的数据通道，全班刷新都能看到最新占位情况。没有配置通道时，只有本机可见（页面顶部会写明「本地模式」）。</div>
+          <h3>Who's in the room</h3>
+          <div class="sub">These names get written into the scenarios. Add your classmates and the rounds are generated about them — that is the point.</div>
+          <div id="roster-box"></div>
         </div>
         <div class="card">
-          <h3>报名 / 占位</h3>
-          <div class="sub">Sign up for one of the two 4MA spots in a semester week.</div>
-          <div id="signup-form"></div>
-          <hr class="hr">
-          <h3 style="font-size:14px">4MA 规则（原文要点）</h3>
-          <div class="kv"><span>时长</span><b>4 分钟</b></div>
-          <div class="kv"><span>性质</span><b>自愿 voluntary · 可失败 safe-to-fail</b></div>
-          <div class="kv"><span>回报</span><b>参与分 ≥ 40%，并给反馈</b></div>
-          <div class="kv"><span>名额</span><b>每学期周 2 个</b></div>
-          <details class="acc" style="margin-top:12px">
-            <summary>我能拿到的额外收获</summary>
-            <div class="body">
-              <div class="chk ok"><span class="mk">✓</span><span class="tx"><b>信心</b><span>在 safe-to-fail 的环境里试一次讲台</span></span></div>
-              <div class="chk ok"><span class="mk">✓</span><span class="tx"><b>影响力</b><span>练怎么让听众跟着你的问题走</span></span></div>
-              <div class="chk ok"><span class="mk">✓</span><span class="tx"><b>学得更深</b><span>teachers are best students — 讲一遍才真会</span></span></div>
-              <div class="chk warn"><span class="mk">!</span><span class="tx"><b>只出席不等于参与</b><span>不参加 4MA 也能拿满分，前提是 workshop / Canvas 上持续、有建设性地参与</span></span></div>
-            </div>
-          </details>
+          <h3>Why this page looks custom-made</h3>
+          <div class="sub">Nothing here is a generic quiz template: the content, the names and the scoring all come from this unit and this cohort.</div>
+          <div class="custom">
+            <div class="item"><span class="ic">CONTENT</span><b>Unit vocabulary only</b><span>Every question maps to PMGT1852 material — Salience Model (Mitchell, Agle &amp; Wood 1997), CATWOE, Bourne (2016), MoSCoW, density and betweenness.</span></div>
+            <div class="item"><span class="ic">COHORT</span><b>Your names in the scenarios</b><span>Stakeholders are cast from the class list you build here, so the same game reads differently for every cohort.</span></div>
+            <div class="item"><span class="ic">FACILITATION</span><b>It scores you on process, not trivia</b><span>Rounds 3 and 4 ask what a facilitator should <i>do</i> — starting question, reacting question, ditches and red herrings.</span></div>
+            <div class="item"><span class="ic">LIVE</span><b>Class leaderboard, no third-party tool</b><span>Scores sync through the unit's own data channel and appear on the facilitator's screen — no Mentimeter, no Kahoot account.</span></div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="sec">
-      <div class="card">
-        <h3>全班占位总览</h3>
-        <div class="sub">下面这张表由数据通道实时汇总；点任意一行可以跳到「数据汇总」导出。</div>
-        <div id="signup-table"></div>
-      </div>
-    </div>
+    <div id="play-stage"></div>
   </section>
 
-  <!-- ============================ DESIGN ============================ -->
-  <section class="view" id="v-design">
+  <!-- ============ BOARD ============ -->
+  <section class="view" id="v-board">
+    <div class="sec" id="board-body"></div>
+  </section>
+
+  <!-- ============ LIVE ============ -->
+  <section class="view" id="v-live">
+    <div class="sec" id="live-join" style="display:none"><div class="joinwrap"><div class="card" id="join-card"></div></div></div>
+    <div class="sec" id="live-host"></div>
+  </section>
+
+  <!-- ============ PLAN ============ -->
+  <section class="view" id="v-plan">
     <div class="sec">
       <div class="card">
-        <h3>4MA 活动设计器 <span class="en">Activity Design · 5 Ps + 3 Hs</span></h3>
-        <div class="sub">把 4 分钟当成一次 facilitated session 来设计：先定 Purpose / Product / Participants / Probable Issues，最后才排 Process。设计会被实时体检，并生成可直接念的开场白。</div>
-        <div class="row" style="margin-bottom:14px">
-          <button class="btn" type="button" id="btn-tpl">载入 Salience Model 模板</button>
-          <button class="btn" type="button" id="btn-idea">随机给我一个活动灵感</button>
-          <button class="btn sm" type="button" id="btn-clear-design">清空草稿</button>
-          <span class="mini" id="design-status"></span>
+        <h3>Plan your own 4MA <span class="sub">5 Ps + 3 Hs, the Week 5 preparation order</span></h3>
+        <div class="sub">Purpose → Product → Participants → Probable Issues → Process. The run sheet below updates as you type and can be read straight off the screen during your four minutes.</div>
+        <div class="row" style="margin:12px 0">
+          <button class="btn" type="button" id="btn-tpl">Load a worked example</button>
+          <button class="btn" type="button" id="btn-copy-plan">Copy run sheet</button>
+          <button class="btn" type="button" id="btn-print">Print / PDF</button>
+          <span class="sub" id="plan-status"></span>
         </div>
         <div class="grid g2" style="align-items:start">
           <div>
-            <div id="design-form"></div>
-            <hr class="hr">
+            <div id="plan-form"></div>
             <div class="row">
-              <input class="inp" id="sign-name" placeholder="你的名字（署名）" style="max-width:200px">
-              <button class="btn pri" type="button" id="btn-save-design">发布到占位板</button>
-              <button class="btn" type="button" id="btn-copy-plan">复制讲稿</button>
-              <button class="btn" type="button" id="btn-print">打印 / 存 PDF</button>
+              <input class="inp" id="plan-name" placeholder="Your name" style="max-width:220px">
+              <button class="btn pri" type="button" id="btn-save-plan">Publish to the board</button>
             </div>
-            <div class="mini" style="margin-top:8px">发布后同班同学与老师都能看到你的设计；「复制讲稿」把下面的 run sheet 复制到剪贴板，上台前扫一眼就行。</div>
           </div>
           <div>
+            <div class="card" style="padding:15px;margin-bottom:14px">
+              <h3 style="font-size:14.5px">Design check</h3>
+              <div class="sub">Each rule comes from the unit's facilitation material.</div>
+              <div id="plan-checks"></div>
+            </div>
             <div class="card" style="padding:15px">
-              <h3 style="font-size:14.5px">设计体检 <span class="en">5 Ps / 3 Hs audit</span></h3>
-              <div class="sub">按课程笔记里的规则给每一处提意见，不是打分。</div>
-              <div id="design-checks"></div>
-            </div>
-            <div class="card" style="padding:15px;margin-top:14px">
-              <h3 style="font-size:14.5px">上台讲稿 <span class="en">run sheet</span></h3>
-              <div class="sub">开场白 + 提问脚本 + 时间轴，随设计实时更新。</div>
-              <div id="plan-out"></div>
-            </div>
-            <div class="card" style="padding:15px;margin-top:14px">
-              <h3 style="font-size:14.5px">框架速记 <span class="en">quick recall · Weeks 3–7</span></h3>
-              <div class="sub">点选项立刻判分，答错给解释。这一块是你上台前 5 分钟的自测。</div>
-              <div id="recall"></div>
+              <h3 style="font-size:14.5px">Run sheet</h3>
+              <div class="sub">Open with a question, close with a takeaway, keep it inside 4:00.</div>
+              <div class="cmd" id="plan-out"></div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================ LIVE ============================ -->
-  <section class="view" id="v-live">
-    <div class="sec" id="live-remote"></div>
-
-    <div class="sec" id="live-join" style="display:none">
-      <div class="joinwrap">
-        <div class="card" id="join-card"></div>
-        <div class="joinfoot">PMGT1852 · 4MA live · 你看到的是同学 4 分钟活动的互动端</div>
-      </div>
-    </div>
-
-    <div class="sec" id="live-host">
-      <div id="host-room"></div>
-
-      <div class="grid g2" style="align-items:start;margin-top:16px">
-        <div>
-          <div class="card" id="host-canvas"></div>
-          <div class="card" style="margin-top:16px">
-            <h3 style="font-size:14.5px">发起一个互动 <span class="en">new interaction</span></h3>
-            <div class="sub">现场投票、词云、提问墙、1–5 评分、反思收集。发布后二维码扫进来的人立刻能投。</div>
-            <div class="field">
-              <span class="lb">互动类型 <i>interaction type</i></span>
-              <div class="typegrid" id="ev-types"></div>
-            </div>
-            <label class="field"><span class="lb">标题 / 问题 <i>prompt</i></span>
-              <input class="inp" id="ev-name" placeholder="例：Which stakeholder attribute is most often misread?"></label>
-            <label class="field" id="ev-opts-wrap"><span class="lb">选项 <i>每行一个，至少 2 个</i></span>
-              <textarea class="inp" id="ev-opts" placeholder="Power&#10;Legitimacy&#10;Urgency&#10;Proximity"></textarea></label>
-            <div class="row">
-              <button class="btn pri" type="button" id="btn-start-ev">发布到互动端</button>
-              <label class="mini"><input type="checkbox" id="ev-auto" checked> 同时开始 4 分钟计时</label>
-            </div>
-          </div>
-        </div>
-        <div>
-          <div class="card" id="host-prework"></div>
-          <div class="card" style="margin-top:16px" id="host-designlist"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================ DATA ============================ -->
-  <section class="view" id="v-data">
-    <div class="sec" id="channel-hint"></div>
-    <div class="sec">
-      <div class="sechead"><h2>数据汇总</h2><span class="en">live aggregation</span>
-        <button class="btn sm" type="button" id="btn-refresh">立即刷新</button>
-      </div>
-      <div class="grid g4" id="data-stats"></div>
-    </div>
-    <div class="sec">
-      <div class="grid g2" style="align-items:start">
-        <div class="card">
-          <h3>占位与设计 <span class="en">signups &amp; designs</span></h3>
-          <div class="sub">谁在哪一周、什么类型、5 Ps 是否写完。</div>
-          <div id="data-signups"></div>
-        </div>
-        <div class="card">
-          <h3>现场互动结果 <span class="en">poll / rating / cloud / Q&amp;A</span></h3>
-          <div class="sub">逐轮结果，含每人选择与去重后的计数。</div>
-          <div id="data-events"></div>
         </div>
       </div>
     </div>
     <div class="sec">
       <div class="card">
-        <h3>导出与清理 <span class="en">export</span></h3>
-        <div class="sub">导出的是全班真实数据，可直接贴进你的 4MA 反思或作业附录。</div>
-        <div class="row">
-          <button class="btn" type="button" id="btn-csv">下载 CSV</button>
-          <button class="btn" type="button" id="btn-json">下载 JSON</button>
-          <button class="btn" type="button" id="btn-report">生成 markdown 小结</button>
-          <button class="btn" type="button" id="btn-copy-report">复制小结</button>
-          <span class="spacer"></span>
-          <button class="btn danger sm" type="button" id="btn-reset-live">清空本机现场数据</button>
-        </div>
-        <div id="report-out" style="margin-top:14px"></div>
+        <h3>4MA logistics</h3>
+        <div class="sub">Straight from the unit brief.</div>
+        <div class="kv"><span>Length</span><b>4 minutes, hard stop</b></div>
+        <div class="kv"><span>Format</span><b>micro-teach · facilitate a discussion · experiment or game · case debrief · quick poll</b></div>
+        <div class="kv"><span>Spots</span><b>two per semester week</b></div>
+        <div class="kv"><span>Reward</span><b>guarantees 40% of the participation mark, rounded</b></div>
+        <div class="kv"><span>Voluntary</span><b>yes — consistent workshop and Canvas engagement can still reach full marks</b></div>
+        <div class="note" style="margin-top:12px">Attendance is not participation. The 4MA is a safe-to-fail rep: pick something you would not normally do, then let the room carry it.</div>
       </div>
     </div>
   </section>
 
-  <div class="foot">4MA 引导台 · 单文件静态页 · 数据存在你自己的通道里 · 无第三方平台依赖</div>
+  <div class="foot">4MA Arcade · one self-contained HTML file · scores sync through the unit's own data channel · no third-party platform</div>
 </main>
 
 <div id="toasts" class="noprint"></div>
 
 <div class="modal" id="setup-modal">
   <div class="box">
-    <h3>数据通道 <span class="en">data channel</span></h3>
-    <p class="sub">这一页是纯静态的：要把「谁的报名 / 谁的投票」存下来并让全班刷新可见，需要一条你自己控制的写入通道。这里用的是你自己 GitHub 仓库的 Issues——域名是你自己的，没有第三方平台在中间。</p>
+    <h3>Data channel</h3>
+    <p class="sub">This page is a static file. To keep scores and the class list across devices it writes small JSON records into an issue of your own GitHub repository — your domain, your data, no third-party platform in the middle.</p>
     <ol class="steps">
-      <li>确保仓库 <code id="setup-repo">Hudson-Junior-Wang/hudsonwang.com</code> 的 <b>Issues</b> 是打开的（本页只往里面发评论，不会碰代码）。</li>
-      <li>去 GitHub 生成一个 <b>fine-grained token</b>：<br>
-        <span class="mono" style="font-size:11.5px">github.com/settings/personal-access-tokens/new</span><br>
-        勾选 <b>Only select repositories</b> → 选这个仓库；权限只给 <b>Issues: Read and write</b>；有效期设短一点（例如 30 天）。</li>
-      <li>把 token 粘到下面，点「保存并测试」。token 只存在你这台设备的 localStorage，只会发往 api.github.com。</li>
-      <li>学生端不需要 token：他们扫码打开链接，刷新就能看到最新结果。</li>
+      <li>Repository <code id="setup-repo">Hudson-Junior-Wang/hudsonwang.com</code> must have <b>Issues</b> enabled. The page only posts comments; it never touches code.</li>
+      <li>Create a <b>fine-grained token</b> at <span class="mono">github.com/settings/personal-access-tokens/new</span> — <b>Only select repositories</b> → this repo, permission <b>Issues: Read and write</b>, short expiry.</li>
+      <li>Paste it below and press <b>Save and test</b>. The token stays in this device's localStorage and is only ever sent to api.github.com.</li>
+      <li>Students need nothing: the leaderboard is publicly readable, so their scores show up as soon as they finish a run.</li>
     </ol>
-    <label class="field"><span class="lb">GitHub fine-grained token <i>issues: read &amp; write</i></span>
+    <label class="field"><span class="lb">GitHub fine-grained token (issues: read &amp; write)</span>
       <input class="inp mono" id="tk" placeholder="github_pat_..." autocomplete="off" spellcheck="false"></label>
     <div class="row" style="margin-bottom:12px">
-      <button class="btn pri" type="button" id="btn-tk-save">保存并测试</button>
-      <button class="btn" type="button" id="btn-tk-clear">清除 token</button>
-      <button class="btn sm" type="button" id="btn-tk-close" style="margin-left:auto">关闭</button>
+      <button class="btn pri" type="button" id="btn-tk-save">Save and test</button>
+      <button class="btn" type="button" id="btn-tk-clear">Clear token</button>
+      <button class="btn sm" type="button" id="btn-tk-close" style="margin-left:auto">Close</button>
     </div>
-    <div id="tk-status" class="mini"></div>
+    <div id="tk-status" class="sub"></div>
     <hr class="hr">
-    <div class="mini">仓库：<input class="inp mono" id="cf-repo" style="max-width:280px;padding:5px 9px;font-size:12px"> 标签：<input class="inp mono" id="cf-label" style="max-width:170px;padding:5px 9px;font-size:12px"></div>
+    <div class="sub">Repo <input class="inp mono" id="cf-repo" style="max-width:280px;padding:5px 9px;font-size:12px"> label <input class="inp mono" id="cf-label" style="max-width:170px;padding:5px 9px;font-size:12px"></div>
   </div>
 </div>
 
 <script>
-/* qrcode-generator v1.4.4 (c) 2009 Kazuhiko Arase, MIT licensed - https://github.com/kazuhikoarase/qrcode-generator - inlined for offline use, minified by jsDelivr */
+/* qrcode-generator v1.4.4 (c) 2009 Kazuhiko Arase, MIT licensed - https://github.com/kazuhikoarase/qrcode-generator - inlined for offline use */
 /**
  * Minified by jsDelivr using Terser v5.37.0.
  * Original file: /npm/qrcode-generator@1.4.4/qrcode.js
@@ -502,48 +410,41 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
 </script>
 <script>
 "use strict";
-
 (function(){
 /* =========================================================================
-   PMGT1852 · 4MA 引导台
-   - 单文件静态页；在线时用 GitHub Issue 评论做数据通道，离线时退回本机存储
-   - 事件流模型：所有写入都是 issue 里的一条 JSON 评论（type + payload）
+   4MA Arcade — PMGT1852
+   Games generated from the unit's own frameworks, cast with the class list.
+   Data: JSON records posted as comments on one GitHub issue (no backend).
    ========================================================================= */
 
-/* ---------- 1. 基础工具 ---------- */
 var $ = function(s,r){ return (r||document).querySelector(s); };
 var $$ = function(s,r){ return Array.prototype.slice.call((r||document).querySelectorAll(s)); };
-var LSKEY = '4ma-pmgt1852-v1';
+var LSKEY = '4ma-arcade-pmgt1852-v1';
 var esc = function(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
 var uid = function(){ return Math.random().toString(36).slice(2,9)+Date.now().toString(36).slice(-4); };
 var nowMs = function(){ return Date.now(); };
+var pick = function(a){ return a[Math.floor(Math.random()*a.length)]; };
+function shuffle(a){ a = a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
 function toast(msg, kind){
   var d = document.createElement('div');
-  d.className = 'toast' + (kind?' '+kind:'');
+  d.className = 'toast'+(kind?' '+kind:'');
   d.textContent = msg;
   $('#toasts').appendChild(d);
-  setTimeout(function(){ d.classList.add('show'); }, 12);
-  setTimeout(function(){ d.classList.remove('show'); setTimeout(function(){ d.remove(); }, 260); }, 2600);
-}
-function clock(ms){
-  var t = Math.max(0, Math.round(ms/1000));
-  var m = Math.floor(t/60), s = t%60;
-  return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  setTimeout(function(){ d.classList.add('show'); }, 10);
+  setTimeout(function(){ d.classList.remove('show'); setTimeout(function(){ d.remove(); }, 260); }, 2400);
 }
 function clip(text, okMsg){
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(text).then(function(){ toast(okMsg||'已复制到剪贴板','ok'); },
-      function(){ fallbackCopy(text, okMsg); });
-  } else fallbackCopy(text, okMsg);
-}
-function fallbackCopy(text, okMsg){
-  var ta = document.createElement('textarea');
-  ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
-  document.body.appendChild(ta); ta.select();
-  try{ document.execCommand('copy'); toast(okMsg||'已复制到剪贴板','ok'); }
-  catch(e){ toast('复制失败，请手动选择文本','err'); }
-  ta.remove();
+    navigator.clipboard.writeText(text).then(function(){ toast(okMsg||'Copied','ok'); }, function(){ fb(); });
+  } else fb();
+  function fb(){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); toast(okMsg||'Copied','ok'); }catch(e){ toast('Copy failed','err'); }
+    ta.remove();
+  }
 }
 function dl(name, text, mime){
   var b = new Blob([text], {type:(mime||'text/plain')+';charset=utf-8'});
@@ -551,278 +452,59 @@ function dl(name, text, mime){
   a.href = u; a.download = name; document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); }, 400);
 }
-function parseLines(t){
-  return String(t||'').split(/\r?\n/).map(function(x){ return x.trim(); }).filter(Boolean);
+function clock(ms){
+  var t = Math.max(0, Math.round(ms/1000)), m = Math.floor(t/60), s = t%60;
+  return (m<10?'0':'')+m+':'+(s<10?'0':'')+s;
 }
+function parseLines(t){ return String(t||'').split(/\r?\n/).map(function(x){ return x.trim(); }).filter(Boolean); }
 
-/* ---------- 2. 状态 ---------- */
-var DEFAULT_CFG = {
-  owner:'Hudson-Junior-Wang', repo:'hudsonwang.com', label:'4ma-board',
-  token:'', issue:0, room:'', eventId:'', name:''
-};
-/*@@DEFAULTCFG@@*/
-
-var state = {
-  ready:false, role:'host', room:'', net:'local', boardIssue:0,
-  comments:0, lastSync:0, syncing:false, events:[], cfg:null
-};
-var inflight = {};   /* event id -> 正在发送，避免 publish 与 flushPending 重复投递 */
-var timerHandle = null;
+/* ---------- 1. data channel ---------- */
+var DEFAULT_CFG = {owner:'Hudson-Junior-Wang', repo:'hudsonwang.com', label:'4ma-arcade', token:'', issue:0, room:'', name:''};
+var state = {role:'host', room:'', net:'local', boardIssue:0, comments:0, lastSync:0, syncing:false,
+             events:[], cfg:null, roster:[], view:'play', game:null, round:0, diff:'normal'};
+var inflight = {};
 
 function loadLocal(){
-  var raw = null;
-  try{ raw = localStorage.getItem(LSKEY); }catch(e){}
   var d = {};
-  if(raw){ try{ d = JSON.parse(raw)||{}; }catch(e){ d = {}; } }
-  var cfg = Object.assign({}, DEFAULT_CFG, d.cfg||{});
-  state.cfg = cfg;
+  try{ d = JSON.parse(localStorage.getItem(LSKEY)||'{}') || {}; }catch(e){ d = {}; }
+  state.cfg = Object.assign({}, DEFAULT_CFG, d.cfg||{});
   state.events = Array.isArray(d.events)? d.events : [];
-  state.room = cfg.room || '';
-  state.eventId = cfg.eventId || '';
-  state.boardIssue = cfg.issue || 0;
+  state.roster = Array.isArray(d.roster)? d.roster : [];
+  state.diff = d.diff || 'normal';
+  state.room = state.cfg.room || '';
 }
 function saveLocal(){
   try{
-    localStorage.setItem(LSKEY, JSON.stringify({cfg:state.cfg, events:state.events, v:1}));
+    localStorage.setItem(LSKEY, JSON.stringify({cfg:state.cfg, events:state.events, roster:state.roster, diff:state.diff, v:1}));
   }catch(e){}
 }
-
-/* ---------- 3. 解析 URL ---------- */
-function parseQuery(){
-  var out = {}, q = location.search.replace(/^\?/,'');
-  q.split('&').forEach(function(kv){
-    if(!kv) return;
-    var i = kv.indexOf('='), k = i<0? kv : kv.slice(0,i), v = i<0? '' : kv.slice(i+1);
-    try{ out[decodeURIComponent(k)] = decodeURIComponent(v.replace(/\+/g,' ')); }catch(e){}
-  });
-  return out;
-}
-function parseHash(){
-  var h = location.hash.replace(/^#/,'');
-  if(!h) return {};
-  var i = h.indexOf('=');
-  if(i<0) return {};
-  try{
-    var json = decodeURIComponent(h.slice(i+1));
-    var o = JSON.parse(json);
-    return (o && typeof o==='object')? o : {};
-  }catch(e){ return {}; }
-}
-function parseJoin(str){
-  // "TYPE|id|prompt|opt1~opt2~opt3"
-  var parts = String(str||'').split('|');
-  if(parts.length < 3) return null;
-  return {
-    type:parts[0], id:parts[1], prompt:parts[2],
-    opts:(parts[3]? parts[3].split('~') : [])
-  };
-}
-function currentJoinEvent(){
-  /* 统一形状：{kind, id, prompt, opts} —— kind 是互动类型（poll/multi/rating/cloud/qa/reflect） */
-  if(state.now && state.now.id){
-    var n = state.now;
-    return {kind:n.kind || n.type, id:n.id, prompt:n.prompt, opts:n.opts || []};
-  }
-  if(state.cfg.eventId){
-    var e = findEvent(state.cfg.eventId);
-    return e? {kind:e.kind, id:e.id, prompt:e.prompt, opts:e.opts || []} : null;
-  }
-  return null;
-}
-
-/* ---------- 4. 事件归并 ---------- */
-function findEvent(id){
-  for(var i=state.events.length-1;i>=0;i--){ if(state.events[i].type==='event' && state.events[i].id===id) return state.events[i]; }
-  return null;
-}
-function latestTimer(){
-  for(var i=state.events.length-1;i>=0;i--){
-    if(state.events[i].type==='setTimer') return state.events[i];
-  }
-  return null;
-}
-function lastByType(t){
-  for(var i=state.events.length-1;i>=0;i--){ if(state.events[i].type===t) return state.events[i]; }
-  return null;
-}
-function votesFor(id){
-  var m = {};
-  state.events.forEach(function(e){
-    if(e.type==='vote' && (e.ref||e.id)===id) m[e.voter||'anon'] = e;
-  });
-  return Object.keys(m).map(function(k){ return m[k]; });
-}
-function cloudsFor(id){
-  var m = {};
-  state.events.forEach(function(e){
-    if(e.type==='cloud' && (e.ref||e.id)===id) m[e.voter||'anon'] = e;
-  });
-  return Object.keys(m).map(function(k){ return m[k]; });
-}
-function myVote(id){
-  var me = state.cfg.name || state.me || '';
-  var m = votesFor(id), hit = null;
-  m.forEach(function(v){ if(v.voter === me) hit = v; });
-  return hit;
-}
-function questions(){
-  return state.events.filter(function(e){ return e.type==='question'; });
-}
-function answersFor(qid){
-  return state.events.filter(function(e){ return e.type==='answer' && (e.ref||e.qid)===qid; });
-}
-function upCount(qid){
-  var m = {};
-  state.events.forEach(function(e){ if(e.type==='up' && (e.ref||e.qid)===qid) m[e.voter||'anon']=1; });
-  return Object.keys(m).length;
-}
-function myUp(qid){
-  var me = state.cfg.name || state.me || '';
-  return state.events.some(function(e){ return e.type==='up' && (e.ref||e.qid)===qid && (e.voter||'anon')===me; });
-}
-function signups(){
-  var m = {};
-  state.events.forEach(function(e){
-    if(e.type==='signup') m[e.week+'|'+e.slot] = e;
-  });
-  return Object.keys(m).map(function(k){ return m[k]; });
-}
-function designFor(week, name){
-  var hit = null;
-  state.events.forEach(function(e){
-    if(e.type==='design' && e.design && e.design.week===week && (!name || e.name===name)) hit = e;
-  });
-  return hit;
-}
-function reflections(){
-  return state.events.filter(function(e){ return e.type==='reflect'; });
-}
-
-/* ---------- 5. 数据通道（GitHub Issues） ---------- */
-function ghHeaders(){
-  var h = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
-  if(state.cfg.token) h.Authorization = 'Bearer ' + state.cfg.token;
-  return h;
-}
-async function gh(pathGet, opt){
-  opt = opt || {};
-  var url = 'https://api.github.com' + pathGet;
-  var res = await fetch(url, {
-    method:opt.method || 'GET',
-    headers: ghHeaders(),
-    body: opt.body? JSON.stringify(opt.body) : undefined,
-    cache:'no-store'
-  });
-  var text = await res.text();
-  var data = null;
-  try{ data = text? JSON.parse(text) : null; }catch(e){ data = null; }
-  if(!res.ok){
-    var msg = (data && data.message) || ('HTTP ' + res.status);
-    if(res.status===401) msg = 'token 无效或已过期（401）';
-    else if(res.status===403) msg = '权限/限流问题（403）：' + msg;
-    else if(res.status===404) msg = '找不到仓库或 Issues 未开启（404）';
-    throw new Error(msg);
-  }
-  return data;
-}
-function encodeEvent(ev){
-  return '<!--4ma:v1-->' + JSON.stringify(ev);
-}
+function encodeEvent(ev){ return '<!--4ma-arcade:v1-->' + JSON.stringify(ev); }
 function decodeComments(list){
   var out = [];
   (list||[]).forEach(function(c){
     var b = String(c.body||'');
-    if(b.indexOf('<!--4ma:v1-->')!==0) return;
+    if(b.indexOf('<!--4ma-arcade:v1-->')!==0) return;
     try{
-      var o = JSON.parse(b.replace('<!--4ma:v1-->',''));
-      if(o && o.type){ o._at = c.created_at || ''; o._cid = c.id; out.push(o); }
+      var o = JSON.parse(b.replace('<!--4ma-arcade:v1-->',''));
+      if(o && o.type){ o._at = c.created_at||''; out.push(o); }
     }catch(e){}
   });
   return out;
 }
-async function ensureBoard(){
-  var cfg = state.cfg;
-  if(!cfg.token){ state.net='local'; return false; }
-  var slug = '/repos/'+cfg.owner+'/'+cfg.repo;
-  try{
-    if(cfg.issue){
-      try{
-        var iss = await gh(slug+'/issues/'+cfg.issue);
-        if(iss && !iss.pull_request){ state.boardIssue = iss.number; state.net='online'; return true; }
-      }catch(e){ /* fallthrough */ }
-    }
-    var found = await gh(slug+'/issues?labels='+encodeURIComponent(cfg.label)+'&state=open&per_page=5');
-    if(found && found.length){
-      state.boardIssue = found[0].number;
-      state.cfg.issue = found[0].number; saveLocal();
-      state.net='online'; return true;
-    }
-    var created = await gh(slug+'/issues', {method:'POST', body:{
-      title:'4MA Live Board · PMGT1852',
-      body:'此 issue 由 4MA 引导台自动创建与写入：每条评论是一行结构化 JSON（报名 / 设计 / 投票 / 词云 / 提问 / 反思）。请勿手工编辑评论内容。',
-      labels:[cfg.label]
-    }});
-    state.boardIssue = created.number;
-    state.cfg.issue = created.number; saveLocal();
-    state.net='online';
-    return true;
-  }catch(e){
-    state.net = cfg.token? 'error' : 'local';
-    state.netMsg = e.message;
-    return false;
-  }
-}
-/* 只有主持人自己按下「发布」才切换当前互动；远端拉回来的数据不会覆盖它 */
-function refreshJoinEvent(){
-  if(state.role!=='host') return;
-  if(state.cfg.eventId && findEvent(state.cfg.eventId)) return;
-  for(var i=state.events.length-1;i>=0;i--){
-    if(state.events[i].type==='event'){ state.cfg.eventId = state.events[i].id; saveLocal(); return; }
-  }
-}
-async function pullAll(){
-  if(!state.cfg.token) return false;
-  if(!state.boardIssue){ var ok = await ensureBoard(); if(!ok) return false; }
-  var slug = '/repos/'+state.cfg.owner+'/'+state.cfg.repo;
-  var all = [];
-  for(var page=1; page<=5; page++){
-    var batch = await gh(slug+'/issues/'+state.boardIssue+'/comments?per_page=100&page='+page);
-    if(!batch || !batch.length) break;
-    all = all.concat(batch);
-    if(batch.length < 100) break;
-  }
-  var evs = decodeComments(all);
-  state.comments = all.length;
-  /* 本机还没发出去的（离线写入）继续保留，联网后自动补发 */
-  state.events.filter(function(e){ return e._pending; }).forEach(function(e){ evs.push(e); });
-  state.events = mergeEvents(evs);
-  state.net = 'online';
-  state.lastSync = nowMs();
-  refreshJoinEvent();
-  saveLocal();
-  flushPending();
-  return true;
-}
-/* 唯一写入口。key 规则：
-   - 一般记录：type + 自己的 id
-   - 投票 / 词云 / 顶 / 反思：type + 归属对象 ref + 人员，同一人的最新一条覆盖旧的一条 */
 function evKey(e){
   if(!e) return '?';
-  var t = e.type || '?';
-  var owner = {vote:'voter', cloud:'voter', up:'voter', reflect:'by'}[t];   /* 同一人的最新一条算最终答案 */
-  if(owner) return t + ':' + (e.ref || e.id || '') + ':' + (e[owner] || 'anon');
-  return t + ':' + (e.id || '');
+  var t = e.type||'?';
+  var owner = {score:'player', joined:'player', vote:'voter', cloud:'voter'}[t];
+  if(owner) return t+':'+(e.ref||e.id||'')+':'+(e[owner]||'anon');
+  return t+':'+(e.id||'');
 }
 function pushEvent(e){
   if(!e.id) e.id = uid();
   var k = evKey(e);
-  for(var i=0;i<state.events.length;i++){
-    if(evKey(state.events[i]) === k){ state.events[i] = e; return e; }
-  }
+  for(var i=0;i<state.events.length;i++){ if(evKey(state.events[i])===k){ state.events[i]=e; return e; } }
   state.events.push(e);
   return e;
 }
-/* 按 id 去重合并：远端与本地乐观写入的同一条事件不会重复计入 */
 function mergeEvents(list){
   var byKey = {}, order = [], anon = [], lastTimer = null;
   (list||[]).forEach(function(e){
@@ -836,6 +518,77 @@ function mergeEvents(list){
   if(lastTimer) out.push(lastTimer);
   return out;
 }
+function ghHeaders(){
+  var h = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+  if(state.cfg.token) h.Authorization = 'Bearer '+state.cfg.token;
+  return h;
+}
+async function gh(pathGet, opt){
+  opt = opt||{};
+  var res = await fetch('https://api.github.com'+pathGet, {
+    method:opt.method||'GET', headers:ghHeaders(),
+    body: opt.body? JSON.stringify(opt.body) : undefined, cache:'no-store'
+  });
+  var text = await res.text(), data = null;
+  try{ data = text? JSON.parse(text) : null; }catch(e){}
+  if(!res.ok){
+    var msg = (data && data.message) || ('HTTP '+res.status);
+    if(res.status===401) msg = 'token invalid or expired (401)';
+    else if(res.status===403) msg = 'permission or rate limit (403): '+msg;
+    else if(res.status===404) msg = 'repo not found or Issues disabled (404)';
+    throw new Error(msg);
+  }
+  return data;
+}
+async function ensureBoard(){
+  var cfg = state.cfg;
+  if(!cfg.token){ state.net='local'; return false; }
+  var slug = '/repos/'+cfg.owner+'/'+cfg.repo;
+  try{
+    if(cfg.issue){
+      try{
+        var iss = await gh(slug+'/issues/'+cfg.issue);
+        if(iss && !iss.pull_request){ state.boardIssue = iss.number; state.net='online'; return true; }
+      }catch(e){}
+    }
+    var found = await gh(slug+'/issues?labels='+encodeURIComponent(cfg.label)+'&state=open&per_page=5');
+    if(found && found.length){
+      state.boardIssue = found[0].number; state.cfg.issue = found[0].number; saveLocal();
+      state.net='online'; return true;
+    }
+    var created = await gh(slug+'/issues', {method:'POST', body:{
+      title:'4MA Arcade · PMGT1852 live board',
+      body:'Written automatically by the 4MA Arcade page. Each comment is one JSON record (score / join / roster / vote). Please do not edit comments by hand.',
+      labels:[cfg.label]
+    }});
+    state.boardIssue = created.number; state.cfg.issue = created.number; saveLocal();
+    state.net='online'; return true;
+  }catch(e){
+    state.net = cfg.token? 'error' : 'local';
+    state.netMsg = e.message;
+    return false;
+  }
+}
+async function pullAll(){
+  if(!state.cfg.token) return false;
+  if(!state.boardIssue){ if(!await ensureBoard()) return false; }
+  var slug = '/repos/'+state.cfg.owner+'/'+state.cfg.repo, all = [];
+  for(var page=1; page<=5; page++){
+    var batch = await gh(slug+'/issues/'+state.boardIssue+'/comments?per_page=100&page='+page);
+    if(!batch || !batch.length) break;
+    all = all.concat(batch);
+    if(batch.length<100) break;
+  }
+  var evs = decodeComments(all);
+  state.comments = all.length;
+  state.events.filter(function(e){ return e._pending; }).forEach(function(e){ evs.push(e); });
+  state.events = mergeEvents(evs);
+  state.net = 'online';
+  state.lastSync = nowMs();
+  saveLocal();
+  flushPending();
+  return true;
+}
 async function flushPending(){
   var pend = state.events.filter(function(e){ return e._pending && !inflight[e.id]; });
   if(!pend.length || !state.cfg.token || !state.boardIssue) return;
@@ -844,1110 +597,1162 @@ async function flushPending(){
     if(inflight[e.id]) continue;
     inflight[e.id] = 1;
     try{
-      var slug2 = '/repos/'+state.cfg.owner+'/'+state.cfg.repo;
-      await gh(slug2+'/issues/'+state.boardIssue+'/comments', {method:'POST', body:{body:encodeEvent(e)}});
+      await gh('/repos/'+state.cfg.owner+'/'+state.cfg.repo+'/issues/'+state.boardIssue+'/comments',
+        {method:'POST', body:{body:encodeEvent(e)}});
       delete e._pending;
     }catch(err){ state.netMsg = err.message; delete inflight[e.id]; break; }
     delete inflight[e.id];
   }
   saveLocal();
-  if(!pend.some(function(e){ return e._pending; })) toast('离线期间的数据已补发到通道','ok');
 }
 async function publish(event){
   event.at = nowMs();
-  if(!event.by) event.by = state.cfg.name || state.me || 'anon';
-  if(!event.id) event.id = uid();   /* 每条事件都有 id：远端与本地合并时按 id 去重 */
-  pushEvent(event);                   // optimistic local echo（按 id 去重）
+  if(!event.id) event.id = uid();
+  if(!event.by) event.by = state.cfg.name || 'anon';
+  pushEvent(event);
   saveLocal();
-  render();
-  if(!state.cfg.token){
-    event._pending = true; saveLocal();
-    toast('已存在本机（未配置数据通道，别人看不到）','err');
-    return false;
-  }
+  if(!state.cfg.token){ event._pending = true; saveLocal(); return false; }
   if(inflight[event.id]) return true;
   inflight[event.id] = 1;
   try{
-    if(!state.boardIssue){ await ensureBoard(); }
-    var slug = '/repos/'+state.cfg.owner+'/'+state.cfg.repo;
-    await gh(slug+'/issues/'+state.boardIssue+'/comments', {method:'POST', body:{body:encodeEvent(event)}});
+    if(!state.boardIssue) await ensureBoard();
+    await gh('/repos/'+state.cfg.owner+'/'+state.cfg.repo+'/issues/'+state.boardIssue+'/comments',
+      {method:'POST', body:{body:encodeEvent(event)}});
     delete event._pending; saveLocal();
-    state.net='online';
+    state.net = 'online';
     return true;
   }catch(e){
     event._pending = true; saveLocal();
-    state.net='error'; state.netMsg=e.message;
-    toast('写入失败（已留在本机，恢复后会自动补发）：'+e.message, 'err');
+    state.net = 'error'; state.netMsg = e.message;
+    toast('Write failed — kept locally and will resend: '+e.message, 'err');
     return false;
   }finally{ delete inflight[event.id]; }
 }
-
-/* ---------- 6. 4MA 内容素材 ---------- */
-var TYPES = [
-  {k:'micro', cn:'微教学 micro-teach', hint:'把一个概念讲到听众能用'},
-  {k:'discuss', cn:'主持讨论 facilitate discussion', hint:'用问题带出全班的想法'},
-  {k:'experiment', cn:'实验 / 小游戏 experiment', hint:'让全班动手体验一个机制'},
-  {k:'case', cn:'案例快评 case debrief', hint:'一个真实项目场景的快速拆解'},
-  {k:'quiz', cn:'快测 quiz / poll', hint:'用几道题暴露常见误区'}
-];
-var WEEKS = [1,2,3,4,5,6,7,8,9,10,11,12,13];
-var IDEAS = [
-  {t:'Salience Model 三属性分类赛', d:'发 6 张匿名 stakeholder 卡片，全班 90 秒内把它们贴进 Power / Legitimacy / Urgency 的 Venn 图 8 个格子里，再解释争议最大的那一张。'},
-  {t:'Bourne Stakeholder Circle 现场画圈', d:'取一个大家都知道的校园项目，用同心圆 + 扇形现场摆出谁是 upward / downward / sideward / outward，再问：谁的扇形被画小了？'},
-  {t:'CATWOE 六格填空', d:'把 WSIA 场景的 CATWOE 六格留空，全班口头填空，最后逼问 Worldview 一格——为什么它一变，整张表都要重写？'},
-  {t:'MoSCoW 撕逼现场', d:'给 8 个需求，4 人一组在 60 秒内分成 Must / Should / Could / Won\'t，然后对比两组差异：Must 为什么不是客观的？'},
-  {t:'TPB 动机推演', d:'给一个「居民反对施工」的场景，让全班分别用 attitude / subjective norms / perceived behavioural control 解释他的行为，并各说一条改变它的干预。'},
-  {t:'Ditches & Red herrings 识别', d:'列出 6 条会议里冒出来的发言，全班举牌判断：topic / ditch / red herring，再问主持人该怎么把它拉回来。'},
-  {t:'提问动词阶梯', d:'把一个烂问题「大家觉得怎么样？」现场升级：换动词（identify / compare / prioritise / predict），看同一主题能问出多少层深度。'},
-  {t:'网络密度快算', d:'给一张 6 人 advice-seeking 矩阵，30 秒算 density 与 betweenness，回答：谁一离开这个网络就断了？'},
-  {t:'情绪与敏感线', d:'念一段典型的项目反馈（内容正确但越过 sensitive line），让全班改写它，使其 verifiable / predictable / controllable。'},
-  {t:'Ladder of inference 复盘', d:'同一个数据「进度落后 10%」，5 个小组写出各自的 beliefs 与 action，对比：分歧发生在哪一级阶梯？'}
-];
-var RECALL = [
-  {q:'一个 stakeholder 同时具备 power 与 legitimacy、但缺 urgency，属于 Salience Model 的哪一类？',
-   o:['Dormant','Discretionary','Dominant','Dangerous'], a:2,
-   e:'Power + Legitimacy = Dominant（4 类），课堂笔记的建议是 bear in mind their expectations / consult them，例如 HR、PR、Board。'},
-  {q:'Bourne Stakeholder Circle 里，一个 stakeholder 的「影响力」是用什么表示的？',
-   o:['片段从圆心伸出的径向长度','扇形在圆周上的宽度','它的颜色','它距离 12 点方向的夹角'], a:1,
-   e:'径向深度（radial depth）= power；圆周上的宽度（segment size on the outer circumference）= influence / importance。这两个量一定要分开记。'},
-  {q:'Density 的公式，在 N 个节点、t 条 tie 的无向图里是哪一个？',
-   o:['t / N(N−1)','t / [N(N−1)/2]','2t / N','t / (N−1)'], a:1,
-   e:'Density = t / [N(N−1)/2]，即「实际存在的 tie 占所有可能 tie 的比例」。分母忘了除以 2 是最常见的错误。'},
-  {q:'反馈要尽量不穿越对方的 sensitive line，下面哪一组条件最符合课程笔记？',
-   o:['verifiable / predictable / controllable','specific / emotional / urgent','public / anonymous / written','interpretive / surprising / global'], a:0,
-   e:'信息如果 verifiable、predictable、controllable，就不容易触发 threat–rigidity response。所以反馈要 observable、specific、repeatable。'},
-  {q:'一个 session 的 Product 分成 Hands / Heads / Hearts，其中 Hearts 指的是什么？',
-   o:['可交付的实物','知识与理解','信念、态度、信任与承诺','会议记录'], a:2,
-   e:'Hands = 实物产出；Heads = 知识与理解；Hearts = beliefs, attitudes, trust and commitment。4MA 的 4 分钟通常只够拿下一个 H。'},
-  {q:'把「why 开会 / 要产出什么 / 谁来 / 可能出什么岔子 / 怎么排流程」按 5 Ps 的正确准备顺序排列，应该是：',
-   o:['Process 最先，其余随意','Purpose → Product → Participants → Probable Issues → Process','Participants → Purpose → Process → Product → Probable Issues','Product → Process → Purpose → Participants → Probable Issues'], a:1,
-   e:'Process（议程）必须最后设计，它服务于前面四个 P。Principals\' Conference 的教训就是先排议程和讲者，结果近一半 programme 重做。'},
-  {q:'Bourne 的 5-step 方法里，颜色 orange（upwards）指的是谁？',
-   o:['项目团队成员与供应商','活动经理的同级 peers','高级管理者 / senior managers','外部终端用户与公众'], a:2,
-   e:'Orange = upwards = senior managers；Green = downwards = team / suppliers；Purple = sideward = peers；Blue = outwards = end users、Government、public、shareholders。'},
-  {q:'下面哪个说法最贴近 TPB（Theory of Planned Behaviour）在 stakeholder motivation 上的用法？',
-   o:['行为只由经济利益决定','intention 受 attitude、subjective norms、perceived behavioural control 共同影响','stakeholder 永远完全理性','动机无法被干预'], a:1,
-   e:'TPB：attitude + subjective norms + perceived behavioural control → intention → behaviour。这也正是为什么利益相关者的动机可以被具体干预。'}
-];
-
-/* ---------- 7. 渲染：首页 ---------- */
-function hostURL(){
-  return location.origin + location.pathname;
+function scores(){ return state.events.filter(function(e){ return e.type==='score'; }); }
+function joined(){ return state.events.filter(function(e){ return e.type==='joined'; }); }
+function bestByPlayer(){
+  var m = {};
+  scores().forEach(function(s){
+    var k = s.player||'anon';
+    if(!m[k] || Number(s.total) > Number(m[k].total)) m[k] = s;
+  });
+  return m;
 }
-function joinURL(room, ev){
-  var base = hostURL() + '?role=join&room=' + encodeURIComponent(room||state.room||'');
-  if(ev) base += '#' + encodeEvent({t:ev.kind, i:ev.id, p:ev.prompt, o:ev.opts});
-  return base;
+function leaderboard(){
+  var m = bestByPlayer();
+  return Object.keys(m).map(function(k){ return m[k]; })
+    .sort(function(a,b){ return Number(b.total)-Number(a.total); });
 }
-function renderHomeStats(){
-  var su = signups();
-  var weeksTaken = {};
-  su.forEach(function(s){ weeksTaken[s.week] = (weeksTaken[s.week]||0)+1; });
-  var votes = state.events.filter(function(e){ return e.type==='vote'; }).length;
-  var qs = questions().length;
-  var html = [
-    stat(su.length, '已占位人数 signups'),
-    stat(Object.keys(weeksTaken).length + ' / 13', '已被占用的周次'),
-    stat(votes, '现场投票数 votes'),
-    stat(qs, '提问墙问题 questions')
-  ].join('');
-  $('#home-stats').innerHTML = html;
+function bestFor(gameId, player){
+  var me = player || state.cfg.name || '';
+  var b = 0;
+  scores().forEach(function(s){
+    if(s.game===gameId && (!me || s.player===me) && Number(s.total)>b) b = Number(s.total);
+  });
+  return b;
 }
-function stat(n,l){
-  return '<div class="stat"><div class="n">'+esc(n)+'</div><div class="l">'+esc(l)+'</div></div>';
-}
-function renderWeeks(){
-  var su = signups();
-  var html = WEEKS.map(function(w){
-    var slots = su.filter(function(s){ return Number(s.week)===w; }).sort(function(a,b){ return a.slot-b.slot; });
-    var full = slots.length >= 2;
-    var inner = [1,2].map(function(n){
-      var s = null;
-      slots.forEach(function(x){ if(Number(x.slot)===n) s = x; });
-      if(!s) return '<div class="slot free">Slot '+n+' · 空闲</div>';
-      var t = TYPES.filter(function(t){ return t.k===s.activity; })[0];
-      return '<div class="slot taken"><b>'+esc(s.name)+'</b>'+
-             '<span class="mut">S'+n+' · '+esc((t? t.cn : (s.activity||'')).split(' ')[0])+'</span>'+
-             (s.title? '<br><span class="mut">'+esc(s.title.slice(0,18))+'</span>':'')+'</div>';
-    }).join('');
-    return '<div class="wkcard'+(full?' full':'')+'">'+
-      '<div class="wkh"><b>Week '+w+'</b>'+(full? '<span class="badge gold">满</span>' : '<span class="badge ok">可报</span>')+'</div>'+
-      inner + '</div>';
-  }).join('');
-  $('#week-grid').innerHTML = html;
-}
-function renderSignupForm(){
-  var sel = state.pickWeek || 1;
-  var weekOpts = WEEKS.map(function(w){ return '<option value="'+w+'"'+(Number(sel)===w?' selected':'')+'>Week '+w+'</option>'; }).join('');
-  var typeOpts = TYPES.map(function(t,i){
-    return '<label><input type="radio" name="act" value="'+t.k+'"'+(i===0?' checked':'')+'>'+esc(t.cn)+'</label>';
-  }).join('');
-  $('#signup-form').innerHTML =
-    '<label class="field"><span class="lb">你的名字 <i>name</i></span>'+
-      '<input class="inp" id="su-name" value="'+esc(state.cfg.name||'')+'" placeholder="例：Hudson W."></label>'+
-    '<div class="row" style="gap:12px">'+
-      '<label class="field" style="flex:1;min-width:130px"><span class="lb">学期周 <i>week</i></span>'+
-        '<select class="inp" id="su-week">'+weekOpts+'</select></label>'+
-      '<label class="field" style="flex:1;min-width:130px"><span class="lb">第几个 slot <i>slot</i></span>'+
-        '<select class="inp" id="su-slot"><option value="1">Slot 1</option><option value="2">Slot 2</option></select></label>'+
-    '</div>'+
-    '<div class="field"><span class="lb">活动类型 <i>activity type</i></span><div class="typegrid">'+typeOpts+'</div></div>'+
-    '<label class="field"><span class="lb">活动标题 <i>working title</i></span>'+
-      '<input class="inp" id="su-title" placeholder="例：Salience Model 三属性分类赛"></label>'+
-    '<div class="row"><button class="btn pri" type="button" id="btn-signup">我要这个 slot</button>'+
-      '<span class="mini">名额满了也能排队，老师会看到。</span></div>';
-}
-function renderSignupTable(){
-  var su = signups().sort(function(a,b){ return Number(a.week)-Number(b.week) || a.slot-b.slot; });
-  if(!su.length){ $('#signup-table').innerHTML = '<div class="mut" style="font-size:13.5px">还没有人占位。第一个吃螃蟹的人拿到的反馈最多。</div>'; return; }
-  var rows = su.map(function(s){
-    var t = TYPES.filter(function(t){ return t.k===s.activity; })[0];
-    var d = designFor(s.week, s.name);
-    var ps = d && d.design? d.design : null;
-    var filled = ps? ['purpose','product','participants','issues','process'].filter(function(k){
-      return ps[k] && String(ps[k]).trim().length>0; }).length : 0;
-    return '<tr><td><b>W'+esc(s.week)+'</b> · Slot '+esc(s.slot)+'</td><td>'+esc(s.name)+'</td>'+
-      '<td>'+esc(t? t.cn : s.activity)+'</td><td>'+esc(s.title||'—')+'</td>'+
-      '<td>'+(ps? '<span class="badge '+(filled>=5?'ok':'gold')+'">'+filled+'/5 Ps</span>' : '<span class="badge">未提交设计</span>')+'</td></tr>';
-  }).join('');
-  $('#signup-table').innerHTML = '<table class="tb"><thead><tr><th>时段</th><th>姓名</th><th>类型</th><th>标题</th><th>设计</th></tr></thead><tbody>'+rows+'</tbody></table>';
-}
-
-/* ---------- 8. 渲染：设计器 ---------- */
-var PS = [
-  {k:'purpose',   n:'1', cn:'Purpose', zh:'为什么做这 4 分钟？目标是什么？',
-   ph:'例：让全班能用自己的话区分 power / legitimacy / urgency 三个属性。'},
-  {k:'product',   n:'2', cn:'Product', zh:'怎么算达到了目的？尽量写清 Hands / Heads / Hearts。',
-   ph:'Heads：全班能说出三属性的差别；Hands：白板上留下 8 类 stakeholder 的归类结果。'},
-  {k:'participants', n:'3', cn:'Participants', zh:'谁来、来几个、他们凭什么能回应你？',
-   ph:'全班约 30 人，都读过 Week 6 前测；其中 2 位有真实项目经验，可以当反例来源。'},
-  {k:'issues',    n:'4', cn:'Probable Issues', zh:'Topics / Ditches / Red herrings 各是什么？',
-   ph:'Topics：三属性定义与归类争议。Ditches：有人拿 Salience 与 Bourne 的 proximity 混着吵。Red herrings：扯到上个作业评分。'},
-  {k:'process',   n:'5', cn:'Process', zh:'4 分钟怎么排？写成时间轴，一行一个节拍。',
-   ph:'0:00 开场问题｜0:20 发卡片＋说明规则｜1:10 全班归类｜2:40 挑 1 张争议卡解释｜3:30 收束＋一句 takeaway'}
-];
-function renderDesignForm(){
-  var d = (state.draft && state.draft.design) || {};
-  $('#design-form').innerHTML = PS.map(function(p){
-    return '<div class="psrow" data-ps="'+p.k+'">'+
-      '<div class="h"><span class="k">'+p.n+'</span><b>'+esc(p.cn)+'</b><span class="en">'+esc(p.zh)+'</span></div>'+
-      '<textarea class="inp" data-k="'+p.k+'" placeholder="'+esc(p.ph)+'">'+esc(d[p.k]||'')+'</textarea>'+
-    '</div>';
-  }).join('') +
-  '<div class="row" style="gap:12px">'+
-    '<label class="field" style="flex:1;min-width:140px"><span class="lb">活动类型 <i>type</i></span>'+
-      '<select class="inp" id="ds-type">'+TYPES.map(function(t){
-        return '<option value="'+t.k+'"'+(d.activity===t.k?' selected':'')+'>'+esc(t.cn)+'</option>'; }).join('')+'</select></label>'+
-    '<label class="field" style="flex:1;min-width:120px"><span class="lb">学期周 <i>week</i></span>'+
-      '<select class="inp" id="ds-week">'+WEEKS.map(function(w){
-        return '<option value="'+w+'"'+(Number(d.week)===w?' selected':'')+'>Week '+w+'</option>'; }).join('')+'</select></label>'+
-  '</div>'+
-  '<div class="row" id="ds-extra"></div>';
-  var d2 = d.extra || {};
-  $('#ds-extra').innerHTML =
-    '<label class="field" style="flex:2;min-width:200px"><span class="lb">3 Hs 主攻哪一个 <i>primary H</i></span>'+
-      '<select class="inp" id="ds-h">'+['Heads｜知识与理解','Hearts｜信念与承诺','Hands｜实物产出'].map(function(x,i){
-        return '<option'+(d2.h===i?' selected':'')+'>'+esc(x)+'</option>'; }).join('')+'</select></label>'+
-    '<label class="field" style="flex:3;min-width:200px"><span class="lb">开场问题 <i>starting question</i></span>'+
-      '<input class="inp" id="ds-open" value="'+esc(d2.open||'')+'" placeholder="例：如果只能看一个属性，你会先看哪个？为什么？"></label>';
-}
-function readDesign(){
-  var d = {
-    purpose:$('[data-k="purpose"]')? $('[data-k="purpose"]').value : '',
-    product:$('[data-k="product"]')? $('[data-k="product"]').value : '',
-    participants:$('[data-k="participants"]')? $('[data-k="participants"]').value : '',
-    issues:$('[data-k="issues"]')? $('[data-k="issues"]').value : '',
-    process:$('[data-k="process"]')? $('[data-k="process"]').value : '',
-    activity:$('#ds-type')? $('#ds-type').value : 'micro',
-    week:$('#ds-week')? Number($('#ds-week').value) : 1,
-    extra:{ h: $('#ds-h')? $('#ds-h').selectedIndex : 0, open: $('#ds-open')? $('#ds-open').value : '' }
-  };
-  return d;
-}
-function designChecks(d){
+/* 名单是「最新一次共享快照」的投影：先看通道里的记录，没有才用本机副本。
+   这样增删都只是再发一次快照，不会出现本地和远端的列表互相把对方加回来。 */
+function rosterNames(){
+  var snap = null;
+  state.events.forEach(function(e){ if(e.type==='roster' && e.names) snap = e; });
+  var src = snap? snap.names : state.roster;
   var out = [];
-  function add(lv, t, why){ out.push({lv:lv, t:t, why:why}); }
-  var purpose = (d.purpose||'').trim(), product = (d.product||'').trim();
-  var issues = (d.issues||'').trim(), process = (d.process||'').trim(), who = (d.participants||'').trim();
-  if(!purpose) add('bad','Purpose 还是空的','5 Ps 的第一格。没有 purpose，后面四格都会变成摆设——Principals\' Conference 就是这么崩的。');
-  else if(purpose.length < 18) add('warn','Purpose 太短','写成「让全班能……」，要能被 Product 检验。');
-  else add('ok','Purpose 有方向','可以继续追问：4 分钟后我凭什么知道它达成了？');
-  if(!product) add('bad','Product 没写','Hands / Heads / Hearts 至少各问一句：留下什么、懂了什么、信了什么。');
-  else{
-    var hHits = ['hand','heads','head','heart','hands','实物','输出','产出','懂','理解','信','承诺','态度'];
-    var hasH = hHits.some(function(k){ return product.toLowerCase().indexOf(k)>=0; });
-    add(hasH?'ok':'warn', hasH? 'Product 里能看到 3 Hs 的影子':'Product 缺少 3 Hs 的落点','Hands = 实物；Heads = 知识；Hearts = 信念/信任/承诺。4 分钟通常只够主攻一个，其余算收获。');
-    var hn = (product.match(/[；;、,，]/g)||[]).length;
-    if(hn >= 3) add('warn','Product 想要的东西偏多','一个 4 分钟 session 塞 4 个以上产出，通常哪个都拿不到。挑一个主产出。');
-  }
-  if(!who) add('bad','Participants 没写','要写清人数、背景、以及他们凭什么能回应你——这决定了你的提问动词。');
-  else{
-    var m = who.match(/(\d{1,3})\s*(人|位|个|名)?/);
-    var n = m? Number(m[1]) : 0;
-    if(n >= 25) add('warn','人数偏大（'+n+' 人）','Direction-setting 12–24 人、Creation 7–16、Resolution 3–9。30 人的班里，需要能把全班同时拉进来的机制（举牌、卡片、站位）。');
-    else if(n>0 && n<3) add('warn','人数偏少（'+n+' 人）','3 人以下更接近访谈而不是 facilitated session。');
-    else if(n>0) add('ok','人数在可引导区间','人数一旦确定，Process 的形态也就定了：小组 or 全班。');
-    else add('ok','Participants 写了背景','再补一个人数，方便决定是否需要分组。');
-  }
-  if(!issues) add('bad','Probable Issues 空着','必须写 Topics / Ditches / Red herrings 三类——特别是 red herrings，现场扯开话题时你要有脚本把它拉回来。');
-  else{
-    var low = issues.toLowerCase();
-    var hasD = low.indexOf('ditch')>=0 || low.indexOf('岔')>=0 || low.indexOf('雷')>=0 || low.indexOf('坑')>=0;
-    var hasR = low.indexOf('red herring')>=0 || low.indexOf('无关')>=0 || low.indexOf('跑题')>=0 || low.indexOf('闲')>=0;
-    if(hasD && hasR) add('ok','三类问题都识别到了','Ditches 是要处理的难点，Red herrings 是要忽略并拉回的干扰——处理方式完全不同。');
-    else if(hasD || hasR) add('warn','只覆盖了 Ditches 或 Red herrings 之一','Ditch 需要正面处理（可能得改流程）；red herring 需要礼貌地切断并回到 topics。');
-    else add('warn','没区分 ditch 与 red herring','把「可能吵起来的争议」和「纯粹跑题」分开写，现场反应会快很多。');
-  }
-  if(!process) add('bad','Process 还没排','时间轴建议：开场问题 ≤20 秒、主体 ≤2 分半、收束 ≤40 秒。');
-  else{
-    var steps = parseLines(process).length;
-    var marks = process.match(/\d+\s*[:：]\s*\d{1,2}/g) || [];
-    if(!marks.length) add('warn','Process 没标时间','写成「0:00 / 0:20 / 1:10 …」，4 分钟里你才有余量做调整。');
-    else{
-      add('ok','Process 有时间轴（'+marks.length+' 个节拍）','节拍越具体，现场越不容易被 red herring 带走。');
-      var times = marks.map(function(x){ var p = x.split(/[:：]/); return Number(p[0])*60 + Number(p[1]); });
-      var last = Math.max.apply(null, times);
-      if(last > 240) add('bad','时间轴超过 4 分钟（最后停在 '+clock(last*1000)+'）','4MA 硬上限 4 分钟。删掉一个节拍，或把解释压到 20 秒。');
-      else if(last < 150) add('warn','时间轴偏短（最后停在 '+clock(last*1000)+'）','留太多空白容易被 red herring 填满；把主体拉长或加一个收束问题。');
-      else add('ok','总时长在 4 分钟以内','最后 20 秒一定留给 takeaway，不要用来赶进度。');
-    }
-    if(steps >= 7) add('warn','节拍偏多（'+steps+' 行）','4 分钟里 7 个以上节拍基本念不完，合并到 4–6 个。');
-  }
-  var op = (d.extra && d.extra.open) || '';
-  if(!op) add('warn','还没写开场问题','开场问题决定后面 3 分半的走向：strong starting question + 合适动词。');
-  else{
-    var weak = ['怎么样','好不好','有没有意见','随便说','谈谈看法'];
-    var isWeak = weak.some(function(w){ return op.indexOf(w)>=0; });
-    if(isWeak) add('warn','开场问题偏弱','把动词升级：identify / compare / prioritise / predict / challenge。问「哪个属性最容易被误读」比问「怎么看」能拿到更具体的数据。');
-    else add('ok','开场问题够具体','记住三件事：一次只问一个问题、动词明确、答案可被检验。');
-  }
+  (src||[]).forEach(function(n){ if(n && out.indexOf(n)<0) out.push(n); });
   return out;
 }
-function renderDesignChecks(d){
-  var list = designChecks(d);
-  var score = list.filter(function(x){ return x.lv==='ok'; }).length;
-  var html = '<div class="mini" style="margin-bottom:8px">'+list.filter(function(x){return x.lv==='ok';}).length+' 项通过 · '+
-    list.filter(function(x){return x.lv==='warn';}).length+' 项待改 · '+
-    list.filter(function(x){return x.lv==='bad';}).length+' 项缺失</div>' +
-    list.map(function(x){
-      var mk = x.lv==='ok'? '✓' : (x.lv==='warn'? '!' : '×');
-      return '<div class="chk '+x.lv+'"><span class="mk">'+mk+'</span><span class="tx"><b>'+esc(x.t)+'</b><span>'+esc(x.why)+'</span></span></div>';
-    }).join('');
-  $('#design-checks').innerHTML = html;
+function setRoster(names){
+  state.roster = names.slice();
+  saveLocal();
+  publish({type:'roster', id:uid(), by:state.cfg.name||'host', names:names.slice(), at:nowMs()});
 }
-function buildPlan(d){
-  var t = TYPES.filter(function(x){ return x.k===d.activity; })[0] || TYPES[0];
-  var H = ['Heads（知识）','Hearts（信念/承诺）','Hands（实物）'][ (d.extra&&d.extra.h)||0 ];
-  var L = [];
-  L.push('=== 4MA Run Sheet · Week ' + (d.week||'?') + ' · ' + t.cn + ' ===');
-  L.push('主攻：' + H + '｜总时长 4:00');
-  L.push('');
-  L.push('【开场 0:00】');
-  L.push('  "4 分钟，一个问题，全班一起答。"');
-  L.push('  ' + (d.extra && d.extra.open ? '"' + d.extra.open + '"' : '"（先写下你的开场问题）"'));
-  L.push('  → 停 5 秒，让第一个答案自己冒出来；不要自己先答。');
-  L.push('');
-  L.push('【Purpose】' + (d.purpose||'（未填）'));
-  L.push('【Product】' + (d.product||'（未填）'));
-  L.push('【Participants】' + (d.participants||'（未填）'));
-  L.push('【Probable Issues】' + (d.issues||'（未填）'));
-  L.push('');
-  L.push('【流程 Process】');
-  parseLines(d.process).forEach(function(line, i){
-    L.push('  ' + (i+1) + '. ' + line);
-  });
-  if(!parseLines(d.process).length) L.push('  （未填）');
-  L.push('');
-  L.push('【收束 3:40–4:00】');
-  L.push('  "所以回到最开始那个问题——现在你的答案变了吗？变在哪？"');
-  L.push('  一句 takeaway：' + ((d.product||'').split(/[；;。\n]/)[0] || '（未填）'));
-  L.push('');
-  L.push('【自救脚本】');
-  L.push('  跑题（red herring）："这个值得另开一个 session——我们先回到 X。"');
-  L.push('  冷场："先各自想 10 秒，然后我点名一个。"');
-  L.push('  争论（ditch）："把它记在白板上，最后 30 秒我们一起看它值不值得展开。"');
-  L.push('  超时："时间到，我把剩下的结论发到 Canvas。"');
-  L.push('');
-  L.push('【台下自检】一次只问一个问题 / 动词明确 / 答案可被检验 / 最后留一句 takeaway');
-  return L.join('\n');
+function teamNames(){
+  var r = rosterNames();
+  return r.length? r : ['Mei L.','Arjun K.','Sam T.','Lena P.','Yuki N.','Priya R.'];
 }
-function renderPlan(d){
-  $('#plan-out').textContent = buildPlan(d);
+function lastTimer(){
+  for(var i=state.events.length-1;i>=0;i--){ if(state.events[i].type==='setTimer') return state.events[i]; }
+  return null;
 }
-function renderRecall(){
-  if($('#recall').children.length) return;
-  $('#recall').innerHTML = RECALL.map(function(item, qi){
-    var o = item.o.map(function(txt, oi){
-      return '<button class="opt" type="button" data-qi="'+qi+'" data-oi="'+oi+'">'+String.fromCharCode(65+oi)+'. '+esc(txt)+'</button>';
-    }).join('');
-    return '<div class="mcq" data-q="'+qi+'"><div class="q">'+esc(item.q)+'</div>'+o+
-      '<div class="fb">'+esc(item.e)+'</div></div>';
-  }).join('');
-}
-function renderDesignAll(){
-  if(!state.draft) state.draft = {design:{}};
-  renderDesignForm();
-  var d = readDesign();
-  state.draft.design = d;
-  renderDesignChecks(d);
-  renderPlan(d);
-  var filled = ['purpose','product','participants','issues','process'].filter(function(k){ return (d[k]||'').trim(); }).length;
-  $('#design-status').textContent = '草稿自动保存在本机 · 5 Ps 已填 ' + filled + '/5';
+function liveGame(){
+  var m = {};
+  state.events.forEach(function(e){ if(e.type==='roundStart' && e.game) m[e.game] = e; });
+  var games = Object.keys(m);
+  if(!games.length) return null;
+  games.sort(function(a,b){ return (m[b].at||0)-(m[a].at||0); });
+  return m[games[0]];
 }
 
-/* ---------- 9. 渲染：现场引导 ---------- */
-function evLabel(t){
-  return {poll:'单选 poll', multi:'多选 multi', rating:'1–5 评分 rating', cloud:'词云 word cloud', qa:'提问墙 Q&A', reflect:'反思 reflect'}[t] || t;
+/* ---------- 2. content: PMGT1852 ---------- */
+var GAMES = [
+  {id:'salience', no:'GAME 01', title:'Sort the Salience Model', tag:'Mitchell, Agle & Wood (1997)',
+   desc:'Eight stakeholder cards. Drop each one into the class its attributes actually earn — power, legitimacy, urgency, and the combinations.',
+   skill:'Weeks 3 & 6 · stakeholder analysis, prioritisation', secs:60,
+   levels:['Dormant','Discretionary','Demanding','Dominant','Dangerous','Dependent','Definitive','Non-stakeholder']},
+  {id:'catwoe', no:'GAME 02', title:'CATWOE, missing piece', tag:'Checkland · root definition',
+   desc:'A root definition with one element blanked out. Name the missing letter — and learn why the worldview moves everything else.',
+   skill:'Week 3 · CATWOE, problem structuring', secs:45, levels:['C','A','T','W','O','E']},
+  {id:'facilitate', no:'GAME 03', title:'What would a facilitator do?', tag:'Secrets of Facilitation · Weeks 4–5',
+   desc:'Cold rooms, red herrings, sponsors who will not stop talking. Pick the move that guides by asking rather than telling.',
+   skill:'Weeks 4–5 · starting &amp; reacting questions, 5 Ps', secs:60, levels:[]},
+  {id:'network', no:'GAME 04', title:'Stakeholder network maths', tag:'SNA · density, degree, betweenness',
+   desc:'A little advice-seeking network drawn on screen. Count the ties, then compute density against the clock.',
+   skill:'Week 6 · network analytics', secs:60, levels:[]}
+];
+var SALIENCE = [
+  {who:'A residents\u2019 action group that could stall approvals if it organises', a:'Dormant',
+   why:'Power only. It holds the ability to disrupt but no legitimacy or urgency yet — keep it on the radar, not in the meeting.'},
+  {who:'A youth charity that receives a share of project revenue', a:'Discretionary',
+   why:'Legitimacy only. No power, no urgency — keep satisfied with a regular update rather than a seat at the table.'},
+  {who:'A ratepayer who emails the project inbox every single day', a:'Demanding',
+   why:'Urgency only. It demands attention but addressing it does not move the project — do not spend your scarce four minutes here.'},
+  {who:'Human Resources and the Board', a:'Dominant',
+   why:'Power plus legitimacy, no urgency. Bear their expectations in mind and consult them before decisions that touch them.'},
+  {who:'A state politician attacking the project in the media without any project role', a:'Dangerous',
+   why:'Power plus urgency without legitimacy. Consult or satisfy carefully — it can force itself onto your critical path.'},
+  {who:'An environmental group with a legitimate claim but no direct authority', a:'Dependent',
+   why:'Legitimacy plus urgency, no power. It influences you indirectly through stakeholders who do hold power.'},
+  {who:'The project manager and the core delivery team', a:'Definitive',
+   why:'All three attributes. These are the critical stakeholders — the ones your engagement plan is really written for.'},
+  {who:'An unrelated hobby club in another state that has never heard of the project', a:'Non-stakeholder',
+   why:'No power, no legitimacy, no urgency. Investing engagement effort here is the classic misallocation.'},
+  {who:'A supplier whose contract renews next week and who can walk', a:'Dangerous',
+   why:'Power plus urgency: it can stop you, now, without needing legitimacy in your governance to do it.'},
+  {who:'The regulator that must sign off before commissioning', a:'Definitive',
+   why:'Power, legitimacy and urgency all present — the definitive class, where you focus first.'},
+  {who:'A neighbouring council with no jurisdiction over the site', a:'Discretionary',
+   why:'Legitimacy without power or urgency: keep it informed and satisfied, and do not let it set your agenda.'},
+  {who:'A media outlet that could run an expos\u00e9 this week', a:'Dangerous',
+   why:'Power plus urgency without a formal stake: dangerous, and best handled before it becomes urgent.'}
+];
+var CATWOE = [
+  {scene:'A hospital wants to cut patient waiting time in emergency.',
+   missing:'W', prompt:'Which element is missing?',
+   text:'C: patients · A: clinicians and triage nurses · T: paper triage to digital queue · W: ??? · O: hospital board · E: health funding rules',
+   right:'Worldview',
+   why:'W is the worldview: the belief that waiting time is a clinical-safety problem rather than a resourcing problem. Change W and the whole root definition has to be rewritten — that is the point of CATWOE.'},
+  {scene:'A university wants to lift workshop participation.',
+   missing:'C', prompt:'Which element is missing?',
+   text:'C: ??? · A: unit coordinators · T: passive lectures to facilitated workshops · W: students learn by doing · O: the school · E: timetable and room limits',
+   right:'Customers',
+   why:'C is the customer: whoever benefits from or is affected by the transformation — here the students, and arguably their future employers. CATWOE starts by naming who the system is for.'},
+  {scene:'A council wants to reduce illegal dumping.',
+   missing:'T', prompt:'Which element is missing?',
+   text:'C: residents · A: waste officers · T: ??? · W: visible enforcement changes behaviour · O: ratepayers · E: state waste regulation',
+   right:'Transformation',
+   why:'T is the transformation: the input-to-output change the system performs (unmanaged waste \u2192 compliant disposal). If T is vague, nobody can tell whether the project worked.'},
+  {scene:'A bank wants to speed up small-business loan approval.',
+   missing:'A', prompt:'Which element is missing?',
+   text:'C: small-business owners · A: ??? · T: manual review to rules-assisted decisioning · W: speed wins customers without raising default risk · O: the board · E: prudential regulation',
+   right:'Actors',
+   why:'A is the actors: those who do the transforming. Naming them separates the people who perform the work from the customers who receive it — a distinction that changes the engagement list.'},
+  {scene:'A construction project wants to cut community complaints.',
+   missing:'O', prompt:'Which element is missing?',
+   text:'C: neighbours and road users · A: community liaison team · T: reactive complaints to proactive notification · W: predictable disruption is more tolerable than surprise · O: ??? · E: planning conditions',
+   right:'Owner',
+   why:'O is the owner: the party with the authority to stop or sanction the transformation. In 4MA terms, the owner is usually the person you must keep satisfied, not the person you facilitate.'},
+  {scene:'A startup wants to enter a regulated market.',
+   missing:'E', prompt:'Which element is missing?',
+   text:'C: early adopters · A: founders and two engineers · T: prototype to certified product · W: compliance is a feature, not a tax · O: the board · E: ???',
+   right:'Environment',
+   why:'E is the environment: the constraints outside the system — regulators, standards, market conditions. Naming E is what stops a root definition from being an exercise in wishful thinking.'},
+  {scene:'A project team wants to fix chronic rework.',
+   missing:'W', prompt:'Which element is missing?',
+   text:'C: the client and the delivery team · A: design and QA · T: rework loops to first-time-right flow · W: ??? · O: the project sponsor · E: fixed price contract',
+   right:'Worldview',
+   why:'Here W is the belief that rework is a process defect rather than an unavoidable cost of complexity. Worldview drives which interventions get funded — the rework cycle in one move.'},
+  {scene:'A school wants to introduce a wellbeing programme.',
+   missing:'C', prompt:'Which element is missing?',
+   text:'C: ??? · A: teachers and counsellors · T: reactive referrals to timetabled wellbeing · W: emotional skills are teachable · O: the principal · E: curriculum hours and funding',
+   right:'Customers',
+   why:'The customers are the students — and, in the lean version of CATWOE, also the parents and staff affected. Getting C wrong quietly turns a wellbeing programme into an admin programme.'}
+];
+var FACILITATE = [
+  {scene:'You asked a question and the room went silent.',
+   opts:['Answer it yourself to keep the pace up','Say: "Take ten seconds on your own, then I will ask two people"','Repeat the question louder','Move on to the next agenda item'],
+   a:1, right:'Think, then name',
+   why:'Guides by asking, not telling. A short think-time plus a named pick removes the fear of the cold call while keeping the thinking with the room.'},
+  {scene:'A participant drags the discussion into last week\u2019s assignment marking.',
+   opts:['Let it run — engagement is engagement','Say: "That deserves its own session; we are on X until 3:40" and return','Ask the group to vote on which topic to continue','Ask the sponsor to intervene'],
+   a:1, right:'Name it, park it, return',
+   why:'This is a red herring, not a ditch: unrelated and low value. Acknowledge it, park it explicitly, restate the topic. Voting spends the four minutes you do not have.'},
+  {scene:'Two participants are now arguing about the definition of proximity.',
+   opts:['Cut it off and move on','Put both definitions on the flip chart and test them against one example','Take a vote on whose definition is right','Let them finish to avoid seeming rude'],
+   a:1, right:'Make the disagreement visible',
+   why:'This is a ditch — a real issue that can derail you but is worth something. Externalise it, then test it against evidence. Suppressing it just moves the argument into the corridor.'},
+  {scene:'You have 40 seconds left and one product still unstated.',
+   opts:['Extend by five minutes to finish properly','State the takeaway yourself and send the rest by Canvas','Ask the room to speed up','Drop the product silently'],
+   a:1, right:'Close on the takeaway',
+   why:'4MA is a hard four minutes. A facilitator protects the close: one clear takeaway in the room, detail afterwards. Running over breaks the contract with the next presenter.'},
+  {scene:'You have a strong starting question and 30 seconds before you begin.',
+   opts:['Add a second question so people have options','Check the room can hear you and restate the one question','Explain the theory first so the question lands','Hand out a reading list'],
+   a:1, right:'One question, clearly heard',
+   why:'A strong starting question is singular and answerable. Adding a second one splits attention, and theory-first turns a facilitation into a lecture.'},
+  {scene:'The sponsor, who is attending, answers your opening question immediately and in detail.',
+   opts:['Let the sponsor set the tone — it shows support','Thank them, then redirect: "Who else sees it differently?"','Ask the sponsor to leave','Ask the sponsor to summarise at the end instead'],
+   a:1, right:'Redirect the floor',
+   why:'Sponsor attendance can inhibit honesty. Ask them not to be first, second or third to speak on an issue; if it happens, take the floor back with a question rather than a correction.'},
+  {scene:'A participant says your proposed activity will not work with this cohort.',
+   opts:['Defend the design — you researched it','Ask what they would change, then test one change','Move straight to the next activity','Ask the group to vote against them'],
+   a:1, right:'Improve, do not defend',
+   why:'Week 5 briefing practice: invite improvements to the process before the session starts. A participant who names a flaw has just done your red-team work for you.'},
+  {scene:'You are choosing participants for a 12-person, direction-setting session.',
+   opts:['Twelve people who already agree with the proposal','A mix of communication styles, levels and functions, including one opinion leader','Only the people who can decide','Anyone who is free that hour'],
+   a:1, right:'Deliberate mix',
+   why:'Direction-setting sessions run 12\u201324 and need representation across styles, knowledge, departments and organisational levels. A homogeneous group produces confident, useless agreement.'},
+  {scene:'Someone offers an idea you think is wrong, early in the session.',
+   opts:['Say "that will not work because..."','Ask: "What would have to be true for that to work?"','Ignore it and move on','Note it as a risk for later'],
+   a:1, right:'Float, do not flatten',
+   why:'A reacting question tests an idea without owning it. The group does the evaluation, you keep the process role — and the person does not cross their sensitive line.'},
+  {scene:'Ten minutes in, you notice you have talked for six of them.',
+   opts:['Keep going — you are the expert','Ask the room a question and stay quiet for three answers','Ask the room whether you should continue','Summarise and end early'],
+   a:1, right:'Give the airtime back',
+   why:'Facilitation is measured by what the room produces, not by what you said. The fastest correction is a question plus silence.'},
+  {scene:'You must open a session on a topic the room finds dull.',
+   opts:['Start with the agenda and the housekeeping','Open with a concrete, contestable question about their own work','Apologise for the topic','Show the theory slides first'],
+   a:1, right:'Open with a contestable question',
+   why:'A strong starting question earns attention before housekeeping spends it. Concrete and contestable beats important and abstract every time.'},
+  {scene:'Mid-session, a participant\u2019s data contradicts the sponsor\u2019s position.',
+   opts:['Move on quickly to protect the sponsor','Put the data on the flip chart and ask what it changes','Ask the participant to raise it privately','Ask the sponsor to respond in detail'],
+   a:1, right:'Make the data the object',
+   why:'Putting the artefact up makes the evidence the subject of the conversation rather than the person. It protects the relationship and keeps the issue on the table.'}
+];
+var DENSITY_ITEMS = [
+  'safety incident log','cost report','risk register','weekly progress pack','RFI tracker','variation register',
+  'site diary','QA checklist','handover plan','procurement schedule','earned value report','stakeholder map'
+];
+
+/* ---------- 3. game builders ---------- */
+function buildSalience(n){
+  var cards = shuffle(SALIENCE).slice(0, n||7);
+  return {
+    id:'salience', prompt:'One card at a time — which class does this stakeholder land in?',
+    sub:'Power, legitimacy, urgency. What is present decides the class.',
+    kind:'sort', cards:cards, levels:GAMES[0].levels
+  };
 }
-function typeLabel(k){
-  var t = TYPES.filter(function(x){ return x.k===k; })[0];
-  return t? t.cn : (k || '—');
+var CAT_LABEL = {C:'Customers (C)', A:'Actors (A)', T:'Transformation (T)', W:'Worldview (W)', O:'Owner (O)', E:'Environment (E)'};
+function buildCatwoe(n){
+  var qs = shuffle(CATWOE).slice(0, n||6);
+  return {
+    id:'catwoe', prompt:'Which CATWOE element is missing?',
+    sub:'C customers · A actors · T transformation · W worldview · O owner · E environment',
+    kind:'choice',
+    questions:qs.map(function(q){
+      var keys = ['C','A','T','W','O','E'];
+      var wrongKeys = shuffle(keys.filter(function(k){ return k!==q.missing; })).slice(0,3);
+      var opts = shuffle([q.missing].concat(wrongKeys).map(function(k){
+        return {t:CAT_LABEL[k], ok:k===q.missing};
+      }));
+      return {scene:q.scene, text:q.text, prompt:q.prompt, right:q.right, why:q.why,
+              opts:opts, answer:opts.findIndex(function(o){ return o.ok; })};
+    })
+  };
 }
-function renderRoomBar(){
-  var r = state.cfg.room || state.room || '—';
-  var ev = currentJoinEvent();
-  var url = joinURL(r, ev);
-  $('#host-room').innerHTML =
+function buildFacilitate(n){
+  var qs = shuffle(FACILITATE).slice(0, n||6);
+  return {
+    id:'facilitate', prompt:'What would a facilitator do?',
+    sub:'Guide by asking, not telling. One option is the move the unit teaches.',
+    kind:'choice', questions:qs.map(function(q){
+      var idx = q.opts.map(function(t,i){ return {t:t, i:i}; });
+      var shuffled = shuffle(idx);
+      var answer = shuffled.findIndex(function(o){ return o.i===q.a; });
+      return {scene:q.scene, prompt:'Choose the facilitator\u2019s move', right:q.right, why:q.why,
+              opts:shuffled.map(function(o){ return {t:o.t}; }), answer:answer};
+    })
+  };
+}
+function buildNetwork(n){
+  var rounds = [];
+  for(var r=0; r<(n||5); r++){
+    var size = 5 + Math.floor(Math.random()*2);
+    var names = shuffle(DENSITY_ITEMS).slice(0, size);
+    var edges = {}, count = 0, possible = size*(size-1)/2;
+    var target = 0.4 + Math.random()*0.4;
+    for(var i=0;i<size;i++){
+      for(var j=i+1;j<size;j++){
+        if(count/possible < target && Math.random()<0.7){ edges[i+'-'+j] = 1; count++; }
+      }
+    }
+    if(count===0){ edges['0-1'] = 1; count = 1; }
+    var dens = count/possible;
+    var opts = [{t:dens.toFixed(2), ok:true},
+                {t:(count/(size*(size-1))).toFixed(2), ok:false},
+                {t:((count+1)/possible).toFixed(2), ok:false},
+                {t:(count/Math.max(1,size-1)).toFixed(2), ok:false}];
+    var seen = {}, uniq = [];
+    shuffle(opts).forEach(function(o){ if(!seen[o.t]){ seen[o.t]=1; uniq.push(o); } });
+    while(uniq.length<4){
+      var v = (0.15 + Math.random()*0.8).toFixed(2);
+      if(!seen[v]){ seen[v]=1; uniq.push({t:v, ok:false}); }
+    }
+    uniq = shuffle(uniq.slice(0,4));
+    if(!uniq.some(function(o){ return o.ok; })) uniq[0] = {t:dens.toFixed(2), ok:true};
+    uniq = shuffle(uniq);
+    var answer = uniq.findIndex(function(o){ return o.ok; });
+    rounds.push({
+      names:names, size:size, edges:edges, ties:count, possible:possible, dens:dens,
+      prompt:'Count the ties in this advice-seeking network, then choose the density.',
+      opts:uniq, answer:answer,
+      why:'Density = t / [N(N\u22121)/2] = '+count+' / ('+size+'\u00d7'+(size-1)+'/2) = '+count+'/'+possible+' = '+(count/possible).toFixed(2)+'. The denominator is the number of possible undirected ties — forgetting the halving is the classic error.'
+    });
+  }
+  return {id:'network', prompt:'Count the ties, then compute the density.',
+    sub:'Density = t / [N(N\u22121)/2]. Tap a tie to tick it off as you count.',
+    kind:'network', rounds:rounds};
+}
+function buildGame(id, n){ return id==='salience'? buildSalience(n) : id==='catwoe'? buildCatwoe(n)
+  : id==='facilitate'? buildFacilitate(n) : buildNetwork(n); }
+
+/* custom scenario generator — casts the class list */
+function customScenarios(n){
+  var names = shuffle(teamNames());
+  var roles = shuffle([
+    {r:'sponsor', a:'Dominant', why:'Power plus legitimacy, no urgency — keep satisfied and consult, but do not schedule them into every stand-up.'},
+    {r:'senior user', a:'Definitive', why:'All three attributes — the engagement plan is written for people like this.'},
+    {r:'subcontractor who can demobilise', a:'Dangerous', why:'Power plus urgency without a formal governance seat — consult or satisfy, quickly.'},
+    {r:'community representative', a:'Dependent', why:'Legitimacy plus urgency without power — they influence you through someone who has it.'},
+    {r:'regulator', a:'Definitive', why:'Power, legitimacy and urgency: the definitive class.'},
+    {r:'internal critic', a:'Demanding', why:'Urgency only — attention-seeking, not project-moving.'},
+    {r:'idle supplier', a:'Discretionary', why:'Legitimacy only — keep satisfied with routine updates.'},
+    {r:'a name from a previous project', a:'Non-stakeholder', why:'No power, legitimacy or urgency here — engaging them is a misallocation.'}
+  ]).slice(0, n||4);
+  return roles.map(function(x, i){
+    return {who:names[i % names.length]+' as '+x.r, a:x.a, why:x.why};
+  });
+}
+
+/* ---------- 4. play engine ---------- */
+var run = null;
+function startGame(id, opts){
+  opts = opts||{};
+  var data = opts.custom? {id:'salience', prompt:'Generated from your class list — classify each of them.',
+      sub:'These cards were cast from the names in this room. Same model, your cohort.',
+      kind:'sort', cards:customScenarios(state.diff==='hard'? 6 : 4), levels:GAMES[0].levels}
+    : buildGame(id, state.diff==='short'? 4 : (state.diff==='hard'? 8 : undefined));
+  var total = data.kind==='sort'? data.cards.length
+            : data.kind==='choice'? data.questions.length
+            : data.rounds.length;
+  run = {game:data.id, data:data, idx:0, total:total, correct:0, score:0, started:nowMs(),
+         answers:[], custom:!!opts.custom, qStart:nowMs(), mode:opts.mode||'solo',
+         away:data.kind==='sort'? shuffle(data.levels) : [], sel:null, pickTies:{}};
+  nav('play');
+  renderPlay();
+  var el = $('#play-stage'); if(el) el.classList.add('pop');
+}
+function currentRound(){
+  if(!run) return null;
+  var d = run.data;
+  if(d.kind==='sort') return d.cards[run.idx];
+  if(d.kind==='choice') return d.questions[run.idx];
+  return d.rounds[run.idx];
+}
+function scoreAnswer(ok, limitMs){
+  var spent = nowMs() - run.qStart;
+  var speed = ok? Math.max(0, Math.round((1 - Math.min(1, spent/limitMs)) * 60)) : 0;
+  var pts = ok? 100 + speed : 0;
+  run.score += pts;
+  if(ok) run.correct++;
+  run.answers.push({idx:run.idx, ok:ok, pts:pts, ms:spent});
+  return pts;
+}
+function nextRound(){
+  run.idx++;
+  run.qStart = nowMs();
+  run.sel = null; run.pickTies = {};
+  if(run.idx >= run.total){ finishRun(); return; }
+  renderStage();
+}
+function finishRun(){
+  var secs = Math.round((nowMs()-run.started)/1000);
+  var total = run.score, correct = run.correct, n = run.total;
+  var acc = Math.round(correct/n*100);
+  var rec = {type:'score', id:uid(), game:run.game, player:state.cfg.name||'anon', total:total,
+             correct:correct, total_q:n, accuracy:acc, secs:secs, mode:run.mode,
+             at:nowMs()};
+  pushEvent(rec); saveLocal();
+  publish(rec);
+  run.done = true;
+  run.record = rec;
+  renderStage();
+  renderPlayStats();
+}
+function myRank(){
+  var lb = leaderboard(), me = state.cfg.name||'';
+  for(var i=0;i<lb.length;i++){ if(lb[i].player===me) return i+1; }
+  return 0;
+}
+
+/* ---------- 5. rendering: play ---------- */
+function stat(n,l){
+  n = String(n);
+  var num = n.match(/^([\d.]+)(.*)$/);
+  return '<div class="stat"><div class="n">'+(num? '<span class="n">'+esc(num[1])+'</span>'+esc(num[2]) : esc(n))+'</div>'+
+         '<div class="l">'+esc(l)+'</div></div>';
+}
+function renderPlayStats(){
+  var lb = leaderboard();
+  var mine = bestByPlayer()[state.cfg.name||''] || null;
+  var played = {};
+  scores().forEach(function(s){ played[s.game] = 1; });
+  $('#play-stats').innerHTML =
+    stat(lb.length, 'players on the board') +
+    stat(mine? mine.total : 0, 'your best run') +
+    stat(Object.keys(played).length+' / 4', 'games you have played') +
+    stat(rosterNames().length, 'names in the scenario pool');
+}
+function renderGameList(){
+  $('#game-list').innerHTML = GAMES.map(function(g){
+    var pb = bestFor(g.id);
+    return '<div class="gamecard">'+
+      '<div class="no">'+esc(g.no)+'</div>'+
+      '<h3>'+esc(g.title)+'</h3>'+
+      '<div class="meta"><span class="badge gold">'+esc(g.tag)+'</span><span>'+esc(g.secs)+' s</span></div>'+
+      '<div class="desc">'+esc(g.desc)+'</div>'+
+      '<div class="pb">'+esc(g.skill)+'</div>'+
+      '<div class="pb">Personal best <b>'+(pb||'—')+'</b></div>'+
+      '<button class="btn pri wide" type="button" data-play="'+g.id+'">Play</button>'+
+    '</div>';
+  }).join('') + '<div class="gamecard" style="border-style:dashed">'+
+      '<div class="no">BONUS</div><h3>Your class, as stakeholders</h3>'+
+      '<div class="meta"><span class="badge">generated</span></div>'+
+      '<div class="desc">The same Salience Model, but every card is a person from this room. This round exists only because the page knows your cohort.</div>'+
+      '<div class="pb">Needs at least 2 names in the roster</div>'+
+      '<button class="btn gold wide" type="button" data-play="custom">Generate</button>'+
+    '</div>';
+}
+function renderRoster(){
+  var names = rosterNames();
+  $('#roster-box').innerHTML =
+    (names.length? '<div class="chips">'+names.map(function(n,i){
+        return '<span class="badge gold" style="font-size:12.5px">'+esc(n)+
+               ' <button type="button" data-rmname="'+i+'" style="border:0;background:none;color:#8c1d17;cursor:pointer">×</button></span>';
+      }).join('')+'</div>'
+      : '<div class="sub" style="margin-bottom:10px">No names yet — the games fall back to a generic cast. Add yours and your classmates\u2019.</div>')+
+    '<div class="row" style="margin-top:12px">'+
+      '<input class="inp" id="roster-in" placeholder="Add a name, or paste several separated by commas" style="max-width:320px">'+
+      '<button class="btn pri" type="button" id="btn-addname">Add</button>'+
+      '<button class="btn" type="button" id="btn-addme">Add my name</button>'+
+    '</div>'+
+    '<div class="sub" style="margin-top:9px">Names are stored on this device and (if the data channel is on) shared with the class pool. No accounts, no personal data beyond a display name.</div>';
+}
+function renderHud(){
+  var left = run? Math.max(0, (run.data.secs||60) - Math.round((nowMs()-run.started)/1000)) : 0;
+  var pct = run? Math.round(run.idx/run.total*100) : 0;
+  return '<div class="hud">'+
+    '<div><div class="item">Game</div><div class="val" style="font-size:14px">'+esc((GAMES.filter(function(g){return g.id===(run&&run.game);})[0]||{title:'Run'}).title)+'</div></div>'+
+    '<div><div class="item">Round</div><div class="val">'+(run? Math.min(run.idx+1, run.total) : 0)+'/'+(run? run.total:0)+'</div></div>'+
+    '<div><div class="item">Score</div><div class="val gold">'+(run? run.score:0)+'</div></div>'+
+    '<div><div class="item">Correct</div><div class="val">'+(run? run.correct:0)+'</div></div>'+
+    '<div><div class="item">Time left</div><div class="val" id="hud-time">'+clock(left*1000)+'</div></div>'+
+    '<div class="bar"><i style="width:'+pct+'%"></i></div>'+
+    '<button class="btn sm" type="button" id="btn-quit">Quit</button>'+
+  '</div>';
+}
+function renderSort(){
+  var d = run.data, card = d.cards[run.idx];
+  var used = run.away;
+  return '<div class="prompt">'+esc(d.prompt)+'<small>'+esc(d.sub)+'</small></div>'+
+    '<div class="pcard sel" style="cursor:default"><span class="k">CARD</span><span>'+esc(card.who)+'</span></div>'+
+    '<div class="slots" style="margin-top:12px">'+used.map(function(lv){
+      return '<button class="slot'+(run.sel===lv?' hot':'')+'" type="button" data-slot="'+esc(lv)+'">'+
+        '<span class="lab">'+esc(lv)+'</span>'+
+        '<span class="hint">'+esc(levelHint(lv))+'</span>'+
+        '<span class="fill">'+(run.sel===lv? 'Tap again to commit' : 'Tap to place the card')+'</span>'+
+      '</button>';
+    }).join('')+'</div>'+
+    '<div class="explain" id="explain"></div>';
+}
+function levelHint(lv){
+  return {Dormant:'power only', Discretionary:'legitimacy only', Demanding:'urgency only',
+    Dominant:'power + legitimacy', Dangerous:'power + urgency', Dependent:'legitimacy + urgency',
+    Definitive:'all three', 'Non-stakeholder':'none of the three'}[lv] || '';
+}
+function renderChoice(){
+  var q = currentRound();
+  return '<div class="prompt">'+esc(q.scene||q.prompt)+
+      (q.text? '<div class="snap" style="margin-top:10px;text-align:left"><div class="t">Root definition</div><div class="f mono">'+esc(q.text)+'</div></div>':'')+
+      '<small>'+(q.text? 'Which element is missing?' : 'One of these is the move the unit teaches.')+'</small></div>'+
+    '<div class="answers">'+q.opts.map(function(o,i){
+      return '<button class="ans" type="button" data-ans="'+i+'"><span class="k">'+String.fromCharCode(65+i)+'</span><span>'+esc(o.t)+'</span></button>';
+    }).join('')+'</div>'+
+    '<div class="explain" id="explain"></div>';
+}
+function renderNetwork(){
+  var r = currentRound();
+  var rows = r.names.map(function(nm, i){
+    var ties = [];
+    for(var j=0;j<r.size;j++){
+      if(i===j) continue;
+      if(i>=j) continue;                      /* 无向 tie 只画一次 */
+      var k = i+'-'+j;
+      if(r.edges[k]) ties.push({label:r.names[j], key:k});
+    }
+    return '<div class="netrow"><span class="who">'+esc(nm)+'</span><span class="ties">'+
+      (ties.length? ties.map(function(t){
+        return '<button class="tie'+(run.pickTies[t.key]?' pick':'')+'" type="button" data-tie="'+esc(t.key)+'">'+esc(t.label)+'</button>';
+      }).join('') : '<span class="tie no">no ties</span>')+
+      '</span></div>';
+  }).join('');
+  var ticked = Object.keys(run.pickTies).length;
+  return '<div class="prompt">'+esc(r.prompt)+
+      '<small>N = '+r.size+' people · tap each tie once to tick it off · you have ticked <b id="tiecount">'+ticked+'</b></small></div>'+
+    '<div class="card" style="padding:14px;margin-bottom:12px">'+rows+'</div>'+
+    '<div class="answers">'+r.opts.map(function(o,i){
+      return '<button class="ans" type="button" data-ans="'+i+'"><span class="k">'+String.fromCharCode(65+i)+'</span><span>density = '+esc(o.t)+'</span></button>';
+    }).join('')+'</div>'+
+    '<div class="explain" id="explain"></div>';
+}
+function renderStage(){
+  var el = $('#play-stage');
+  if(!run){ el.innerHTML = ''; return; }
+  if(run.done){ el.innerHTML = renderVerdict(); return; }
+  var d = run.data;
+  el.innerHTML = renderHud() + (d.kind==='sort'? renderSort() : d.kind==='choice'? renderChoice() : renderNetwork());
+}
+function renderVerdict(){
+  var r = run.record, n = r.total_q, pct = r.accuracy;
+  var verdict = pct>=90? 'Definitive stakeholder': pct>=70? 'Dominant': pct>=50? 'Dependent': 'Dormant';
+  var blurb = pct>=90? 'All three attributes present. You could run this session.'
+    : pct>=70? 'Power and legitimacy — solid, with urgency still to add.'
+    : pct>=50? 'Legitimacy and urgency, no power yet: revise before you facilitate.'
+    : 'Latent for now — replay it; the vocabulary sticks after the second pass.';
+  var lb = leaderboard(), rank = myRank();
+  return '<div class="card"><div class="verdict">'+
+    '<div class="big">'+r.total+'</div><div class="lab">points</div>'+
+    '<h2>'+esc(verdict)+'</h2>'+
+    '<div class="sub">'+esc(blurb)+'</div>'+
+    '<div class="kv" style="max-width:420px;margin:16px auto 0"><span>Correct</span><b>'+r.correct+' / '+n+' ('+pct+'%)</b></div>'+
+    '<div class="kv" style="max-width:420px;margin:0 auto"><span>Time</span><b>'+r.secs+' s</b></div>'+
+    '<div class="kv" style="max-width:420px;margin:0 auto"><span>Rank on the class board</span><b>'+(rank? '#'+rank+' of '+lb.length : '—')+'</b></div>'+
+    '</div><hr class="hr">'+
+    renderAnswers()+
+    '<div class="row" style="margin-top:14px">'+
+      '<button class="btn pri" type="button" data-again="'+esc(r.game)+'">Play again</button>'+
+      '<button class="btn" type="button" data-nav="board">See the leaderboard</button>'+
+      '<button class="btn" type="button" data-nav="play" id="btn-back-home">All games</button>'+
+    '</div></div>';
+}
+function renderAnswers(){
+  var d = run.data;
+  return '<div class="lb">'+run.answers.map(function(a, i){
+    var item = d.kind==='sort'? d.cards[a.idx] : d.kind==='choice'? d.questions[a.idx] : d.rounds[a.idx];
+    var q = d.kind==='sort'? item.who : (item.scene || item.prompt);
+    var right = d.kind==='sort'? item.a : (d.kind==='choice'? item.opts[item.answer].t : item.opts[item.answer].t);
+    return '<div class="lbrow"><span class="medal">'+(a.ok? '\u2713':'\u2717')+'</span>'+
+      '<span class="nm">'+esc(String(q).slice(0,96))+'<small>Answer: '+esc(right)+' — '+esc(item.why||'')+'</small></span>'+
+      '<span class="sc">'+(a.ok? '+'+a.pts : '0')+'</span></div>';
+  }).join('')+'</div>';
+}
+function renderPlay(){ renderPlayStats(); renderGameList(); renderRoster(); renderStage(); }
+
+/* ---------- 6. rendering: leaderboard ---------- */
+function renderBoard(){
+  var lb = leaderboard();
+  var me = state.cfg.name||'';
+  var byGame = {};
+  GAMES.forEach(function(g){ byGame[g.id] = bestFor(g.id); });
+  var html = '<div class="sechead"><h2>Class leaderboard</h2><span class="sub">best run per player · synced through the unit channel</span>'+
+    '<button class="btn sm" type="button" id="btn-refresh">Refresh</button></div>';
+  html += '<div class="grid g4" style="margin-bottom:16px">'+
+      stat(lb.length, 'players') +
+      stat(scores().length, 'runs recorded') +
+      stat(lb.length? lb[0].total : 0, 'top score') +
+      stat(joined().length, 'joined a live round') +
+    '</div>';
+  var medals = ['\uD83E\uDD47','\uD83E\uDD48','\uD83E\uDD49'];
+  html += '<div class="card"><div class="lb">'+
+    (lb.length? lb.map(function(s, i){
+      return '<div class="lbrow'+(s.player===me?' me':'')+'">'+
+        '<span class="medal">'+(medals[i]|| (i+1))+ '</span>'+
+        '<span class="nm">'+esc(s.player)+(s.player===me? ' <span class="badge gold">you</span>':'')+
+          '<small>'+esc(byGameName(s.game))+' · '+s.correct+'/'+s.total_q+' correct · '+s.secs+' s</small></span>'+
+        '<span class="sc">'+s.total+'</span></div>';
+    }).join('') : '<div class="sub">No runs recorded yet. Play a game and your score lands here.</div>')+
+    '</div>';
+  html += '<hr class="hr"><h3 style="font-size:14.5px">Game-by-game bests</h3><div class="grid g4" style="margin-top:10px">'+
+    GAMES.map(function(g){
+      var rows = scores().filter(function(s){ return s.game===g.id; });
+      var top = rows.sort(function(a,b){ return b.total-a.total; })[0];
+      return '<div class="stat"><div class="l">'+esc(g.title)+'</div><div class="n" style="font-size:19px">'+(top? top.total : '—')+'</div>'+
+        '<div class="l">'+(top? esc(top.player)+' · '+rows.length+' runs' : 'no runs yet')+'</div></div>';
+    }).join('')+'</div>';
+  html += '<hr class="hr"><h3 style="font-size:14.5px">Export</h3><div class="row" style="margin-top:10px">'+
+      '<button class="btn" type="button" id="btn-csv">Download CSV</button>'+
+      '<button class="btn" type="button" id="btn-json">Download JSON</button>'+
+      '<button class="btn" type="button" id="btn-broadcast">Show on the big screen</button>'+
+      '<span class="spacer"></span>'+
+      '<button class="btn danger sm" type="button" id="btn-reset">Clear my local data</button>'+
+    '</div></div>';
+  $('#board-body').innerHTML = html;
+}
+function byGameName(id){
+  var g = GAMES.filter(function(x){ return x.id===id; })[0];
+  return g? g.title : id;
+}
+function toCSV(){
+  var rows = [['player','game','total','correct','questions','accuracy','secs','at']];
+  scores().forEach(function(s){
+    rows.push([s.player, s.game, s.total, s.correct, s.total_q, s.accuracy, s.secs, s._at||'']);
+  });
+  return rows.map(function(r){
+    return r.map(function(c){
+      var v = String(c==null?'':c);
+      return /[",\n]/.test(v)? '"'+v.replace(/"/g,'""')+'"' : v;
+    }).join(',');
+  }).join('\n');
+}
+
+/* ---------- 7. rendering: live host ---------- */
+function joinURL(room){
+  return location.origin + location.pathname + '?role=join&room=' + encodeURIComponent(room||state.room||'');
+}
+function renderLiveHost(){
+  var box = $('#live-host');
+  if(state.role==='join'){ box.innerHTML=''; return; }
+  var room = state.room || '—';
+  var lg = liveGame();
+  var lb = leaderboard();
+  var played = {};
+  scores().forEach(function(s){ if(!played[s.player]) played[s.player] = s; });
+  box.innerHTML =
     '<div class="room">'+
-      '<div><div class="lbl">room code</div><div class="code">'+esc(r)+'</div>'+
-        '<div class="lnk">'+esc(url)+'</div>'+
-        '<div class="lnk" style="margin-top:6px">'+ (ev? '当前互动：'+esc(evLabel(ev.kind))+' · '+esc(String(ev.prompt).slice(0,60)) : '还没有进行中的互动') +'</div>'+
+      '<div><div class="lbl">room code</div><div class="code">'+esc(room)+'</div>'+
+        '<div class="lnk">'+esc(joinURL(room))+'</div>'+
+        '<div class="lnk" style="margin-top:6px">'+(lg? 'Live game: '+esc(byGameName(lg.game)) : 'No live game yet — start one below')+'</div>'+
       '</div>'+
       '<div id="qrbox"></div>'+
-      '<div style="min-width:150px">'+
-        '<div class="lbl">timer</div><div class="timer" id="tm">04:00</div>'+
-        '<div class="lbl" style="margin-top:6px">participants</div><div class="timer" style="font-size:22px" id="pcount">0</div>'+
-      '</div>'+
+      '<div style="min-width:140px"><div class="lbl">timer</div><div class="timer" id="tm">04:00</div>'+
+        '<div class="lbl" style="margin-top:6px">on the board</div><div class="timer" style="font-size:22px">'+lb.length+'</div></div>'+
       '<div style="margin-left:auto" class="row">'+
-        '<button class="btn gold" type="button" id="btn-t4">开始 4 分钟</button>'+
-        '<button class="btn sm" type="button" id="btn-tstop">停表</button>'+
-        '<button class="btn sm" type="button" id="btn-newroom">换房间码</button>'+
-        '<button class="btn sm" type="button" id="btn-copyjoin">复制参与链接</button>'+
+        '<button class="btn gold" type="button" id="btn-t4">Start 4 minutes</button>'+
+        '<button class="btn sm" type="button" id="btn-tstop">Stop</button>'+
+        '<button class="btn sm" type="button" id="btn-newroom">New room code</button>'+
+        '<button class="btn sm" type="button" id="btn-copyjoin">Copy join link</button>'+
       '</div>'+
     '</div>';
-  drawQR($('#qrbox'), url);
-  updateTimerUI();
+  drawQR($('#qrbox'), joinURL(room));
+  updateTimer();
+  var liveRows = lb.slice(0, 12);
+  $('#live-host').insertAdjacentHTML('beforeend',
+    '<div class="grid g2" style="align-items:start;margin-top:16px">'+
+      '<div class="card"><h3>Live leaderboard <span class="sub">updates every 7 seconds</span></h3>'+
+        '<div class="lb" style="margin-top:10px">'+
+        (liveRows.length? liveRows.map(function(s,i){
+          return '<div class="lbrow'+(i===0?' me':'')+'"><span class="medal">'+(i===0?'\uD83E\uDD47':(i+1))+'</span>'+
+            '<span class="nm">'+esc(s.player)+'<small>'+esc(byGameName(s.game))+' · '+s.correct+'/'+s.total_q+'</small></span>'+
+            '<span class="sc">'+s.total+'</span></div>';
+        }).join('') : '<div class="sub">Nobody has finished a run yet. Scan the code, play, and watch this fill up.</div>')+
+        '</div></div>'+
+      '<div class="card"><h3>Start a live game</h3>'+
+        '<div class="sub">Publish a game to the room. Players who have opened the join link see it immediately, and their scores land on this board.</div>'+
+        '<div class="field" style="margin-top:12px"><span class="lb">Game</span><div class="diff" id="live-games">'+
+          GAMES.map(function(g){ return '<button type="button" data-lg="'+g.id+'"'+(lg&&lg.game===g.id?' aria-pressed="true"':'')+'>'+esc(g.title)+'</button>'; }).join('')+
+        '</div></div>'+
+        '<div class="row"><button class="btn pri" type="button" id="btn-start-live">Publish to the room</button>'+
+        '<label class="sub"><input type="checkbox" id="live-auto" checked> also start the 4-minute timer</label></div>'+
+        '<hr class="hr">'+
+        '<h3 style="font-size:14.5px">Who is in</h3>'+
+        '<div class="chips" style="margin-top:8px">'+
+          (joined().length? joined().map(function(j){ return '<span class="badge ok">'+esc(j.player)+'</span>'; }).join('') : '<span class="sub">no one has joined yet</span>')+
+        '</div>'+
+      '</div>'+
+    '</div>');
 }
 function drawQR(box, text){
   if(!box) return;
   box.innerHTML = '';
   try{
-    var qr = qrcode(0, 'M');
-    qr.addData(text);
-    qr.make();
+    var qr = qrcode(0,'M'); qr.addData(text); qr.make();
     var n = qr.getModuleCount(), size = 168, cell = size/n, pad = 4;
     var cv = document.createElement('canvas');
-    cv.width = size + pad*2; cv.height = size + pad*2;
+    cv.width = size+pad*2; cv.height = size+pad*2;
     var ctx = cv.getContext('2d');
     ctx.fillStyle = '#fff'; ctx.fillRect(0,0,cv.width,cv.height);
     ctx.fillStyle = '#0e1420';
     for(var r=0;r<n;r++) for(var c=0;c<n;c++) if(qr.isDark(r,c))
-      ctx.fillRect(pad + Math.floor(c*cell), pad + Math.floor(r*cell), Math.ceil(cell), Math.ceil(cell));
+      ctx.fillRect(pad+Math.floor(c*cell), pad+Math.floor(r*cell), Math.ceil(cell), Math.ceil(cell));
     box.appendChild(cv);
-  }catch(e){
-    box.innerHTML = '<div class="mini" style="color:#555;max-width:170px">二维码生成失败，请手动分享链接</div>';
-  }
+  }catch(e){ box.innerHTML = '<div class="sub" style="max-width:170px;color:#333">QR failed — share the link instead</div>'; }
 }
-function updateTimerUI(){
+function updateTimer(){
   var el = $('#tm'); if(!el) return;
-  var t = latestTimer();
-  if(!t || !t.ms){ el.textContent = '04:00'; el.style.color='#fff'; return; }
-  var start = t.atMs || t.at || nowMs();
-  var left = t.ms - (nowMs() - start);
+  var t = lastTimer();
+  if(!t || !t.ms){ el.textContent = '04:00'; el.style.color = '#fff'; return; }
+  var left = t.ms - (nowMs() - (t.atMs || t.at || nowMs()));
   el.textContent = clock(left);
-  el.style.color = left <= 0? '#e0a9a4' : (left < 30000? '#e8c98a' : '#fff');
+  el.style.color = left<=0? '#e0a9a4' : (left<30000? '#e8c98a' : '#fff');
 }
-function renderHostCanvas(){
-  var ev = currentJoinEvent();
-  if(!ev){
-    $('#host-canvas').innerHTML = '<h3>现场互动画布</h3><div class="sub">右侧发布一个互动，或用「开始 4 分钟」先把计时挂上。</div>'+
-      '<div class="note">流程建议：0:00 开场问题 → 0:30 扫码进入 → 1:00 全班作答 → 2:40 挑争议点追问 → 3:40 收束 takeaway。'+
-      '<br>数据每 7 秒自动刷新；投完的人可以改票（同一名字只算最后一票）。</div>';
-    return;
-  }
-  var res = renderResults(ev, true);
-  $('#host-canvas').innerHTML =
-    '<div class="row" style="justify-content:space-between"><div>'+
-      '<h3 style="font-size:16.5px">'+esc(ev.prompt)+'</h3>'+
-      '<div class="sub">'+esc(evLabel(ev.kind))+' · 进行中 · 结果实时刷新</div></div>'+
-      '<div class="row"><button class="btn sm" type="button" id="btn-ev-close">结束这一轮</button></div>'+
-    '</div>' + res;
-}
-function renderResults(ev, live){
-  var t = ev.kind || ev.type;
-  if(t==='poll' || t==='multi'){
-    var vs = votesFor(ev.id);
-    var counts = ev.opts.map(function(o){ return 0; });
-    vs.forEach(function(v){
-      var sel = v.choice;
-      if(sel==null) return;
-      (Array.isArray(sel)? sel : [sel]).forEach(function(i){ if(counts[i]!=null) counts[i]++; });
-    });
-    var max = Math.max.apply(null, counts.concat([1]));
-    var total = counts.reduce(function(a,b){ return a+b; },0);
-    var rows = ev.opts.map(function(o,i){
-      var pct = max? Math.round(counts[i]/max*100) : 0;
-      var shares = counts[i] / (total||1);
-      return '<div class="bar"><div class="fill" style="width:'+pct+'%"></div><div class="tx">'+
-        '<span>'+String.fromCharCode(65+i)+'. '+esc(o)+'</span>'+
-        '<b>'+counts[i]+' 票 · '+Math.round(shares*100)+'%</b></div></div>';
-    }).join('');
-    var who = vs.length? '<div class="mini" style="margin-top:8px">已作答 '+vs.length+' 人：'+esc(vs.map(function(v){return v.voter;}).join('、'))+'</div>' : '<div class="mini" style="margin-top:8px">还没有人作答</div>';
-    return rows + who;
-  }
-  if(t==='rating'){
-    var rs = votesFor(ev.id);
-    var bucket = [0,0,0,0,0];
-    rs.forEach(function(v){ var n = Number(v.choice); if(n>=1&&n<=5) bucket[n-1]++; });
-    var mx = Math.max.apply(null, bucket.concat([1]));
-    var avg = rs.length? (rs.reduce(function(a,v){ return a+Number(v.choice||0); },0)/rs.length) : 0;
-    var cols = bucket.map(function(c,i){
-      var h = Math.round(c/mx*100);
-      return '<div class="col"><div class="n">'+c+'</div><div class="b" style="height:'+h+'%"></div><div class="l">'+(i+1)+'</div></div>';
-    }).join('');
-    return '<div class="stars">'+cols+'</div><div class="mini" style="margin-top:8px">平均 '+avg.toFixed(2)+' 分 · '+rs.length+' 人作答</div>';
-  }
-  if(t==='cloud'){
-    var cs = cloudsFor(ev.id);
-    var freq = {};
-    cs.forEach(function(v){
-      String(v.text||'').split(/[\s,，、;；]+/).forEach(function(w){
-        w = w.trim(); if(!w) return;
-        freq[w] = (freq[w]||0)+1;
-      });
-    });
-    var keys = Object.keys(freq).sort(function(a,b){ return freq[b]-freq[a]; });
-    if(!keys.length) return '<div class="mini">还没有词进来</div>';
-    var fmax = freq[keys[0]];
-    return '<div class="cloud">'+keys.slice(0,60).map(function(k){
-      var sz = 14 + Math.round((freq[k]/fmax)*22);
-      var op = 0.55 + (freq[k]/fmax)*0.45;
-      return '<span style="font-size:'+sz+'px;opacity:'+op.toFixed(2)+'" title="'+esc(freq[k]+' 次')+'">'+esc(k)+'</span>';
-    }).join('')+'</div><div class="mini" style="margin-top:6px">'+cs.length+' 人提交 · '+keys.length+' 个不同词</div>';
-  }
-  if(t==='qa'){
-    var qs = questions();
-    if(!qs.length) return '<div class="mini">提问墙还是空的</div>';
-    qs.sort(function(a,b){ return upCount(b.id)-upCount(a.id); });
-    return '<div class="qlist">'+qs.map(function(q){
-      var ans = answersFor(q.id);
-      var hot = upCount(q.id) >= 2;
-      return '<div class="qitem'+(hot?' hot':'')+(ans.length?' done':'')+'">'+
-        '<div class="up"><button type="button" data-up="'+esc(q.id)+'">▲</button><span class="c">'+upCount(q.id)+'</span></div>'+
-        '<div style="flex:1"><div class="qt">'+esc(q.q)+'</div>'+
-        '<div class="meta">'+esc(q.by||'anon')+' · '+esc(String(q._at||'').replace('T',' ').slice(0,16))+'</div>'+
-        (ans.map(function(a){ return '<div class="ans">答：'+esc(a.answer)+' <span class="mut">— '+esc(a.by||'')+'</span></div>'; }).join(''))+
-        '<div class="row" style="margin-top:8px"><input class="inp" data-ans="'+esc(q.id)+'" placeholder="主持人在这里回答…" style="max-width:280px;padding:5px 9px;font-size:12.5px">'+
-        '<button class="btn sm" type="button" data-doans="'+esc(q.id)+'">回答</button></div>'+
-        '</div></div>';
-    }).join('')+'</div>';
-  }
-  if(t==='reflect'){
-    var rf = reflections();
-    return rf.length? rf.map(function(r){
-      return '<div class="qitem"><div style="flex:1"><div class="qt">'+esc(r.text)+'</div><div class="meta">'+esc(r.by||'anon')+'</div></div></div>';
-    }).join('') : '<div class="mini">还没有反思进来</div>';
-  }
-  return '<div class="mini">未知互动类型</div>';
-}
-function renderPrework(){
-  var d = designFor(state.cfg.week || 6, null);
-  $('#host-prework').innerHTML = '<h3 style="font-size:14.5px">你自己那一场 <span class="en">your run</span></h3>'+
-    '<div class="sub">从「活动设计」同步过来，现场照着念就行。</div>'+
-    (d? '<div class="note"><b>'+esc(evLabel(d.design.activity))+'</b> · Week '+esc(d.design.week)+'<br>'+
-        esc((d.design.extra&&d.design.extra.open)|| d.design.purpose || '')+'</div>' : '<div class="mini">还没有已发布的设计。去「活动设计」写一版再来。</div>');
-}
-function renderDesignList(){
-  var ds = state.events.filter(function(e){ return e.type==='design'; });
-  $('#host-designlist').innerHTML = '<h3 style="font-size:14.5px">全班的 4MA 设计 <span class="en">designs</span></h3>'+
-    '<div class="sub">点一条可以直接把它的开场问题放到画布上。</div>'+
-    (ds.length? ds.map(function(e,i){
-      return '<div class="qitem"><div style="flex:1"><div class="qt">'+esc((e.design.extra&&e.design.extra.open)|| e.design.purpose || '(无开场问题)')+'</div>'+
-        '<div class="meta">'+esc(e.name||'anon')+' · Week '+esc(e.design.week)+' · '+esc(evLabel(e.design.activity))+'</div></div>'+
-        '<button class="btn sm" type="button" data-useq="'+i+'">用这个</button></div>';
-    }).join('') : '<div class="mini">还没有人发布设计。</div>');
-}
-function renderLive(){
-  var ev = currentJoinEvent();
-  renderRoomBar();
-  renderHostCanvas();
-  renderPrework();
-  renderDesignList();
-  var pc = {};
-  state.events.forEach(function(e){ if(e.voter) pc[e.voter]=1; });
-  $('#pcount').textContent = Object.keys(pc).length;
-}
-function renderEvTypes(sel){
-  $('#ev-types').innerHTML = ['poll','multi','rating','cloud','qa','reflect'].map(function(t){
-    return '<label><input type="radio" name="evtype" value="'+t+'"'+(t===(sel||state.evType||'poll')?' checked':'')+'>'+esc(evLabel(t))+'</label>';
-  }).join('');
-  var needOpts = ['poll','multi'].indexOf(sel||state.evType||'poll')>=0;
-  $('#ev-opts-wrap').style.display = needOpts? 'block' : 'none';
+function renderJoin(){
+  var box = $('#join-card'); if(!box) return;
+  var lg = liveGame();
+  var name = state.cfg.name||'';
+  var head = '<div class="row" style="justify-content:space-between;align-items:flex-start">'+
+      '<div><h3>4MA Arcade · room '+esc(state.room||'—')+'</h3>'+
+      '<div class="sub">'+(lg? 'Live game: '+esc(byGameName(lg.game)) : 'Waiting for your facilitator to publish a game')+'</div></div>'+
+      '<span class="badge '+(state.net==='online'?'ok':'')+'">'+(state.net==='online'?'connected':'solo mode')+'</span>'+
+    '</div>'+
+    '<div class="row" style="margin:12px 0">'+
+      '<input class="inp" id="join-name" value="'+esc(name)+'" placeholder="Your name" style="max-width:220px">'+
+      '<button class="btn pri" type="button" id="btn-join-save">'+(name? 'Update':'Join')+'</button>'+
+      '<button class="btn" type="button" id="btn-join-setup">Data channel</button>'+
+    '</div>';
+  if(!lg){ box.innerHTML = head + '<div class="note">This page refreshes itself every 5 seconds. When a game is published it appears here, ready to play.</div>'; return; }
+  box.innerHTML = head +
+    '<div class="note" style="margin-bottom:12px"><b>'+esc(byGameName(lg.game))+'</b> is live. Scores go straight to the facilitator\u2019s screen.</div>'+
+    '<button class="btn gold wide" type="button" data-play="'+esc(lg.game)+'">Play '+esc(byGameName(lg.game))+'</button>'+
+    '<div class="sub" style="margin-top:10px">Playing solo also works — nothing here needs an account.</div>';
 }
 
-/* ---------- 10. 渲染：数据汇总 ---------- */
-function renderChannelHint(){
-  var box = $('#channel-hint'); if(!box) return;
-  if(state.role==='join'){ box.innerHTML=''; return; }
-  if(state.cfg.token){ box.innerHTML=''; return; }
-  box.innerHTML = '<div class="warn"><b>还差一步：接通数据通道。</b> '+
-    '学生端不需要做任何设置（扫码就能投、刷新就能看到结果），但要把「谁报了名、谁投了什么」留下来并让全班刷新可见，'+
-    '需要在这台设备上填一次你自己的 GitHub token：点右上角<b>数据通道</b> → 按 4 步说明生成 fine-grained token（只勾 Issues: Read and write）→ 保存并测试。'+
-    '做完这一步，刷新页面就能看到全班数据；关掉这个提示后它不会再出现。</div>';
+/* ---------- 8. plan (5 Ps) ---------- */
+var PS = [
+  {k:'purpose', n:'1', t:'Purpose', q:'Why are you taking four minutes, and what should change in the room?', ph:'After four minutes the class can tell the eight salience classes apart without notes.'},
+  {k:'product', n:'2', t:'Product', q:'What will exist afterwards? Think Hands, Heads, Hearts.', ph:'Heads: the class can define urgency out loud. Hands: a photo of the board with six cards placed. Hearts: two people volunteer to try it.'},
+  {k:'participants', n:'3', t:'Participants', q:'Who is in the room, how many, and what do they already know?', ph:'About 30 students who read the Salience Model chapter; two have live project experience.'},
+  {k:'issues', n:'4', t:'Probable issues', q:'Topics, ditches and red herrings — name all three.', ph:'Topics: the eight classes. Ditches: conflating salience power with Bourne\u2019s proximity. Red herrings: last week\u2019s marks.'},
+  {k:'process', n:'5', t:'Process', q:'The timeline. Last, never first.', ph:'0:00 opening question | 0:25 rules | 1:00 class sorts | 2:40 the contested card | 3:30 takeaway'}
+];
+function renderPlanForm(){
+  var d = (state.draft && state.draft.design) || {};
+  $('#plan-form').innerHTML = PS.map(function(p){
+    return '<div class="card" style="padding:13px;margin-bottom:11px">'+
+      '<div class="row" style="gap:9px;margin-bottom:7px"><span class="badge gold">'+p.n+'</span>'+
+      '<b style="font-size:14px">'+esc(p.t)+'</b><span class="sub">'+esc(p.q)+'</span></div>'+
+      '<textarea class="inp" data-k="'+p.k+'" placeholder="'+esc(p.ph)+'">'+esc(d[p.k]||'')+'</textarea></div>';
+  }).join('')+
+  '<label class="field"><span class="lb">Opening question (starting question — one question, clear verb)</span>'+
+    '<input class="inp" id="ds-open" value="'+esc((d.extra&&d.extra.open)||'')+'" placeholder="If you could see only one attribute, which would you look at first?"></label>';
 }
-function renderData(){
-  var su = signups();
-  var ds = state.events.filter(function(e){ return e.type==='design'; });
-  var vs = state.events.filter(function(e){ return e.type==='vote'; });
-  var cs = state.events.filter(function(e){ return e.type==='cloud'; });
-  var qs = questions();
-  var rf = reflections();
-  $('#data-stats').innerHTML =
-    stat(su.length,'占位 signups') + stat(ds.length,'设计提交 designs') +
-    stat(vs.length,'投票 votes') + stat(qs.length,'提问 questions');
-  var byType = {};
-  ds.forEach(function(d){ byType[d.design.activity] = (byType[d.design.activity]||0)+1; });
-  $('#data-signups').innerHTML = (su.length? '<table class="tb"><thead><tr><th>时段</th><th>姓名</th><th>类型</th><th>5 Ps</th></tr></thead><tbody>'+
-    su.map(function(s){
-      var d = designFor(s.week, s.name);
-      var filled = d? ['purpose','product','participants','issues','process'].filter(function(k){
-        return d.design[k] && String(d.design[k]).trim(); }).length : 0;
-      return '<tr><td>W'+esc(s.week)+' · S'+esc(s.slot)+'</td><td>'+esc(s.name)+'</td><td>'+esc(typeLabel(s.activity))+'</td>'+
-        '<td>'+(d? filled+'/5' : '—')+'</td></tr>';
-    }).join('')+'</tbody></table>' : '<div class="mini">暂无占位</div>') +
-    '<div class="mini" style="margin-top:9px">活动类型分布：'+ (Object.keys(byType).length? Object.keys(byType).map(function(k){ return evLabel(k)+' ×'+byType[k]; }).join(' · ') : '—') +'</div>';
-  var evs = state.events.filter(function(e){ return e.type==='event'; });
-  $('#data-events').innerHTML = evs.length? evs.slice().reverse().map(function(e){
-    return '<details class="acc" style="margin-bottom:10px"><summary>'+esc(evLabel(e.kind))+' · '+esc(e.prompt)+'</summary>'+
-      '<div class="body">'+renderResults({type:e.kind, id:e.id, opts:e.opts||[], prompt:e.prompt}, false)+
-      '<div class="mini" style="margin-top:8px">共 '+state.events.filter(function(x){ return (x.type==='vote'||x.type==='cloud'||x.type==='question'||x.type==='reflect') && x.id===e.id; }).length+' 条回应</div></div></details>';
-  }).join('') + (cs.length||qs.length||rf.length? '' : '') : '<div class="mini">还没有现场互动</div>';
+function readPlan(){
+  var d = {extra:{open: ($('#ds-open')||{}).value||''}};
+  PS.forEach(function(p){ var el = $('[data-k="'+p.k+'"]'); d[p.k] = el? el.value : ''; });
+  return d;
 }
-function buildReport(){
-  var su = signups(), ds = state.events.filter(function(e){ return e.type==='design'; });
-  var evs = state.events.filter(function(e){ return e.type==='event'; });
+function planChecks(d){
+  var out = [];
+  function add(lv,t,why){ out.push({lv:lv,t:t,why:why}); }
+  var purpose = (d.purpose||'').trim(), product = (d.product||'').trim(),
+      issues = (d.issues||'').trim(), process = (d.process||'').trim(),
+      who = (d.participants||'').trim(), open = (d.extra.open||'').trim();
+  if(!purpose) add('bad','Purpose is empty','The first P. Without it the other four become decoration.');
+  else if(purpose.length<20) add('warn','Purpose is thin','Write it as "after four minutes the class can ..." so Product can test it.');
+  else add('ok','Purpose has a direction','Now ask what would prove it in four minutes.');
+  if(!product) add('bad','Product is missing','Hands, Heads, Hearts — at least ask all three, even if you only chase one.');
+  else if(/(hand|head|heart)/i.test(product)) add('ok','Product names a 3 Hs outcome','Good: it is checkable rather than aspirational.');
+  else add('warn','Product has no 3 Hs anchor','Name the tangible output, the understanding, or the commitment you are after.');
+  if(!who) add('bad','Participants missing','Say how many and what they already know — that decides your verbs.');
+  else add('ok','Participants described','Check the mix: styles, levels, functions, one opinion leader.');
+  if(!issues) add('bad','Probable issues empty','Topics, ditches, red herrings. The red-herring list is your recovery script.');
+  else if(/ditch/i.test(issues) && /red herring/i.test(issues)) add('ok','Ditches and red herrings separated','They need different handling: process the ditch, park the red herring.');
+  else add('warn','Only one kind of issue named','Separate the real difficulty (ditch) from the distraction (red herring).');
+  if(!process) add('bad','Process not written','Timeline it: opening question, main activity, close.');
+  else{
+    var marks = process.match(/\d+\s*[:.]\s*\d{1,2}/g)||[];
+    if(!marks.length) add('warn','Process has no timings','Use 0:00 / 0:25 / 1:00 so you can see where you are.');
+    else{
+      var last = Math.max.apply(null, marks.map(function(x){ var p = x.split(/[:.]/); return Number(p[0])*60+Number(p[1]); }));
+      if(last>240) add('bad','Timeline runs past 4:00 ('+clock(last*1000)+')','The 4MA is a hard four minutes. Cut a beat.');
+      else if(last<150) add('warn','Timeline is short ('+clock(last*1000)+')','Empty time gets filled by red herrings.');
+      else add('ok','Timeline fits inside 4:00','Keep the last 20 seconds for the takeaway.');
+    }
+  }
+  if(!open) add('warn','No opening question','A strong starting question buys you the next three minutes.');
+  else if(/how do you feel|any thoughts|what do you think|any comments/i.test(open))
+    add('warn','Opening question is soft','Swap the verb: identify, compare, prioritise, predict, challenge.');
+  else add('ok','Opening question is specific','One question, a clear verb, an answer that can be checked.');
+  return out;
+}
+function renderPlanChecks(d){
+  var list = planChecks(d);
+  $('#plan-checks').innerHTML =
+    '<div class="sub" style="margin-bottom:8px">'+list.filter(function(x){return x.lv==='ok';}).length+' pass · '+
+    list.filter(function(x){return x.lv==='warn';}).length+' revise · '+
+    list.filter(function(x){return x.lv==='bad';}).length+' missing</div>'+
+    list.map(function(x){
+      var mk = x.lv==='ok'? '\u2713' : x.lv==='warn'? '!' : '\u2717';
+      var col = x.lv==='ok'? 'var(--ok)' : x.lv==='warn'? 'var(--warn)' : 'var(--bad)';
+      return '<div class="kv" style="align-items:flex-start"><span style="color:'+col+';font-family:ui-monospace,Menlo,monospace;width:16px;flex:none">'+mk+'</span>'+
+        '<span style="flex:1"><b style="display:block">'+esc(x.t)+'</b><span class="sub">'+esc(x.why)+'</span></span></div>';
+    }).join('');
+}
+function buildRunSheet(d){
   var L = [];
-  L.push('# 4MA 数据小结 · PMGT1852');
+  L.push('=== 4MA RUN SHEET · PMGT1852 ===');
+  L.push('Length 4:00 · two spots per semester week · guarantees 40% of participation');
   L.push('');
-  L.push('- 生成时间：' + new Date().toLocaleString('zh-CN'));
-  L.push('- 占位：' + su.length + ' 人｜设计提交：' + ds.length + ' 份｜现场互动：' + evs.length + ' 轮');
+  L.push('OPENING');
+  L.push('  "Four minutes, one question, everyone answers."');
+  L.push('  ' + (d.extra.open? '"'+d.extra.open+'"' : '"(write your opening question first)"'));
+  L.push('  Then stop talking for five seconds. Let the first answer arrive on its own.');
   L.push('');
-  L.push('## 占位与设计');
-  su.forEach(function(s){
-    var d = designFor(s.week, s.name);
-    L.push('- **Week ' + s.week + ' · Slot ' + s.slot + '**｜' + s.name + '｜' + evLabel(s.activity) + '｜' + (s.title||'（无标题）'));
-    if(d){
-      L.push('  - Purpose：' + (d.design.purpose||'—'));
-      L.push('  - Product：' + (d.design.product||'—'));
-      L.push('  - Process：' + String(d.design.process||'—').replace(/\n/g,' / '));
-    }
-  });
+  L.push('PURPOSE   ' + (d.purpose||'(empty)'));
+  L.push('PRODUCT   ' + (d.product||'(empty)'));
+  L.push('PARTICIPANTS  ' + (d.participants||'(empty)'));
+  L.push('ISSUES    ' + (d.issues||'(empty)'));
   L.push('');
-  L.push('## 现场互动结果');
-  evs.forEach(function(e){
-    L.push('### ' + evLabel(e.kind) + '：' + e.prompt);
-    if(e.kind==='poll' || e.kind==='multi'){
-      var vs = votesFor(e.id), counts = (e.opts||[]).map(function(){ return 0; });
-      vs.forEach(function(v){ (Array.isArray(v.choice)? v.choice : [v.choice]).forEach(function(i){ if(counts[i]!=null) counts[i]++; }); });
-      (e.opts||[]).forEach(function(o,i){ L.push('- ' + o + '：' + counts[i] + ' 票'); });
-    } else if(e.kind==='rating'){
-      var rs = votesFor(e.id);
-      var avg = rs.length? (rs.reduce(function(a,v){ return a+Number(v.choice||0); },0)/rs.length).toFixed(2) : '—';
-      L.push('- 平均：' + avg + '（' + rs.length + ' 人）');
-    } else if(e.kind==='cloud'){
-      var freq = {};
-      cloudsFor(e.id).forEach(function(v){ String(v.text||'').split(/[\s,，、;；]+/).forEach(function(w){ if(w) freq[w]=(freq[w]||0)+1; }); });
-      L.push('- ' + Object.keys(freq).sort(function(a,b){return freq[b]-freq[a];}).slice(0,20).map(function(k){ return k+'('+freq[k]+')'; }).join(' · '));
-    } else if(e.kind==='qa'){
-      questions().forEach(function(q){ L.push('- (' + upCount(q.id) + '▲) ' + q.q); });
-    } else if(e.kind==='reflect'){
-      reflections().forEach(function(r){ L.push('- ' + r.text); });
-    }
-    L.push('');
-  });
+  L.push('PROCESS');
+  parseLines(d.process).forEach(function(l,i){ L.push('  '+(i+1)+'. '+l); });
+  if(!parseLines(d.process).length) L.push('  (empty)');
+  L.push('');
+  L.push('CLOSE 3:40\u20134:00');
+  L.push('  "Back to the first question — has your answer changed, and where?"');
+  L.push('  One takeaway: ' + ((d.product||'').split(/[.;\n]/)[0]||'(empty)'));
+  L.push('');
+  L.push('RECOVERY LINES');
+  L.push('  red herring: "That deserves its own session — we are on X until 3:40."');
+  L.push('  silence:     "Ten seconds on your own, then I will ask two people."');
+  L.push('  ditch:       "Let us put both definitions on the board and test them."');
+  L.push('  overrun:     "Time is up — I will post the rest to Canvas."');
+  L.push('');
+  L.push('CHECK  one question at a time / clear verb / answerable / end on the takeaway');
   return L.join('\n');
 }
-function toCSV(){
-  var rows = [['kind','week','slot','name','activity','title_or_prompt','value','at']];
-  signups().forEach(function(s){ rows.push(['signup', s.week, s.slot, s.name, s.activity, s.title||'', '', s._at||'']); });
-  state.events.forEach(function(e){
-    if(e.type==='vote') rows.push(['vote','','',e.voter||'', e.choice==null?'': (Array.isArray(e.choice)? e.choice.join('|') : e.choice), e.id, e.id, e._at||'']);
-    else if(e.type==='cloud') rows.push(['cloud','','',e.voter||'','',e.id, e.text||'', e._at||'']);
-    else if(e.type==='question') rows.push(['question','','',e.by||'','',e.id, e.q||'', e._at||'']);
-    else if(e.type==='up') rows.push(['up','','',e.voter||'','',e.id, e.qid||'', e._at||'']);
-    else if(e.type==='reflect') rows.push(['reflect','','',e.by||'','',e.id, e.text||'', e._at||'']);
-    else if(e.type==='answer') rows.push(['answer','','',e.by||'','',e.id, e.answer||'', e._at||'']);
-    else if(e.type==='design') rows.push(['design', e.design.week, '', e.name||'', e.design.activity, 'design', (e.design.purpose||'').replace(/\n/g,' '), e._at||'']);
-    else if(e.type==='event') rows.push(['event','','', e.by||'', e.kind, e.prompt||'', e.id, e._at||'']);
-    else if(e.type==='setTimer') rows.push(['timer','','', e.by||'', '', '', e.ms, e._at||'']);
-  });
-  return rows.map(function(r){
-    return r.map(function(c){
-      var s = String(c==null?'':c);
-      return /[",\n]/.test(s)? '"'+s.replace(/"/g,'""')+'"' : s;
-    }).join(',');
-  }).join('\n');
+function renderPlanOut(){
+  var d = readPlan();
+  state.draft = {design:d};
+  renderPlanChecks(d);
+  $('#plan-out').textContent = buildRunSheet(d);
+  var filled = PS.filter(function(p){ return (d[p.k]||'').trim(); }).length;
+  $('#plan-status').textContent = 'draft saved on this device · 5 Ps complete: '+filled+'/5';
 }
 
-/* ---------- 11. 参与者端 ---------- */
-function renderJoin(){
-  var ev = currentJoinEvent();
-  var room = state.room;
-  var name = state.cfg.name || state.me || '';
-  var head = '<div class="row" style="justify-content:space-between;align-items:flex-start">'+
-      '<div><h3 style="font-size:16px">4MA 互动 · 房间 '+esc(room)+'</h3>'+
-      '<div class="sub">'+(ev? esc(evLabel(ev.kind)) : '等待主持人发起互动')+'</div></div>'+
-      '<span class="badge '+(state.net==='online'?'ok':'')+'">'+(state.net==='online'?'已连接':'本机模式')+'</span>'+
-    '</div>';
-  var nameBar = '<div class="pname"><span class="mut" style="font-size:12.5px">你的名字</span>'+
-    '<input class="inp" id="me-name" value="'+esc(name)+'" placeholder="例：Hudson W." style="max-width:190px;padding:6px 10px">'+
-    '<button class="btn sm" type="button" id="btn-me-save">保存</button>'+
-    '<span class="mini">用于去重与署名，不会公开展示联系方式。</span></div>';
-
-  if(!ev){
-    $('#join-card').innerHTML = head + nameBar +
-      '<div class="note">主持人还没发布互动。这一页每 5 秒自动刷新，发出来就会自动出现。</div>';
-    return;
-  }
-  var body = '';
-  if(ev.kind==='poll' || ev.kind==='multi'){
-    var mine = myVote(ev.id);
-    var sel = mine? (Array.isArray(mine.choice)? mine.choice : [mine.choice]) : [];
-    body = '<div class="votegrid">'+ev.opts.map(function(o,i){
-      var on = sel.indexOf(i)>=0;
-      return '<button class="votebtn'+(on?' sel':'')+'" type="button" data-pick="'+i+'" data-multi="'+(ev.kind==='multi'?'1':'0')+'">'+
-        '<span class="k">'+String.fromCharCode(65+i)+'</span>'+esc(o)+'</button>';
-    }).join('')+'</div>'+
-    (ev.kind==='multi'? '<div class="row" style="margin-top:12px"><button class="btn pri" type="button" id="btn-submit-multi">提交我的选择</button></div>':'')+
-    (mine? '<div class="mini" style="margin-top:10px">已提交：'+esc(sel.map(function(i){ return ev.opts[i]; }).join('、'))+'（可以改，重投会覆盖）</div>' : '');
-  } else if(ev.kind==='rating'){
-    var mv = myVote(ev.id);
-    body = '<div class="scale">'+[1,2,3,4,5].map(function(n){
-      return '<button type="button" data-rate="'+n+'"'+(mv && Number(mv.choice)===n? ' class="sel"':'')+'>'+n+
-        '<small>'+['完全不懂','偏模糊','一般','清楚','能讲给别人听'][n-1]+'</small></button>';
-    }).join('')+'</div>'+(mv? '<div class="mini" style="margin-top:10px">你给了 '+esc(mv.choice)+' 分</div>':'');
-  } else if(ev.kind==='cloud'){
-    var mc = myVote(ev.id);
-    body = '<label class="field"><span class="lb">用 1–3 个词回答 <i>word cloud</i></span>'+
-      '<input class="inp" id="cloud-in" value="'+esc(mc? mc.text : '')+'" placeholder="例：urgency / 紧急度"></label>'+
-      '<button class="btn pri" type="button" id="btn-cloud">提交</button>';
-  } else if(ev.kind==='qa'){
-    body = '<label class="field"><span class="lb">写下你的问题 <i>question</i></span>'+
-      '<textarea class="inp" id="qa-in" placeholder="例：Bourne 的 proximity 和 salience 的 power 要怎么同时用？"></textarea></label>'+
-      '<button class="btn pri" type="button" id="btn-qa">发到提问墙</button>'+
-      '<hr class="hr">'+
-      '<div class="sub">已上墙的问题，点 ▲ 表示你也想问：</div>'+
-      (questions().length? '<div class="qlist">'+questions().sort(function(a,b){ return upCount(b.id)-upCount(a.id); }).map(function(q){
-        return '<div class="qitem"><div class="up"><button type="button" data-up="'+esc(q.id)+'">'+(myUp(q.id)?'▼':'▲')+'</button><span class="c">'+upCount(q.id)+'</span></div>'+
-          '<div style="flex:1"><div class="qt">'+esc(q.q)+'</div><div class="meta">'+esc(q.by||'anon')+'</div>'+
-          (answersFor(q.id).map(function(a){ return '<div class="ans">答：'+esc(a.answer)+'</div>'; }).join(''))+'</div></div>';
-      }).join('')+'</div>' : '<div class="mini">还没有问题，你可以当第一个。</div>');
-  } else if(ev.kind==='reflect'){
-    body = '<label class="field"><span class="lb">一句话反思 <i>reflection</i></span>'+
-      '<textarea class="inp" id="rf-in" placeholder="例：我原来把 urgency 当成了重要性，其实它是「要人马上回应」的压力。"></textarea></label>'+
-      '<button class="btn pri" type="button" id="btn-rf">提交反思</button>';
-  }
-  $('#join-card').innerHTML = head + nameBar +
-    '<div class="livename" style="margin-bottom:12px">'+esc(ev.prompt)+'</div>' + body;
-}
-
-/* ---------- 12. 主渲染 ---------- */
-var currentView = 'home';
-function render(){
-  renderHomeStats(); renderWeeks(); renderSignupForm(); renderSignupTable();
-  renderDesignAll();
-  renderEvTypes();
-  renderLive();
-  renderData();
-  renderChannelHint();
-  renderJoin();
-  updateStatus();
+/* ---------- 9. router + status ---------- */
+function nav(view){
+  state.view = view;
+  $$('.view').forEach(function(v){ v.classList.toggle('on', v.id==='v-'+view); });
+  $$('.tab').forEach(function(t){ t.setAttribute('aria-selected', String(t.dataset.nav===view)); });
+  if(state.role==='join'){ $('#v-play').classList.add('on'); $$('.view').forEach(function(v){ if(v.id!=='v-play') v.classList.remove('on'); }); }
+  try{ window.scrollTo({top:0, behavior:'auto'}); }catch(e){ window.scrollTo(0,0); }
+  if(view==='board') renderBoard();
+  if(view==='live') { renderLiveHost(); renderJoin(); updateTimer(); }
+  if(view==='play') renderPlay();
+  if(view==='plan') { renderPlanForm(); renderPlanOut(); }
 }
 function updateStatus(){
   var chip = $('#st-chip'), tx = $('#st-tx');
   chip.classList.remove('on','off','err');
-  var n = state.events.length;
-  if(state.net==='online'){
-    chip.classList.add('on');
-    tx.textContent = '在线 · ' + state.comments + ' 条数据 · ' + new Date(state.lastSync||nowMs()).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'});
-  } else if(state.net==='error'){
-    chip.classList.add('err');
-    tx.textContent = '通道异常：' + (state.netMsg||'').slice(0,28);
-  } else {
-    chip.classList.add('off');
-    tx.textContent = '本地模式 · ' + n + ' 条本机数据';
-  }
-  var ev = currentJoinEvent();
-  history.replaceState(null, '', location.pathname + location.search + (state.role==='join'? (ev? '#'+encodeEvent({t:ev.kind,i:ev.id,p:ev.prompt,o:ev.opts}) : '') : (state.role==='host'? '#host' : '')));
+  if(state.net==='online'){ chip.classList.add('on'); tx.textContent = 'online · '+state.comments+' records'; }
+  else if(state.net==='error'){ chip.classList.add('err'); tx.textContent = 'channel error'; }
+  else { chip.classList.add('off'); tx.textContent = 'local mode · '+(state.events.length)+' local records'; }
 }
-function nav(view){
-  currentView = view;
-  $$('.view').forEach(function(v){ v.classList.toggle('on', v.id==='v-'+view); });
-  $$('.tab').forEach(function(t){ t.setAttribute('aria-selected', String(t.dataset.nav===view)); });
-  if(view==='live' && state.role==='join'){ /* handled below */ }
-  window.scrollTo({top:0, behavior:'instant' in window? 'instant' : 'auto'});
-}
-function applyRole(){
-  var q = parseQuery();
-  var h = parseHash();
-  var role = q.role || q.mode || (h.t? 'join' : '');
-  if(role==='join'){
-    state.role = 'join';
-    state.room = q.room || state.room || '';
-    if(h.t) state.now = {type:h.t, id:h.i, prompt:h.p, opts:h.o||[]};
-    $('#live-host').style.display = 'none';
-    $('#live-join').style.display = 'block';
-    document.body.classList.add('is-join');
-    $$('.tab').forEach(function(t){ t.style.display = (t.dataset.nav==='live')? '' : 'none'; });
-    nav('live');
-    document.querySelector('header.top .brand .t1').textContent = '4MA 互动 · 参与者端';
-    return true;
-  }
-  state.role = 'host';
-  return false;
+function render(){
+  renderPlay();
+  renderBoard();
+  renderLiveHost();
+  renderJoin();
+  updateStatus();
 }
 
-/* ---------- 13. 初始化 ---------- */
-async function init(){
-  loadLocal();
-  var isJoin = applyRole();
-  if(!state.room) state.room = randomRoom();
-  if(!state.cfg.name) state.cfg.name = '';
-  saveLocal();
-
-  if(!isJoin){
-    $('#btn-setup').addEventListener('click', openSetup);
-    if(state.cfg.token){ await syncNow(true); }
-    startPolling();
-    startTimer();
-  } else {
-    startTimer();
-    setInterval(function(){ if(document.visibilityState==='visible') syncNow(true); }, 5000);
-    syncNow(true);
+/* ---------- 10. interactions ---------- */
+function setSlot(lv){
+  var card = currentRound();
+  if(run.sel !== lv){
+    run.sel = lv;
+    /* 只重画舞台：整页 render() 会把刚被点击的按钮换成新节点，第二次点击就落空了 */
+    $$('#play-stage .slot').forEach(function(s){
+      s.classList.toggle('hot', s.dataset.slot===lv);
+      var fill = s.querySelector('.fill');
+      if(fill) fill.textContent = (s.dataset.slot===lv)? 'Tap again to place the card' : 'Tap to place the card';
+    });
+    return;
   }
-  renderRecall();
-  render();
-  restoreMyDesign();
-  renderDesignAll();
-  document.addEventListener('visibilitychange', function(){
-    if(document.visibilityState==='visible') syncNow(true);
+  /* commit */
+  var ok = lv === card.a;
+  var pts = scoreAnswer(ok, 22000);
+  var slots = $$('#play-stage .slot');
+  slots.forEach(function(s){
+    if(s.dataset.slot===card.a) s.classList.add('right');
+    else if(s.dataset.slot===lv) s.classList.add('wrong');
   });
+  var ex = $('#explain');
+  ex.className = 'explain show '+(ok?'good':'bad');
+  ex.innerHTML = '<span class="tag">'+(ok?'correct +'+pts:'not quite')+'</span><b>'+esc(card.a)+'</b> — '+esc(card.why);
+  setTimeout(function(){ if(run && !run.done) nextRound(); else renderStage(); }, ok? 1500 : 3200);
 }
-function randomRoom(){
-  var A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = '';
-  for(var i=0;i<6;i++) s += A[Math.floor(Math.random()*A.length)];
-  return s;
-}
-async function syncNow(silent){
-  if(state.syncing) return;
-  state.syncing = true;
-  try{
-    var ok = await pullAll();
-    if(!ok && state.cfg.token && !silent) toast('同步失败：'+(state.netMsg||''), 'err');
-    render();
-  }catch(e){
-    state.net='error'; state.netMsg=e.message;
-    if(!silent) toast('同步失败：'+e.message, 'err');
-    render();
-  }finally{ state.syncing = false; }
-}
-function startPolling(){
-  if(timerHandle) clearInterval(timerHandle);
-  timerHandle = setInterval(function(){
-    if(document.visibilityState==='visible') syncNow(true);
-  }, 7000);
-}
-function startTimer(){
-  setInterval(function(){ updateTimerUI(); }, 500);
-}
-function openSetup(){
-  $('#setup-repo').textContent = state.cfg.owner + '/' + state.cfg.repo;
-  $('#cf-repo').value = state.cfg.owner + '/' + state.cfg.repo;
-  $('#cf-label').value = state.cfg.label;
-  $('#tk').value = state.cfg.token || '';
-  $('#setup-modal').classList.add('show');
-}
-function closeSetup(){ $('#setup-modal').classList.remove('show'); }
-
-/* 供自动化测试与排障使用 */
-window.__4ma = {
-  state:state, publish:publish, render:render, nav:nav, toCSV:toCSV,
-  buildPlan:buildPlan, buildReport:buildReport, readDesign:readDesign,
-  signups:signups, votesFor:votesFor, joinURL:joinURL, ensureBoard:ensureBoard, pullAll:pullAll,
-  parseHash:parseHash, currentJoinEvent:currentJoinEvent, findEvent:findEvent, latestTimer:latestTimer,
-  mergeEvents:mergeEvents, decodeComments:decodeComments, pushEvent:pushEvent, encodeEvent:encodeEvent,
-  cloudsFor:cloudsFor, questions:questions, upCount:upCount, designFor:designFor, reflections:reflections
-};
-
-/* 刷新后把自己已发布的设计拉回编辑器，草稿不会因为刷新丢掉 */
-function restoreMyDesign(){
-  var me = state.cfg.name || '';
-  var mine = null;
-  state.events.forEach(function(e){
-    if(e.type==='design' && e.design && (!me || e.name===me)) mine = e;
+function answerChoice(i){
+  var q = currentRound(), ok = i === q.answer;
+  var pts = scoreAnswer(ok, 16000);
+  $$('#play-stage .ans').forEach(function(b, bi){
+    b.classList.add(bi===q.answer? 'right' : (bi===i? 'wrong':'dim'));
   });
-  var local = (state.draft && state.draft.design) || {};
-  if(mine && !local.purpose && !local.process){
-    state.draft = {design:mine.design};
-    if($('#sign-name')) $('#sign-name').value = mine.name || '';
-    toast('已载入你上次发布的设计：Week '+mine.design.week, 'ok');
-  }
+  var ex = $('#explain');
+  ex.className = 'explain show '+(ok?'good':'bad');
+  ex.innerHTML = '<span class="tag">'+(ok? 'correct +'+pts : 'answer: '+esc(q.opts[q.answer].t))+'</span><b>'+esc(q.right)+'</b> — '+esc(q.why);
+  setTimeout(function(){ if(run && !run.done) nextRound(); else renderStage(); }, ok? 1500 : 3400);
+}
+function submitTiesUnused(){
+  var r = currentRound();
+  var chosen = Object.keys(run.pickTies).length;
+  var ok = chosen === r.ties;
+  var pts = scoreAnswer(ok, 30000);
+  $$('#play-stage .tie').forEach(function(t){ t.classList.add('pick'); });
+  var ex = $('#explain');
+  ex.className = 'explain show '+(ok?'good':'bad');
+  ex.innerHTML = '<span class="tag">'+(ok? 'correct +'+pts : 'you counted '+chosen+', there are '+r.ties)+'</span>'+esc(r.why);
+  setTimeout(function(){ if(run && !run.done) nextRound(); else renderStage(); }, ok? 1600 : 3400);
 }
 
-/* ---------- 14. 交互绑定 ---------- */
 document.addEventListener('click', function(ev){
-  var t = ev.target.closest ? ev.target.closest('button, [data-nav]') : null;
   var navBtn = ev.target.closest && ev.target.closest('[data-nav]');
   if(navBtn){ nav(navBtn.dataset.nav); return; }
-
-  /* --- 报名 --- */
-  if(ev.target.id==='btn-signup'){
-    var name = ($('#su-name')||{}).value || '';
-    var week = Number(($('#su-week')||{}).value || 1);
-    var slot = Number(($('#su-slot')||{}).value || 1);
-    var act = (document.querySelector('input[name="act"]:checked')||{}).value || 'micro';
-    var title = ($('#su-title')||{}).value || '';
-    if(!name.trim()){ toast('先写名字','err'); return; }
-    var taken = signups().some(function(s){ return Number(s.week)===week && Number(s.slot)===slot; });
-    state.cfg.name = name.trim(); saveLocal();
-    publish({type:'signup', week:week, slot:slot, name:name.trim(), activity:act, title:title.trim()})
-      .then(function(ok){ toast(ok? '已占位：Week '+week+' · Slot '+slot : '已记录在本机', ok?'ok':''); });
-    if(taken) toast('这个 slot 已经有人了，你排在了后面','');
+  var playBtn = ev.target.closest && ev.target.closest('[data-play]');
+  if(playBtn){
+    var id = playBtn.dataset.play;
+    if(id==='custom'){
+      if(rosterNames().length<2){ toast('Add at least two names to the roster first','err'); nav('play'); return; }
+      startGame('salience', {custom:true, mode:'custom'});
+    } else startGame(id, {});
     return;
   }
-
-  /* --- 设计器 --- */
-  if(ev.target.id==='btn-save-design'){
-    var d = readDesign();
-    var nm = (($('#sign-name')||{}).value || state.cfg.name || '').trim();
-    if(!nm){ toast('写上署名再发布','err'); return; }
-    state.cfg.name = nm; saveLocal();
-    publish({type:'design', name:nm, design:d}).then(function(ok){ toast(ok? '设计已发布到占位板':'已存在本机', ok?'ok':''); });
+  if(ev.target.closest && ev.target.closest('[data-again]')){
+    startGame(ev.target.closest('[data-again]').dataset.again, {});
     return;
   }
-  if(ev.target.id==='btn-copy-plan'){ clip(buildPlan(readDesign()), '讲稿已复制'); return; }
-  if(ev.target.id==='btn-print'){ window.print(); return; }
+  var tie = ev.target.closest && ev.target.closest('[data-tie]');
+  if(tie && run && run.data.kind==='network'){
+    var key = tie.dataset.tie;
+    if(run.pickTies[key]) delete run.pickTies[key]; else run.pickTies[key] = 1;
+    tie.classList.toggle('pick');
+    var tc = $('#tiecount'); if(tc) tc.textContent = Object.keys(run.pickTies).length;
+    return;
+  }
+  var slot = ev.target.closest && ev.target.closest('[data-slot]');
+  if(slot){ setSlot(slot.dataset.slot); return; }
+  var ans = ev.target.closest && ev.target.closest('[data-ans]');
+  if(ans){
+    var kind = run && run.data.kind;
+    if(kind==='network'){ answerChoice(Number(ans.dataset.ans)); }
+    else answerChoice(Number(ans.dataset.ans));
+    return;
+  }
+  if(ev.target.closest && ev.target.closest('[data-lg]')){
+    var g = ev.target.closest('[data-lg]').dataset.lg;
+    state.liveGame = g;
+    renderLiveHost();
+    $$('#live-games button').forEach(function(b){ b.setAttribute('aria-pressed', String(b.dataset.lg===g)); });
+    return;
+  }
+  if(ev.target.id==='btn-quick'){ startGame('salience', {}); return; }
+  if(ev.target.id==='btn-quit'){ run = null; nav('play'); return; }
+  if(ev.target.id==='btn-back-home'){ run = null; return; }
+  if(ev.target.id==='btn-addname'){
+    var v = ($('#roster-in')||{}).value||'';
+    var names = v.split(/[,;\n]/).map(function(x){ return x.trim(); }).filter(Boolean);
+    if(!names.length){ toast('Type a name first','err'); return; }
+    var merged = rosterNames();
+    names.forEach(function(n){ if(merged.indexOf(n)<0) merged.push(n); });
+    setRoster(merged);
+    renderPlay();
+    toast(names.length+' name'+(names.length>1?'s':'')+' added — scenarios will use them','ok');
+    return;
+  }
+  var rmBtn = ev.target.closest && ev.target.closest('[data-rmname]');
+  if(rmBtn){
+    var idx = Number(rmBtn.dataset.rmname);
+    var list = rosterNames();
+    list.splice(idx,1);
+    setRoster(list);
+    renderPlay(); return;
+  }
+  if(ev.target.id==='btn-addme'){
+    var me = state.cfg.name;
+    if(!me){ toast('Set your name on the Plan tab or in a live round first','err'); return; }
+    var l2 = rosterNames();
+    if(l2.indexOf(me)<0) l2.push(me);
+    setRoster(l2);
+    renderPlay(); return;
+  }
+  if(ev.target.id==='btn-host-live'){ nav('live'); return; }
+  if(ev.target.id==='btn-start-live'){
+    var g2 = state.liveGame || GAMES[0].id;
+    publish({type:'roundStart', id:uid(), game:g2, by:state.cfg.name||'host'});
+    if($('#live-auto') && $('#live-auto').checked){
+      var t = {type:'setTimer', id:uid(), ms:240000, atMs:nowMs(), by:state.cfg.name||'host'};
+      pushEvent(t); saveLocal();
+      publish({type:'setTimer', id:t.id, ms:240000, atMs:t.atMs, by:t.by});
+    }
+    renderLiveHost(); renderJoin(); updateTimer();
+    toast('Published to the room','ok');
+    return;
+  }
+  if(ev.target.id==='btn-t4'){
+    var t2 = {type:'setTimer', id:uid(), ms:240000, atMs:nowMs(), by:state.cfg.name||'host'};
+    pushEvent(t2); saveLocal();
+    publish({type:'setTimer', id:t2.id, ms:240000, atMs:t2.atMs, by:t2.by});
+    renderLiveHost(); updateTimer(); toast('4 minutes started','ok'); return;
+  }
+  if(ev.target.id==='btn-tstop'){
+    publish({type:'setTimer', id:uid(), ms:0, atMs:nowMs(), by:state.cfg.name||'host'});
+    renderLiveHost(); return;
+  }
+  if(ev.target.id==='btn-newroom'){
+    state.room = randomRoom(); state.cfg.room = state.room; saveLocal();
+    renderLiveHost(); toast('Room code: '+state.room,'ok'); return;
+  }
+  if(ev.target.id==='btn-copyjoin'){ clip(joinURL(state.room), 'Join link copied'); return; }
+  if(ev.target.id==='btn-refresh'){ syncNow(false); return; }
+  if(ev.target.id==='btn-csv'){ dl('4ma-arcade-scores.csv', toCSV(), 'text/csv'); return; }
+  if(ev.target.id==='btn-json'){
+    dl('4ma-arcade-'+Date.now()+'.json', JSON.stringify({exported:new Date().toISOString(), events:state.events}, null, 2), 'application/json');
+    return;
+  }
+  if(ev.target.id==='btn-broadcast'){ clip(location.origin+location.pathname+'#board', 'Screen link copied — open it on the projector'); return; }
+  if(ev.target.id==='btn-reset'){
+    if(ev.target.dataset.c==='1'){
+      state.events = state.events.filter(function(e){ return e.type==='roster'; });
+      saveLocal(); render(); toast('Local data cleared','ok');
+      ev.target.dataset.c=''; ev.target.textContent='Clear my local data';
+    } else { ev.target.dataset.c='1'; ev.target.textContent='Tap again to confirm'; }
+    return;
+  }
+  /* plan tab */
   if(ev.target.id==='btn-tpl'){
     state.draft = {design:{
-      week:6, activity:'discuss',
-      purpose:'让全班能用自己的话说明 Salience Model 里 power / legitimacy / urgency 三个属性的差别，并能把一张陌生的 stakeholder 卡片归到 8 类中的某一类。',
-      product:'Heads：全班口头说出三类属性的判别句；Hands：白板上留下 6 张卡片的归类结果与 1 个争议点。',
-      participants:'全班约 30 人（Week 6 课前已读 Salience Model 章节）；其中 2–3 人有真实项目经历，可提供反例。',
-      issues:'Topics：三属性定义、8 类命名（Dormant / Discretionary / Demanding / Dominant / Dangerous / Dependent / Definitive / Nonstakeholder）。Ditches：把 salience 的 power 与 Bourne 的 proximity 混为一谈。Red herrings：扯到上周作业评分、扯到小组分工。',
-      process:'0:00 开场问题：如果只能看一个属性，你会先看哪个？\n0:25 说明规则：6 张卡片，全班一起归类\n1:00 全班归类，我记录在白板\n2:40 挑争议最大的一张，问「谁不同意，为什么」\n3:30 收束：三类属性 → 8 类的判断逻辑',
-      extra:{h:0, open:'如果只能看一个属性，你会先看哪个？为什么？'}
+      purpose:'After four minutes the class can assign any stakeholder to one of the eight salience classes and say which attribute is missing.',
+      product:'Heads: the class defines urgency out loud and contrasts it with importance. Hands: a photo of the board with six cards placed. Hearts: two people volunteer to run it in their own project.',
+      participants:'About 30 students who did the Week 6 pre-reading; two have live project experience and will supply counter-examples.',
+      issues:'Topics: the three attributes and the eight classes. Ditches: conflating salience power with Bourne\u2019s proximity. Red herrings: last week\u2019s marks and group allocations.',
+      process:'0:00 opening question: if you could see only one attribute, which one?\n0:25 rules: six cards, class sorts them together\n1:00 class sorting, I record on the board\n2:40 the most contested card: who disagrees, and why?\n3:30 close: attributes decide the class',
+      extra:{open:'If you could see only one attribute of a stakeholder, which one would you look at first, and why?'}
     }};
-    renderDesignAll(); toast('模板已载入，按你的场景改','ok'); return;
+    renderPlanForm(); renderPlanOut(); toast('Worked example loaded','ok'); return;
   }
-  if(ev.target.id==='btn-idea'){
-    var idea = IDEAS[Math.floor(Math.random()*IDEAS.length)];
-    var cur = readDesign();
-    cur.purpose = cur.purpose || ('4 分钟后，全班能' + idea.t + '说清背后的判断逻辑。');
-    state.draft = {design:cur};
-    renderDesignAll();
-    $('#plan-out').textContent = '【灵感】' + idea.t + '\n\n' + idea.d + '\n\n' + buildPlan(readDesign());
-    toast('灵感已注入讲稿区', 'ok'); return;
-  }
-  if(ev.target.id==='btn-clear-design'){
-    state.draft = {design:{}}; renderDesignAll(); toast('草稿已清空'); return;
-  }
-
-  /* --- 现场 --- */
-  if(ev.target.id==='btn-start-ev'){
-    var kind = (document.querySelector('input[name="evtype"]:checked')||{}).value || 'poll';
-    var prompt = ($('#ev-name')||{}).value.trim();
-    var opts = parseLines(($('#ev-opts')||{}).value);
-    if(!prompt){ toast('写一个标题 / 问题','err'); return; }
-    if((kind==='poll'||kind==='multi') && opts.length<2){ toast('至少写 2 个选项','err'); return; }
-    var eid = uid();
-    state.cfg.room = state.cfg.room || state.room;
-    state.cfg.eventId = eid;
-    pushEvent({type:'event', id:eid, kind:kind, prompt:prompt, opts:opts, by:state.cfg.name||'host', at:nowMs()});
-    saveLocal();
-    var pub = {type:'event', id:eid, kind:kind, prompt:prompt, opts:opts, room:state.room};
-    publish(pub);
-    if($('#ev-auto').checked){ start4(); }
-    render(); toast('已发布到互动端','ok');
+  if(ev.target.id==='btn-copy-plan'){ clip(buildRunSheet(readPlan()), 'Run sheet copied'); return; }
+  if(ev.target.id==='btn-print'){ window.print(); return; }
+  if(ev.target.id==='btn-save-plan'){
+    var nm = (($('#plan-name')||{}).value||state.cfg.name||'').trim();
+    if(!nm){ toast('Add your name first','err'); return; }
+    state.cfg.name = nm; saveLocal();
+    publish({type:'design', id:uid(), name:nm, design:readPlan()});
+    toast('Published to the board','ok');
     return;
   }
-  if(ev.target.id==='btn-ev-close'){
-    state.cfg.eventId = ''; saveLocal();
-    publish({type:'setTimer', id:uid(), ms:0, by:'host'});
-    render(); return;
+  /* join view */
+  if(ev.target.id==='btn-join-save'){
+    var n2 = (($('#join-name')||{}).value||'').trim();
+    if(!n2){ toast('Type your name','err'); return; }
+    state.cfg.name = n2; saveLocal();
+    publish({type:'joined', id:uid(), player:n2, ref:state.room||''});
+    renderJoin(); toast('You are in, '+n2,'ok'); return;
   }
-  if(ev.target.id==='btn-t4'){ start4(); return; }
-  if(ev.target.id==='btn-tstop'){ publish({type:'setTimer', id:uid(), ms:0, atMs:nowMs()}); render(); return; }
-  if(ev.target.id==='btn-newroom'){
-    state.room = randomRoom(); state.cfg.room = state.room; state.cfg.eventId=''; saveLocal();
-    render(); toast('房间码已更换：'+state.room,'ok'); return;
-  }
-  if(ev.target.id==='btn-copyjoin'){ clip(joinURL(state.room, currentJoinEvent()), '参与链接已复制'); return; }
-  if(ev.target.id==='btn-refresh'){ syncNow(false).then(function(){ toast('已刷新','ok'); }); return; }
-
-  /* --- 数据导出 --- */
-  if(ev.target.id==='btn-csv'){ dl('4ma-data-'+Date.now()+'.csv', toCSV(), 'text/csv'); return; }
-  if(ev.target.id==='btn-json'){ dl('4ma-raw-'+Date.now()+'.json', JSON.stringify({exported:new Date().toISOString(), events:state.events}, null, 2), 'application/json'); return; }
-  if(ev.target.id==='btn-report'){ var rp = buildReport(); $('#report-out').innerHTML = '<div id="plan-out">'+esc(rp)+'</div>'; return; }
-  if(ev.target.id==='btn-copy-report'){ clip(buildReport(), '小结已复制'); return; }
-  if(ev.target.id==='btn-reset-live'){
-    if(ev.target.dataset.c==='1'){
-      state.events = state.events.filter(function(e){ return e.type==='signup'||e.type==='design'; });
-      state.cfg.eventId=''; saveLocal(); render(); toast('本机现场数据已清空','ok');
-      ev.target.dataset.c=''; ev.target.textContent='清空本机现场数据';
-    } else { ev.target.dataset.c='1'; ev.target.textContent='再点一次确认清空'; }
-    return;
-  }
-
-  /* --- 参与者端 --- */
-  if(ev.target.id==='btn-me-save'){
-    state.cfg.name = ($('#me-name')||{}).value.trim(); saveLocal(); render(); toast('已保存','ok'); return;
-  }
-  if(ev.target.dataset.pick!=null){
-    var e2 = currentJoinEvent(); if(!e2) return;
-    if(e2.kind==='multi'){
-      var b = ev.target.closest('.votebtn');
-      b.classList.toggle('sel');
-      return;
-    }
-    submitVote(Number(ev.target.dataset.pick));
-    return;
-  }
-  if(ev.target.id==='btn-submit-multi'){
-    var e3 = currentJoinEvent(); if(!e3) return;
-    var picks = $$('#join-card .votebtn.sel').map(function(b){ return Number(b.dataset.pick); });
-    if(!picks.length){ toast('至少选一个','err'); return; }
-    submitVote(picks); return;
-  }
-  if(ev.target.dataset.rate!=null){ submitVote(Number(ev.target.dataset.rate)); return; }
-  if(ev.target.id==='btn-cloud'){
-    var e4 = currentJoinEvent(); if(!e4) return;
-    var txt = ($('#cloud-in')||{}).value.trim();
-    if(!txt){ toast('先写几个词','err'); return; }
-    publish({type:'cloud', id:uid(), ref:e4.id, text:txt, voter:state.cfg.name||'anon'}).then(function(ok){ if(ok) toast('已提交','ok'); });
-    return;
-  }
-  if(ev.target.id==='btn-qa'){
-    var e5 = currentJoinEvent(); if(!e5) return;
-    var q = ($('#qa-in')||{}).value.trim();
-    if(!q){ toast('先写问题','err'); return; }
-    publish({type:'question', id:uid(), ref:e5.id, q:q, by:state.cfg.name||'anon'}).then(function(ok){ if(ok){ toast('已上墙','ok'); $('#qa-in').value=''; } });
-    return;
-  }
-  if(ev.target.id==='btn-rf'){
-    var e6 = currentJoinEvent(); if(!e6) return;
-    var rf = ($('#rf-in')||{}).value.trim();
-    if(!rf){ toast('写一句再交','err'); return; }
-    publish({type:'reflect', id:uid(), ref:e6.id, text:rf, by:state.cfg.name||'anon'}).then(function(ok){ if(ok) toast('反思已提交','ok'); });
-    return;
-  }
-  if(ev.target.dataset.up){
-    var qid = ev.target.dataset.up;
-    if(myUp(qid)){ toast('你已经顶过了'); return; }
-    publish({type:'up', id:uid(), ref:qid, qid:qid, voter:state.cfg.name||'anon'}).then(function(){});
-    return;
-  }
-  if(ev.target.dataset.doans){
-    var qid2 = ev.target.dataset.doans;
-    var inp = document.querySelector('[data-ans="'+qid2+'"]');
-    var val = inp? inp.value.trim() : '';
-    if(!val){ toast('先写回答','err'); return; }
-    publish({type:'answer', id:uid(), ref:qid2, qid:qid2, answer:val, by:state.cfg.name||'host'}).then(function(){ if(inp) inp.value=''; });
-    return;
-  }
-  if(ev.target.dataset.useq!=null){
-    var ds = state.events.filter(function(e){ return e.type==='design'; });
-    var item = ds[Number(ev.target.dataset.useq)];
-    if(!item) return;
-    $('#ev-name').value = (item.design.extra && item.design.extra.open) || item.design.purpose || '';
-    toast('已填到互动标题','ok'); nav('live'); return;
-  }
-
-  /* --- 设置弹窗 --- */
-  if(ev.target.id==='btn-tk-close'){ closeSetup(); return; }
+  if(ev.target.id==='btn-join-setup'){ openSetup(); return; }
+  /* setup modal */
+  if(ev.target.id==='btn-setup'){ openSetup(); return; }
+  if(ev.target.id==='btn-tk-close' || ev.target.id==='setup-modal'){ closeSetup(); return; }
   if(ev.target.id==='btn-tk-save'){
-    var repo = ($('#cf-repo')||{}).value.trim();
-    var tk = ($('#tk')||{}).value.trim();
+    var repo = ($('#cf-repo')||{}).value.trim(), tk = ($('#tk')||{}).value.trim();
     if(repo.indexOf('/')>0){ state.cfg.owner = repo.split('/')[0]; state.cfg.repo = repo.split('/')[1]; }
-    state.cfg.label = ($('#cf-label')||{}).value.trim() || '4ma-board';
-    state.cfg.token = tk;
-    saveLocal();
-    $('#tk-status').innerHTML = '<span class="mut">正在测试…</span>';
+    state.cfg.label = ($('#cf-label')||{}).value.trim() || '4ma-arcade';
+    state.cfg.token = tk; saveLocal();
+    $('#tk-status').innerHTML = '<span class="mut">Testing…</span>';
     (async function(){
       var ok = await ensureBoard();
-      if(!ok){ $('#tk-status').innerHTML = '<span style="color:#b3261e">连接失败：'+esc(state.netMsg||'未知错误')+'</span>'; render(); return; }
-      var pulled = await pullAll();
-      $('#tk-status').innerHTML = '<span style="color:#1f7a4d">已连接 issue #'+state.boardIssue+'，读到 '+state.events.length+' 条数据</span>';
-      render(); toast('数据通道已接通','ok');
+      if(!ok){ $('#tk-status').innerHTML = '<span style="color:#b3261e">Connection failed: '+esc(state.netMsg||'unknown')+'</span>'; updateStatus(); return; }
+      await pullAll();
+      $('#tk-status').innerHTML = '<span style="color:#1f7a4d">Connected to issue #'+state.boardIssue+' — '+scores().length+' runs, '+leaderboard().length+' players visible</span>';
+      render(); toast('Data channel online','ok');
     })();
     return;
   }
   if(ev.target.id==='btn-tk-clear'){
     state.cfg.token=''; state.boardIssue=0; state.cfg.issue=0; saveLocal();
-    $('#tk-status').textContent='token 已清除，页面回到本地模式。'; render(); return;
+    $('#tk-status').textContent = 'Token cleared — back to local mode.';
+    updateStatus(); return;
   }
-
-  /* --- MCQ --- */
-  var opt = ev.target.closest && ev.target.closest('.mcq .opt');
-  if(opt){
-    var box = opt.closest('.mcq');
-    if(box.classList.contains('done')) return;
-    var qi = Number(opt.dataset.qi), oi = Number(opt.dataset.oi);
-    var item = RECALL[qi];
-    var opts2 = $$('.opt', box);
-    opts2.forEach(function(b, i){
-      b.disabled = true;
-      if(i===item.a) b.classList.add('right');
-      else if(i===oi) b.classList.add('wrong');
-    });
-    box.classList.add('done');
-    if(oi!==item.a) toast('再看一眼解释里的定义差别','err');
-    return;
-  }
-  if(ev.target.id==='setup-modal'){ closeSetup(); return; }
 });
-function start4(){
-  var p = {type:'setTimer', id:uid(), ms:240000, atMs:nowMs(), by:state.cfg.name||'host'};
-  pushEvent(p); saveLocal();
-  publish({type:'setTimer', id:p.id, ms:240000, atMs:p.atMs, by:p.by});
-  render();
-}
-function submitVote(choice){
-  var ev = currentJoinEvent(); if(!ev) return;
-  publish({type:'vote', id:uid(), ref:ev.id, choice:choice, voter:state.cfg.name||'anon'})
-    .then(function(ok){ if(ok) toast('已提交，可改票','ok'); });
-}
-
-/* 输入即改 / 输入即存 */
 document.addEventListener('input', function(ev){
   var t = ev.target;
-  if(t.dataset && t.dataset.k){           // 设计器 textarea
-    state.draft = state.draft || {design:{}};
-    state.draft.design[t.dataset.k] = t.value;
-    var d = readDesign();
-    state.draft.design = d;
-    renderDesignChecks(d); renderPlan(d);
-    var filled = ['purpose','product','participants','issues','process'].filter(function(k){ return (d[k]||'').trim(); }).length;
-    $('#design-status').textContent = '草稿自动保存在本机 · 5 Ps 已填 ' + filled + '/5';
-    saveLocal();
-  }
-  if(t.id==='ds-open'){
-    state.draft = state.draft || {design:{}};
-    var d2 = readDesign(); state.draft.design = d2;
-    renderDesignChecks(d2); renderPlan(d2);
-  }
-});
-document.addEventListener('change', function(ev){
-  var t = ev.target;
-  if(t.name==='evtype'){ state.evType = t.value; renderEvTypes(t.value); }
-  if(t.id==='ds-type' || t.id==='ds-week' || t.id==='ds-h'){
-    var d = readDesign(); state.draft = {design:d}; renderDesignChecks(d); renderPlan(d); saveLocal();
-  }
-  if(t.id==='su-week'){ state.pickWeek = Number(t.value); }
+  if(t.dataset && t.dataset.k){ renderPlanOut(); saveLocal(); }
+  if(t.id==='ds-open'){ renderPlanOut(); saveLocal(); }
 });
 document.addEventListener('keydown', function(ev){
-  if(ev.key==='Escape') closeSetup();
+  if(ev.key==='Escape'){ closeSetup(); return; }
+  if(!run || run.done) return;
+  var k = ev.key.toUpperCase();
+  var d = run.data;
+  if(d.kind==='choice' || d.kind==='network'){
+    var n = 'ABCD'.indexOf(k);
+    if(n>=0){ answerChoice(n); ev.preventDefault(); }
+  }
+  if(d.kind==='sort'){
+    var n2 = Number(ev.key)-1;
+    if(n2>=0 && n2<run.away.length){ setSlot(run.away[n2]); ev.preventDefault(); }
+  }
 });
 
+function randomRoom(){
+  var A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s = '';
+  for(var i=0;i<6;i++) s += A[Math.floor(Math.random()*A.length)];
+  return s;
+}
+function openSetup(){
+  $('#setup-repo').textContent = state.cfg.owner+'/'+state.cfg.repo;
+  $('#cf-repo').value = state.cfg.owner+'/'+state.cfg.repo;
+  $('#cf-label').value = state.cfg.label;
+  $('#tk').value = state.cfg.token||'';
+  $('#setup-modal').classList.add('show');
+}
+function closeSetup(){ $('#setup-modal').classList.remove('show'); }
+
+/* ---------- 11. boot ---------- */
+async function syncNow(silent){
+  if(state.syncing) return;
+  state.syncing = true;
+  try{ await pullAll(); render(); }
+  catch(e){ state.net='error'; state.netMsg=e.message; if(!silent) toast('Sync failed: '+e.message,'err'); updateStatus(); }
+  finally{ state.syncing = false; }
+}
+function applyRole(){
+  var q = {};
+  location.search.replace(/^\?/,'').split('&').forEach(function(kv){
+    if(!kv) return;
+    var i = kv.indexOf('=');
+    try{ q[decodeURIComponent(i<0?kv:kv.slice(0,i))] = i<0? '' : decodeURIComponent(kv.slice(i+1)); }catch(e){}
+  });
+  if(q.role==='join'){
+    state.role = 'join';
+    state.room = q.room || '';
+    document.body.classList.add('is-join');
+    $('#btn-setup').style.display = 'none';
+    $('#st-chip').style.display = 'none';
+    $$('.tab').forEach(function(t){ t.style.display = 'none'; });
+    var back = document.createElement('button');
+    back.className='btn sm'; back.type='button'; back.textContent='All games';
+    back.addEventListener('click', function(){ state.role='host'; location.search=''; location.reload(); });
+    $('.topin').insertBefore(back, $('#st-chip'));
+    return true;
+  }
+  return false;
+}
+async function init(){
+  loadLocal();
+  var isJoin = applyRole();
+  if(!state.room) state.room = randomRoom();
+  if(!state.cfg.name){
+    var last = scores().slice(-1)[0];
+    state.cfg.name = (last && last.player) || '';
+  }
+  saveLocal();
+  if(!$('#btn-setup').dataset.bound){
+    $('#btn-setup').dataset.bound = '1';
+  }
+  render();
+  if(state.cfg.token) await syncNow(true);
+  setInterval(function(){ if(document.visibilityState==='visible') syncNow(true); }, 7000);
+  setInterval(updateTimer, 500);
+  document.addEventListener('visibilitychange', function(){ if(document.visibilityState==='visible') syncNow(true); });
+  var hash = (location.hash||'').replace('#','');
+  if(hash==='board'){ nav('board'); }
+  render();
+  if(!state.cfg.token && state.role!=='join'){ /* setup hint, unobtrusive */ }
+}
+window.__arcade = {
+  state:state, publish:publish, render:render, nav:nav, startGame:startGame, run:function(){ return run; },
+  leaderboard:leaderboard, scores:scores, toCSV:toCSV, buildRunSheet:buildRunSheet, readPlan:readPlan,
+  rosterNames:rosterNames, joinURL:joinURL, ensureBoard:ensureBoard, pullAll:pullAll,
+  GAMES:GAMES, setSlot:setSlot, answerChoice:answerChoice, finishRun:finishRun, customScenarios:customScenarios
+};
 init();
 })();
 </script>
