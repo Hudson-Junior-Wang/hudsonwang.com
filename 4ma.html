@@ -67,10 +67,10 @@ header.top{position:sticky;top:0;z-index:40;background:rgba(244,241,234,.94);bac
 .field{display:block;margin-bottom:12px}
 .field>span.lb{display:block;font-size:12.5px;font-weight:600;color:var(--ink2);margin-bottom:5px}
 .field>span.lb i{font-style:normal;color:var(--mut);font-weight:400}
-.inp{width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;background:#fff;transition:.15s}
+.inp{width:100%;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;background:#fff;color:var(--ink);transition:.15s}
 .inp:focus{outline:none;border-color:var(--gold2);box-shadow:0 0 0 3px rgba(201,162,39,.15)}
 textarea.inp{min-height:64px;resize:vertical;line-height:1.5}
-.btn{border:1px solid var(--line2);background:#fff;border-radius:10px;padding:9px 15px;font-size:13.5px;font-weight:550;transition:.15s}
+.btn{border:1px solid var(--line2);background:#fff;border-radius:10px;padding:9px 15px;font-size:13.5px;font-weight:550;color:var(--ink);transition:.15s}
 .btn:hover{border-color:var(--gold2);background:#fffdf6}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 .btn.pri{background:#0e1420;color:#fff;border-color:#0e1420}
@@ -114,12 +114,15 @@ table.tb th{font-size:12px;color:var(--mut);font-weight:600;background:#faf8f3}
 .mini{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--mut)}
 
 /* ---------- signup ---------- */
-.wkcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.weekgrid{display:grid;gap:9px;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));grid-auto-rows:1fr}
+.wkcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:none;display:flex;flex-direction:column;gap:7px}
 .wkcard.full{border-color:#dcd3bd;background:#fdfbf5}
-.wkcard .wkh{display:flex;align-items:baseline;gap:8px}
-.wkcard .wkh b{font-size:15px}
-.slot{border:1px dashed var(--line2);border-radius:11px;padding:9px 11px;font-size:12.8px;background:#fcfbf8}
-.slot.free{color:var(--mut)}
+.wkcard .wkh{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.wkcard .wkh b{font-size:13.5px}
+.wkcard .wkh .badge{font-size:10px;padding:1px 7px}
+.slot{border:1px dashed var(--line2);border-radius:9px;padding:6px 8px;font-size:11.6px;line-height:1.45;background:#fcfbf8}
+.slot.free{color:var(--mut);font-size:11.2px}
+.slot b{display:block;font-size:12px}
 .slot.taken{border-style:solid;border-color:#dcd3bd;background:var(--goldsoft)}
 .slot .who{font-weight:650}
 .typegrid{display:flex;gap:7px;flex-wrap:wrap}
@@ -147,7 +150,7 @@ table.tb th{font-size:12px;color:var(--mut);font-weight:600;background:#faf8f3}
 #plan-out{white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.75;background:#fbfaf6;border:1px solid var(--line);border-radius:11px;padding:14px;max-height:520px;overflow:auto}
 .mcq{border:1px solid var(--line);border-radius:12px;padding:12px 13px;margin-bottom:10px;background:#fff}
 .mcq .q{font-weight:600;font-size:13.6px;margin-bottom:8px}
-.mcq .opt{display:block;width:100%;text-align:left;border:1px solid var(--line2);background:#fff;border-radius:9px;padding:8px 11px;font-size:13px;margin-bottom:6px;transition:.12s}
+.mcq .opt{display:block;width:100%;text-align:left;border:1px solid var(--line2);background:#fff;color:var(--ink);border-radius:9px;padding:8px 11px;font-size:13px;margin-bottom:6px;transition:.12s}
 .mcq .opt:hover:not([disabled]){border-color:var(--gold2);background:#fffdf6}
 .mcq .opt[disabled]{cursor:default}
 .mcq .opt.right{border-color:#8fc9a8;background:#eef8f1;color:#0f5c37;font-weight:600}
@@ -220,12 +223,22 @@ table.tb th{font-size:12px;color:var(--mut);font-weight:600;background:#faf8f3}
 .foot{border-top:1px solid var(--line);color:var(--mut);font-size:12px;padding:18px 0 30px;text-align:center}
 @media (max-width:720px){
   .brand .t2{display:none}
+  .brand .t1{font-size:13.5px;white-space:normal}
+  .topin{gap:8px}
+  #st-chip{font-size:11px;padding:4px 8px;max-width:44vw;overflow:hidden}
+  #st-chip span:last-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .hero{padding:22px 18px}
   .hero h1{font-size:23px}
   .room .code{font-size:24px}
   #qrbox canvas{width:132px;height:132px}
   .wrap{padding:0 14px}
 }
+/* 参与者端：只留互动界面 */
+body.is-join #st-chip,body.is-join #btn-setup{display:none}
+body.is-join .tabs{justify-content:center}
+body.is-join .brand{flex:1}
+body.is-join .brand .t1{white-space:normal}
+
 @media print{
   header.top,.tabs,#toasts,.noprint{display:none!important}
   body{background:#fff}
@@ -281,9 +294,9 @@ table.tb th{font-size:12px;color:var(--mut);font-weight:600;background:#faf8f3}
     <div class="sec">
       <div class="grid g2" style="align-items:start">
         <div class="card">
-          <h3>本周哪些时段还能抢</h3>
-          <div class="sub">每个学期周只有 2 个 slot。点「我要这个 slot」，填名字与活动类型，立刻占位。</div>
-          <div class="grid g2" id="week-grid"></div>
+          <h3>学期周占位总览</h3>
+          <div class="sub">每个学期周只有 2 个 slot（4MA.md 原文：two for each semester week）。在右边选中周次与 slot，填名字和活动类型即可占位。</div>
+          <div class="weekgrid" id="week-grid"></div>
           <div class="note" style="margin-top:12px">报名数据走你自己的数据通道，全班刷新都能看到最新占位情况。没有配置通道时，只有本机可见（页面顶部会写明「本地模式」）。</div>
         </div>
         <div class="card">
@@ -950,14 +963,14 @@ function renderWeeks(){
     var inner = [1,2].map(function(n){
       var s = null;
       slots.forEach(function(x){ if(Number(x.slot)===n) s = x; });
-      if(!s) return '<div class="slot free">Slot '+n+' · 空闲中</div>';
+      if(!s) return '<div class="slot free">Slot '+n+' · 空闲</div>';
       var t = TYPES.filter(function(t){ return t.k===s.activity; })[0];
-      return '<div class="slot taken">Slot '+n+' · <span class="who">'+esc(s.name)+'</span><br>'+
-             '<span class="mut">'+esc(t? t.cn : (s.activity||''))+'</span>'+
-             (s.title? '<br><span class="mut">'+esc(s.title)+'</span>':'')+'</div>';
+      return '<div class="slot taken"><b>'+esc(s.name)+'</b>'+
+             '<span class="mut">S'+n+' · '+esc((t? t.cn : (s.activity||'')).split(' ')[0])+'</span>'+
+             (s.title? '<br><span class="mut">'+esc(s.title.slice(0,18))+'</span>':'')+'</div>';
     }).join('');
     return '<div class="wkcard'+(full?' full':'')+'">'+
-      '<div class="wkh"><b>Week '+w+'</b>'+(full? '<span class="badge gold">已满</span>' : '<span class="badge ok">还有位置</span>')+'</div>'+
+      '<div class="wkh"><b>Week '+w+'</b>'+(full? '<span class="badge gold">满</span>' : '<span class="badge ok">可报</span>')+'</div>'+
       inner + '</div>';
   }).join('');
   $('#week-grid').innerHTML = html;
@@ -1185,6 +1198,10 @@ function renderDesignAll(){
 function evLabel(t){
   return {poll:'单选 poll', multi:'多选 multi', rating:'1–5 评分 rating', cloud:'词云 word cloud', qa:'提问墙 Q&A', reflect:'反思 reflect'}[t] || t;
 }
+function typeLabel(k){
+  var t = TYPES.filter(function(x){ return x.k===k; })[0];
+  return t? t.cn : (k || '—');
+}
 function renderRoomBar(){
   var r = state.cfg.room || state.room || '—';
   var ev = currentJoinEvent();
@@ -1385,7 +1402,7 @@ function renderData(){
       var d = designFor(s.week, s.name);
       var filled = d? ['purpose','product','participants','issues','process'].filter(function(k){
         return d.design[k] && String(d.design[k]).trim(); }).length : 0;
-      return '<tr><td>W'+esc(s.week)+' · S'+esc(s.slot)+'</td><td>'+esc(s.name)+'</td><td>'+esc(evLabel(s.activity))+'</td>'+
+      return '<tr><td>W'+esc(s.week)+' · S'+esc(s.slot)+'</td><td>'+esc(s.name)+'</td><td>'+esc(typeLabel(s.activity))+'</td>'+
         '<td>'+(d? filled+'/5' : '—')+'</td></tr>';
     }).join('')+'</tbody></table>' : '<div class="mini">暂无占位</div>') +
     '<div class="mini" style="margin-top:9px">活动类型分布：'+ (Object.keys(byType).length? Object.keys(byType).map(function(k){ return evLabel(k)+' ×'+byType[k]; }).join(' · ') : '—') +'</div>';
@@ -1569,6 +1586,7 @@ function applyRole(){
     if(h.t) state.now = {type:h.t, id:h.i, prompt:h.p, opts:h.o||[]};
     $('#live-host').style.display = 'none';
     $('#live-join').style.display = 'block';
+    document.body.classList.add('is-join');
     $$('.tab').forEach(function(t){ t.style.display = (t.dataset.nav==='live')? '' : 'none'; });
     nav('live');
     document.querySelector('header.top .brand .t1').textContent = '4MA 互动 · 参与者端';
@@ -1598,7 +1616,7 @@ async function init(){
   }
   renderRecall();
   render();
-  $('#design-status').textContent = '';
+  restoreMyDesign();
   renderDesignAll();
   document.addEventListener('visibilitychange', function(){
     if(document.visibilityState==='visible') syncNow(true);
@@ -1649,6 +1667,21 @@ window.__4ma = {
   mergeEvents:mergeEvents, decodeComments:decodeComments, pushEvent:pushEvent, encodeEvent:encodeEvent,
   cloudsFor:cloudsFor, questions:questions, upCount:upCount, designFor:designFor, reflections:reflections
 };
+
+/* 刷新后把自己已发布的设计拉回编辑器，草稿不会因为刷新丢掉 */
+function restoreMyDesign(){
+  var me = state.cfg.name || '';
+  var mine = null;
+  state.events.forEach(function(e){
+    if(e.type==='design' && e.design && (!me || e.name===me)) mine = e;
+  });
+  var local = (state.draft && state.draft.design) || {};
+  if(mine && !local.purpose && !local.process){
+    state.draft = {design:mine.design};
+    if($('#sign-name')) $('#sign-name').value = mine.name || '';
+    toast('已载入你上次发布的设计：Week '+mine.design.week, 'ok');
+  }
+}
 
 /* ---------- 14. 交互绑定 ---------- */
 document.addEventListener('click', function(ev){
