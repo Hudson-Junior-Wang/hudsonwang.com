@@ -1105,7 +1105,9 @@ function renderNetwork(){
     '<div class="explain" id="explain"></div>';
 }
 function renderStage(){
-  var el = $('#play-stage');
+  var el = $('#play-stage'), home = $('#play-home');
+  /* 进入一轮游戏时隐藏首页：舞台要取代首页，而不是接在它后面 */
+  if(home) home.style.display = run? 'none' : '';
   if(!run){ el.innerHTML = ''; return; }
   if(run.done){ el.innerHTML = renderVerdict(); return; }
   var d = run.data;
@@ -1537,7 +1539,7 @@ document.addEventListener('click', function(ev){
     return;
   }
   if(ev.target.id==='btn-quick'){ startGame('salience', {}); return; }
-  if(ev.target.id==='btn-quit'){ run = null; nav('play'); return; }
+  if(ev.target.id==='btn-quit'){ run = null; nav('play'); renderStage(); return; }
   if(ev.target.id==='btn-back-home'){ run = null; return; }
   if(ev.target.id==='btn-addname'){
     var v = ($('#roster-in')||{}).value||'';
