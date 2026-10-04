@@ -421,6 +421,7 @@ body.is-join .brand .t1{white-space:normal}
 
   <!-- ============================ DATA ============================ -->
   <section class="view" id="v-data">
+    <div class="sec" id="channel-hint"></div>
     <div class="sec">
       <div class="sechead"><h2>数据汇总</h2><span class="en">live aggregation</span>
         <button class="btn sm" type="button" id="btn-refresh">立即刷新</button>
@@ -1385,6 +1386,15 @@ function renderEvTypes(sel){
 }
 
 /* ---------- 10. 渲染：数据汇总 ---------- */
+function renderChannelHint(){
+  var box = $('#channel-hint'); if(!box) return;
+  if(state.role==='join'){ box.innerHTML=''; return; }
+  if(state.cfg.token){ box.innerHTML=''; return; }
+  box.innerHTML = '<div class="warn"><b>还差一步：接通数据通道。</b> '+
+    '学生端不需要做任何设置（扫码就能投、刷新就能看到结果），但要把「谁报了名、谁投了什么」留下来并让全班刷新可见，'+
+    '需要在这台设备上填一次你自己的 GitHub token：点右上角<b>数据通道</b> → 按 4 步说明生成 fine-grained token（只勾 Issues: Read and write）→ 保存并测试。'+
+    '做完这一步，刷新页面就能看到全班数据；关掉这个提示后它不会再出现。</div>';
+}
 function renderData(){
   var su = signups();
   var ds = state.events.filter(function(e){ return e.type==='design'; });
@@ -1549,6 +1559,7 @@ function render(){
   renderEvTypes();
   renderLive();
   renderData();
+  renderChannelHint();
   renderJoin();
   updateStatus();
 }
