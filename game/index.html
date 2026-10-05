@@ -51,7 +51,7 @@
            font-variant-numeric:tabular-nums;letter-spacing:.08em;white-space:nowrap}
   #body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;overflow:hidden}
 
-  .pagein{animation:pagein .42s cubic-bezier(.2,.85,.3,1)}
+  .pagein{animation:pagein .42s cubic-bezier(.2,.85,.3,1);max-height:100%;overflow-y:auto;overflow-x:hidden}
   @keyframes pagein{from{opacity:0;transform:translateY(20px) scale(.994)}to{opacity:1;transform:none}}
 
   h1{font-size:clamp(46px,8vw,138px);line-height:.96;letter-spacing:-.03em;font-weight:800}
@@ -164,6 +164,35 @@
   .col .txt{font-size:clamp(18px,2.05vw,34px);line-height:1.28;font-weight:750;letter-spacing:-.012em}
   .col .txt.sm{font-size:clamp(16px,1.6vw,26px);font-weight:600;line-height:1.5;color:var(--ink2)}
 
+  /* ---------- figures ---------- */
+  .split{display:flex;gap:clamp(22px,3.4vw,60px);align-items:center;flex-wrap:wrap}
+  .split .txt{flex:1 1 400px;min-width:300px}
+  .split .fig{flex:1 1 360px;min-width:260px}
+  .fig img{width:100%;height:auto;display:block;border-radius:15px;
+           border:2px solid var(--line);box-shadow:var(--shadow)}
+  .fig figcaption{font-size:clamp(11px,1.02vw,15px);color:var(--muted);margin-top:9px;
+                  font-weight:650;line-height:1.45}
+  .fig.tall img{max-height:clamp(220px,46vh,520px);object-fit:cover}
+  .band{border-radius:16px;overflow:hidden;border:2px solid var(--line);box-shadow:var(--shadow);
+        margin-top:clamp(16px,3vh,40px);position:relative}
+  .band img{width:100%;height:clamp(130px,20vh,240px);object-fit:cover;display:block}
+  .band figcaption{position:absolute;right:12px;bottom:10px;font-size:clamp(10px,.95vw,14px);
+                   font-weight:700;color:#fff;background:rgba(21,32,70,.6);padding:4px 10px;
+                   border-radius:999px;backdrop-filter:blur(3px)}
+
+  /* ---------- references ---------- */
+  .refs{display:flex;gap:clamp(18px,2.6vw,48px);flex-wrap:wrap;align-items:flex-start}
+  .refs .rcol{flex:1 1 380px;min-width:300px}
+  .refs h3{font-size:clamp(15px,1.5vw,25px);font-weight:800;color:var(--accent);
+           letter-spacing:.04em;margin-bottom:clamp(8px,1.4vh,16px);
+           padding-bottom:8px;border-bottom:2px solid var(--line)}
+  .refs ol{margin:0;padding-left:1.35em}
+  .refs li{font-size:clamp(12px,1.14vw,18px);line-height:1.5;color:var(--ink2);
+           margin-bottom:clamp(5px,.9vh,10px);font-weight:600}
+  .refs li b{color:var(--ink)}
+  .refs .lic{margin-top:clamp(10px,1.8vh,20px);font-size:clamp(11px,1.05vw,16px);
+             color:var(--muted);line-height:1.5;font-weight:600}
+
   /* ---------- chrome ---------- */
   #chrome{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-between;
           align-items:center;padding:10px clamp(26px,5vw,96px);font-size:12px;color:#8b97bd;
@@ -270,11 +299,15 @@ const SLIDES = [
       Purpose &nbsp;·&nbsp; Product &nbsp;·&nbsp; Participants &nbsp;·&nbsp; Probable Issues &nbsp;·&nbsp; Process</p>
     <p class="big sp2">A meeting with <span class="am">2,000,000 participants</span><br>that was never planned at all.</p>
     <p class="muted big sp2" style="font-size:clamp(17px,1.85vw,29px)">
-      “They Can't Stop All of Us.” &nbsp;·&nbsp; Storm Area 51 &nbsp;·&nbsp; 20 September 2019</p>`,
+      “They Can't Stop All of Us.” &nbsp;·&nbsp; Storm Area 51 &nbsp;·&nbsp; 20 September 2019</p>
+    <figure class="band">
+      <img src="img/gate-wide.jpg" alt="The main gate of the Nevada Test and Training Range, known as Area 51">
+      <figcaption>The main gate, Nevada Test and Training Range · Photo: David James Henry, CC BY-SA 4.0</figcaption>
+    </figure>`,
   note:`<b>开场只说一句</b>
   <ul><li>「今天讲 Week 5 的 5 Ps。我用一个案例串起来——一场有 <b>200 万人报名、却从没开过筹备会</b>的『会』。」</li>
   <li>别说"这是个玩笑活动"或"最后没人来"，那会毁掉后面的悬念。</li>
-  <li>右上角有页码，全程 25 页。</li></ul>` },
+  <li>右上角有页码，全程 26 页（最后是参考页）。</li></ul>` },
 
 { kicker:'The event', html:`<div class="label">27 Jun 2019</div>
     <p class="mega">Late at night, a 21-year-old in California creates a Facebook event.</p>
@@ -306,9 +339,14 @@ const SLIDES = [
     <p class="big">Lincoln County, Nevada starts drafting an <span class="am">emergency declaration</span>.</p>
     <div class="rule"></div>
     <p class="big">Rachel, Nevada — population <span class="am">56</span> — warns on its own website:</p>
-    <p class="big sp am">not enough food, water or fuel here.</p>`,
+    <p class="big sp am">not enough food, water or fuel here.</p>
+    <figure class="band">
+      <img src="img/deputies.jpg" alt="Three Lincoln County deputies at the back gate of Area 51, beside a sign reading Photography Of This Area Is Prohibited">
+      <figcaption>Lincoln County deputies at the back gate · Photo: David James Henry, CC BY-SA 4.0</figcaption>
+    </figure>`,
   note:`<b>时间线 6/7</b><ul><li>仍然不提 40,000（那是 Q3 的答案）。只说"县里开始起草紧急状态声明"。</li>
-  <li>「56 人的小镇」这个对比要念出来。</li></ul>` },
+  <li>「56 人的小镇」这个对比要念出来。</li>
+  <li>底部照片有个笑点：牌子上写着「禁止拍照」——而这张照片就是在那儿拍的。可以点一句。</li></ul>` },
 
 { kicker:'The event', html:`<div class="label">20 Sep 2019</div>
     <p class="mega">The day arrives.</p>`,
@@ -349,32 +387,63 @@ const SLIDES = [
   <li><b>Reveal truth</b>：揭晓答案并高亮正确选项。</li>
   <li><b>Q4 揭晓时数字会滚上去</b>（200 万 vs 150）——<b>出图后停 3 秒不要说话</b>。</li></ul>` },
 
-{ kicker:'What actually happened', html:`<div class="label">Turnout</div>
-    <p class="mega"><span class="am">About 150</span> people reached the two entrances.</p>
-    <p class="big sp2">About 1,500 went to the two music festivals.</p>`,
-  note:`<b>揭晓 1/5</b><ul><li>先对一下 Q4 的现场结果，再说这页。</li></ul>` },
+{ kicker:'What actually happened', html:`<div class="split">
+      <div class="txt">
+        <div class="label">Turnout</div>
+        <p class="mega"><span class="am">About 150</span> people reached the two entrances.</p>
+        <p class="big sp2">About 1,500 went to the two music festivals.</p>
+      </div>
+      <figure class="fig">
+        <img src="img/crowd-gate.jpg" alt="A crowd gathered at night at the back gate of Area 51 under floodlights">
+        <figcaption>The actual crowd at the back gate, 20 September 2019 · Photo: David James Henry, CC BY-SA 4.0</figcaption>
+      </figure>
+    </div>`,
+  note:`<b>揭晓 1/5 ★ 全场最有力的一张图</b>
+  <ul><li>先对一下 Q4 的现场结果，再出这页。</li>
+  <li>照片就是当晚后门的真实人数——<b>这就是"200 万"的样子</b>。出图后停两秒。</li></ul>` },
 
 { kicker:'What actually happened', html:`<div class="label">The invasion</div>
     <p class="mega"><span class="am">7</span> arrests.</p>
     <p class="big sp2">Public urination. Alcohol offences. Indecent exposure.</p>`,
   note:`<b>揭晓 2/5 ★ 全场最好笑的一句</b>
-  <ul><li>「7 人被捕，罪名是<b>随地小便</b>。」慢一点念，念完停一下等笑声。</li></ul>` },
+  <ul><li>「7 人被捕，罪名是<b>随地小便</b>。」慢一点念，念完停一下等笑声。</li>
+  <li>这一页故意不放图，让文字自己站住。</li></ul>` },
 
-{ kicker:'What actually happened', html:`<div class="label">The Pentagon</div>
-    <p class="big">Its own PR office tweeted a stealth bomber at millennials.</p>
-    <p class="big sp2 am">Then deleted it — and apologised.</p>`,
-  note:`<b>揭晓 3/5</b><ul><li>军方公关部门真发了那条推（配图 B-2 隐形轰炸机），然后删推道歉。</li></ul>` },
+{ kicker:'What actually happened', html:`<div class="split">
+      <div class="txt">
+        <div class="label">The Pentagon</div>
+        <p class="big">Its own PR office tweeted a stealth bomber at millennials.</p>
+        <p class="big sp2 am">Then deleted it — and apologised.</p>
+      </div>
+      <figure class="fig">
+        <img src="img/f22.jpg" alt="A US Air Force F-22 Raptor aircraft">
+        <figcaption>US Air Force aircraft over the Nevada range · Photo: Senior Airman Matthew Lancaster, USAF — public domain</figcaption>
+      </figure>
+    </div>`,
+  note:`<b>揭晓 3/5</b><ul><li>军方公关部门真发了那条推（配图是 B-2 隐形轰炸机），然后删推道歉。</li>
+  <li>配图用的是美军公开的 F-22 照片（公有领域），不是那条被删的推文原图——原图已删除且受版权保护。</li></ul>` },
 
 { kicker:'What actually happened', html:`<div class="label">Bud Light</div>
     <p class="big">Promised a free beer to</p>
     <p class="mega sp am">“any alien that makes it out.”</p>`,
   note:`<b>揭晓 4/5</b><ul><li>品牌蹭热度，一句带过。</li></ul>` },
 
-{ kicker:'What actually happened', html:`<div class="label">The copycats</div>
-    <p class="big">Storm Loch Ness.</p>
-    <p class="big sp">Storm the Bermuda Triangle.</p>
-    <p class="big sp am">Storm the Vatican Secret Archives.</p>`,
-  note:`<b>揭晓 5/5 —— 收尾笑点</b><ul><li>三个连着念，节奏加快，最后一个是爆点。念完直接进 5 Ps，不要补总结。</li></ul>` },
+{ kicker:'What actually happened', html:`<div class="split">
+      <div class="txt">
+        <div class="label">The copycats</div>
+        <p class="big">Storm Loch Ness.</p>
+        <p class="big sp">Storm the Bermuda Triangle.</p>
+        <p class="big sp am">Storm the Vatican Secret Archives.</p>
+      </div>
+      <figure class="fig">
+        <img src="img/towtruck.jpg" alt="A rusty tow truck towing a flying saucer at the Little A'Le'Inn, Rachel, Nevada">
+        <figcaption>The Little A'Le'Inn, Rachel, Nevada · Photo: David James Henry, CC BY-SA 4.0</figcaption>
+      </figure>
+    </div>`,
+  note:`<b>揭晓 5/5 —— 收尾笑点</b>
+  <ul><li>三个连着念，节奏加快，最后一个是爆点。</li>
+  <li>照片是 Rachel 镇那家小旅馆门口的装置：一辆破拖车拖着一架飞碟。可以顺手指出"这里就是被 200 万人盯上的那个 56 人小镇"。</li>
+  <li>念完直接进 5 Ps，不要补总结。</li></ul>` },
 
 { kicker:'The 5 Ps · 1 of 5', html:`<h2 class="sm"><span class="am">P</span>urpose — why are we doing this?</h2>
     <div class="cols sp2">
@@ -448,7 +517,45 @@ const SLIDES = [
   note:`<b>收尾 —— 全场最强的一句</b>
   <ul><li><b>流程排在了第一位，另外四个 P 从来没发生过。</b>念完停两秒。</li>
   <li>最后一行念完<b>就停，不要补总结</b>。</li>
-  <li>如果学生问"正确做法"：<b>先问 Purpose</b>（那个周末你到底想要发生什么），再定 Product 和 Participants，最后才设计流程。</li></ul>` }
+  <li>如果学生问"正确做法"：<b>先问 Purpose</b>（那个周末你到底想要发生什么），再定 Product 和 Participants，最后才设计流程。</li></ul>` },
+
+/* references ------------------------------------------------------- */
+{ kicker:'References',
+  html:`<h2 class="sm">References</h2>
+    <div class="refs sp2">
+      <div class="rcol">
+        <h3>Images — Wikimedia Commons</h3>
+        <ol>
+          <li><b>Area 51 Main Gate (cropped)</b> — David James Henry · CC BY-SA 4.0</li>
+          <li><b>Lincoln County Deputies at Area 51 Back Gate</b> — David James Henry · CC BY-SA 4.0</li>
+          <li><b>Crowd gathered at the back gate of Area 51</b> — David James Henry · CC BY-SA 4.0</li>
+          <li><b>F-22 over the Nevada Test and Training Range</b> — Senior Airman Matthew Lancaster, US Air Force · public domain</li>
+          <li><b>The Little A'Le'Inn Tow Truck</b> — David James Henry · CC BY-SA 4.0</li>
+        </ol>
+        <div class="lic">All photographs are used under <b>CC BY-SA 4.0</b> or as <b>US Government works in the public domain</b>,
+        retrieved from Wikimedia Commons via <b>commons.wikimedia.org/wiki/Category:Storm_Area_51</b>.
+        Licence text: creativecommons.org/licenses/by-sa/4.0. Images resized and re-compressed; no other changes.</div>
+      </div>
+      <div class="rcol">
+        <h3>Facts and quotations</h3>
+        <ol>
+          <li><b>Wikipedia</b>, “Storm Area 51” — event timeline, attendance figures, arrests, county preparations. en.wikipedia.org/wiki/Storm_Area_51</li>
+          <li><b>BBC News</b> (13 Sep 2019), “Storm Area 51: The joke that became a ‘possible humanitarian disaster’”. bbc.com/news/world-us-canada-49667295</li>
+          <li><b>Vox</b> (20 Sep 2019), “The totally wild, true tale of a meme about aliens that almost inspired a real raid on Area 51”. vox.com</li>
+          <li><b>The Washington Post</b> (13 Jul 2019) — US Air Force statement on the event.</li>
+          <li><b>NPR</b> (20 Sep 2019), “‘Storm Area 51’ Fails To Materialize”.</li>
+          <li><b>Netflix</b> (2025), documentary <i>Trainwreck: Storm Area 51</i>.</li>
+        </ol>
+        <h3 style="margin-top:18px">Course material</h3>
+        <ol>
+          <li><b>PMGT1852</b> Stakeholder Management &amp; Facilitation — Week 5, <i>Facilitation: the 5 Ps</i> (Purpose · Product · Participants · Probable Issues · Process) and the Three Hs (Hands · Heads · Hearts).</li>
+        </ol>
+      </div>
+    </div>`,
+  note:`<b>参考页 —— 收在这里即可</b>
+  <ul><li>图片全部来自 Wikimedia Commons，授权是 <b>CC BY-SA 4.0</b> 或美国政府<b>公有领域</b>，署名都写在页面上。</li>
+  <li>没有直接使用新闻站或 Facebook 的图——那些有版权。课堂上引用事实没问题，但图片会标来源。</li>
+  <li>如果学生问"为什么不用原始 Facebook 活动页截图"：那个页面已被删除，且截图属于 Facebook/发布者版权，不适合放进公开网页。</li></ul>` }
 ];
 
 /* ==================== engine ==================== */
