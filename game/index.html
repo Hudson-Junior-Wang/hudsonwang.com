@@ -6,178 +6,228 @@
 <title>Storm Area 51 — Week 5 · The 5 Ps</title>
 <style>
   :root{
-    --bg:#0c1130;
-    --bg2:#131b45;
-    --card:#182252;
-    --card2:#1e2a63;
-    --line:#2b3772;
-    --ink:#f2f5ff;
-    --muted:#94a2cc;
-    --accent:#a8c0ff;
-    --accent2:#c9d8ff;
-    --deep:#6f86d8;
-    --pink:#f2aec4;
-    --ok:#7fe0b0;
-    --bad:#ff8f9a;
+    --bg:#eef3fd;
+    --card:#ffffff;
+    --card2:#e9f0ff;
+    --line:#d5dff5;
+    --line2:#c2cff0;
+    --ink:#152046;
+    --ink2:#38446e;
+    --muted:#5d6b96;
+    --accent:#3f5cc9;
+    --accent2:#2f47a8;
+    --soft:#dfe8ff;
+    --pink:#b83c6e;
+    --live:#12a05e;
+    --shadow:0 1px 2px rgba(21,32,70,.05), 0 18px 40px -26px rgba(21,32,70,.4);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{
-    background:
-      radial-gradient(1100px 620px at 12% -8%, #1b2560 0%, rgba(27,37,96,0) 62%),
-      radial-gradient(900px 600px at 96% 106%, #1a3a6b 0%, rgba(26,58,107,0) 60%),
-      var(--bg);
-    color:var(--ink);overflow:hidden;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased;
+    background:var(--bg);color:var(--ink);overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   }
-  #stage{position:relative;height:100vh;display:flex;flex-direction:column;
-         padding:clamp(22px,4vh,52px) clamp(26px,5vw,96px) 82px}
-  .kicker{font-size:clamp(12px,1.2vw,16px);letter-spacing:.24em;text-transform:uppercase;
-          color:var(--accent);font-weight:800;margin-bottom:clamp(12px,2.4vh,28px);min-height:1.2em}
+  /* ambient animated blooms — reads as "web", not slide */
+  #amb{position:fixed;inset:-30vh -20vw;z-index:0;pointer-events:none;filter:blur(70px);opacity:.6}
+  #amb i{position:absolute;display:block;border-radius:50%}
+  #amb i:nth-child(1){width:46vw;height:46vw;left:2vw;top:4vh;background:#cfe0ff;animation:drift1 26s ease-in-out infinite}
+  #amb i:nth-child(2){width:38vw;height:38vw;right:4vw;bottom:2vh;background:#e3d6ff;animation:drift2 32s ease-in-out infinite}
+  #amb i:nth-child(3){width:30vw;height:30vw;left:44vw;top:48vh;background:#d6f0ff;animation:drift3 38s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,5vh) scale(1.14)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-7vw,-4vh) scale(.94)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(.95)}50%{transform:translate(-5vw,6vh) scale(1.12)}}
+
+  #pbar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:40;
+        transition:width .4s cubic-bezier(.3,.9,.3,1);box-shadow:0 0 12px rgba(63,92,201,.5)}
+
+  #stage{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;
+         padding:clamp(20px,3.4vh,44px) clamp(26px,5vw,96px) 74px}
+  #topbar{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
+          margin-bottom:clamp(10px,2vh,24px)}
+  .kicker{font-size:clamp(12px,1.2vw,17px);letter-spacing:.24em;text-transform:uppercase;
+          color:var(--accent);font-weight:800}
+  .pagenum{font-size:clamp(12px,1.15vw,16px);color:var(--muted);font-weight:800;
+           font-variant-numeric:tabular-nums;letter-spacing:.08em;white-space:nowrap}
   #body{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0;overflow:hidden}
-  h1{font-size:clamp(40px,7.8vw,124px);line-height:.97;letter-spacing:-.028em;font-weight:800}
-  h2{font-size:clamp(30px,4.7vw,74px);line-height:1.05;letter-spacing:-.018em;font-weight:800}
-  h2.sm{font-size:clamp(26px,3.4vw,54px)}
-  h3{font-size:clamp(20px,2.2vw,34px);font-weight:800}
-  p{font-size:clamp(18px,2.1vw,34px);line-height:1.36;color:#e4e9fb;max-width:27em}
-  p.sm{font-size:clamp(16px,1.6vw,25px)}
-  p.big{font-size:clamp(24px,3.1vw,54px);line-height:1.2;font-weight:700}
-  p.mega{font-size:clamp(30px,4.6vw,86px);line-height:1.1;font-weight:800;letter-spacing:-.02em}
+
+  .pagein{animation:pagein .42s cubic-bezier(.2,.85,.3,1)}
+  @keyframes pagein{from{opacity:0;transform:translateY(20px) scale(.994)}to{opacity:1;transform:none}}
+
+  h1{font-size:clamp(46px,8vw,138px);line-height:.96;letter-spacing:-.03em;font-weight:800}
+  h2{font-size:clamp(30px,4.5vw,72px);line-height:1.06;letter-spacing:-.02em;font-weight:800}
+  h2.sm{font-size:clamp(27px,3.4vw,54px)}
+  p{font-size:clamp(20px,2.2vw,38px);line-height:1.34;color:var(--ink2);max-width:26em}
+  p.sm{font-size:clamp(18px,1.7vw,28px);line-height:1.42}
+  p.big{font-size:clamp(24px,3.1vw,58px);line-height:1.16;font-weight:750;color:var(--ink);letter-spacing:-.012em}
+  p.mega{font-size:clamp(32px,4.9vw,94px);line-height:1.06;font-weight:800;color:var(--ink);letter-spacing:-.028em}
   .muted{color:var(--muted)}
   .am{color:var(--accent)}
   .pk{color:var(--pink)}
-  .sp{margin-top:clamp(12px,2.2vh,26px)}
-  .sp2{margin-top:clamp(22px,4vh,52px)}
-  strong{font-weight:800;color:#fff}
-  em{color:var(--muted);font-style:italic}
-  .label{font-size:clamp(12px,1.3vw,19px);letter-spacing:.24em;text-transform:uppercase;
-         color:var(--accent);font-weight:800;margin-bottom:clamp(10px,1.8vh,20px)}
-  .fade{animation:rise .28s cubic-bezier(.2,.8,.3,1)}
-  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .sp{margin-top:clamp(10px,1.9vh,24px)}
+  .sp2{margin-top:clamp(20px,3.6vh,50px)}
+  strong{font-weight:800;color:var(--ink)}
+  .label{font-size:clamp(13px,1.35vw,21px);letter-spacing:.26em;text-transform:uppercase;
+         color:var(--accent);font-weight:800;margin-bottom:clamp(10px,1.8vh,22px)}
+  .rule{height:1px;background:var(--line);margin:clamp(14px,2.4vh,30px) 0;max-width:24em}
 
-  /* qr */
-  .qrwrap{display:flex;gap:clamp(20px,3vw,56px);align-items:flex-start;flex-wrap:wrap}
-  .qrcard{background:#fff;border-radius:22px;padding:clamp(12px,1.4vw,22px);
-          width:clamp(170px,21vw,330px);box-shadow:0 18px 50px -20px rgba(0,0,0,.75)}
-  .qrcard svg{display:block;width:100%;height:auto}
-  .qrurl{margin-top:10px;text-align:center;color:#0c1130;font-weight:800;
-         font-size:clamp(11px,1.05vw,17px)}
-  .rules li{list-style:none;font-size:clamp(19px,2.3vw,40px);line-height:1.35;font-weight:700}
-  .qlist{display:flex;flex-direction:column;gap:clamp(5px,1vh,11px)}
-  .qlist div{font-size:clamp(14px,1.4vw,22px);color:#dbe2f8}
-  .qlist b{color:var(--accent);margin-right:.7em}
+  /* ---------- QR ---------- */
+  .qrwrap{display:flex;gap:clamp(22px,3.4vw,64px);align-items:center;flex-wrap:wrap}
+  .qrcard{background:#fff;border:2px solid var(--line);border-radius:24px;
+          padding:clamp(12px,1.4vw,22px);width:clamp(180px,22vw,340px);box-shadow:var(--shadow);
+          position:relative}
+  .qrcard::after{content:'';position:absolute;inset:-9px;border-radius:30px;
+                 border:2px dashed var(--soft);animation:ring 3.4s linear infinite}
+  @keyframes ring{to{transform:rotate(360deg)}}
+  .qrcard svg{display:block;width:100%;height:auto;position:relative;z-index:1}
+  .qrurl{margin-top:9px;text-align:center;color:var(--ink);font-weight:800;
+         font-size:clamp(11px,1.05vw,17px);position:relative;z-index:1}
+  .rules{list-style:none;display:flex;flex-direction:column;gap:clamp(6px,1.3vh,16px)}
+  .rules li{font-size:clamp(21px,2.5vw,46px);line-height:1.24;font-weight:750;letter-spacing:-.012em}
+  .qstrip{background:var(--card);border:2px solid var(--line);border-radius:16px;
+          padding:clamp(12px,1.7vh,20px) clamp(14px,1.6vw,26px);margin-top:clamp(16px,2.8vh,34px);
+          display:flex;gap:clamp(14px,2.4vw,44px);flex-wrap:wrap;box-shadow:var(--shadow)}
+  .qstrip div{font-size:clamp(14px,1.35vw,22px);color:var(--ink2);line-height:1.35;flex:1 1 200px}
+  .qstrip b{color:var(--accent);margin-right:.65em;font-weight:800}
 
-  /* live panel */
-  .panel{display:flex;flex-direction:column;gap:clamp(7px,1.2vh,15px);overflow:auto;padding-right:6px}
-  .qcard{background:var(--card);border:2px solid var(--line);border-radius:16px;
-         padding:clamp(9px,1.3vh,17px) clamp(13px,1.5vw,24px)}
+  /* ---------- LIVE panel ---------- */
+  .lvhead{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
+          margin-bottom:clamp(8px,1.5vh,16px)}
+  .lvhead h2{font-size:clamp(22px,2.5vw,42px)}
+  .lvmeta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .livebadge{display:inline-flex;align-items:center;gap:8px;background:#e6f8ef;
+             border:1.5px solid #b6e7cd;color:#0c7a48;font-weight:800;font-size:13px;
+             letter-spacing:.16em;padding:5px 12px;border-radius:999px}
+  .livebadge i{width:9px;height:9px;border-radius:50%;background:var(--live);display:block;
+               animation:pulse 1.5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(18,160,94,.55)}
+                   50%{opacity:.75;box-shadow:0 0 0 7px rgba(18,160,94,0)}}
+  .ticknum{font-size:clamp(22px,2.4vw,38px);font-weight:800;color:var(--accent);
+           font-variant-numeric:tabular-nums;line-height:1}
+  .ticklab{font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);font-weight:800}
+  .panel{display:flex;flex-direction:column;gap:clamp(6px,1vh,12px);overflow:auto;padding-right:4px}
+  .qcard{background:var(--card);border:2px solid var(--line);border-radius:15px;
+         padding:clamp(8px,1.15vh,15px) clamp(12px,1.4vw,22px);transition:border-color .25s,background .25s}
   .qcard.rev{border-color:var(--accent);background:var(--card2)}
-  .qhead{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
-  .qhead .qt{font-size:clamp(14px,1.5vw,25px);font-weight:750;line-height:1.25}
-  .qhead .qn{font-size:clamp(12px,1.1vw,17px);color:var(--muted);font-weight:700;white-space:nowrap}
-  .bars{display:flex;flex-direction:column;gap:6px;margin-top:9px}
-  .bar{display:flex;align-items:center;gap:10px;font-size:clamp(12px,1.2vw,20px)}
-  .bar .lab{flex:0 0 clamp(150px,20vw,360px);color:#ccd6f2;line-height:1.25}
-  .bar .track{flex:1;height:clamp(12px,1.5vh,20px);background:#101740;border-radius:6px;
-              overflow:hidden;min-width:60px}
-  .bar .fill{display:block;height:100%;background:#46568f;transition:width .35s ease}
+  .qrow{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .qt{font-size:clamp(14px,1.42vw,23px);font-weight:750;line-height:1.22;color:var(--ink)}
+  .qright{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .qn{font-size:clamp(12px,1.1vw,16px);color:var(--muted);font-weight:800;white-space:nowrap;
+      font-variant-numeric:tabular-nums}
+  .bars{display:flex;flex-direction:column;gap:5px;margin-top:7px}
+  .bar{display:flex;align-items:center;gap:10px;font-size:clamp(12px,1.12vw,18px)}
+  .bar .lab{flex:0 0 clamp(140px,19vw,330px);color:var(--ink2);line-height:1.22;transition:color .2s}
+  .bar .track{flex:1;height:clamp(11px,1.45vh,19px);background:#e7edfb;border-radius:6px;
+              overflow:hidden;min-width:56px}
+  .bar .fill{display:block;height:100%;width:0;background:#9fb2e0;border-radius:6px;
+             transition:width .5s cubic-bezier(.25,.9,.3,1), background .25s}
   .bar .num{flex:0 0 auto;color:var(--muted);font-variant-numeric:tabular-nums;
-            min-width:5.6em;text-align:right;font-weight:700}
+            min-width:6.4em;text-align:right;font-weight:800}
   .bar.win .fill{background:var(--accent)}
-  .bar.win .lab{color:#fff;font-weight:800}
+  .bar.win .lab{color:var(--ink);font-weight:800}
   .bar.win .num{color:var(--accent)}
-  .ctrls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
-  button.b{font:inherit;font-weight:750;cursor:pointer;border-radius:11px;border:2px solid var(--line);
-           background:#1a2358;color:#dbe2f8;padding:7px 14px;font-size:clamp(11px,1.05vw,16px);transition:.12s}
-  button.b:hover{border-color:var(--deep)}
-  button.b.warn{border-color:var(--pink);color:var(--pink)}
-  button.b.go{border-color:var(--accent);background:var(--accent);color:#0c1130}
-  button.b.on{border-color:var(--accent);color:var(--accent);background:#202c6a}
-  .truth{margin-top:10px;padding:10px 14px;border-radius:11px;background:#202c6a;
-         border:1px solid var(--deep);font-size:clamp(13px,1.3vw,22px);font-weight:750;color:var(--accent2)}
-  .gap{margin-top:12px;padding:clamp(10px,1.6vh,20px) clamp(14px,1.6vw,26px);
-       background:#0f1638;border:1px dashed var(--deep);border-radius:13px}
-  .gap .g{display:flex;align-items:center;gap:14px;font-size:clamp(15px,1.8vw,32px);font-weight:800;line-height:1.2}
-  .gap .g .n{flex:0 0 auto;font-variant-numeric:tabular-nums;color:var(--accent);min-width:5.6em}
-  .gap .g .r{flex:1;height:clamp(14px,2vh,26px);background:var(--accent);border-radius:5px;min-width:2px}
+  .bar.bump .fill{background:var(--live)}
+  .bar.bump .num{color:var(--live)}
+  .ctrls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  button.b{font:inherit;font-weight:750;cursor:pointer;border-radius:10px;border:1.5px solid var(--line2);
+           background:#fff;color:var(--ink2);padding:6px 13px;font-size:clamp(11px,1vw,15px);
+           transition:transform .09s, border-color .15s, background .15s, color .15s}
+  button.b:hover{border-color:var(--accent);color:var(--accent)}
+  button.b:active{transform:scale(.96)}
+  button.b.warn{border-color:#e8b7cc;color:var(--pink)}
+  button.b.warn:hover{background:#fdf0f6;border-color:var(--pink);color:var(--pink)}
+  button.b.go{border-color:var(--accent);background:var(--accent);color:#fff}
+  button.b.go:hover{background:var(--accent2);color:#fff}
+  button.b.on{border-color:var(--accent);color:var(--accent);background:var(--soft)}
+  .truth{display:none;margin-top:8px;padding:9px 13px;border-radius:11px;background:var(--soft);
+         border:1.5px solid var(--line2);font-size:clamp(13px,1.26vw,21px);font-weight:750;color:var(--accent2)}
+  .truth.show{display:block;animation:pagein .35s ease}
+  .gap{display:none;margin-top:10px;padding:clamp(10px,1.5vh,18px) clamp(14px,1.6vw,26px);
+       background:#fff;border:2px dashed var(--line2);border-radius:13px}
+  .gap.show{display:block;animation:pagein .4s ease}
+  .gap .g{display:flex;align-items:center;gap:14px;font-size:clamp(16px,1.9vw,34px);font-weight:800;line-height:1.15}
+  .gap .g+.g{margin-top:9px}
+  .gap .g .n{flex:0 0 auto;font-variant-numeric:tabular-nums;color:var(--accent);min-width:6em}
+  .gap .g .r{height:clamp(14px,2vh,26px);background:var(--accent);border-radius:5px;min-width:3px;
+             transition:width 1.1s cubic-bezier(.2,.85,.25,1)}
   .gap .g .r.tiny{background:var(--pink)}
-  .gap .g .t{flex:0 0 auto;color:var(--muted);font-size:.62em;font-weight:700}
+  .gap .g .t{flex:0 0 auto;color:var(--muted);font-size:.6em;font-weight:800;letter-spacing:.02em}
 
-  /* cards */
-  .cols{display:flex;gap:clamp(14px,2.2vw,40px);flex-wrap:wrap}
-  .col{flex:1 1 300px;background:var(--card);border:2px solid var(--line);border-radius:18px;
-       padding:clamp(14px,2vh,28px) clamp(16px,1.8vw,32px)}
+  /* ---------- cards ---------- */
+  .cols{display:flex;gap:clamp(14px,2.1vw,38px);flex-wrap:wrap}
+  .col{flex:1 1 290px;background:var(--card);border:2px solid var(--line);border-radius:18px;
+       padding:clamp(15px,2.1vh,30px) clamp(16px,1.8vw,32px);box-shadow:var(--shadow)}
   .col.hi{border-color:var(--accent);background:var(--card2)}
-  .col .lab{font-size:clamp(11px,1.1vw,16px);letter-spacing:.16em;text-transform:uppercase;
-            color:var(--muted);font-weight:800;margin-bottom:10px}
+  .col .lab{font-size:clamp(11px,1.08vw,16px);letter-spacing:.17em;text-transform:uppercase;
+            color:var(--muted);font-weight:800;margin-bottom:9px}
   .col.hi .lab{color:var(--accent)}
-  .col .txt{font-size:clamp(17px,2vw,32px);line-height:1.3;font-weight:650}
-  .col .txt.sm{font-size:clamp(15px,1.6vw,25px);font-weight:600;line-height:1.55}
+  .col .txt{font-size:clamp(18px,2.05vw,34px);line-height:1.28;font-weight:750;letter-spacing:-.012em}
+  .col .txt.sm{font-size:clamp(16px,1.6vw,26px);font-weight:600;line-height:1.5;color:var(--ink2)}
 
-  /* chrome */
-  #chrome{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;
-          align-items:center;padding:11px clamp(26px,5vw,96px);font-size:12.5px;color:#5b668f;
-          background:linear-gradient(180deg,rgba(12,17,48,0),rgba(12,17,48,.97) 45%);pointer-events:none}
+  /* ---------- chrome ---------- */
+  #chrome{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:space-between;
+          align-items:center;padding:10px clamp(26px,5vw,96px);font-size:12px;color:#8b97bd;
+          background:linear-gradient(180deg,rgba(238,243,253,0),rgba(238,243,253,.94) 50%);
+          pointer-events:none;transition:opacity .2s}
   #chrome .k{display:flex;gap:12px;flex-wrap:wrap}
-  kbd{font-family:inherit;font-size:11px;font-weight:700;color:#b6c1e4;border:1px solid #313d7a;
-      border-bottom-width:2px;border-radius:5px;padding:2px 6px;margin-right:4px;background:#151d4a}
-  #dots{display:flex;gap:4px;max-width:46vw;flex-wrap:wrap;justify-content:flex-end}
-  #dots i{display:block;width:11px;height:3px;border-radius:2px;background:#28325f}
-  #dots i.on{background:#4a5aa0}
-  #dots i.cur{background:var(--accent)}
-  #notes{position:fixed;left:0;right:0;bottom:0;max-height:46vh;overflow:auto;background:#111842;
-         border-top:2px solid var(--accent);padding:16px clamp(26px,5vw,96px) 20px;
-         transform:translateY(101%);transition:transform .22s;z-index:30}
+  kbd{font-family:inherit;font-size:11px;font-weight:800;color:var(--ink2);border:1.5px solid var(--line2);
+      border-bottom-width:2px;border-radius:5px;padding:2px 6px;margin-right:4px;background:#fff}
+  #notes{position:fixed;left:0;right:0;bottom:0;max-height:46vh;overflow:auto;background:#fff;
+         border-top:3px solid var(--accent);padding:16px clamp(26px,5vw,96px) 20px;
+         transform:translateY(101%);transition:transform .24s cubic-bezier(.3,.9,.3,1);z-index:30;
+         box-shadow:0 -18px 50px -30px rgba(21,32,70,.55)}
   #notes.open{transform:none}
   #notes .nk{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
              font-weight:800;margin-bottom:10px}
-  #notes .nb{font-size:16px;line-height:1.62;color:#ccd6f2;max-width:72em}
-  #notes .nb b{color:#fff}#notes .nb ul{margin:8px 0 0 1.15em}#notes .nb li{margin:4px 0}
+  #notes .nb{font-size:16px;line-height:1.62;color:var(--ink2);max-width:72em}
+  #notes .nb b{color:var(--ink)}#notes .nb ul{margin:8px 0 0 1.15em}#notes .nb li{margin:4px 0}
   body.notes-open #stage{padding-bottom:46vh}
   body.notes-open #chrome{opacity:0}
-  .nflag{position:fixed;top:14px;right:clamp(26px,5vw,96px);font-size:11px;letter-spacing:.18em;
-         text-transform:uppercase;color:#39447a;font-weight:800;z-index:31}
+  .nflag{position:fixed;top:12px;right:clamp(26px,5vw,96px);font-size:11px;letter-spacing:.18em;
+         text-transform:uppercase;color:#9fadd4;font-weight:800;z-index:31}
   .nflag.on{color:var(--accent)}
-  #setup{position:fixed;inset:0;background:rgba(8,11,30,.95);display:none;place-items:center;z-index:60;padding:24px}
+  #setup{position:fixed;inset:0;background:rgba(238,243,253,.9);backdrop-filter:blur(6px);
+         display:none;place-items:center;z-index:60;padding:24px}
   #setup.on{display:grid}
-  #setup .box{background:#141c48;border:2px solid var(--deep);border-radius:20px;
+  #setup .box{background:#fff;border:2px solid var(--line2);border-radius:20px;box-shadow:var(--shadow);
               padding:26px 28px;max-width:560px;width:100%}
-  #setup h3{margin-bottom:10px}
+  #setup h2{font-size:22px;margin-bottom:10px}
   #setup p{font-size:15px;color:var(--muted);margin-bottom:16px;line-height:1.55}
   #setup input{width:100%;font:inherit;font-size:16px;padding:12px 14px;border-radius:11px;
-               border:2px solid var(--line);background:#0c1130;color:#fff;margin-bottom:14px}
-  .toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#202c6a;
-         border:1px solid var(--deep);color:var(--accent2);padding:9px 16px;border-radius:999px;
-         font-size:13px;font-weight:750;opacity:0;transition:opacity .25s;z-index:70;pointer-events:none}
-  .toast.on{opacity:1}
+               border:2px solid var(--line2);background:#fbfcff;color:var(--ink);margin-bottom:14px}
+  .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-8px);background:var(--ink);
+         color:#fff;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:750;opacity:0;
+         transition:opacity .25s, transform .25s;z-index:70;pointer-events:none}
+  .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
+<div id="amb"><i></i><i></i><i></i></div>
+<div id="pbar" style="width:0"></div>
 <div class="nflag" id="nflag">N · notes</div>
 <div class="toast" id="toast"></div>
 
 <div id="stage">
-  <div class="kicker" id="kicker"></div>
+  <div id="topbar">
+    <div class="kicker" id="kicker"></div>
+    <div class="pagenum" id="pagenum"></div>
+  </div>
   <div id="body"></div>
 </div>
 
 <div id="chrome">
   <div class="k">
-    <span><kbd>→</kbd> next page</span>
-    <span><kbd>←</kbd> back</span>
-    <span><kbd>L</kbd> live results</span>
-    <span><kbd>N</kbd> notes</span>
-    <span><kbd>F</kbd> fullscreen</span>
+    <span><kbd>→</kbd> next</span><span><kbd>←</kbd> back</span>
+    <span><kbd>L</kbd> live results</span><span><kbd>N</kbd> notes</span><span><kbd>F</kbd> fullscreen</span>
   </div>
-  <div id="dots"></div>
+  <div id="hint" style="font-weight:700"></div>
 </div>
 
 <div id="notes"><div class="nk">Presenter notes · 讲解备注</div><div class="nb" id="nb"></div></div>
 
 <div id="setup">
   <div class="box">
-    <h3>Presenter key</h3>
+    <h2>Presenter key</h2>
     <p>Paste your control key once. It is stored only in this browser and never written into the page.</p>
     <input id="keyin" type="password" placeholder="control key" autocomplete="off">
     <div style="display:flex;gap:10px">
@@ -191,6 +241,7 @@
 /* ==================== config ==================== */
 const API = 'https://storm51-vote.hudsonwang.workers.dev';
 const LS_KEY = 's51_ctrl_key';
+const LIVE_INDEX = 9;
 
 /* ==================== questions (must match /play) ==================== */
 const QUESTIONS = [
@@ -213,359 +264,385 @@ const QUESTIONS = [
 
 /* ==================== slides — one idea per page ==================== */
 const SLIDES = [
-
-/* 1 cover */
 { kicker:'PMGT1852 · Week 5 · Facilitation',
   html:`<h1>The <span class="am">5 Ps</span></h1>
-    <p class="sp2" style="font-size:clamp(17px,1.9vw,30px);letter-spacing:.03em;color:#c9d4f5">
+    <p class="sp2" style="font-size:clamp(17px,1.85vw,30px);letter-spacing:.03em;color:var(--ink2);font-weight:700">
       Purpose &nbsp;·&nbsp; Product &nbsp;·&nbsp; Participants &nbsp;·&nbsp; Probable Issues &nbsp;·&nbsp; Process</p>
     <p class="big sp2">A meeting with <span class="am">2,000,000 participants</span><br>that was never planned at all.</p>
-    <p class="muted sp2" style="font-size:clamp(17px,1.9vw,29px)">
+    <p class="muted big sp2" style="font-size:clamp(17px,1.85vw,29px)">
       “They Can't Stop All of Us.” &nbsp;·&nbsp; Storm Area 51 &nbsp;·&nbsp; 20 September 2019</p>`,
   note:`<b>开场只说一句</b>
   <ul><li>「今天讲 Week 5 的 5 Ps。我用一个案例串起来——一场有 <b>200 万人报名、却从没开过筹备会</b>的『会』。」</li>
-  <li>别说"这是个玩笑活动"或"最后没人来"，那会毁掉后面的悬念。</li></ul>` },
+  <li>别说"这是个玩笑活动"或"最后没人来"，那会毁掉后面的悬念。</li>
+  <li>右上角有页码，全程 25 页。</li></ul>` },
 
-/* 2–8 timeline */
-{ kicker:'The event · 1 of 7',
-  html:`<div class="label">27 Jun 2019</div>
+{ kicker:'The event', html:`<div class="label">27 Jun 2019</div>
     <p class="mega">Late at night, a 21-year-old in California creates a Facebook event.</p>
-    <p class="mega sp2 am">It is a joke.</p>`,
-  note:`<b>时间线第 1 页</b><ul><li>只说事实，不加评论。念完直接翻页。</li></ul>` },
+    <p class="mega sp am">It is a joke.</p>`,
+  note:`<b>时间线 1/7</b><ul><li>只说事实，不加评论。念完直接翻页。</li></ul>` },
 
-{ kicker:'The event · 2 of 7',
-  html:`<div class="label">The title</div>
+{ kicker:'The event', html:`<div class="label">The title</div>
     <p class="mega">“Storm Area 51,<br>They Can't Stop<br>All of Us.”</p>`,
-  note:`<b>时间线第 2 页</b><ul><li>这是全场笑点的核心句，念慢一点。</li>
-  <li>可以补一句：「注意这句话的逻辑——它赌的是<b>人够多，就拦不住</b>。」</li></ul>` },
+  note:`<b>时间线 2/7</b><ul><li>全场笑点的核心句，念慢一点。</li>
+  <li>补一句：「注意这句话的逻辑——它赌的是<b>人够多，就拦不住</b>。」</li></ul>` },
 
-{ kicker:'The event · 3 of 7',
-  html:`<div class="label">What it asked</div>
+{ kicker:'The event', html:`<div class="label">What it asked</div>
     <p class="mega">Everyone meet at the gate of a classified US Air Force base.</p>
     <p class="mega sp am">And go in.</p>
     <p class="mega sp am">To see the aliens.</p>`,
-  note:`<b>时间线第 3 页</b><ul><li>三句分三个节拍念，中间各停半秒。</li></ul>` },
+  note:`<b>时间线 3/7</b><ul><li>三句分三个节拍念，中间各停半秒。</li></ul>` },
 
-{ kicker:'The event · 4 of 7',
-  html:`<div class="label">The first three days</div>
+{ kicker:'The event', html:`<div class="label">The first three days</div>
     <p class="mega">Almost nobody responds.</p>`,
-  note:`<b>时间线第 4 页 ★ 关键停顿</b>
+  note:`<b>时间线 4/7 ★ 关键停顿</b>
   <ul><li><b>这一页要停住</b>。一个字都不多说，直接翻页，让落差自己发生。</li></ul>` },
 
-{ kicker:'The event · 5 of 7',
-  html:`<div class="label">Then</div>
+{ kicker:'The event', html:`<div class="label">Then</div>
     <p class="mega">It went viral.</p>
     <p class="mega sp am">Worldwide.</p>`,
-  note:`<b>时间线第 5 页</b><ul><li>不要在这里说数字（200 万）——那是测试题 Q1 的答案。</li></ul>` },
+  note:`<b>时间线 5/7</b><ul><li>不要在这里说数字（200 万）——那是测试题 Q1 的答案。</li></ul>` },
 
-{ kicker:'The event · 6 of 7',
-  html:`<div class="label">August</div>
+{ kicker:'The event', html:`<div class="label">August</div>
     <p class="big">Lincoln County, Nevada starts drafting an <span class="am">emergency declaration</span>.</p>
-    <p class="big sp2">Rachel, Nevada — population <span class="am">56</span> — posts a warning on its own website:</p>
-    <p class="big sp am">there is not enough food, water or fuel here.</p>`,
-  note:`<b>时间线第 6 页</b>
-  <ul><li>仍然不提数字 40,000（那是 Q3 的答案）。只说"县里开始起草紧急状态声明"。</li>
+    <div class="rule"></div>
+    <p class="big">Rachel, Nevada — population <span class="am">56</span> — warns on its own website:</p>
+    <p class="big sp am">not enough food, water or fuel here.</p>`,
+  note:`<b>时间线 6/7</b><ul><li>仍然不提 40,000（那是 Q3 的答案）。只说"县里开始起草紧急状态声明"。</li>
   <li>「56 人的小镇」这个对比要念出来。</li></ul>` },
 
-{ kicker:'The event · 7 of 7',
-  html:`<div class="label">20 Sep 2019</div>
+{ kicker:'The event', html:`<div class="label">20 Sep 2019</div>
     <p class="mega">The day arrives.</p>`,
-  note:`<b>时间线最后一页</b><ul><li>念完直接切到扫码页，不要预告结果。</li></ul>` },
+  note:`<b>时间线 7/7</b><ul><li>念完直接切到扫码页，不要预告结果。</li></ul>` },
 
-/* 9 qr */
-{ kicker:'Scan · 30 seconds · no login',
+{ kicker:'Your phone is the remote',
   html:`<div class="qrwrap">
       <div class="qrcard"><svg viewBox="0 0 33 33" preserveAspectRatio="xMidYMid meet" width="33" height="33"><path fill="#fff" d="M0 0h33v33h-33z"/><path stroke="#000" d="M2 2.5h7m6 0h2m3 0h1m3 0h7m-29 1h1m5 0h1m1 0h1m1 0h4m1 0h4m3 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m5 0h2m3 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m3 0h10m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m3 0h3m6 0h2m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-18 1h4m2 0h1m-17 1h3m1 0h2m2 0h2m3 0h1m1 0h1m2 0h2m5 0h2m-28 1h2m2 0h2m2 0h1m2 0h1m2 0h1m1 0h1m1 0h5m1 0h2m2 0h1m-29 1h1m2 0h2m1 0h1m2 0h4m3 0h1m5 0h1m2 0h1m1 0h1m-26 1h4m6 0h1m1 0h1m3 0h2m3 0h3m2 0h1m-29 1h1m1 0h2m2 0h2m5 0h2m2 0h1m2 0h2m1 0h1m2 0h3m-28 1h1m2 0h1m3 0h3m1 0h1m1 0h2m3 0h1m2 0h2m1 0h2m1 0h1m-26 1h6m3 0h1m1 0h2m1 0h3m1 0h1m1 0h3m1 0h2m-27 1h3m3 0h2m1 0h1m5 0h2m3 0h1m1 0h2m1 0h2m-29 1h1m1 0h1m3 0h2m1 0h2m1 0h3m1 0h6m1 0h3m1 0h2m-25 1h1m3 0h2m2 0h1m3 0h2m2 0h2m1 0h1m2 0h1m-27 1h1m1 0h2m2 0h3m1 0h2m2 0h4m4 0h2m2 0h1m-23 1h2m1 0h2m1 0h2m5 0h2m2 0h2m1 0h5m-28 1h3m2 0h1m1 0h3m5 0h3m1 0h7m-19 1h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h2m1 0h2m-29 1h7m2 0h4m3 0h2m1 0h2m1 0h1m1 0h1m1 0h2m-28 1h1m5 0h1m1 0h2m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m2 0h2m-29 1h1m1 0h3m1 0h1m4 0h3m1 0h1m2 0h1m1 0h8m-28 1h1m1 0h3m1 0h1m1 0h1m2 0h4m1 0h1m1 0h2m4 0h1m1 0h2m-28 1h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h4m1 0h1m2 0h1m2 0h1m1 0h1m-29 1h1m5 0h1m1 0h3m2 0h2m1 0h1m1 0h1m1 0h2m2 0h2m1 0h1m-28 1h7m2 0h1m5 0h2m1 0h3m2 0h1m3 0h1"/></svg><div class="qrurl">hudsonwang.com/play</div></div>
-      <div style="flex:1 1 420px;min-width:300px">
+      <div style="flex:1 1 430px;min-width:300px">
         <ul class="rules">
           <li class="am">This is just a game.</li>
-          <li class="sp">No wrong answers.</li>
-          <li class="sp">Nobody is being graded.</li>
-          <li class="sp">Nobody sees what you picked.</li>
-          <li class="sp2">Guess. That's all.</li>
+          <li>No wrong answers.</li>
+          <li>Nobody is being graded.</li>
+          <li>Nobody sees what you picked.</li>
+          <li class="sp am">Guess. That's all.</li>
         </ul>
       </div>
     </div>
-    <div class="sp2 col" style="border-color:var(--line);max-width:none">
-      <div class="lab">What you'll be asked</div>
-      <div class="qlist">
-        <div><b>1</b>How many people clicked “Going”?</div>
-        <div><b>2</b>What did the US Air Force do about it?</div>
-        <div><b>3</b>How many people did the county prepare for?</div>
-        <div><b>4</b>How many actually showed up?</div>
-        <div><b>5</b>How did the whole thing end?</div>
-      </div>
+    <div class="qstrip">
+      <div><b>1</b>How many people clicked “Going”?</div>
+      <div><b>2</b>What did the US Air Force do about it?</div>
+      <div><b>3</b>How many people did the county prepare for?</div>
+      <div><b>4</b>How many actually showed up?</div>
+      <div><b>5</b>How did the whole thing end?</div>
     </div>`,
   note:`<b>扫码页 —— 三个必须说的点</b>
   <ul><li>① <b>「这只是个游戏，没有对错，不计分，没人看得到你选了什么。」</b>——国际学生容易紧张不敢答，这句一定要说。</li>
   <li>② 5 道题<b>全部提前公布</b>（故意放这儿）——他们知道后面会问什么，听时间线时会主动记。</li>
-  <li>③ 给 <b>20–30 秒</b>扫码答题。QR 下方永远显示大字网址，扫不出来可以手打。</li></ul>` },
+  <li>③ 给 <b>20–30 秒</b>扫码答题。QR 下方有网址，扫不出来可以手打。</li>
+  <li>④ 下一屏开始，数字会<b>实时跳动</b>——那是他们刚投的票。</li></ul>` },
 
-/* 10 live */
 { kicker:'Live results', special:'live',
   note:`<b>统计页 —— 全场核心机制</b>
-  <ul><li><b>⟲ Reset all</b>：清空所有票数（第一次用 / 换班级 / 测试时点它）。</li>
-  <li><b>Manual entry</b>：断网或后端挂了时，直接手输每项票数，活动照样讲完。</li>
+  <ul><li>右上角绿色 <b>LIVE</b> 是活的：有人投票，柱子和数字立刻会动，新票会闪绿。</li>
+  <li><b>⟲ Reset all</b>：清空所有票数（第一次用 / 换班级 / 测试时点它）。</li>
+  <li><b>Manual entry</b>：断网时直接手输票数，活动照样讲完。</li>
   <li><b>Lock</b>：锁住某一题，之后投的票不算数。</li>
-  <li><b>Reveal truth</b>：揭晓正确答案，并与现场猜测并排对比。</li>
-  <li><b>Q4 是全场最安静的一刻</b>——200 万 vs 150。出图后<b>停 3 秒不要说话</b>。</li></ul>` },
+  <li><b>Reveal truth</b>：揭晓答案并高亮正确选项。</li>
+  <li><b>Q4 揭晓时数字会滚上去</b>（200 万 vs 150）——<b>出图后停 3 秒不要说话</b>。</li></ul>` },
 
-/* 11–15 what happened */
-{ kicker:'What actually happened · 1 of 5',
-  html:`<div class="label">Turnout</div>
+{ kicker:'What actually happened', html:`<div class="label">Turnout</div>
     <p class="mega"><span class="am">About 150</span> people reached the two entrances.</p>
     <p class="big sp2">About 1,500 went to the two music festivals.</p>`,
   note:`<b>揭晓 1/5</b><ul><li>先对一下 Q4 的现场结果，再说这页。</li></ul>` },
 
-{ kicker:'What actually happened · 2 of 5',
-  html:`<div class="label">The invasion</div>
+{ kicker:'What actually happened', html:`<div class="label">The invasion</div>
     <p class="mega"><span class="am">7</span> arrests.</p>
     <p class="big sp2">Public urination. Alcohol offences. Indecent exposure.</p>`,
   note:`<b>揭晓 2/5 ★ 全场最好笑的一句</b>
   <ul><li>「7 人被捕，罪名是<b>随地小便</b>。」慢一点念，念完停一下等笑声。</li></ul>` },
 
-{ kicker:'What actually happened · 3 of 5',
-  html:`<div class="label">The Pentagon</div>
+{ kicker:'What actually happened', html:`<div class="label">The Pentagon</div>
     <p class="big">Its own PR office tweeted a stealth bomber at millennials.</p>
     <p class="big sp2 am">Then deleted it — and apologised.</p>`,
-  note:`<b>揭晓 3/5</b><ul><li>军方公关部门真的发了那条推，配图是 B-2 隐形轰炸机，然后删推道歉。</li></ul>` },
+  note:`<b>揭晓 3/5</b><ul><li>军方公关部门真发了那条推（配图 B-2 隐形轰炸机），然后删推道歉。</li></ul>` },
 
-{ kicker:'What actually happened · 4 of 5',
-  html:`<div class="label">Bud Light</div>
+{ kicker:'What actually happened', html:`<div class="label">Bud Light</div>
     <p class="big">Promised a free beer to</p>
     <p class="mega sp am">“any alien that makes it out.”</p>`,
-  note:`<b>揭晓 4/5</b><ul><li>品牌蹭热度的典型，一句带过即可。</li></ul>` },
+  note:`<b>揭晓 4/5</b><ul><li>品牌蹭热度，一句带过。</li></ul>` },
 
-{ kicker:'What actually happened · 5 of 5',
-  html:`<div class="label">The copycats</div>
+{ kicker:'What actually happened', html:`<div class="label">The copycats</div>
     <p class="big">Storm Loch Ness.</p>
     <p class="big sp">Storm the Bermuda Triangle.</p>
     <p class="big sp am">Storm the Vatican Secret Archives.</p>`,
-  note:`<b>揭晓 5/5 —— 收尾笑点</b>
-  <ul><li>三个连着念，节奏加快，最后一个是爆点。</li>
-  <li>念完直接进 5 Ps，不要补总结。</li></ul>` },
+  note:`<b>揭晓 5/5 —— 收尾笑点</b><ul><li>三个连着念，节奏加快，最后一个是爆点。念完直接进 5 Ps，不要补总结。</li></ul>` },
 
-/* 16–17 Purpose */
-{ kicker:'The 5 Ps · 1 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>urpose — why are we doing this?</h2>
+{ kicker:'The 5 Ps · 1 of 5', html:`<h2 class="sm"><span class="am">P</span>urpose — why are we doing this?</h2>
     <div class="cols sp2">
       <div class="col"><div class="lab">The organiser's purpose</div><div class="txt">“It's a joke.”</div></div>
       <div class="col hi"><div class="lab">The 2,000,000's purpose</div><div class="txt">“We're going.”</div></div>
     </div>`,
-  note:`<b>第 1 个 P：Purpose</b><ul><li>先出这两个框，问全场一句：「这两个 Purpose，是同一个吗？」</li>
-  <li>先不要给结论，翻下一页。</li></ul>` },
+  note:`<b>第 1 个 P：Purpose</b><ul><li>先出两个框，问全场：「这两个 Purpose，是同一个吗？」先不给结论，翻下一页。</li></ul>` },
 
-{ kicker:'The 5 Ps · 1 of 5',
-  html:`<p class="mega"><span class="am">2,000,000</span> clicked “Going”.</p>
+{ kicker:'The 5 Ps · 1 of 5', html:`<p class="mega"><span class="am">2,000,000</span> clicked “Going”.</p>
     <p class="mega sp am">150 showed up.</p>
     <p class="big sp2">Purpose was never aligned — and nobody noticed.</p>`,
-  note:`<b>Purpose 的落点</b>
-  <ul><li>一句话：<b>200 万人和主办方，从头到尾对"这是什么"没有共识，而且没有任何人发现。</b></li>
-  <li>这就是 Week 5 第一条：Purpose 没定清楚，后面四个 P 全是白做。</li></ul>` },
+  note:`<b>Purpose 落点</b><ul><li><b>200 万人和主办方，对"这是什么"从头到尾没有共识，而且没有任何人发现。</b></li>
+  <li>这是 Week 5 第一条：Purpose 没定清楚，后面四个 P 全是白做。</li></ul>` },
 
-/* 18–19 Product */
-{ kicker:'The 5 Ps · 2 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>roduct — what comes out of it?</h2>
+{ kicker:'The 5 Ps · 2 of 5', html:`<h2 class="sm"><span class="am">P</span>roduct — what comes out of it?</h2>
     <div class="cols sp2">
-      <div class="col"><div class="lab">Hands — tangible output</div>
-        <div class="txt">Nothing was ever built.<br><span class="muted" style="font-weight:600">Zero.</span></div></div>
-      <div class="col"><div class="lab">Heads — knowledge</div>
-        <div class="txt">The world learned about Area 51 lore.</div></div>
-      <div class="col"><div class="lab">Hearts — belief, trust, commitment</div>
-        <div class="txt">People wanted to belong to a moment.</div></div>
+      <div class="col"><div class="lab">Hands — tangible output</div><div class="txt">Nothing was ever built.<br><span class="muted" style="font-weight:600">Zero.</span></div></div>
+      <div class="col"><div class="lab">Heads — knowledge</div><div class="txt">The world learned about Area 51 lore.</div></div>
+      <div class="col"><div class="lab">Hearts — belief, trust, commitment</div><div class="txt">People wanted to belong to a moment.</div></div>
     </div>`,
-  note:`<b>第 2 个 P：Product + 三 H</b>
-  <ul><li>Hands / Heads / Hearts = 实物产出 / 认知产出 / 情感产出（Week 5 的 Product 工具）。</li></ul>` },
+  note:`<b>第 2 个 P：Product + 三 H</b><ul><li>Hands / Heads / Hearts = 实物产出 / 认知产出 / 情感产出。</li></ul>` },
 
-{ kicker:'The 5 Ps · 2 of 5',
-  html:`<p class="mega">Only <span class="am">Heads</span> and <span class="am">Hearts</span>.</p>
+{ kicker:'The 5 Ps · 2 of 5', html:`<p class="mega">Only <span class="am">Heads</span> and <span class="am">Hearts</span>.</p>
     <p class="mega sp pk">Zero Hands.</p>
-    <p class="big sp2">That is why 2,000,000 people could “commit” — and lose nothing at all by staying home.</p>`,
-  note:`<b>Product 的落点</b>
-  <ul><li>关键推论：<b>因为这个活动没有任何 Hands（没有押金、没有门票、没有承诺成本），所以"报名"是免费的——而免费的东西不构成承诺。</b></li>
-  <li>这句直接连到第 3 个 P。</li></ul>` },
+    <p class="big sp2">2,000,000 could “commit” — and lose nothing by staying home.</p>`,
+  note:`<b>Product 落点</b><ul><li><b>这个活动没有任何 Hands（没有押金、门票、承诺成本），所以"报名"是免费的——免费的东西不构成承诺。</b></li>
+  <li>直接连到第 3 个 P。</li></ul>` },
 
-/* 20–21 Participants */
-{ kicker:'The 5 Ps · 3 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>articipants — who needs to be in the room?</h2>
+{ kicker:'The 5 Ps · 3 of 5', html:`<h2 class="sm"><span class="am">P</span>articipants — who needs to be in the room?</h2>
     <div class="cols sp2">
       <div class="col"><div class="lab">Course guidance on size</div>
         <div class="txt sm">Resolution &nbsp;<b>3–9</b><br>Creation &nbsp;<b>7–16</b><br>Review &nbsp;<b>2–100+</b></div></div>
       <div class="col hi"><div class="lab">This event</div>
-        <div class="txt" style="font-size:clamp(30px,4.4vw,84px)">2,000,000</div></div>
+        <div class="txt" style="font-size:clamp(32px,4.6vw,88px);letter-spacing:-.03em">2,000,000</div></div>
     </div>`,
-  note:`<b>第 3 个 P：Participants</b>
-  <ul><li>课程规模参考：Resolution 3–9 人、Creation 7–16 人、Review 2–100+ 人。这里是 200 万。</li>
+  note:`<b>第 3 个 P：Participants</b><ul><li>课程规模参考：Resolution 3–9、Creation 7–16、Review 2–100+。这里是 200 万。</li>
   <li>问一句：「<b>没有人设计过 200 万人的流程</b>——这句话说得对吗？」</li></ul>` },
 
-{ kicker:'The 5 Ps · 3 of 5',
-  html:`<p class="mega am">Zero-cost participation<br>= zero commitment.</p>
-    <p class="big sp2">A sign-up button checks none of the selection criteria:</p>
-    <p class="big sp">Does this person understand the issue? Have a stake? Can they decide? Are they respected? Are they open to alternatives?</p>`,
-  note:`<b>Participants 的落点</b>
-  <ul><li>五条选人标准全列出来，然后问：「一个『参加』按钮，检查了其中哪一条？」答案：零。</li>
-  <li>落点：<b>零成本参与 = 零承诺。</b>（和上一个 P 的 Hands=0 是同一个病。）</li></ul>` },
+{ kicker:'The 5 Ps · 3 of 5', html:`<p class="mega am">Zero-cost participation<br>= zero commitment.</p>
+    <p class="big sp2">A sign-up button checks none of the selection criteria.</p>
+    <p class="big sp muted" style="font-size:clamp(18px,1.75vw,29px)">Understand the issue? Have a stake? Can they decide? Respected? Open to alternatives?</p>`,
+  note:`<b>Participants 落点</b><ul><li>五条选人标准列出来，问：「一个『参加』按钮，检查了哪一条？」答案：零。</li></ul>` },
 
-/* 22–23 Probable Issues */
-{ kicker:'The 5 Ps · 4 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>robable Issues — what could derail this?</h2>
+{ kicker:'The 5 Ps · 4 of 5', html:`<h2 class="sm"><span class="am">P</span>robable Issues — what could derail this?</h2>
     <div class="cols sp2">
-      <div class="col"><div class="lab">Topics — needed to succeed</div>
-        <div class="txt">Get people there. Keep them alive in a desert.</div></div>
-      <div class="col hi"><div class="lab">Ditches — could sink the whole thing</div>
-        <div class="txt">184 hotel rooms. No water, no fuel, no phone signal. 40,000 expected.</div></div>
-      <div class="col"><div class="lab">Red herrings — distractions</div>
-        <div class="txt">Alien merchandise. Brand stunts. Copycat events.</div></div>
+      <div class="col"><div class="lab">Topics — needed to succeed</div><div class="txt">Get people there. Keep them alive in a desert.</div></div>
+      <div class="col hi"><div class="lab">Ditches — could sink it</div><div class="txt">184 hotel rooms. No water, no fuel, no signal. 40,000 expected.</div></div>
+      <div class="col"><div class="lab">Red herrings</div><div class="txt">Alien merchandise. Brand stunts. Copycat events.</div></div>
     </div>`,
-  note:`<b>第 4 个 P：Probable Issues</b>
-  <ul><li>三类分清：<b>Topics</b>（必须谈的）、<b>Ditches</b>（会让事情翻船的）、<b>Red herrings</b>（分神的）。</li></ul>` },
+  note:`<b>第 4 个 P：Probable Issues</b><ul><li>三类分清：Topics（必须谈的）、Ditches（会让事情翻船的）、Red herrings（分神的）。</li></ul>` },
 
-{ kicker:'The 5 Ps · 4 of 5',
-  html:`<p class="mega">The <span class="am">ditches were listed</span>.</p>
+{ kicker:'The 5 Ps · 4 of 5', html:`<p class="mega">The <span class="am">ditches were listed</span>.</p>
     <p class="big sp2">By Lincoln County, Nevada.</p>
-    <p class="big sp">The emergency declaration. The 300 paramedics. The 150 police officers.</p>
-    <p class="big sp am">All of it came from the county. Not from the organiser.</p>`,
-  note:`<b>Probable Issues 的落点 —— 本案例最讽刺的地方</b>
-  <ul><li><b>风险清单被列出来了，而且列得很准——但列它的是林肯县，不是主办方。</b></li>
-  <li>一句话收：<b>当你的 stakeholder 替你做准备时，说明你的 Process 已经失败了。</b>（正好接下一页）</li></ul>` },
+    <p class="big sp am">Not by the organiser.</p>`,
+  note:`<b>Probable Issues 落点 —— 本案例最讽刺的地方</b>
+  <ul><li><b>风险清单列出来了，而且列得很准——但列它的是林肯县：紧急状态声明、300 名急救员、150 名警察，全部来自县里。</b></li>
+  <li>收一句：<b>当你的 stakeholder 替你做准备时，说明你的 Process 已经失败了。</b>正好接下一页。</li></ul>` },
 
-/* 24–25 Process */
-{ kicker:'The 5 Ps · 5 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>rocess — how will we actually run it?</h2>
+{ kicker:'The 5 Ps · 5 of 5', html:`<h2 class="sm"><span class="am">P</span>rocess — how will we actually run it?</h2>
     <div class="cols sp2">
       <div class="col"><div class="lab">What the 5 Ps says</div>
         <div class="txt sm">Design the Process <b>last</b> — after Purpose, Product, Participants and Probable Issues are settled.</div></div>
       <div class="col hi"><div class="lab">What happened here</div>
         <div class="txt sm">The Process was a Facebook event page.<br>No agenda. No ground rules. No notice.</div></div>
     </div>`,
-  note:`<b>第 5 个 P：Process</b>
-  <ul><li>左边是课程原话：<b>Process 必须最后设计</b>，前四个 P 定了才有流程。</li>
-  <li>右边是这个案例：流程就是"建一个 Facebook 活动页"。</li></ul>` },
+  note:`<b>第 5 个 P：Process</b><ul><li>左边是课程原话：<b>Process 必须最后设计</b>。右边是案例：流程就是"建一个 Facebook 活动页"。</li></ul>` },
 
-{ kicker:'The 5 Ps · 5 of 5',
-  html:`<p class="mega">The Process came <span class="am">first</span>.</p>
-    <p class="mega sp am">The other four Ps never happened at all.</p>
-    <p class="big sp2 muted">And ten days before the event, the organiser left — with the money — and sent a lawyer's letter to the woman who actually held the permits.</p>`,
+{ kicker:'The 5 Ps · 5 of 5', html:`<p class="mega">The Process came <span class="am">first</span>.</p>
+    <p class="mega sp am">The other four Ps never happened.</p>
+    <p class="big sp2 muted" style="font-size:clamp(18px,1.8vw,30px)">Ten days before the event, the organiser left — with the money — and sent a lawyer's letter to the woman who held the permits.</p>`,
   note:`<b>收尾 —— 全场最强的一句</b>
   <ul><li><b>流程排在了第一位，另外四个 P 从来没发生过。</b>念完停两秒。</li>
-  <li>最后一行（带钱跑路 + 给持有许可证的人发律师函）念完<b>就停，不要补总结</b>。</li>
-  <li>如果学生问"那正确做法是什么"：<b>先问 Purpose</b>（那个周末你到底想要发生什么），再定 Product 和 Participants，最后才设计流程。</li></ul>` }
+  <li>最后一行念完<b>就停，不要补总结</b>。</li>
+  <li>如果学生问"正确做法"：<b>先问 Purpose</b>（那个周末你到底想要发生什么），再定 Product 和 Participants，最后才设计流程。</li></ul>` }
 ];
 
 /* ==================== engine ==================== */
 const $ = id => document.getElementById(id);
-const bodyEl = $('body'), kickerEl = $('kicker'), notesEl = $('notes'), nbEl = $('nb'), dotsEl = $('dots');
+const bodyEl = $('body'), kickerEl = $('kicker'), notesEl = $('notes'), nbEl = $('nb');
+const pagenumEl = $('pagenum'), pbarEl = $('pbar'), hintEl = $('hint'), toastEl = $('toast');
 
 let cur = 0, notesOpen = false;
 let key = localStorage.getItem(LS_KEY) || '';
-let live = { counts:{}, ctrl:{}, manual:false, showTruth:{}, manualCounts:{} };
-let pollTimer = null;
-const LIVE_INDEX = SLIDES.findIndex(s => s.special === 'live');
-
-SLIDES.forEach(()=>dotsEl.appendChild(document.createElement('i')));
+let live = { counts:{}, ctrl:{}, manual:false, showTruth:{}, manualCounts:{}, prev:{} };
+let pollTimer = null, liveEls = null, gapAnimated = false;
 
 function toast(msg){
-  const t = $('toast'); t.textContent = msg; t.classList.add('on');
-  clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('on'), 1600);
+  toastEl.textContent = msg; toastEl.classList.add('on');
+  clearTimeout(toastEl._h); toastEl._h = setTimeout(()=>toastEl.classList.remove('on'), 1700);
+}
+function countUp(el, to, dur){
+  const t0 = performance.now();
+  (function step(t){
+    const p = Math.min(1, (t - t0) / (dur || 900));
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(to * e).toLocaleString('en-US');
+    if(p < 1) requestAnimationFrame(step);
+  })(t0);
 }
 
 function render(){
   const s = SLIDES[cur];
-  kickerEl.innerHTML = s.kicker || '&nbsp;';
+  kickerEl.textContent = s.kicker || '';
+  pagenumEl.textContent = (cur + 1) + ' / ' + SLIDES.length;
+  pbarEl.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  try{ history.replaceState(null, '', '#' + (cur + 1)); }catch(e){}
 
   if(s.special === 'live'){
-    bodyEl.innerHTML = liveHTML();
-    bindLive();
+    buildLive();
+    updateLive();
     startPolling();
+    hintEl.textContent = 'press L for live results';
   } else {
-    stopPolling();
-    bodyEl.innerHTML = `<div class="fade">${s.html || ''}</div>`;
+    stopPolling(); liveEls = null; gapAnimated = false;
+    bodyEl.innerHTML = '<div class="pagein" style="display:flex;flex-direction:column;justify-content:center;height:100%">' + (s.html || '') + '</div>';
+    hintEl.textContent = '';
   }
   nbEl.innerHTML = s.note || '';
-  [...dotsEl.children].forEach((d,k)=>{ d.className = k===cur ? 'cur' : (k<cur ? 'on' : ''); });
 }
 
-/* ---------- live results panel ---------- */
-function liveHTML(){
-  const total = id => Object.values(live.counts[id] || {}).reduce((a,b)=>a+b,0);
+/* ---------- LIVE panel: built once, updated in place (keeps animations alive) ---------- */
+function buildLive(){
+  if(liveEls) return;
 
-  const rows = QUESTIONS.map((q, qi) => {
-    const c = live.counts[q.id] || {};
-    const shown = live.manual ? (live.manualCounts[q.id] || {}) : c;
-    const tt = live.manual ? Object.values(shown).reduce((a,b)=>a+b,0) : total(q.id);
-
-    const bars = q.opts.map(o => {
-      const n = shown[o.k] || 0;
-      const pc = tt ? Math.round(n/tt*100) : 0;
-      const win = live.showTruth[q.id] && o.k === q.win;
-      const body = live.manual
-        ? `<input class="mi" data-q="${q.id}" data-k="${o.k}" type="number" min="0" value="${n}"
-             style="width:5.5em;font:inherit;font-size:.9em;padding:3px 7px;border-radius:8px;
-                    border:1px solid var(--line);background:#0c1130;color:#fff">`
-        : `<span class="num">${n} &nbsp;${pc}%</span>`;
-      return `<div class="bar ${win?'win':''}">
-        <span class="lab">${o.t}</span>
-        <span class="track"><span class="fill" style="width:${pc}%"></span></span>
-        ${body}
-      </div>`;
-    }).join('');
-
-    const locked = live.ctrl['locked_'+q.id] === '1';
-    const truth = live.showTruth[q.id] ? `
-      <div class="truth">TRUTH → ${q.truth}</div>
-      ${q.id==='q4' ? `
-        <div class="gap">
-          <div class="g"><span class="n">2,000,000</span><span class="r"></span><span class="t">clicked “Going”</span></div>
-          <div class="g" style="margin-top:8px"><span class="n">150</span><span class="r tiny" style="max-width:6px"></span><span class="t">showed up</span></div>
-        </div>` : ''}` : '';
-
-    return `<div class="qcard ${live.showTruth[q.id]?'rev':''}">
-      <div class="qhead">
-        <div class="qt">${qi+1}. ${q.short}</div>
-        <div class="qn">${tt} answer${tt===1?'':'s'}</div>
+  const cards = QUESTIONS.map((q, qi) => `
+    <div class="qcard" data-q="${q.id}">
+      <div class="qrow">
+        <div class="qt">${qi + 1}. ${q.short}</div>
+        <div class="qright">
+          <span class="qn" data-role="n">0 answers</span>
+          <button class="b" data-act="lock" data-q="${q.id}">Lock</button>
+          <button class="b" data-act="truth" data-q="${q.id}">Reveal truth</button>
+        </div>
       </div>
-      <div class="bars">${bars}</div>
-      <div class="ctrls">
-        <button class="b ${locked?'on':''}" data-act="lock" data-q="${q.id}">${locked?'Locked':'Lock'}</button>
-        <button class="b ${live.showTruth[q.id]?'on':''}" data-act="truth" data-q="${q.id}">${live.showTruth[q.id]?'Hide truth':'Reveal truth'}</button>
+      <div class="bars">
+        ${q.opts.map(o => `<div class="bar" data-k="${o.k}">
+            <span class="lab">${o.t}</span>
+            <span class="track"><span class="fill"></span></span>
+            <span class="num">0 &nbsp;0%</span>
+          </div>`).join('')}
       </div>
-      ${truth}
+      <div class="truth" data-role="truth">TRUTH → ${q.truth}</div>
+      ${q.id === 'q4' ? `<div class="gap" data-role="gap">
+          <div class="g"><span class="n" data-role="big">0</span><span class="r" data-role="bigbar" style="width:0"></span><span class="t">clicked “Going”</span></div>
+          <div class="g"><span class="n" data-role="small">0</span><span class="r tiny" data-role="smallbar" style="width:0"></span><span class="t">showed up</span></div>
+        </div>` : ''}
+    </div>`).join('');
+
+  bodyEl.innerHTML = `<div class="pagein" style="display:flex;flex-direction:column;height:100%;min-height:0">
+      <div class="lvhead">
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+          <h2>Live results</h2>
+          <span class="livebadge"><i></i>LIVE</span>
+        </div>
+        <div class="lvmeta">
+          <div style="text-align:right"><div class="ticknum" id="ticknum">0</div><div class="ticklab">answers in</div></div>
+          <div class="ctrls">
+            <button class="b warn" data-act="reset">⟲ &nbsp;Reset all</button>
+            <button class="b" data-act="manual">Manual entry</button>
+            <button class="b" data-act="truthall">Reveal all truths</button>
+            <button class="b" data-act="key">Key…</button>
+          </div>
+        </div>
+      </div>
+      <div class="panel">${cards}</div>
     </div>`;
-  }).join('');
 
-  return `
-    <div class="qhead" style="margin-bottom:14px">
-      <h2 class="sm" style="font-size:clamp(22px,2.6vw,42px)">Live results</h2>
-      <div class="ctrls" style="margin:0">
-        <button class="b warn" data-act="reset">⟲ &nbsp;Reset all</button>
-        <button class="b ${live.manual?'on':''}" data-act="manual">${live.manual?'Manual: ON':'Manual entry'}</button>
-        <button class="b" data-act="truthall">Reveal all truths</button>
-        <button class="b" data-act="key">Key…</button>
-      </div>
-    </div>
-    <div class="panel">${rows}</div>`;
-}
+  liveEls = { tick: $('ticknum'), cards:{} };
+  bodyEl.querySelectorAll('.qcard').forEach(card => {
+    const qid = card.dataset.q;
+    const ref = {
+      root: card,
+      n: card.querySelector('[data-role="n"]'),
+      truth: card.querySelector('[data-role="truth"]'),
+      gap: card.querySelector('[data-role="gap"]'),
+      lock: card.querySelector('button[data-act="lock"]'),
+      truthBtn: card.querySelector('button[data-act="truth"]'),
+      bars: {}
+    };
+    card.querySelectorAll('.bar').forEach(b => { ref.bars[b.dataset.k] = b; });
+    if(ref.gap){
+      ref.big = ref.gap.querySelector('[data-role="big"]');
+      ref.small = ref.gap.querySelector('[data-role="small"]');
+      ref.bigbar = ref.gap.querySelector('[data-role="bigbar"]');
+      ref.smallbar = ref.gap.querySelector('[data-role="smallbar"]');
+    }
+    liveEls.cards[qid] = ref;
+  });
 
-function bindLive(){
   bodyEl.querySelectorAll('button[data-act]').forEach(b =>
     b.addEventListener('click', () => liveAction(b.dataset.act, b.dataset.q)));
-  bodyEl.querySelectorAll('input.mi').forEach(inp => {
-    inp.addEventListener('input', () => {
-      const q = inp.dataset.q, k = inp.dataset.k;
-      live.manualCounts[q] = live.manualCounts[q] || {};
-      live.manualCounts[q][k] = Math.max(0, parseInt(inp.value,10) || 0);
-      const card = inp.closest('.qcard');
-      const m = live.manualCounts[q];
-      const tot = Object.values(m).reduce((a,b)=>a+b,0);
-      const opts = QUESTIONS.find(x=>x.id===q).opts;
-      card.querySelectorAll('.bar').forEach((row,i)=>{
-        const fill = row.querySelector('.fill');
-        if(fill) fill.style.width = (tot ? Math.round((m[opts[i].k]||0)/tot*100) : 0) + '%';
-      });
-      const nEl = card.querySelector('.qn');
-      if(nEl) nEl.textContent = tot + ' answer' + (tot===1?'':'s');
+}
+
+function onManualInput(){
+  if(!liveEls) return;
+  for(const q of QUESTIONS){
+    const ref = liveEls.cards[q.id];
+    const m = live.manualCounts[q.id] || {};
+    const tot = Object.values(m).reduce((a,b)=>a+b,0);
+    ref.n.textContent = tot + (tot === 1 ? ' answer' : ' answers');
+    q.opts.forEach(o => {
+      const n = m[o.k] || 0, pc = tot ? Math.round(n / tot * 100) : 0;
+      const bar = ref.bars[o.k];
+      bar.querySelector('.fill').style.width = pc + '%';
+      const inp = bar.querySelector('input');
+      if(!inp) bar.querySelector('.num').textContent = n + ' \u00a0' + pc + '%';
     });
-  });
+  }
+}
+
+function updateLive(){
+  if(!liveEls) return;
+  let grand = 0;
+
+  for(const q of QUESTIONS){
+    const ref = liveEls.cards[q.id];
+    const counts = live.counts[q.id] || {};
+    const shown = live.manual ? (live.manualCounts[q.id] || {}) : counts;
+    const tot = Object.values(shown).reduce((a,b)=>a+b,0);
+    grand += tot;
+    ref.n.textContent = tot + (tot === 1 ? ' answer' : ' answers');
+
+    q.opts.forEach(o => {
+      const n = shown[o.k] || 0;
+      const pc = tot ? Math.round(n / tot * 100) : 0;
+      const bar = ref.bars[o.k];
+      bar.querySelector('.fill').style.width = pc + '%';
+      const inp = bar.querySelector('input');
+      if(!inp) bar.querySelector('.num').textContent = n + ' \u00a0' + pc + '%';
+      bar.classList.toggle('win', !!live.showTruth[q.id] && o.k === q.win);
+
+      const before = live.prev[q.id] ? (live.prev[q.id][o.k] || 0) : null;
+      if(!live.manual && before !== null && n > before){
+        bar.classList.add('bump');
+        clearTimeout(bar._t);
+        bar._t = setTimeout(()=>bar.classList.remove('bump'), 900);
+      }
+    });
+
+    const locked = live.ctrl['locked_' + q.id] === '1';
+    ref.lock.textContent = locked ? 'Locked' : 'Lock';
+    ref.lock.classList.toggle('on', locked);
+
+    const show = !!live.showTruth[q.id];
+    ref.root.classList.toggle('rev', show);
+    ref.truth.classList.toggle('show', show);
+    ref.truthBtn.textContent = show ? 'Hide truth' : 'Reveal truth';
+    ref.truthBtn.classList.toggle('on', show);
+
+    if(ref.gap){
+      ref.gap.classList.toggle('show', show);
+      if(show && !gapAnimated){
+        gapAnimated = true;
+        countUp(ref.big, 2000000, 1100);
+        countUp(ref.small, 150, 1100);
+        ref.bigbar.style.width = 'calc(100% - 4px)';
+        ref.smallbar.style.width = '6px';
+      }
+      if(!show){
+        gapAnimated = false;
+        ref.bigbar.style.width = '0';
+        ref.smallbar.style.width = '0';
+      }
+    }
+  }
+
+  liveEls.tick.textContent = grand.toLocaleString('en-US');
+  live.prev = JSON.parse(JSON.stringify(live.counts));
 }
 
 async function control(payload){
@@ -585,26 +662,61 @@ async function liveAction(act, q){
   if(act === 'reset'){
     if(!confirm('Clear every vote? Use this before a new run or while testing.')) return;
     const d = await control({action:'reset'});
-    if(d){ live.counts = {}; live.manualCounts = {}; live.showTruth = {}; render(); toast('All votes cleared'); }
+    if(d){
+      live.counts = {}; live.prev = {}; live.manualCounts = {}; live.showTruth = {};
+      gapAnimated = false; updateLive(); toast('All votes cleared');
+    }
     return;
   }
-  if(act === 'manual'){ live.manual = !live.manual; render(); return; }
+  if(act === 'manual'){
+    live.manual = !live.manual;
+    const btn = bodyEl.querySelector('button[data-act="manual"]');
+    btn.textContent = live.manual ? 'Manual: ON' : 'Manual entry';
+    btn.classList.toggle('on', live.manual);
+    for(const qq of QUESTIONS){
+      const ref = liveEls.cards[qq.id];
+      qq.opts.forEach(o => {
+        const num = ref.bars[o.k].querySelector('.num');
+        if(live.manual){
+          live.manualCounts[qq.id] = live.manualCounts[qq.id] || {};
+          if(num.querySelector('input')) return;
+          const inp = document.createElement('input');
+          inp.className = 'mi'; inp.type = 'number'; inp.min = '0';
+          inp.dataset.q = qq.id; inp.dataset.k = o.k;
+          inp.value = live.manualCounts[qq.id][o.k] || 0;
+          inp.style.cssText = 'width:5.6em;font:inherit;font-size:.92em;padding:3px 7px;border-radius:8px;' +
+                              'border:1.5px solid var(--line2);background:#fff;color:var(--ink);text-align:right';
+          inp.addEventListener('input', onManualInput);
+          num.replaceChildren(inp);
+        } else {
+          const inp = num.querySelector('input');
+          if(inp){ const s = document.createElement('span'); num.replaceChildren(s); }
+        }
+      });
+    }
+    updateLive();
+    return;
+  }
   if(act === 'key'){ openSetup(); return; }
   if(act === 'truthall'){
     const anyOff = QUESTIONS.some(x => !live.showTruth[x.id]);
-    QUESTIONS.forEach(x => live.showTruth[x.id] = anyOff);
-    render(); return;
+    if(anyOff) gapAnimated = false;
+    QUESTIONS.forEach(x => { live.showTruth[x.id] = anyOff; });
+    updateLive(); return;
   }
   if(act === 'lock'){
-    const isLocked = live.ctrl['locked_'+q] === '1';
+    const isLocked = live.ctrl['locked_' + q] === '1';
     const d = await control({action: isLocked ? 'unlock' : 'lock', q});
-    if(d){ live.ctrl['locked_'+q] = isLocked ? '0' : '1'; render(); toast(isLocked?'Unlocked':'Locked'); }
+    if(d){ live.ctrl['locked_' + q] = isLocked ? '0' : '1'; updateLive(); toast(isLocked ? 'Unlocked' : 'Locked'); }
     return;
   }
-  if(act === 'truth'){ live.showTruth[q] = !live.showTruth[q]; render(); return; }
+  if(act === 'truth'){
+    live.showTruth[q] = !live.showTruth[q];
+    if(!live.showTruth[q]) gapAnimated = false;
+    updateLive(); return;
+  }
 }
 
-/* ---------- polling ---------- */
 async function poll(){
   try{
     const r = await fetch(API + '/api/state', {cache:'no-store'});
@@ -617,29 +729,25 @@ async function poll(){
     const ae = document.activeElement;
     if(ae && ae.tagName === 'INPUT') return;
     if($('setup').classList.contains('on')) return;
-    render();
+    updateLive();
   }catch(e){}
 }
 function startPolling(){ if(!pollTimer){ poll(); pollTimer = setInterval(poll, 1500); } }
 function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer = null; } }
 
-/* ---------- navigation ---------- */
-function next(){ if(cur < SLIDES.length-1){ cur++; render(); } }
-function prev(){ if(cur > 0){ cur--; render(); } }
-function goto(i){ cur = Math.max(0, Math.min(SLIDES.length-1, i)); render(); }
+function next(){ if(cur < SLIDES.length - 1){ cur++; liveEls = null; gapAnimated = false; render(); } }
+function prev(){ if(cur > 0){ cur--; liveEls = null; gapAnimated = false; render(); } }
+function goto(i){ cur = Math.max(0, Math.min(SLIDES.length - 1, i)); liveEls = null; gapAnimated = false; render(); }
 
-/* ---------- setup ---------- */
 function openSetup(){ $('keyin').value = key; $('setup').classList.add('on'); setTimeout(()=>$('keyin').focus(), 60); }
 $('keysave').addEventListener('click', ()=>{
   key = $('keyin').value.trim();
   localStorage.setItem(LS_KEY, key);
   $('setup').classList.remove('on');
   toast(key ? 'Key saved' : 'Key cleared');
-  if(SLIDES[cur].special === 'live') render();
 });
 $('keycancel').addEventListener('click', ()=>$('setup').classList.remove('on'));
 
-/* ---------- keys ---------- */
 document.addEventListener('keydown', e => {
   if($('setup').classList.contains('on')){
     if(e.key === 'Enter') $('keysave').click();
@@ -652,12 +760,18 @@ document.addEventListener('keydown', e => {
   if(k==='arrowright'||k===' '||k==='enter'||k==='pagedown'){ e.preventDefault(); next(); return; }
   if(k==='arrowleft'||k==='pageup'){ e.preventDefault(); prev(); return; }
   if(k==='l'){ goto(LIVE_INDEX); return; }
-  if(k==='n'){ notesOpen=!notesOpen; notesEl.classList.toggle('open',notesOpen);
-               document.body.classList.toggle('notes-open',notesOpen); $('nflag').classList.toggle('on',notesOpen); return; }
+  if(k==='n'){ notesOpen = !notesOpen; notesEl.classList.toggle('open', notesOpen);
+               document.body.classList.toggle('notes-open', notesOpen); $('nflag').classList.toggle('on', notesOpen); return; }
   if(k==='f'){ document.fullscreenElement ? document.exitFullscreen?.() : document.documentElement.requestFullscreen?.(); return; }
   if(k==='home'){ goto(0); return; }
-  if(k==='end'){ goto(SLIDES.length-1); return; }
+  if(k==='end'){ goto(SLIDES.length - 1); return; }
 });
+
+/* deep link: hudsonwang.com/game/#12 jumps straight to page 12 (survives a refresh mid-talk) */
+(function(){
+  const n = parseInt((location.hash || '').replace('#',''), 10);
+  if(n >= 1 && n <= SLIDES.length) cur = n - 1;
+})();
 
 render();
 </script>

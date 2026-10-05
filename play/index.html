@@ -3,75 +3,90 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0c1130">
+<meta name="theme-color" content="#eef3fd">
 <meta name="robots" content="noindex">
 <title>Storm Area 51 — Guess</title>
 <style>
   :root{
-    --bg:#0c1130;
-    --bg2:#131b45;
-    --card:#182252;
-    --card2:#1e2a63;
-    --line:#2b3772;
-    --ink:#f2f5ff;
-    --muted:#94a2cc;
-    --accent:#a8c0ff;
-    --accent2:#c9d8ff;
-    --deep:#6f86d8;
-    --ok:#7fe0b0;
+    --bg:#eef3fd;
+    --card:#ffffff;
+    --card2:#e9f0ff;
+    --line:#d5dff5;
+    --line2:#c2cff0;
+    --ink:#152046;
+    --ink2:#38446e;
+    --muted:#5d6b96;
+    --accent:#3f5cc9;
+    --accent2:#2f47a8;
+    --soft:#dfe8ff;
+    --live:#12a05e;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{
-    background:
-      radial-gradient(760px 460px at 12% -10%, #1b2560 0%, rgba(27,37,96,0) 62%),
-      radial-gradient(680px 460px at 100% 108%, #1a3a6b 0%, rgba(26,58,107,0) 60%),
-      var(--bg);
-    color:var(--ink);
+    background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     display:flex;flex-direction:column;min-height:100dvh;
     padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-    -webkit-font-smoothing:antialiased;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
   }
-  header{
-    padding:14px 20px 10px;display:flex;justify-content:space-between;align-items:center;
-    font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:var(--accent);
-  }
-  header .q{color:#5b6796;letter-spacing:.14em}
-  #prog{height:3px;background:#1a2251}
+  #amb{position:fixed;inset:-30vh -30vw;z-index:0;pointer-events:none;filter:blur(60px);opacity:.55}
+  #amb i{position:absolute;display:block;border-radius:50%}
+  #amb i:nth-child(1){width:80vw;height:80vw;left:-10vw;top:-6vh;background:#cfe0ff;animation:d1 24s ease-in-out infinite}
+  #amb i:nth-child(2){width:70vw;height:70vw;right:-14vw;bottom:-6vh;background:#e3d6ff;animation:d2 30s ease-in-out infinite}
+  @keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(9vw,7vh) scale(1.15)}}
+  @keyframes d2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-8vw,-6vh) scale(.93)}}
+
+  header{position:relative;z-index:1;padding:14px 20px 10px;display:flex;justify-content:space-between;
+         align-items:center;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;
+         color:var(--accent)}
+  header .q{color:var(--muted);letter-spacing:.14em}
+  #prog{position:relative;z-index:1;height:3px;background:#dbe4f8}
   #prog i{display:block;height:100%;width:0;background:var(--accent);
-          transition:width .35s cubic-bezier(.3,.9,.3,1)}
-  main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:22px 20px 26px;gap:18px}
-  h1{font-size:clamp(22px,6.4vw,31px);line-height:1.22;font-weight:800;letter-spacing:-.012em}
-  .sub{font-size:14px;color:var(--muted);line-height:1.5}
+          transition:width .4s cubic-bezier(.3,.9,.3,1)}
+  main{position:relative;z-index:1;flex:1;display:flex;flex-direction:column;justify-content:center;
+       padding:22px 20px 26px;gap:18px}
+  h1{font-size:clamp(23px,6.6vw,32px);line-height:1.2;font-weight:800;letter-spacing:-.015em}
+  .sub{font-size:14px;color:var(--muted);line-height:1.5;font-weight:600}
   .opts{display:flex;flex-direction:column;gap:12px;margin-top:4px}
   button.opt{
     font:inherit;text-align:left;color:var(--ink);cursor:pointer;
     background:var(--card);border:2px solid var(--line);border-radius:17px;
-    padding:20px 18px;font-size:17px;font-weight:650;line-height:1.35;
+    padding:20px 18px;font-size:17px;font-weight:700;line-height:1.32;
     display:flex;align-items:center;gap:14px;width:100%;
-    transition:transform .08s, border-color .15s, background .15s;
+    box-shadow:0 1px 2px rgba(21,32,70,.05), 0 14px 30px -24px rgba(21,32,70,.5);
+    transition:transform .09s, border-color .15s, background .15s;
+    animation:in .34s cubic-bezier(.2,.85,.3,1) backwards;
   }
+  button.opt:nth-child(1){animation-delay:.03s}
+  button.opt:nth-child(2){animation-delay:.09s}
+  button.opt:nth-child(3){animation-delay:.15s}
+  @keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   button.opt .tick{
     width:24px;height:24px;flex:0 0 24px;border-radius:50%;
-    border:2px solid #3b478a;display:grid;place-items:center;font-size:13px;color:transparent;
+    border:2px solid var(--line2);display:grid;place-items:center;font-size:13px;color:transparent;
+    transition:background .15s, border-color .15s, color .15s;
   }
-  button.opt:active{transform:scale(.978)}
+  button.opt:active{transform:scale(.976)}
   button.opt.sel{border-color:var(--accent);background:var(--card2)}
-  button.opt.sel .tick{border-color:var(--accent);background:var(--accent);color:#0c1130}
-  .toast{margin-top:6px;font-size:14px;color:var(--ok);font-weight:700;
-         display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s}
+  button.opt.sel .tick{border-color:var(--accent);background:var(--accent);color:#fff}
+  .toast{margin-top:6px;font-size:14px;color:var(--live);font-weight:800;
+         display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .22s}
   .toast.on{opacity:1}
   .done{text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center}
-  .done .big{font-size:clamp(26px,8vw,39px);font-weight:800;line-height:1.15}
+  .done .big{font-size:clamp(27px,8.4vw,40px);font-weight:800;line-height:1.14;letter-spacing:-.02em}
   .done .big span{color:var(--accent)}
-  footer{padding:0 20px 18px;font-size:12px;color:#4a5486;line-height:1.5}
-  #net{display:none;background:#202c6a;border:1px solid var(--deep);color:var(--accent2);
-       font-size:13px;padding:10px 14px;border-radius:11px;line-height:1.45}
+  .done .dot{width:54px;height:54px;border-radius:50%;background:var(--soft);border:2px solid var(--line2);
+             display:grid;place-items:center;font-size:24px}
+  footer{position:relative;z-index:1;padding:0 20px 18px;font-size:12px;color:#8b97bd;line-height:1.5;
+         font-weight:600}
+  #net{display:none;background:#fff6fa;border:1.5px solid #e8b7cc;color:#a33a68;
+       font-size:13px;padding:10px 14px;border-radius:11px;line-height:1.45;font-weight:600}
   #net.on{display:block}
 </style>
 </head>
 <body>
+<div id="amb"><i></i><i></i></div>
 
 <header>
   <span>Storm Area 51</span>
@@ -84,64 +99,26 @@
 <footer id="foot">Just a guessing game. No wrong answers.</footer>
 
 <script>
-/* ============ config ============ */
 const API = 'https://storm51-vote.hudsonwang.workers.dev';
 
-/* ============ questions ============ */
 const QUESTIONS = [
-  {
-    id:'q1',
-    title:'How many people clicked “Going”?',
+  { id:'q1', title:'How many people clicked “Going”?',
     sub:'A Facebook event, created as a joke.',
-    opts:[
-      {k:'a', t:'About 40,000'},
-      {k:'b', t:'About 400,000'},
-      {k:'c', t:'About 2,000,000'}
-    ]
-  },
-  {
-    id:'q2',
-    title:'What did the US Air Force do about it?',
+    opts:[{k:'a',t:'About 40,000'},{k:'b',t:'About 400,000'},{k:'c',t:'About 2,000,000'}] },
+  { id:'q2', title:'What did the US Air Force do about it?',
     sub:'A joke, about a classified military base.',
-    opts:[
-      {k:'a', t:'Ignored it completely'},
-      {k:'b', t:'Issued a public statement'},
-      {k:'c', t:'Sent in troops'}
-    ]
-  },
-  {
-    id:'q3',
-    title:'The county has only 184 hotel rooms. How many people did it prepare for?',
+    opts:[{k:'a',t:'Ignored it completely'},{k:'b',t:'Issued a public statement'},{k:'c',t:'Sent in troops'}] },
+  { id:'q3', title:'The county has only 184 hotel rooms. How many people did it prepare for?',
     sub:'Lincoln County, Nevada. August 2019.',
-    opts:[
-      {k:'a', t:'About 500'},
-      {k:'b', t:'About 4,000'},
-      {k:'c', t:'About 40,000'}
-    ]
-  },
-  {
-    id:'q4',
-    title:'How many people actually showed up?',
+    opts:[{k:'a',t:'About 500'},{k:'b',t:'About 4,000'},{k:'c',t:'About 40,000'}] },
+  { id:'q4', title:'How many people actually showed up?',
     sub:'20 September 2019.',
-    opts:[
-      {k:'a', t:'About 150'},
-      {k:'b', t:'About 15,000'},
-      {k:'c', t:'About 150,000'}
-    ]
-  },
-  {
-    id:'q5',
-    title:'How did the whole thing end?',
+    opts:[{k:'a',t:'About 150'},{k:'b',t:'About 15,000'},{k:'c',t:'About 150,000'}] },
+  { id:'q5', title:'How did the whole thing end?',
     sub:'The final score.',
-    opts:[
-      {k:'a', t:'The base was overrun'},
-      {k:'b', t:'7 arrests — public urination'},
-      {k:'c', t:'Nothing happened at all'}
-    ]
-  }
+    opts:[{k:'a',t:'The base was overrun'},{k:'b',t:'7 arrests — public urination'},{k:'c',t:'Nothing happened at all'}] }
 ];
 
-/* ============ state ============ */
 const LS_ID = 's51_voter', LS_ANS = 's51_answers';
 let voterId = localStorage.getItem(LS_ID);
 if(!voterId){
@@ -155,13 +132,13 @@ let idx = 0;
 const $ = id => document.getElementById(id);
 
 function firstUnanswered(){
-  for(let i=0;i<QUESTIONS.length;i++) if(!answers[QUESTIONS[i].id]) return i;
+  for(let i = 0; i < QUESTIONS.length; i++) if(!answers[QUESTIONS[i].id]) return i;
   return QUESTIONS.length;
 }
 function setProgress(){
   const n = Object.keys(answers).length;
   $('progbar').style.width = (n / QUESTIONS.length * 100) + '%';
-  $('qtag').textContent = n >= QUESTIONS.length ? 'done' : `${Math.min(n+1, QUESTIONS.length)} of ${QUESTIONS.length}`;
+  $('qtag').textContent = n >= QUESTIONS.length ? 'done' : Math.min(n + 1, QUESTIONS.length) + ' of ' + QUESTIONS.length;
 }
 
 function render(){
@@ -169,6 +146,7 @@ function render(){
 
   if(idx >= QUESTIONS.length){
     m.innerHTML = `<div class="done">
+        <div class="dot">✓</div>
         <div class="big">All done.<br><span>Look at the big screen.</span></div>
         <div class="sub">Your answers are in. Nothing else to do — enjoy the show.</div>
       </div>`;
@@ -183,13 +161,13 @@ function render(){
       <h1>${q.title}</h1>
       <div class="sub" style="margin-top:10px">${q.sub}</div>
     </div>
-    <div class="opts">
+    <div class="opts" id="opts">
       ${q.opts.map(o => `
-        <button class="opt ${chosen===o.k?'sel':''}" data-k="${o.k}">
+        <button class="opt ${chosen === o.k ? 'sel' : ''}" data-k="${o.k}">
           <span class="tick">✓</span><span>${o.t}</span>
         </button>`).join('')}
     </div>
-    <div class="toast ${chosen?'on':''}" id="toast">✓ Locked in — tap another to change it.</div>
+    <div class="toast ${chosen ? 'on' : ''}" id="toast">✓ Locked in — tap another to change it.</div>
     <div id="net">Slow network. If this doesn’t go through, just raise your hand.</div>`;
 
   m.querySelectorAll('button.opt').forEach(b =>
@@ -200,7 +178,13 @@ async function choose(q, k){
   const prev = answers[q.id];
   answers[q.id] = k;
   localStorage.setItem(LS_ANS, JSON.stringify(answers));
-  render();
+
+  /* update the selection in place so the tap feels instant */
+  const wrap = $('opts');
+  if(wrap) wrap.querySelectorAll('button.opt').forEach(b => b.classList.toggle('sel', b.dataset.k === k));
+  const t0 = $('toast'); if(t0) t0.classList.add('on');
+  setProgress();
+
   if(prev === k) return;
 
   try{
@@ -224,7 +208,7 @@ async function choose(q, k){
 
   setTimeout(() => {
     if(answers[q.id] === k && idx < QUESTIONS.length){ idx = Math.min(idx + 1, QUESTIONS.length); render(); }
-  }, 900);
+  }, 850);
 }
 
 function retryLater(q, k){
