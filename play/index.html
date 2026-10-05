@@ -3,73 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a0a0c">
+<meta name="theme-color" content="#0c1130">
 <meta name="robots" content="noindex">
 <title>Storm Area 51 — Guess</title>
 <style>
   :root{
-    --amber:#ffc400;
-    --amber-dim:#6b5200;
-    --bg:#0a0a0c;
-    --card:#16161b;
-    --line:#2b2b34;
-    --ink:#ffffff;
-    --muted:#9a9aa6;
-    --ok:#3ddc84;
+    --bg:#0c1130;
+    --bg2:#131b45;
+    --card:#182252;
+    --card2:#1e2a63;
+    --line:#2b3772;
+    --ink:#f2f5ff;
+    --muted:#94a2cc;
+    --accent:#a8c0ff;
+    --accent2:#c9d8ff;
+    --deep:#6f86d8;
+    --ok:#7fe0b0;
   }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{
-    background:var(--bg);color:var(--ink);
+    background:
+      radial-gradient(760px 460px at 12% -10%, #1b2560 0%, rgba(27,37,96,0) 62%),
+      radial-gradient(680px 460px at 100% 108%, #1a3a6b 0%, rgba(26,58,107,0) 60%),
+      var(--bg);
+    color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    display:flex;flex-direction:column;
-    min-height:100dvh;
+    display:flex;flex-direction:column;min-height:100dvh;
     padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
     -webkit-font-smoothing:antialiased;
   }
   header{
     padding:14px 20px 10px;display:flex;justify-content:space-between;align-items:center;
-    font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;
-    color:var(--amber);
+    font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:var(--accent);
   }
-  header .q{color:#4a4a56;letter-spacing:.14em}
-  #prog{height:3px;background:#1c1c22}
-  #prog i{display:block;height:100%;width:0;background:var(--amber);transition:width .35s cubic-bezier(.3,.9,.3,1)}
+  header .q{color:#5b6796;letter-spacing:.14em}
+  #prog{height:3px;background:#1a2251}
+  #prog i{display:block;height:100%;width:0;background:var(--accent);
+          transition:width .35s cubic-bezier(.3,.9,.3,1)}
   main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:22px 20px 26px;gap:18px}
-  h1{font-size:clamp(22px,6.4vw,30px);line-height:1.22;font-weight:800;letter-spacing:-.01em}
+  h1{font-size:clamp(22px,6.4vw,31px);line-height:1.22;font-weight:800;letter-spacing:-.012em}
   .sub{font-size:14px;color:var(--muted);line-height:1.5}
   .opts{display:flex;flex-direction:column;gap:12px;margin-top:4px}
   button.opt{
     font:inherit;text-align:left;color:var(--ink);cursor:pointer;
-    background:var(--card);border:2px solid var(--line);border-radius:16px;
+    background:var(--card);border:2px solid var(--line);border-radius:17px;
     padding:20px 18px;font-size:17px;font-weight:650;line-height:1.35;
-    display:flex;align-items:center;gap:14px;
+    display:flex;align-items:center;gap:14px;width:100%;
     transition:transform .08s, border-color .15s, background .15s;
-    width:100%;
   }
   button.opt .tick{
     width:24px;height:24px;flex:0 0 24px;border-radius:50%;
-    border:2px solid #3a3a46;display:grid;place-items:center;
-    font-size:13px;color:transparent;
+    border:2px solid #3b478a;display:grid;place-items:center;font-size:13px;color:transparent;
   }
   button.opt:active{transform:scale(.978)}
-  button.opt.sel{border-color:var(--amber);background:#1e1a0c}
-  button.opt.sel .tick{border-color:var(--amber);background:var(--amber);color:#0a0a0c}
-  button.opt:disabled{cursor:default}
-  .toast{
-    margin-top:6px;font-size:14px;color:var(--ok);font-weight:700;
-    display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s;
-  }
+  button.opt.sel{border-color:var(--accent);background:var(--card2)}
+  button.opt.sel .tick{border-color:var(--accent);background:var(--accent);color:#0c1130}
+  .toast{margin-top:6px;font-size:14px;color:var(--ok);font-weight:700;
+         display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s}
   .toast.on{opacity:1}
   .done{text-align:center;display:flex;flex-direction:column;gap:16px;align-items:center}
-  .done .big{font-size:clamp(26px,8vw,38px);font-weight:800;line-height:1.15}
-  .done .big span{color:var(--amber)}
-  footer{padding:0 20px 18px;font-size:12px;color:#3f3f4a;line-height:1.5}
-  .warn{color:var(--amber);font-weight:700}
-  #net{display:none;background:#241a00;border:1px solid var(--amber-dim);color:#ffd75e;
-       font-size:13px;padding:10px 14px;border-radius:10px;line-height:1.45}
+  .done .big{font-size:clamp(26px,8vw,39px);font-weight:800;line-height:1.15}
+  .done .big span{color:var(--accent)}
+  footer{padding:0 20px 18px;font-size:12px;color:#4a5486;line-height:1.5}
+  #net{display:none;background:#202c6a;border:1px solid var(--deep);color:var(--accent2);
+       font-size:13px;padding:10px 14px;border-radius:11px;line-height:1.45}
   #net.on{display:block}
-  a{color:var(--amber)}
 </style>
 </head>
 <body>
@@ -143,9 +142,7 @@ const QUESTIONS = [
 ];
 
 /* ============ state ============ */
-const LS_ID = 's51_voter';
-const LS_ANS = 's51_answers';
-
+const LS_ID = 's51_voter', LS_ANS = 's51_answers';
 let voterId = localStorage.getItem(LS_ID);
 if(!voterId){
   voterId = 'v-' + Math.random().toString(36).slice(2,10) + Date.now().toString(36);
@@ -155,16 +152,12 @@ let answers = {};
 try{ answers = JSON.parse(localStorage.getItem(LS_ANS) || '{}') || {}; }catch(e){ answers = {}; }
 
 let idx = 0;
-let online = true;
-
 const $ = id => document.getElementById(id);
 
-/* first unanswered question */
 function firstUnanswered(){
   for(let i=0;i<QUESTIONS.length;i++) if(!answers[QUESTIONS[i].id]) return i;
   return QUESTIONS.length;
 }
-
 function setProgress(){
   const n = Object.keys(answers).length;
   $('progbar').style.width = (n / QUESTIONS.length * 100) + '%';
@@ -172,12 +165,10 @@ function setProgress(){
 }
 
 function render(){
-  const m = $('main');
-  setProgress();
+  const m = $('main'); setProgress();
 
   if(idx >= QUESTIONS.length){
-    m.innerHTML = `
-      <div class="done">
+    m.innerHTML = `<div class="done">
         <div class="big">All done.<br><span>Look at the big screen.</span></div>
         <div class="sub">Your answers are in. Nothing else to do — enjoy the show.</div>
       </div>`;
@@ -198,13 +189,11 @@ function render(){
           <span class="tick">✓</span><span>${o.t}</span>
         </button>`).join('')}
     </div>
-    <div class="toast ${chosen?'on':''}" id="toast">✓ Locked in — you can change it if you want.</div>
-    <div id="net">Slow network. If this doesn’t go through, just raise your hand.</div>
-  `;
+    <div class="toast ${chosen?'on':''}" id="toast">✓ Locked in — tap another to change it.</div>
+    <div id="net">Slow network. If this doesn’t go through, just raise your hand.</div>`;
 
-  m.querySelectorAll('button.opt').forEach(b => {
-    b.addEventListener('click', () => choose(q, b.dataset.k));
-  });
+  m.querySelectorAll('button.opt').forEach(b =>
+    b.addEventListener('click', () => choose(q, b.dataset.k)));
 }
 
 async function choose(q, k){
@@ -212,44 +201,32 @@ async function choose(q, k){
   answers[q.id] = k;
   localStorage.setItem(LS_ANS, JSON.stringify(answers));
   render();
-
   if(prev === k) return;
 
   try{
     const r = await fetch(API + '/api/vote', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({q:q.id, opt:k, voter:voterId})
     });
     const d = await r.json();
     if(!d.ok && d.err === 'locked'){
-      $('toast').textContent = 'Voting has closed on this one.';
-      $('toast').classList.add('on');
+      const t = $('toast'); if(t){ t.textContent = 'Voting has closed on this one.'; t.classList.add('on'); }
       return;
     }
     if(!d.ok) throw new Error(d.err || 'failed');
-    online = true;
-    $('net').classList.remove('on');
+    const n = $('net'); if(n) n.classList.remove('on');
   }catch(e){
-    online = false;
-    $('toast').textContent = 'Saved on your phone — we’ll retry.';
-    $('toast').classList.add('on');
+    const t = $('toast'); if(t){ t.textContent = 'Saved on your phone — we’ll retry.'; t.classList.add('on'); }
     const n = $('net'); if(n) n.classList.add('on');
     retryLater(q, k);
     return;
   }
 
-  /* auto-advance after a beat */
   setTimeout(() => {
-    if(answers[q.id] === k && idx < QUESTIONS.length){
-      const next = idx + 1;
-      if(next < QUESTIONS.length){ idx = next; render(); }
-      else { idx = QUESTIONS.length; render(); }
-    }
+    if(answers[q.id] === k && idx < QUESTIONS.length){ idx = Math.min(idx + 1, QUESTIONS.length); render(); }
   }, 900);
 }
 
-/* if the network hiccups, retry once quietly */
 function retryLater(q, k){
   let tries = 0;
   const t = setInterval(async () => {
@@ -260,8 +237,11 @@ function retryLater(q, k){
         body: JSON.stringify({q:q.id, opt:k, voter:voterId})
       });
       const d = await r.json();
-      if(d.ok){ clearInterval(t); const n=$('net'); if(n) n.classList.remove('on');
-                $('toast').textContent = '✓ Sent.'; $('toast').classList.add('on'); }
+      if(d.ok){
+        clearInterval(t);
+        const n = $('net'); if(n) n.classList.remove('on');
+        const to = $('toast'); if(to){ to.textContent = '✓ Sent.'; to.classList.add('on'); }
+      }
     }catch(e){}
     if(tries >= 8) clearInterval(t);
   }, 4000);
