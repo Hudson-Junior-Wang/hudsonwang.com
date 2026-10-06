@@ -275,9 +275,25 @@
   #notes .nl li .nw{color:var(--pink)}
   body.notes-open #stage{padding-bottom:56vh}
   body.notes-open #chrome{opacity:0}
-  .nflag{position:fixed;top:12px;right:clamp(26px,5vw,96px);font-size:11px;letter-spacing:.18em;
-         text-transform:uppercase;color:#9fadd4;font-weight:800;z-index:31}
-  .nflag.on{color:var(--accent)}
+  #topbar .tbright{display:flex;align-items:center;gap:clamp(10px,1.5vw,24px)}
+  .timer{display:inline-flex;align-items:center;gap:9px;cursor:pointer;user-select:none;
+         font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;
+         font-size:clamp(13px,1.3vw,20px);color:var(--muted);background:#fff;
+         border:1.5px solid var(--line);padding:4px 13px;border-radius:999px;
+         transition:color .18s,border-color .18s,background .18s;
+         box-shadow:0 1px 2px rgba(21,32,70,.05)}
+  .timer:hover{border-color:var(--accent);color:var(--accent)}
+  .timer .tval{min-width:3.4em;text-align:right}
+  .timer .tlab{font-size:.68em;letter-spacing:.11em;text-transform:uppercase;font-weight:800;
+               color:var(--muted);min-width:5.2em}
+  .timer.run{color:var(--accent);border-color:var(--accent);background:var(--soft)}
+  .timer.run .tlab{color:var(--accent)}
+  .timer.low{color:#fff;background:var(--pink);border-color:var(--pink)}
+  .timer.low .tlab{color:#fff}
+  .timer.over{color:#fff;background:var(--pink);border-color:var(--pink);
+              animation:tpulse 1.3s ease-in-out infinite}
+  .timer.over .tlab{color:#fff}
+  @keyframes tpulse{0%,100%{opacity:1}50%{opacity:.6}}
   #setup{position:fixed;inset:0;background:rgba(238,243,253,.9);backdrop-filter:blur(6px);
          display:none;place-items:center;z-index:60;padding:24px}
   #setup.on{display:grid}
@@ -296,13 +312,17 @@
 <body>
 <div id="amb"><i></i><i></i><i></i></div>
 <div id="pbar" style="width:0"></div>
-<div class="nflag" id="nflag">N · notes</div>
 <div class="toast" id="toast"></div>
 
 <div id="stage">
   <div id="topbar">
     <div class="kicker" id="kicker"></div>
-    <div class="pagenum" id="pagenum"></div>
+    <div class="tbright">
+      <div class="timer" id="timer" title="T start / pause   ·   Shift+T reset">
+        <span class="tval" id="tval">4:00</span><span class="tlab" id="tlab">press T</span>
+      </div>
+      <div class="pagenum" id="pagenum"></div>
+    </div>
   </div>
   <div id="body"></div>
 </div>
@@ -310,7 +330,7 @@
 <div id="chrome">
   <div class="k">
     <span><kbd>→</kbd> next</span><span><kbd>←</kbd> back</span>
-    <span><kbd>L</kbd> live results</span><span><kbd>N</kbd> notes</span><span><kbd>F</kbd> fullscreen</span>
+    <span><kbd>L</kbd> live results</span><span><kbd>N</kbd> notes</span><span><kbd>T</kbd> timer</span><span><kbd>F</kbd> fullscreen</span>
   </div>
   <div id="hint" style="font-weight:700"></div>
 </div>
@@ -370,6 +390,7 @@ const SLIDES = [
 <ul class="nl">
 <li><b>一句话开场</b><span class="en">One line. A true, absurd story — and its 5 Ps.</span></li>
 <li><b class="nw">不要说"200 万人"</b><span class="en">Don't say the number. It's Q1.</span></li>
+<li><b>开场前先按 T 启动计时器</b>（右上角，总预算 4:00）<span class="en">Press T to start the 4:00 timer before you speak.</span></li>
 </ul>` },
 
 { kicker:'The event · one timeline',
@@ -706,6 +727,45 @@ let key = localStorage.getItem(LS_KEY) || '';
 let live = { counts:{}, ctrl:{}, manual:false, showTruth:{}, manualCounts:{}, prev:{} };
 let pollTimer = null, liveEls = null, gapAnimated = false;
 
+/* ---------- 4-minute presentation timer ---------- */
+const TOTAL_SECONDS = 240;
+let tRunning = false, tAnchor = 0, tAccum = 0, tRAF = null;
+const mmss = s => { s = Math.max(0, Math.round(s)); return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); };
+
+function paintTimer(elapsed){
+  const remaining = TOTAL_SECONDS - elapsed;
+  const box = $('timer'), v = $('tval'), l = $('tlab');
+  if(!box) return;
+  if(elapsed === 0 && !tRunning){ v.textContent = mmss(TOTAL_SECONDS); l.textContent = 'press T'; }
+  else if(remaining >= 0){ v.textContent = mmss(remaining); l.textContent = 'left'; }
+  else { v.textContent = '+' + mmss(-remaining); l.textContent = 'over'; }
+  box.classList.toggle('run', tRunning && remaining >= 60);
+  box.classList.toggle('low', tRunning && remaining < 60 && remaining >= 0);
+  box.classList.toggle('over', remaining < 0);
+  if(!tRunning && elapsed === 0) box.classList.remove('run','low','over');
+}
+function tickTimer(){
+  if(!tRunning) return;
+  paintTimer(tAccum + (performance.now() - tAnchor) / 1000);
+  tRAF = requestAnimationFrame(tickTimer);
+}
+function toggleTimer(){
+  if(tRunning){
+    tAccum += (performance.now() - tAnchor) / 1000;
+    tRunning = false; cancelAnimationFrame(tRAF); paintTimer(tAccum);
+  } else {
+    tAnchor = performance.now(); tRunning = true; tickTimer();
+  }
+}
+function resetTimer(){
+  tRunning = false; cancelAnimationFrame(tRAF); tAccum = 0; paintTimer(0);
+}
+function bindTimer(){
+  const box = $('timer'); if(!box || box._bound) return;
+  box._bound = true;
+  box.addEventListener('click', e => { e.shiftKey ? resetTimer() : toggleTimer(); });
+}
+
 function toast(msg){
   toastEl.textContent = msg; toastEl.classList.add('on');
   clearTimeout(toastEl._h); toastEl._h = setTimeout(()=>toastEl.classList.remove('on'), 1700);
@@ -738,6 +798,7 @@ function render(){
     hintEl.textContent = '';
   }
   nbEl.innerHTML = s.note || '';
+  bindTimer();
 }
 
 /* ---------- LIVE panel: built once, updated in place (keeps animations alive) ---------- */
@@ -1006,7 +1067,8 @@ document.addEventListener('keydown', e => {
   if(k==='arrowleft'||k==='pageup'){ e.preventDefault(); prev(); return; }
   if(k==='l'){ goto(LIVE_INDEX); return; }
   if(k==='n'){ notesOpen = !notesOpen; notesEl.classList.toggle('open', notesOpen);
-               document.body.classList.toggle('notes-open', notesOpen); $('nflag').classList.toggle('on', notesOpen); return; }
+               document.body.classList.toggle('notes-open', notesOpen); return; }
+  if(k==='t'){ e.shiftKey ? resetTimer() : toggleTimer(); return; }
   if(k==='f'){ document.fullscreenElement ? document.exitFullscreen?.() : document.documentElement.requestFullscreen?.(); return; }
   if(k==='home'){ goto(0); return; }
   if(k==='end'){ goto(SLIDES.length - 1); return; }
