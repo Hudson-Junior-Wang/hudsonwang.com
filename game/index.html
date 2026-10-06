@@ -182,6 +182,11 @@
   .trow.pivot::before{background:var(--pink);width:clamp(9px,.8vw,14px);height:clamp(9px,.8vw,14px)}
   .trow.pivot .tc{color:var(--pink)}
 
+  .col.teaser{border-style:dashed;border-color:var(--line2);background:
+              repeating-linear-gradient(135deg,#fff 0 10px,#f6f9ff 10px 20px)}
+  .col.teaser .lab{color:var(--muted)}
+  .col.teaser .txt b{color:var(--accent)}
+
   /* ---------- verdict strip (framework + case outcome on one page) ---------- */
   .verdict{margin-top:clamp(16px,2.8vh,38px);padding-top:clamp(12px,2vh,24px);
            border-top:3px solid var(--accent);display:flex;flex-direction:column;
@@ -343,16 +348,17 @@ const SLIDES = [
   html:`<h1>The <span class="am">5 Ps</span></h1>
     <p class="sp" style="font-size:clamp(17px,1.85vw,30px);letter-spacing:.03em;color:var(--ink2);font-weight:700">
       Purpose &nbsp;·&nbsp; Product &nbsp;·&nbsp; Participants &nbsp;·&nbsp; Probable Issues &nbsp;·&nbsp; Process</p>
-    <p class="big sp">A meeting with <span class="am">2,000,000 participants</span> that was never planned at all.</p>
+    <p class="big sp">A meeting that was <span class="am">never planned at all</span>.</p>
     <p class="muted sp" style="font-size:clamp(16px,1.7vw,27px);font-weight:700">
       “They Can't Stop All of Us.” &nbsp;·&nbsp; Storm Area 51 &nbsp;·&nbsp; 20 September 2019</p>
     <figure class="band">
       <img src="img/gate-wide.jpg" alt="The main gate of the Nevada Test and Training Range, known as Area 51">
       <figcaption>The main gate, Nevada Test and Training Range · David James Henry, CC BY-SA 4.0</figcaption>
     </figure>`,
-  note:`<b>开场只说一句</b>
-  <ul><li>「今天讲 Week 5 的 5 Ps。我用一个案例串起来——一场有 <b>200 万人报名、却从没开过筹备会</b>的『会』。」</li>
-  <li>别说"这是个玩笑活动"或"最后没人来"，那会毁掉后面的悬念。</li>
+  note:`<b>开场只说一句 —— ⚠️ 千万别报数字</b>
+  <ul><li>说：「今天讲 Week 5 的 5 Ps。我用一个案例串起来——一场<b>从来没开过筹备会</b>的『会』。」</li>
+  <li><b>不要说"200 万人报名"</b>——那是 Q1 的答案，观众要靠猜。封面也刻意删掉了这个数字。</li>
+  <li>也不要说"这是个玩笑活动"或"最后没人来"，那会毁掉悬念。</li>
   <li>全程 14 页：参考来源 + 制作署名。按 <kbd>L</kbd> 直接跳统计页。</li></ul>` },
 
 { kicker:'The event · one timeline',
@@ -377,30 +383,32 @@ const SLIDES = [
       <div class="col hi">
         <div class="lab">Lincoln County, Nevada</div>
         <div class="txt sm">Drafts an <b>emergency declaration</b>.<br>
-        Expected crowd: <b>40,000</b><br>
-        Hotel rooms in the county: <b>184</b><br>
-        Extra paramedics: <b>300</b> &nbsp;·&nbsp; Extra police: <b>150</b></div>
+        Brings in extra paramedics and police from across the state.<br>
+        Hotel rooms in the entire county: <b>184</b></div>
       </div>
       <div class="col">
         <div class="lab">Rachel, Nevada · population 56</div>
         <div class="txt sm">Posts a warning on its own website:<br>
-        <b>not enough food, water or fuel here</b> for visitors.</div>
+        <b>not enough food, water or fuel here</b> for visitors.<br>
+        <span class="muted">A town of 56, preparing for a crowd.</span></div>
       </div>
-      <div class="col">
-        <div class="lab">US Air Force</div>
-        <div class="txt sm">“We would discourage anyone from trying to come into the area where we train American armed forces.”</div>
+      <div class="col teaser">
+        <div class="lab">The US Air Force</div>
+        <div class="txt sm">Reaction <b>classified</b>.<br>
+        <span class="am">That's question 2.</span></div>
       </div>
     </div>
     <figure class="band">
       <img src="img/deputies.jpg" alt="Three Lincoln County deputies at the back gate of Area 51 beside a sign reading Photography Of This Area Is Prohibited">
       <figcaption>The “Photography Of This Area Is Prohibited” sign at the back gate · David James Henry, CC BY-SA 4.0</figcaption>
     </figure>`,
-  note:`<b>这一页是"别人替你做了准备"</b>
-  <ul><li>三张卡连着念：县里按 <b>4 万人</b>准备，而全县只有 <b>184 间酒店房</b>——这个对比要重读。</li>
-  <li>56 人的小镇在<b>自己官网上</b>发警告说没有食物、水、汽油。可以问一句：「谁在替这个活动做风险管理？」</li>
-  <li>空军被迫为一个玩笑发正式声明——这句原文念出来。</li>
+  note:`<b>这一页是"别人替你做了准备" —— 注意：<u>不含任何答案</u></b>
+  <ul><li>左卡：县里起草紧急状态声明、从全州调急救员和警察——<b>只讲"动作"，不给数字</b>（4 万是 Q3 的答案，留到统计页）。</li>
+  <li>全县只有 <b>184 间酒店房</b>——这个数字题目里本来就给了，可以重读做对比。</li>
+  <li>中卡：56 人的小镇<b>在自己官网上</b>发警告。问一句：「谁在替这个活动做风险管理？」</li>
+  <li>右卡是<b>故意留空</b>的钩子：空军的反应留到统计页揭晓。「Reaction <b>classified</b>」是个双关（51 区本身就是 classified）。</li>
   <li>底部照片的讽刺点：牌子上写着「禁止拍照」，而这张照片就拍在那儿。</li>
-  <li>仍然不说 Q3 的答案数字——4 万已经在这里出现了，所以 Q3 的答案提前透了。<b>要么接受，要么把这页的数字留到统计页之后再讲。</b>（我建议：照讲，Q3 就当复习。）</li></ul>` },
+  <li>空军声明的原文改到<b>揭晓「余波」那页</b>再讲（或者统计页揭晓 Q2 时口头补）。</li></ul>` },
 
 { kicker:'Your phone is the remote',
   html:`<div class="qrwrap">
@@ -457,6 +465,10 @@ const SLIDES = [
 { kicker:'And then the aftermath',
   html:`<h2 class="sm">And the aftermath was stranger still</h2>
     <div class="cols sp2" style="align-items:stretch">
+      <div class="col hi" style="flex:1 1 340px">
+        <div class="lab">The US Air Force — question 2, answered</div>
+        <div class="txt sm">“We would discourage anyone from trying to come into the area where we train American armed forces.”</div>
+      </div>
       <div class="col" style="flex:1 1 340px">
         <div class="lab">The Pentagon</div>
         <div class="txt sm">Its own PR office tweeted a stealth bomber at millennials.<br>
