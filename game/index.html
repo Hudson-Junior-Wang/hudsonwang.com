@@ -252,16 +252,28 @@
   #chrome .k{display:flex;gap:12px;flex-wrap:wrap}
   kbd{font-family:inherit;font-size:11px;font-weight:800;color:var(--ink2);border:1.5px solid var(--line2);
       border-bottom-width:2px;border-radius:5px;padding:2px 6px;margin-right:4px;background:#fff}
-  #notes{position:fixed;left:0;right:0;bottom:0;max-height:46vh;overflow:auto;background:#fff;
+  #notes{position:fixed;left:0;right:0;bottom:0;max-height:56vh;overflow:auto;background:#fff;
          border-top:3px solid var(--accent);padding:16px clamp(26px,5vw,96px) 20px;
          transform:translateY(101%);transition:transform .24s cubic-bezier(.3,.9,.3,1);z-index:30;
          box-shadow:0 -18px 50px -30px rgba(21,32,70,.55)}
   #notes.open{transform:none}
   #notes .nk{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
              font-weight:800;margin-bottom:10px}
-  #notes .nb{font-size:16px;line-height:1.62;color:var(--ink2);max-width:72em}
-  #notes .nb b{color:var(--ink)}#notes .nb ul{margin:8px 0 0 1.15em}#notes .nb li{margin:4px 0}
-  body.notes-open #stage{padding-bottom:46vh}
+  #notes .nb{max-width:74em}
+  /* compact bilingual cue cards */
+  #notes .nt{display:inline-block;background:var(--accent);color:#fff;font-weight:800;
+             font-size:13px;padding:4px 13px;border-radius:999px;margin-bottom:11px;
+             letter-spacing:.05em}
+  #notes .nl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;
+             gap:clamp(5px,.9vh,10px)}
+  #notes .nl li{position:relative;padding-left:19px;font-size:15.5px;line-height:1.4;
+                font-weight:750;color:var(--ink)}
+  #notes .nl li::before{content:'▸';position:absolute;left:0;top:-1px;color:var(--accent);
+                        font-weight:800}
+  #notes .nl li .en{display:block;font-size:13.5px;font-weight:600;color:var(--muted);
+                    line-height:1.38;margin-top:1px}
+  #notes .nl li .nw{color:var(--pink)}
+  body.notes-open #stage{padding-bottom:56vh}
   body.notes-open #chrome{opacity:0}
   .nflag{position:fixed;top:12px;right:clamp(26px,5vw,96px);font-size:11px;letter-spacing:.18em;
          text-transform:uppercase;color:#9fadd4;font-weight:800;z-index:31}
@@ -354,12 +366,11 @@ const SLIDES = [
       <img src="img/gate-wide.jpg" alt="The main gate of the Nevada Test and Training Range, known as Area 51">
       <figcaption>Storm Area 51 · 20 September 2019 · The main gate, Nevada Test and Training Range · David James Henry, CC BY-SA 4.0</figcaption>
     </figure>`,
-  note:`<b>开场 —— ⚠️ 千万别报数字</b>
-  <ul><li>标题就是开场白：「一个真实发生过的荒诞事件，和它的 5 Ps。」——<b>先讲"荒诞"，不要讲课程</b>，把人的注意力钩住再进内容。</li>
-  <li>课程信息（PMGT1852 / Week 5 / Facilitation）已从封面撤掉，<b>不要口头补回来</b>——需要的时候在 5 Ps 那几页自然出现。</li>
-  <li><b>不要说"200 万人报名"</b>——那是 Q1 的答案，观众要靠猜。封面也刻意删掉了这个数字。</li>
-  <li>也不要说"这是个玩笑活动"或"最后没人来"，那会毁掉悬念。</li>
-  <li>全程 15 页：参考来源 + 制作署名。按 <kbd>L</kbd> 直接跳统计页。</li></ul>` },
+  note:`<div class="nt">⏱ 5s</div>
+<ul class="nl">
+<li><b>一句话开场</b><span class="en">One line. A true, absurd story — and its 5 Ps.</span></li>
+<li><b class="nw">不要说"200 万人"</b><span class="en">Don't say the number. It's Q1.</span></li>
+</ul>` },
 
 { kicker:'The event · one timeline',
   html:`<h2 class="sm">In eight weeks, a joke became an emergency</h2>
@@ -372,10 +383,14 @@ const SLIDES = [
       <div class="trow"><div class="tw">August</div><div class="tc">Lincoln County, Nevada starts drafting an emergency declaration.</div></div>
       <div class="trow"><div class="tw">20 Sep 2019</div><div class="tc">The day arrives.</div></div>
     </div>`,
-  note:`<b>时间线 —— 一页讲完，不再一页一句</b>
-  <ul><li>从上往下念，念到<b>「Almost nobody responds」</b>时停一下——那是整个故事的转折点，然后接「Then: it went viral」。</li>
-  <li>中间两行我做了高亮（粉色），就是那个转折。</li>
-  <li>仍然不说任何数字：不提 200 万、不提空军说了什么、不提 4 万人、不提 150 人。全部留给统计页和后面的揭晓。</li></ul>` },
+  note:`<div class="nt">⏱ 20s</div>
+<ul class="nl">
+<li><b>一个 21 岁的人半夜发了条帖子，纯属玩笑</b><span class="en">A 21-year-old posts a joke at night.</span></li>
+<li><b>标题就是笑点：他们挡不住我们所有人</b><span class="en">The title is the joke: "They Can't Stop All of Us."</span></li>
+<li><b>前三天几乎没人响应</b> → <b class="nw">停一下</b><span class="en">Almost nobody responds. Pause here.</span></li>
+<li><b>然后全球病毒式传播；8 月县里开始起草紧急状态声明</b><span class="en">Then it went viral. By August the county drafts an emergency declaration.</span></li>
+<li><b class="nw">全页不报任何数字</b><span class="en">No numbers on this page — they're all quiz answers.</span></li>
+</ul>` },
 
 { kicker:'Meanwhile, everyone else took it seriously',
   html:`<h2 class="sm">Everyone else took it seriously</h2>
@@ -402,13 +417,13 @@ const SLIDES = [
       <img src="img/deputies.jpg" alt="Three Lincoln County deputies at the back gate of Area 51 beside a sign reading Photography Of This Area Is Prohibited">
       <figcaption>The “Photography Of This Area Is Prohibited” sign at the back gate · David James Henry, CC BY-SA 4.0</figcaption>
     </figure>`,
-  note:`<b>这一页是"别人替你做了准备" —— 注意：<u>不含任何答案</u></b>
-  <ul><li>左卡：县里起草紧急状态声明、从全州调急救员和警察——<b>只讲"动作"，不给数字</b>（4 万是 Q3 的答案，留到统计页）。</li>
-  <li>全县只有 <b>184 间酒店房</b>——这个数字题目里本来就给了，可以重读做对比。</li>
-  <li>中卡：56 人的小镇<b>在自己官网上</b>发警告。问一句：「谁在替这个活动做风险管理？」</li>
-  <li>右卡是<b>故意留空</b>的钩子：空军的反应留到统计页揭晓。「Reaction <b>classified</b>」是个双关（51 区本身就是 classified）。</li>
-  <li>底部照片的讽刺点：牌子上写着「禁止拍照」，而这张照片就拍在那儿。</li>
-  <li>空军声明的原文改到<b>揭晓「余波」那页</b>再讲（或者统计页揭晓 Q2 时口头补）。</li></ul>` },
+  note:`<div class="nt">⏱ 12s</div>
+<ul class="nl">
+<li><b>县里从全州调急救员和警察——只说"动作"，不给数字</b><span class="en">County brings in medics and police. Actions only, no figures.</span></li>
+<li><b>全县只有 184 间酒店房</b><span class="en">Only 184 hotel rooms in the whole county.</span></li>
+<li><b>一个 56 人的小镇在自己官网上警告游客</b><span class="en">A town of 56 warns visitors on its own website.</span></li>
+<li><b>空军那张卡是空的 → 指着说"这是第 2 题"</b><span class="en">The USAF card is blank. Point at it: "That's question 2."</span></li>
+</ul>` },
 
 { kicker:'Your phone is the remote',
   html:`<div class="qrwrap">
@@ -429,19 +444,24 @@ const SLIDES = [
         </div>
       </div>
     </div>`,
-  note:`<b>扫码页 —— 三个必须说的点</b>
-  <ul><li>① <b>「这只是个游戏，没有对错，不计分，没人看得到你选了什么。」</b>——国际学生容易紧张不敢答，这句一定要说。</li>
-  <li>② 5 道题<b>全部提前公布</b>——他们知道后面会问什么，听时间线时会主动记。</li>
-  <li>③ 给 <b>20–30 秒</b>扫码答题。QR 下方有网址，扫不出来可以手打。</li>
-  <li>④ 下一屏开始，数字会<b>实时跳动</b>——那是他们刚投的票。</li></ul>` },
+  note:`<div class="nt">⏱ 20s 含扫码</div>
+<ul class="nl">
+<li><b class="nw">必须说：这只是游戏、没有对错、不计分、看不到别人选什么</b><span class="en">Say it: it's a game, no wrong answers, nobody sees your pick.</span></li>
+<li><b>5 道题都列在屏幕上</b><span class="en">All 5 questions are on screen.</span></li>
+<li><b>给大家 20–30 秒扫码答题</b><span class="en">Give them 20–30 seconds to tap through.</span></li>
+<li><b>预告：下一屏数字会实时跳动</b><span class="en">Next screen: the numbers move live.</span></li>
+</ul>` },
 
 { kicker:'Live results', special:'live',
-  note:`<b>统计页 —— 全场核心机制</b>
-  <ul><li>右上角绿色 <b>LIVE</b> 是活的：有人投票，柱子和数字立刻会动，新票会闪绿。</li>
-  <li><b>⟲ Reset all</b>：清空所有票数（第一次用 / 换班级 / 测试时点它）。</li>
-  <li><b>Manual entry</b>：断网时直接手输票数，活动照样讲完。</li>
-  <li><b>Lock</b>：锁住某一题，之后投的票不算数。<b>Reveal truth</b>：揭晓答案并高亮正确选项。</li>
-  <li><b>Q4 揭晓时数字会滚上去</b>（200 万 vs 150）——<b>出图后停 3 秒不要说话</b>。</li></ul>` },
+  note:`<div class="nt">⏱ 70s · 全场核心</div>
+<ul class="nl">
+<li><b>先让大家看柱子已经涨起来了</b><span class="en">Show the bars already moving.</span></li>
+<li><b>逐题点 Reveal truth：Q1 → Q5</b><span class="en">Reveal one question at a time, Q1 to Q5.</span></li>
+<li><b class="nw">Q4 揭晓后停 3 秒不说话</b>（200 万 vs 150）<span class="en">On Q4: pause 3 seconds. Say nothing.</span></li>
+<li><b>Q5 揭晓时念出来：7 人被捕，罪名是随地小便</b><span class="en">Q5: 7 arrests — public urination. Let them laugh.</span></li>
+<li><b>有人猜对就指一下他的方向</b><span class="en">If someone got it right, point at them.</span></li>
+<li><b>断网就点 Manual entry 手输</b><span class="en">If the network dies: Manual entry.</span></li>
+</ul>` },
 
 { kicker:'What actually happened',
   html:`<div class="split">
@@ -457,11 +477,13 @@ const SLIDES = [
         <figcaption>The actual crowd at the back gate that night · David James Henry, CC BY-SA 4.0</figcaption>
       </figure>
     </div>`,
-  note:`<b>揭晓 —— 全场最有力的一页</b>
-  <ul><li>先对一下 Q4 的现场结果，再出这页。</li>
-  <li>照片就是当晚后门的真实人数——<b>这就是"200 万"的样子</b>。出图后停两秒，不用说话。</li>
-  <li>然后念「7 人被捕，罪名是<b>随地小便</b>」——慢一点，念完等笑声。</li>
-  <li>最后那句「<b>两个活动创建时还不存在的音乐节</b>」是钩子，<b>故意抛出来不解释</b>，留给下一页。</li></ul>` },
+  note:`<div class="nt">⏱ 15s</div>
+<ul class="nl">
+<li><b>150 人到了关口</b><span class="en">150 people reached the gates.</span></li>
+<li><b>1,500 人去了两个音乐节</b><span class="en">1,500 went to two music festivals.</span></li>
+<li><b class="nw">那两个音乐节当时根本不存在</b> → 抛出钩子，不解释<span class="en">Those festivals didn't exist yet. Drop it, don't explain.</span></li>
+<li><b>7 人被捕</b><span class="en">7 arrests.</span></li>
+</ul>` },
 
 /* ---- the absurd festival page ---- */
 { kicker:'The part nobody planned',
@@ -486,14 +508,16 @@ const SLIDES = [
       <div class="v">Ten days before it opened, the organiser left with <span class="pk">$70,000–$100,000</span> — and went to a party in Las Vegas.</div>
       <div class="vs">He then sent a lawyer's letter to the woman who actually held the permits. She ignored it. Every band played for free. Afterwards, one promoter called his festival a failure — the other called hers a success.</div>
     </div>`,
-  note:`<b>★ 整件事最荒诞的一页 —— 放慢，这里值得多花两分钟</b>
-  <ul><li>开口先接上一页那个数字：「1,500 人去了音乐节。<b>哪来的音乐节？</b>」这一页就是答案。</li>
-  <li><b>原始活动没有场地</b>，只有一条帖子写着"凌晨三点到门口集合"。200 万人说要去之后，别人只能替它造一个"能去的地方"——音乐节是最省事的解法：场地、许可、停车、过夜、医疗，一次全解决。</li>
-  <li><b>一造就造了两个，还互相竞争。</b>Connie West 在 Rachel 镇办 Alienstock（她是全镇唯一那家小旅馆 Little A'Le'Inn 的老板）；另一个承办人在旁边的 Hiko 镇办 Basecamp。同一个周末，抢同一批人。</li>
-  <li>底部那条是爆点，<b>分成两次念</b>。先念大字：「活动前 10 天，主办方带着 <b>7 万–10 万美元</b>走了——跑去拉斯维加斯参加派对。」<b>停两秒</b>，再念小字那一串。</li>
-  <li>「他给真正持有许可证的女士发了律师函，<b>她直接无视了</b>」——这是 <b>sponsor 管理的反面教材</b>：名字是他的，许可证是她的。可以问全场：「谁才是真正的主办方？」</li>
-  <li>「<b>所有乐队都是义务演出</b>」——连娱乐都是零成本凑的，正好呼应 Product 那页的 <b>Hands = 0</b>。</li>
-  <li>收尾：「一个承办人公开承认失败，另一个宣布成功」——同一件事，两种说法。这句念完停一下，再进下一页。</li></ul>` },
+  note:`<div class="nt">⏱ 25s · 最荒诞，给最多时间</div>
+<ul class="nl">
+<li><b>接上一页：哪来的音乐节？</b><span class="en">Pick up the hook: where did the festivals come from?</span></li>
+<li><b>原始活动没有场地，只有一条帖子</b><span class="en">No venue, just a Facebook post.</span></li>
+<li><b>200 万人说要去 → 别人只好替它造地方，一造就两个</b><span class="en">2M said yes → others built somewhere to go. Two somewheres.</span></li>
+<li><b>一个在 Rachel 镇（旅馆老板办），一个在隔壁镇，抢同一批人</b><span class="en">One in Rachel, one in the next town. Same crowd.</span></li>
+<li><b class="nw">爆点，分两次念：① 活动前 10 天，主办方带着 7 万–10 万美元跑了，去拉斯维加斯参加派对</b><span class="en">Beat 1: ten days early, the organiser left with $70k–100k — and went to a party in Vegas.</span></li>
+<li><b class="nw">② 他给真正持有许可证的女士发律师函，她直接无视；所有乐队都是义务演出</b><span class="en">Beat 2: lawyer's letter to the permit holder. She ignored it. Every band played free.</span></li>
+<li><b>收尾：一个承办人承认失败，另一个宣布成功</b><span class="en">One called it a failure. The other called it a success.</span></li>
+</ul>` },
 
 { kicker:'And then the aftermath',
   html:`<h2 class="sm">And the aftermath was stranger still</h2>
@@ -524,11 +548,13 @@ const SLIDES = [
         <figcaption>The Little A'Le'Inn, Rachel, Nevada · David James Henry, CC BY-SA 4.0</figcaption>
       </figure>
     </div>`,
-  note:`<b>余波 —— 一页收掉三个笑点</b>
-  <ul><li><b>五角大楼</b>：军方公关部门真发了那条推（配图是 B-2 隐形轰炸机），然后删推道歉。配图我用的是美军公开的 F-22 照片（公有领域），不是那条被删的推文原图——原图已删除且受版权保护。</li>
-  <li><b>百威</b>承诺给"任何成功逃出来的外星人"免费啤酒——品牌蹭热度，一句带过。</li>
-  <li><b>模仿者</b>三个连着念，节奏加快，最后「梵蒂冈秘密档案馆」是爆点。</li>
-  <li>右下角那张是 Rachel 镇小旅馆门口的装置：一辆破拖车拖着一架飞碟。可以指出"这里就是被 200 万人盯上的那个 56 人小镇"。</li></ul>` },
+  note:`<div class="nt">⏱ 10s · 节奏加快</div>
+<ul class="nl">
+<li><b>空军那句原话——这就是第 2 题的答案</b><span class="en">The USAF quote. That answers Q2.</span></li>
+<li><b>五角大楼自己的公关部门发轰炸机推文，然后删推道歉</b><span class="en">The Pentagon's own PR office tweeted a bomber, then deleted it.</span></li>
+<li><b>百威承诺给外星人免费啤酒</b><span class="en">Bud Light promised a free beer to any alien.</span></li>
+<li><b>模仿者三个连着念，最后一个最快：尼斯湖、百慕大三角、梵蒂冈秘密档案馆</b><span class="en">The copycats — speed up: Loch Ness, Bermuda Triangle, Vatican Secret Archives.</span></li>
+</ul>` },
 
 { kicker:'The 5 Ps · 1 of 5',
   html:`<h2 class="sm"><span class="am">P</span>urpose — why are we doing this?</h2>
@@ -540,10 +566,11 @@ const SLIDES = [
       <div class="v"><span class="am">2,000,000</span> clicked “Going”. &nbsp; <span class="am">150</span> showed up.</div>
       <div class="vs">Purpose was never aligned — and nobody noticed.</div>
     </div>`,
-  note:`<b>第 1 个 P：Purpose</b>
-  <ul><li>先问全场：「这两个 Purpose，是同一个吗？」停两秒，再指向底部那条结论。</li>
-  <li><b>200 万人和主办方，对"这是什么"从头到尾没有共识，而且没有任何人发现。</b></li>
-  <li>这是 Week 5 第一条：Purpose 没定清楚，后面四个 P 全是白做。</li></ul>` },
+  note:`<div class="nt">⏱ 8s</div>
+<ul class="nl">
+<li><b>两个目的：主办方"开玩笑" vs 200 万人"我们真去"</b><span class="en">"It's a joke" vs "We're going."</span></li>
+<li><b>指结论条：从没对齐，也没人发现</b><span class="en">Never aligned. Nobody noticed.</span></li>
+</ul>` },
 
 { kicker:'The 5 Ps · 2 of 5',
   html:`<h2 class="sm"><span class="am">P</span>roduct — what comes out of it?</h2>
@@ -556,10 +583,11 @@ const SLIDES = [
       <div class="v">Only <span class="am">Heads</span> and <span class="am">Hearts</span>. <span class="pk">Zero Hands.</span></div>
       <div class="vs">2,000,000 could “commit” — and lose nothing by staying home.</div>
     </div>`,
-  note:`<b>第 2 个 P：Product + 三 H</b>
-  <ul><li>Hands / Heads / Hearts = 实物产出 / 认知产出 / 情感产出。</li>
-  <li>关键推论：<b>这个活动没有任何 Hands（没有押金、门票、承诺成本），所以"报名"是免费的——免费的东西不构成承诺。</b></li>
-  <li>这句直接连到第 3 个 P。</li></ul>` },
+  note:`<div class="nt">⏱ 8s</div>
+<ul class="nl">
+<li><b>三 H：产出只有 Heads 和 Hearts，Hands 是零</b><span class="en">Only Heads and Hearts. Zero Hands.</span></li>
+<li><b>指结论条：报名是免费的，免费不构成承诺</b><span class="en">Free to sign up = zero commitment.</span></li>
+</ul>` },
 
 { kicker:'The 5 Ps · 3 of 5',
   html:`<h2 class="sm"><span class="am">P</span>articipants — who needs to be in the room?</h2>
@@ -573,10 +601,11 @@ const SLIDES = [
       <div class="v am">Zero-cost participation = zero commitment.</div>
       <div class="vs">A sign-up button checks none of the selection criteria — understand the issue? have a stake? able to decide? respected? open to alternatives?</div>
     </div>`,
-  note:`<b>第 3 个 P：Participants</b>
-  <ul><li>课程规模参考：Resolution 3–9、Creation 7–16、Review 2–100+。这里是 200 万。</li>
-  <li>五条选人标准念出来，问：「一个『参加』按钮，检查了哪一条？」答案：零。</li>
-  <li>落点：<b>零成本参与 = 零承诺</b>（和上一个 P 的 Hands=0 是同一个病）。</li></ul>` },
+  note:`<div class="nt">⏱ 8s</div>
+<ul class="nl">
+<li><b>课程建议 3–9 人，这里是 200 万</b><span class="en">The course says 3–9. This is 2,000,000.</span></li>
+<li><b>五条选人标准，一个报名按钮一条都没检查</b><span class="en">A sign-up button checks none of the five criteria.</span></li>
+</ul>` },
 
 { kicker:'The 5 Ps · 4 of 5',
   html:`<h2 class="sm"><span class="am">P</span>robable Issues — what could derail this?</h2>
@@ -589,10 +618,11 @@ const SLIDES = [
       <div class="v">The <span class="am">ditches were listed</span> — by Lincoln County, Nevada.</div>
       <div class="vs">The emergency declaration. The 300 paramedics. The 150 police officers. All of it came from the county. Not from the organiser.</div>
     </div>`,
-  note:`<b>第 4 个 P：Probable Issues —— 本案例最讽刺的地方</b>
-  <ul><li>三类分清：Topics（必须谈的）、Ditches（会让事情翻船的）、Red herrings（分神的）。</li>
-  <li><b>风险清单被列出来了，而且列得很准——但列它的是林肯县，不是主办方。</b></li>
-  <li>收一句：<b>当你的 stakeholder 替你做准备时，说明你的 Process 已经失败了。</b>正好接下一页。</li></ul>` },
+  note:`<div class="nt">⏱ 8s</div>
+<ul class="nl">
+<li><b>三类分清：Topics / Ditches / Red herrings</b><span class="en">Topics, ditches, red herrings.</span></li>
+<li><b class="nw">指结论条：风险清单列出来了——是林肯县列的，不是主办方</b><span class="en">The ditches were listed. By Lincoln County, not the organiser.</span></li>
+</ul>` },
 
 { kicker:'The 5 Ps · 5 of 5',
   html:`<h2 class="sm"><span class="am">P</span>rocess — how will we actually run it?</h2>
@@ -606,11 +636,12 @@ const SLIDES = [
       <div class="v">The Process came <span class="am">first</span>. The other four Ps never happened.</div>
       <div class="vs">Ten days before the event, the organiser left — with the money — and sent a lawyer's letter to the woman who held the permits.</div>
     </div>`,
-  note:`<b>第 5 个 P：Process —— 收在最强的一句上</b>
-  <ul><li>左边是课程原话：<b>Process 必须最后设计</b>。右边是案例：流程就是"建一个 Facebook 活动页"。</li>
-  <li>指向底部：<b>流程排在了第一位，另外四个 P 从来没发生过。</b>念完停两秒。</li>
-  <li>最后一行（带钱跑路 + 给持有许可证的人发律师函）念完<b>就停，不要补总结</b>。</li>
-  <li>如果学生问"正确做法"：<b>先问 Purpose</b>（那个周末你到底想要发生什么），再定 Product 和 Participants，最后才设计流程。</li></ul>` },
+  note:`<div class="nt">⏱ 8s · 收尾最强的一句</div>
+<ul class="nl">
+<li><b>课程说：Process 必须最后设计</b><span class="en">Design the process last.</span></li>
+<li><b>指结论条：这里 Process 排第一，另外四个 P 从没发生</b><span class="en">Here it came first. The other four never happened.</span></li>
+<li><b class="nw">最后一行念完就停，不要补总结</b><span class="en">Read the last line, then stop. No summary.</span></li>
+</ul>` },
 
 { kicker:'References',
   html:`<h2 class="sm">References</h2>
@@ -645,10 +676,11 @@ const SLIDES = [
         </ol>
       </div>
     </div>`,
-  note:`<b>参考页 —— 收在这里即可</b>
-  <ul><li>图片全部来自 Wikimedia Commons，授权是 <b>CC BY-SA 4.0</b> 或美国政府<b>公有领域</b>，署名都写在页面上。</li>
-  <li>没有使用新闻站或 Facebook 的图——那些有版权。课堂引用事实没问题，但图片必须标来源。</li>
-  <li>如果学生问"为什么不用原始 Facebook 活动页截图"：那个页面已被删除，且截图属于 Facebook/发布者版权，不适合放进公开网页。</li></ul>` },
+  note:`<div class="nt">⏱ 0s · 停在这里，不用讲</div>
+<ul class="nl">
+<li><b>图片全部 CC BY-SA 4.0 或美国政府公有领域</b><span class="en">All images CC BY-SA 4.0 or US public domain.</span></li>
+<li><b>有人问来源再翻回来</b><span class="en">Only come back here if someone asks.</span></li>
+</ul>` },
 
 /* credit ----------------------------------------------------------- */
 { kicker:'',
@@ -658,9 +690,10 @@ const SLIDES = [
       <div class="crule"></div>
       <p class="cmeta">PMGT1852 · Week 5 · The 5 Ps &nbsp;—&nbsp; Storm Area 51 · 20 September 2019</p>
     </div>`,
-  note:`<b>制作署名页 —— 最后一页（英文版）</b>
-  <ul><li>「网页由 DeepSeek-V4.1-Flash 通过 DeepSeek Harness 制作」的英文版，和整个 deck 的英文一致。</li>
-  <li>到这里按 <kbd>→</kbd> 不会再翻页了，是终点。</li></ul>` }
+  note:`<div class="nt">⏱ 0s · 结束</div>
+<ul class="nl">
+<li><b>不用讲，停在上一页就行</b><span class="en">Nothing to say. Stop on the previous page.</span></li>
+</ul>` }
 ];
 
 /* ==================== engine ==================== */
