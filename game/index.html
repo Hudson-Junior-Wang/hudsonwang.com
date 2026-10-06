@@ -207,6 +207,25 @@
                    font-weight:700;color:#fff;background:rgba(21,32,70,.6);padding:4px 10px;
                    border-radius:999px;backdrop-filter:blur(3px)}
 
+  /* ---------- credit ---------- */
+  .credit{display:flex;flex-direction:column;align-items:center;justify-content:center;
+          text-align:center;height:100%;gap:clamp(8px,1.6vh,20px)}
+  .credit .cmark{display:flex;gap:7px;margin-bottom:clamp(6px,1.4vh,18px)}
+  .credit .cmark span{display:block;width:clamp(9px,.85vw,14px);height:clamp(9px,.85vw,14px);
+                      border-radius:50%;background:var(--accent);opacity:.35;
+                      animation:cdot 2.1s ease-in-out infinite}
+  .credit .cmark span:nth-child(2){animation-delay:.28s}
+  .credit .cmark span:nth-child(3){animation-delay:.56s}
+  @keyframes cdot{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
+  .credit .cline{font-size:clamp(22px,3vw,58px);line-height:1.3;font-weight:800;color:var(--ink);
+                 letter-spacing:-.015em;max-width:22em}
+  .credit .cline b{color:var(--accent);font-weight:800}
+  .credit .csub{font-size:clamp(14px,1.5vw,25px);color:var(--muted);font-weight:650;letter-spacing:.02em}
+  .credit .crule{width:clamp(60px,7vw,130px);height:2px;background:var(--line2);
+                 margin:clamp(8px,1.6vh,20px) 0}
+  .credit .cmeta{font-size:clamp(12px,1.2vw,18px);color:var(--muted);font-weight:700;
+                 letter-spacing:.06em}
+
   /* ---------- references ---------- */
   .refs{display:flex;gap:clamp(18px,2.6vw,48px);flex-wrap:wrap;align-items:flex-start}
   .refs .rcol{flex:1 1 380px;min-width:300px}
@@ -334,7 +353,7 @@ const SLIDES = [
   note:`<b>开场只说一句</b>
   <ul><li>「今天讲 Week 5 的 5 Ps。我用一个案例串起来——一场有 <b>200 万人报名、却从没开过筹备会</b>的『会』。」</li>
   <li>别说"这是个玩笑活动"或"最后没人来"，那会毁掉后面的悬念。</li>
-  <li>全程 13 页，最后一页是参考来源。按 <kbd>L</kbd> 直接跳统计页。</li></ul>` },
+  <li>全程 14 页：参考来源 + 制作署名。按 <kbd>L</kbd> 直接跳统计页。</li></ul>` },
 
 { kicker:'The event · one timeline',
   html:`<h2 class="sm">In eight weeks, a joke became an emergency</h2>
@@ -583,7 +602,20 @@ const SLIDES = [
   note:`<b>参考页 —— 收在这里即可</b>
   <ul><li>图片全部来自 Wikimedia Commons，授权是 <b>CC BY-SA 4.0</b> 或美国政府<b>公有领域</b>，署名都写在页面上。</li>
   <li>没有使用新闻站或 Facebook 的图——那些有版权。课堂引用事实没问题，但图片必须标来源。</li>
-  <li>如果学生问"为什么不用原始 Facebook 活动页截图"：那个页面已被删除，且截图属于 Facebook/发布者版权，不适合放进公开网页。</li></ul>` }
+  <li>如果学生问"为什么不用原始 Facebook 活动页截图"：那个页面已被删除，且截图属于 Facebook/发布者版权，不适合放进公开网页。</li></ul>` },
+
+/* credit ----------------------------------------------------------- */
+{ kicker:'',
+  html:`<div class="credit">
+      <div class="cmark"><span></span><span></span><span></span></div>
+      <p class="cline">网页由 <b>DeepSeek-V4.1-Flash</b> 通过 <b>DeepSeek Harness</b> 制作</p>
+      <p class="csub">Built with DeepSeek-V4.1-Flash on DeepSeek Harness</p>
+      <div class="crule"></div>
+      <p class="cmeta">PMGT1852 · Week 5 · The 5 Ps &nbsp;—&nbsp; Storm Area 51 · 20 September 2019</p>
+    </div>`,
+  note:`<b>制作署名页 —— 最后一页</b>
+  <ul><li>中文那行是你指定的原文，下面加了一行英文，因为观众是国际学生（不想要可以直接说，我删掉）。</li>
+  <li>到这里按 <kbd>→</kbd> 不会再翻页了，是终点。</li></ul>` }
 ];
 
 /* ==================== engine ==================== */
