@@ -654,43 +654,15 @@ const SLIDES = [
   html:`<div class="bleedbg"><img src="img/crowd-gate.jpg" alt="A crowd at night at the back gate of Area 51 under floodlights"></div>
     <p class="bleedmeta">20 September 2019</p>
     <p class="big sp"><span class="am" style="font-size:1.5em">150</span> &nbsp;reached the gates.</p>
-    <p class="big sp"><span class="am" style="font-size:1.5em">1,500</span> &nbsp;went to two festivals that <span class="pk">did not exist yet</span>.</p>
+    <p class="big sp"><span class="am" style="font-size:1.5em">1,500</span> &nbsp;went to a music festival that had to be <span class="pk">thrown together</span> just to hold them.</p>
     <p class="big sp"><span class="pk" style="font-size:1.5em">7</span> &nbsp;arrests — public urination.</p>`,
   note:`<div class="nt">⏱ 12s</div>
 <ul class="nl">
 <li><b>照片就是当晚的真实人数——出图后停两秒</b><span class="en">That photo is the real crowd. Pause two seconds.</span></li>
-<li><b class="nw">"两个当时还不存在的音乐节"是钩子，不解释</b><span class="en">"Didn't exist yet" is the hook. Don't explain.</span></li>
+<li><b class="nw">重读 "thrown together"</b>——那个音乐节是为了接住这批人临时凑出来的<span class="en">Stress "thrown together". It was improvised to hold the crowd.</span></li>
 <li><b>7 人被捕，罪名是随地小便——等笑声</b><span class="en">7 arrests, public urination. Let them laugh.</span></li>
 </ul>` },
 
-/* 7 two festivals */
-{ kicker:'The part nobody planned',
-  html:`<h2 class="sm">A joke became a festival. Then <span class="am">two</span>.</h2>
-    <div class="tickets sp2">
-      <div class="ticket">
-        <div class="lab">Alienstock · Rachel</div>
-        <div class="txt">Run by the owner of the town's only inn.</div>
-      </div>
-      <div class="tear"></div>
-      <div class="ticket">
-        <div class="lab">Basecamp · Hiko</div>
-        <div class="txt">Run by a promoter chasing the same crowd.</div>
-      </div>
-    </div>
-    <div class="verdict">
-      <div class="v">Ten days before it opened, the organiser left with the money — and went to a party in Vegas.</div>
-      <div class="vs">He sent a lawyer's letter to the woman who held the permits. She ignored it.</div>
-    </div>`,
-  note:`<div class="nt">⏱ 27s · 最荒诞，给最多时间</div>
-<ul class="nl">
-<li><b>接上一页：哪来的音乐节？</b><span class="en">Where did the festivals come from?</span></li>
-<li><b>原始活动没有场地，只有一条帖子</b><span class="en">No venue, just a Facebook post.</span></li>
-<li><b class="nw">爆点分两次念：① 活动前 10 天，主办方带着钱跑了，去拉斯维加斯参加派对</b><span class="en">Beat 1: organiser left with the money, went to a party in Vegas.</span></li>
-<li><b class="nw">② 他给真正持有许可证的女士发律师函，她直接无视</b><span class="en">Beat 2: lawyer's letter to the permit holder. She ignored it.</span></li>
-<li><b>可以问全场：那谁才是真正的主办方？</b><span class="en">Ask: so who was actually in charge?</span></li>
-</ul>` },
-
-/* 8 five Ps — one page */
 { kicker:'The framework · Week 5',
   html:`<h2 class="sm">The 5 Ps — and where this one broke</h2>
     <div class="pscols sp2">
@@ -721,7 +693,6 @@ const SLIDES = [
           <li><b>Area 51 Main Gate (cropped)</b> — David James Henry · CC BY-SA 4.0</li>
           <li><b>Lincoln County Deputies at Area 51 Back Gate</b> — David James Henry · CC BY-SA 4.0</li>
           <li><b>Crowd gathered at the back gate of Area 51</b> — David James Henry · CC BY-SA 4.0</li>
-          <li><b>Alienstock 2019 Music Festival</b> — David James Henry · CC BY-SA 4.0</li>
         </ol>
         <div class="lic">All photographs used under <b>CC BY-SA 4.0</b>, retrieved from Wikimedia Commons
         (<b>Category:Storm Area 51</b>). Licence: creativecommons.org/licenses/by-sa/4.0.
@@ -770,7 +741,7 @@ const pillEl = $('livepill'), lpnumEl = $('lpnum'), lpsparkEl = $('lpspark');
 
 /* ---------- story rail: 7 stops, pages map onto them ---------- */
 const RAIL = ['27 Jun','The title','3 days','Viral','August','20 Sep','The 5 Ps'];
-const PAGE_STOP = [0, 3, 4, 4, 4, 5, 5, 6, 6, 6];   /* page index -> rail stop */
+const PAGE_STOP = [0, 3, 4, 4, 4, 5, 6, 6, 6];      /* page index -> rail stop (9 pages) */
 
 function buildRail(){
   railStopsEl.innerHTML = RAIL.map((lab,i) =>
