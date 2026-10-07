@@ -187,6 +187,18 @@
   .col.teaser .lab{color:var(--muted)}
   .col.teaser .txt b{color:var(--accent)}
 
+  /* ---------- 5 Ps table (all five on one page) ---------- */
+  .ptable{display:flex;flex-direction:column;gap:clamp(5px,1vh,12px)}
+  .prow{display:flex;gap:clamp(10px,1.5vw,28px);align-items:baseline;
+        background:var(--card);border:2px solid var(--line);border-radius:13px;
+        padding:clamp(7px,1.15vh,15px) clamp(13px,1.4vw,24px);box-shadow:var(--shadow)}
+  .prow .pn{flex:0 0 clamp(120px,12vw,215px);font-size:clamp(15px,1.55vw,26px);
+            font-weight:800;color:var(--accent);letter-spacing:-.012em}
+  .prow .pf{flex:1 1 auto;font-size:clamp(14px,1.45vw,24px);font-weight:700;color:var(--ink2);
+            line-height:1.3}
+  .prow .pv{flex:0 0 clamp(140px,16vw,290px);text-align:right;font-size:clamp(13px,1.35vw,22px);
+            font-weight:800;color:var(--pink);line-height:1.25}
+
   /* ---------- verdict strip (framework + case outcome on one page) ---------- */
   .verdict{margin-top:clamp(16px,2.8vh,38px);padding-top:clamp(12px,2vh,24px);
            border-top:3px solid var(--accent);display:flex;flex-direction:column;
@@ -374,296 +386,174 @@ const QUESTIONS = [
     win:'c', truth:'Some participants — 7 arrests. Public urination, alcohol offences, indecent exposure.' }
 ];
 
-/* ==================== slides — one block per page ==================== */
+/* ==================== slides — 10 pages, ~15 words each ==================== */
 const SLIDES = [
+/* 1 cover */
 { kicker:'',
-  html:`<h1 style="font-size:clamp(38px,6.2vw,106px)">An absurd true story,<br>and its <span class="am">5 Ps</span></h1>
-    <p class="sp" style="font-size:clamp(16px,1.75vw,28px);letter-spacing:.03em;color:var(--muted);font-weight:700">
-      Purpose &nbsp;·&nbsp; Product &nbsp;·&nbsp; Participants &nbsp;·&nbsp; Probable Issues &nbsp;·&nbsp; Process</p>
-    <p class="big sp">“They Can't Stop All of Us.”</p>
+  html:`<h1 style="font-size:clamp(40px,6.6vw,112px)">An absurd true story,<br>and its <span class="am">5 Ps</span></h1>
+    <p class="sp" style="font-size:clamp(16px,1.7vw,27px);letter-spacing:.03em;color:var(--muted);font-weight:700">
+      Purpose · Product · Participants · Probable Issues · Process</p>
     <p class="big sp">A meeting that was <span class="am">never planned at all</span>.</p>
     <figure class="band">
       <img src="img/gate-wide.jpg" alt="The main gate of the Nevada Test and Training Range, known as Area 51">
-      <figcaption>Storm Area 51 · 20 September 2019 · The main gate, Nevada Test and Training Range · David James Henry, CC BY-SA 4.0</figcaption>
+      <figcaption>Storm Area 51 · 20 September 2019 · CC BY-SA 4.0</figcaption>
     </figure>`,
-  note:`<div class="nt">⏱ 5s</div>
+  note:`<div class="nt">⏱ 10s</div>
 <ul class="nl">
-<li><b>一句话开场</b><span class="en">One line. A true, absurd story — and its 5 Ps.</span></li>
-<li><b class="nw">不要说"200 万人"</b><span class="en">Don't say the number. It's Q1.</span></li>
-<li><b>开场前先按 T 启动计时器</b>（右上角，总预算 4:00）<span class="en">Press T to start the 4:00 timer before you speak.</span></li>
+<li><b>一个真实发生过的荒诞事件，和它的 5 Ps</b><span class="en">A true, absurd story — and its 5 Ps.</span></li>
+<li><b class="nw">不要说"200 万人"</b>（那是第 1 题答案）<span class="en">Don't say the number.</span></li>
+<li><b>开场前按 T 启动计时器</b><span class="en">Press T to start the 4:00 timer.</span></li>
 </ul>` },
 
-{ kicker:'The event · one timeline',
+/* 2 the event */
+{ kicker:'The event',
   html:`<h2 class="sm">In eight weeks, a joke became an emergency</h2>
     <div class="tl sp2">
-      <div class="trow"><div class="tw">27 Jun 2019</div><div class="tc">Late at night, a 21-year-old in California creates a Facebook event.</div></div>
-      <div class="trow"><div class="tw">The title</div><div class="tc">“Storm Area 51, They Can't Stop All of Us.”</div></div>
-      <div class="trow"><div class="tw">What it asked</div><div class="tc">Everyone meet at the gate of a classified US Air Force base — and go in. To see the aliens.</div></div>
+      <div class="trow"><div class="tw">27 Jun</div><div class="tc">A 21-year-old posts a joke on Facebook.</div></div>
+      <div class="trow"><div class="tw">The title</div><div class="tc">“They Can't Stop All of Us.”</div></div>
       <div class="trow pivot"><div class="tw">First 3 days</div><div class="tc">Almost nobody responds.</div></div>
       <div class="trow pivot"><div class="tw">Then</div><div class="tc">It went viral. Worldwide.</div></div>
-      <div class="trow"><div class="tw">August</div><div class="tc">Lincoln County, Nevada starts drafting an emergency declaration.</div></div>
-      <div class="trow"><div class="tw">20 Sep 2019</div><div class="tc">The day arrives.</div></div>
+      <div class="trow"><div class="tw">20 Sep</div><div class="tc">The day arrives.</div></div>
     </div>`,
   note:`<div class="nt">⏱ 20s</div>
 <ul class="nl">
-<li><b>一个 21 岁的人半夜发了条帖子，纯属玩笑</b><span class="en">A 21-year-old posts a joke at night.</span></li>
-<li><b>标题就是笑点：他们挡不住我们所有人</b><span class="en">The title is the joke: "They Can't Stop All of Us."</span></li>
-<li><b>前三天几乎没人响应</b> → <b class="nw">停一下</b><span class="en">Almost nobody responds. Pause here.</span></li>
-<li><b>然后全球病毒式传播；8 月县里开始起草紧急状态声明</b><span class="en">Then it went viral. By August the county drafts an emergency declaration.</span></li>
-<li><b class="nw">全页不报任何数字</b><span class="en">No numbers on this page — they're all quiz answers.</span></li>
+<li><b>从上往下念，很短</b><span class="en">Read it top to bottom. It's short.</span></li>
+<li><b>念到"几乎没人响应"停一下</b>，再说"然后全球传播"<span class="en">Pause at "almost nobody responds" — that's the turn.</span></li>
+<li><b class="nw">全页不报数字</b><span class="en">No numbers. They're the quiz answers.</span></li>
 </ul>` },
 
-{ kicker:'Meanwhile, everyone else took it seriously',
+/* 3 the reaction */
+{ kicker:'Meanwhile',
   html:`<h2 class="sm">Everyone else took it seriously</h2>
     <div class="cols sp2" style="align-items:stretch">
       <div class="col hi">
         <div class="lab">Lincoln County, Nevada</div>
-        <div class="txt sm">Drafts an <b>emergency declaration</b>.<br>
-        Brings in extra paramedics and police from across the state.<br>
-        Hotel rooms in the entire county: <b>184</b></div>
+        <div class="txt sm">Emergency declaration. Extra medics and police.<br>
+        <span class="muted">184 hotel rooms — entire county.</span></div>
       </div>
       <div class="col">
-        <div class="lab">Rachel, Nevada · population 56</div>
-        <div class="txt sm">Posts a warning on its own website:<br>
-        <b>not enough food, water or fuel here</b> for visitors.<br>
-        <span class="muted">A town of 56, preparing for a crowd.</span></div>
-      </div>
-      <div class="col teaser">
-        <div class="lab">The US Air Force</div>
-        <div class="txt sm">Reaction <b>classified</b>.<br>
-        <span class="am">That's question 2.</span></div>
+        <div class="lab">Rachel, Nevada · pop. 56</div>
+        <div class="txt sm">Warns visitors on its own website.<br>
+        <span class="muted">No food, water or fuel here.</span></div>
       </div>
     </div>
     <figure class="band">
-      <img src="img/deputies.jpg" alt="Three Lincoln County deputies at the back gate of Area 51 beside a sign reading Photography Of This Area Is Prohibited">
-      <figcaption>The “Photography Of This Area Is Prohibited” sign at the back gate · David James Henry, CC BY-SA 4.0</figcaption>
+      <img src="img/deputies.jpg" alt="Lincoln County deputies at the back gate beside a sign reading Photography Of This Area Is Prohibited">
+      <figcaption>The sign reads “Photography Of This Area Is Prohibited” · CC BY-SA 4.0</figcaption>
     </figure>`,
-  note:`<div class="nt">⏱ 12s</div>
+  note:`<div class="nt">⏱ 15s</div>
 <ul class="nl">
-<li><b>县里从全州调急救员和警察——只说"动作"，不给数字</b><span class="en">County brings in medics and police. Actions only, no figures.</span></li>
-<li><b>全县只有 184 间酒店房</b><span class="en">Only 184 hotel rooms in the whole county.</span></li>
-<li><b>一个 56 人的小镇在自己官网上警告游客</b><span class="en">A town of 56 warns visitors on its own website.</span></li>
-<li><b>空军那张卡是空的 → 指着说"这是第 2 题"</b><span class="en">The USAF card is blank. Point at it: "That's question 2."</span></li>
+<li><b>只讲"动作"，不给数字</b>（4 万是第 3 题答案）<span class="en">Actions only. No figures.</span></li>
+<li><b>全县只有 184 间房</b> ← 这个对比要重读<span class="en">Stress: 184 rooms, whole county.</span></li>
+<li><b>照片的梗：牌子上写"禁止拍照"，而这就是在那儿拍的</b><span class="en">The sign says no photography. Someone photographed it.</span></li>
 </ul>` },
 
+/* 4 scan */
 { kicker:'Your phone is the remote',
   html:`<div class="qrwrap">
       <div class="qrcard"><svg viewBox="0 0 33 33" preserveAspectRatio="xMidYMid meet" width="33" height="33"><path fill="#fff" d="M0 0h33v33h-33z"/><path stroke="#000" d="M2 2.5h7m6 0h2m3 0h1m3 0h7m-29 1h1m5 0h1m1 0h1m1 0h4m1 0h4m3 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m1 0h2m2 0h2m1 0h2m2 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m5 0h2m3 0h1m1 0h1m2 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m3 0h10m2 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m3 0h3m6 0h2m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-18 1h4m2 0h1m-17 1h3m1 0h2m2 0h2m3 0h1m1 0h1m2 0h2m5 0h2m-28 1h2m2 0h2m2 0h1m2 0h1m2 0h1m1 0h1m1 0h5m1 0h2m2 0h1m-29 1h1m2 0h2m1 0h1m2 0h4m3 0h1m5 0h1m2 0h1m1 0h1m-26 1h4m6 0h1m1 0h1m3 0h2m3 0h3m2 0h1m-29 1h1m1 0h2m2 0h2m5 0h2m2 0h1m2 0h2m1 0h1m2 0h3m-28 1h1m2 0h1m3 0h3m1 0h1m1 0h2m3 0h1m2 0h2m1 0h2m1 0h1m-26 1h6m3 0h1m1 0h2m1 0h3m1 0h1m1 0h3m1 0h2m-27 1h3m3 0h2m1 0h1m5 0h2m3 0h1m1 0h2m1 0h2m-29 1h1m1 0h1m3 0h2m1 0h2m1 0h3m1 0h6m1 0h3m1 0h2m-25 1h1m3 0h2m2 0h1m3 0h2m2 0h2m1 0h1m2 0h1m-27 1h1m1 0h2m2 0h3m1 0h2m2 0h4m4 0h2m2 0h1m-23 1h2m1 0h2m1 0h2m5 0h2m2 0h2m1 0h5m-28 1h3m2 0h1m1 0h3m5 0h3m1 0h7m-19 1h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m3 0h2m1 0h2m-29 1h7m2 0h4m3 0h2m1 0h2m1 0h1m1 0h1m1 0h2m-28 1h1m5 0h1m1 0h2m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m2 0h2m-29 1h1m1 0h3m1 0h1m4 0h3m1 0h1m2 0h1m1 0h8m-28 1h1m1 0h3m1 0h1m1 0h1m2 0h4m1 0h1m1 0h2m4 0h1m1 0h2m-28 1h1m1 0h3m1 0h1m1 0h2m1 0h2m2 0h4m1 0h1m2 0h1m2 0h1m1 0h1m-29 1h1m5 0h1m1 0h3m2 0h2m1 0h1m1 0h1m1 0h2m2 0h2m1 0h1m-28 1h7m2 0h1m5 0h2m1 0h3m2 0h1m3 0h1"/></svg><div class="qrurl">hudsonwang.com/play</div></div>
-      <div style="flex:1 1 430px;min-width:300px">
-        <ul class="rules">
-          <li class="am">This is just a game.</li>
-          <li>No wrong answers. Nobody is being graded.</li>
-          <li>Nobody sees what you picked.</li>
-          <li class="am">Guess. That's all.</li>
-        </ul>
-        <div class="qstrip" style="margin-top:clamp(14px,2.4vh,28px)">
-          <div><b>1</b>How many people clicked “Going”?</div>
-          <div><b>2</b>What did the US Air Force do about it?</div>
-          <div><b>3</b>How many people did the county prepare for?</div>
+      <div style="flex:1 1 420px;min-width:300px">
+        <p class="big am">This is just a game.</p>
+        <p class="big sp">No wrong answers. Nobody is graded.</p>
+        <div class="qstrip" style="margin-top:clamp(16px,2.6vh,32px)">
+          <div><b>1</b>How many clicked “Going”?</div>
+          <div><b>2</b>What did the US Air Force do?</div>
+          <div><b>3</b>How many did the county prepare for?</div>
           <div><b>4</b>How many actually showed up?</div>
           <div><b>5</b>Who was arrested?</div>
         </div>
       </div>
     </div>`,
-  note:`<div class="nt">⏱ 20s 含扫码</div>
+  note:`<div class="nt">⏱ 22s 含扫码</div>
 <ul class="nl">
-<li><b class="nw">必须说：这只是游戏、没有对错、不计分、看不到别人选什么</b><span class="en">Say it: it's a game, no wrong answers, nobody sees your pick.</span></li>
-<li><b>5 道题都列在屏幕上</b><span class="en">All 5 questions are on screen.</span></li>
-<li><b>给大家 20–30 秒扫码答题</b><span class="en">Give them 20–30 seconds to tap through.</span></li>
-<li><b>预告：下一屏数字会实时跳动</b><span class="en">Next screen: the numbers move live.</span></li>
+<li><b class="nw">必须说：只是游戏、没有对错、不计分</b><span class="en">Say it: it's a game, no wrong answers, nobody is graded.</span></li>
+<li><b>给大家 20 秒扫码答题</b><span class="en">Give them 20 seconds to tap through.</span></li>
+<li><b>下一屏数字会实时跳</b><span class="en">Next screen: the numbers move live.</span></li>
 </ul>` },
 
+/* 5 live */
 { kicker:'Live results', special:'live',
   note:`<div class="nt">⏱ 70s · 全场核心</div>
 <ul class="nl">
-<li><b>先让大家看柱子已经涨起来了</b><span class="en">Show the bars already moving.</span></li>
-<li><b>逐题点 Reveal truth：Q1 → Q5</b><span class="en">Reveal one question at a time, Q1 to Q5.</span></li>
-<li><b class="nw">Q4 揭晓后停 3 秒不说话</b>（200 万 vs 150）<span class="en">On Q4: pause 3 seconds. Say nothing.</span></li>
-<li><b>Q5 揭晓时念出来：7 人被捕，罪名是随地小便</b><span class="en">Q5: 7 arrests — public urination. Let them laugh.</span></li>
-<li><b>有人猜对就指一下他的方向</b><span class="en">If someone got it right, point at them.</span></li>
-<li><b>断网就点 Manual entry 手输</b><span class="en">If the network dies: Manual entry.</span></li>
+<li><b>先看柱子已经涨起来了</b><span class="en">Show the bars already moving.</span></li>
+<li><b>逐题点 Reveal truth：Q1 → Q5</b><span class="en">Reveal one at a time, Q1 to Q5.</span></li>
+<li><b class="nw">Q4 揭晓后停 3 秒不说话</b>（200 万 vs 150）<span class="en">Q4: pause 3 seconds. Say nothing.</span></li>
+<li><b>Q5 念出来：7 人被捕，随地小便</b><span class="en">Q5: 7 arrests — public urination.</span></li>
+<li><b>断网就点 Manual entry 手输</b><span class="en">Network dies → Manual entry.</span></li>
 </ul>` },
 
+/* 6 the day */
 { kicker:'What actually happened',
   html:`<div class="split">
       <div class="txt">
         <div class="label">20 September 2019</div>
-        <p class="big"><span class="am">About 150</span> people reached the two entrances.<br>
-        About <span class="am">1,500</span> went to two music festivals that <span class="pk">did not exist</span> when the event was created.</p>
-        <div class="rule"></div>
-        <p class="big"><span class="pk">7</span> arrests — public urination, alcohol offences, indecent exposure.</p>
+        <p class="big"><span class="am">About 150</span> people reached the gates.</p>
+        <p class="big sp">About <span class="am">1,500</span> went to two festivals that <span class="pk">did not exist yet</span>.</p>
+        <p class="big sp"><span class="pk">7</span> arrests — public urination.</p>
       </div>
       <figure class="fig tall">
-        <img src="img/crowd-gate.jpg" alt="A crowd gathered at night at the back gate of Area 51 under floodlights">
-        <figcaption>The actual crowd at the back gate that night · David James Henry, CC BY-SA 4.0</figcaption>
+        <img src="img/crowd-gate.jpg" alt="A crowd at night at the back gate of Area 51 under floodlights">
+        <figcaption>The back gate that night · CC BY-SA 4.0</figcaption>
       </figure>
     </div>`,
-  note:`<div class="nt">⏱ 15s</div>
+  note:`<div class="nt">⏱ 12s</div>
 <ul class="nl">
-<li><b>150 人到了关口</b><span class="en">150 people reached the gates.</span></li>
-<li><b>1,500 人去了两个音乐节</b><span class="en">1,500 went to two music festivals.</span></li>
-<li><b class="nw">那两个音乐节当时根本不存在</b> → 抛出钩子，不解释<span class="en">Those festivals didn't exist yet. Drop it, don't explain.</span></li>
-<li><b>7 人被捕</b><span class="en">7 arrests.</span></li>
+<li><b>照片就是当晚的真实人数——出图后停两秒</b><span class="en">That photo is the real crowd. Pause two seconds.</span></li>
+<li><b class="nw">"两个当时还不存在的音乐节"是钩子，不解释</b><span class="en">"Didn't exist yet" is the hook. Don't explain.</span></li>
+<li><b>7 人被捕，罪名是随地小便——等笑声</b><span class="en">7 arrests, public urination. Let them laugh.</span></li>
 </ul>` },
 
-/* ---- the absurd festival page ---- */
+/* 7 two festivals */
 { kicker:'The part nobody planned',
-  html:`<h2 class="sm">A joke became a festival.<br>Then it became <span class="am">two</span>.</h2>
+  html:`<h2 class="sm">A joke became a festival. Then <span class="am">two</span>.</h2>
     <div class="cols sp2" style="align-items:stretch">
-      <div class="col hi" style="flex:1 1 270px">
-        <div class="lab">Alienstock · Rachel, Nevada</div>
-        <div class="txt sm">Run by the owner of the town's only inn.<br>
-        <span class="muted">The town had already warned it would become “Fyre Festival 2.0”.</span></div>
+      <div class="col hi" style="flex:1 1 260px">
+        <div class="lab">Alienstock · Rachel</div>
+        <div class="txt sm">Run by the owner of the town's only inn.</div>
       </div>
-      <div class="col" style="flex:1 1 270px">
-        <div class="lab">Storm Area 51 Basecamp · Hiko, Nevada</div>
-        <div class="txt sm">Run by a promoter who saw a crowd.<br>
-        <span class="muted">A second festival, in the next town, chasing the same people.</span></div>
+      <div class="col" style="flex:1 1 260px">
+        <div class="lab">Basecamp · Hiko</div>
+        <div class="txt sm">Run by a promoter chasing the same crowd.</div>
       </div>
-      <figure class="fig" style="flex:1 1 290px;margin:0">
+      <figure class="fig" style="flex:1 1 280px;margin:0">
         <img src="img/alienstock.jpg" alt="The Alienstock 2019 stage at night in the Nevada desert">
-        <figcaption>Alienstock 2019, Rachel, Nevada · David James Henry, CC BY-SA 4.0</figcaption>
+        <figcaption>Alienstock 2019 · CC BY-SA 4.0</figcaption>
       </figure>
     </div>
     <div class="verdict">
-      <div class="v">Ten days before it opened, the organiser left with <span class="pk">$70,000–$100,000</span> — and went to a party in Las Vegas.</div>
-      <div class="vs">He then sent a lawyer's letter to the woman who actually held the permits. She ignored it. Every band played for free. Afterwards, one promoter called his festival a failure — the other called hers a success.</div>
+      <div class="v">Ten days before it opened, the organiser left with the money — and went to a party in Vegas.</div>
+      <div class="vs">He sent a lawyer's letter to the woman who held the permits. She ignored it.</div>
     </div>`,
-  note:`<div class="nt">⏱ 25s · 最荒诞，给最多时间</div>
+  note:`<div class="nt">⏱ 27s · 最荒诞，给最多时间</div>
 <ul class="nl">
-<li><b>接上一页：哪来的音乐节？</b><span class="en">Pick up the hook: where did the festivals come from?</span></li>
+<li><b>接上一页：哪来的音乐节？</b><span class="en">Where did the festivals come from?</span></li>
 <li><b>原始活动没有场地，只有一条帖子</b><span class="en">No venue, just a Facebook post.</span></li>
-<li><b>200 万人说要去 → 别人只好替它造地方，一造就两个</b><span class="en">2M said yes → others built somewhere to go. Two somewheres.</span></li>
-<li><b>一个在 Rachel 镇（旅馆老板办），一个在隔壁镇，抢同一批人</b><span class="en">One in Rachel, one in the next town. Same crowd.</span></li>
-<li><b class="nw">爆点，分两次念：① 活动前 10 天，主办方带着 7 万–10 万美元跑了，去拉斯维加斯参加派对</b><span class="en">Beat 1: ten days early, the organiser left with $70k–100k — and went to a party in Vegas.</span></li>
-<li><b class="nw">② 他给真正持有许可证的女士发律师函，她直接无视；所有乐队都是义务演出</b><span class="en">Beat 2: lawyer's letter to the permit holder. She ignored it. Every band played free.</span></li>
-<li><b>收尾：一个承办人承认失败，另一个宣布成功</b><span class="en">One called it a failure. The other called it a success.</span></li>
+<li><b class="nw">爆点分两次念：① 活动前 10 天，主办方带着钱跑了，去拉斯维加斯参加派对</b><span class="en">Beat 1: organiser left with the money, went to a party in Vegas.</span></li>
+<li><b class="nw">② 他给真正持有许可证的女士发律师函，她直接无视</b><span class="en">Beat 2: lawyer's letter to the permit holder. She ignored it.</span></li>
+<li><b>可以问全场：那谁才是真正的主办方？</b><span class="en">Ask: so who was actually in charge?</span></li>
 </ul>` },
 
-{ kicker:'And then the aftermath',
-  html:`<h2 class="sm">And the aftermath was stranger still</h2>
-    <div class="cols sp2" style="align-items:stretch">
-      <div class="col hi" style="flex:1 1 340px">
-        <div class="lab">The US Air Force — question 2, answered</div>
-        <div class="txt sm">“We would discourage anyone from trying to come into the area where we train American armed forces.”</div>
-      </div>
-      <div class="col" style="flex:1 1 340px">
-        <div class="lab">The Pentagon</div>
-        <div class="txt sm">Its own PR office tweeted a stealth bomber at millennials.<br>
-        <b>Then deleted it — and apologised.</b></div>
-      </div>
-      <figure class="fig" style="flex:1 1 240px;min-width:200px;margin:0">
-        <img src="img/f22.jpg" alt="A US Air Force F-22 Raptor">
-        <figcaption>USAF aircraft over the Nevada range · Senior Airman Matthew Lancaster, USAF — public domain</figcaption>
-      </figure>
-    </div>
-    <div class="cols" style="margin-top:clamp(12px,2vh,24px);align-items:stretch">
-      <div class="col" style="flex:1 1 340px">
-        <div class="lab">Bud Light</div>
-        <div class="txt sm">Promised a free beer to <b>“any alien that makes it out.”</b></div>
-        <div class="lab" style="margin-top:14px">The copycats</div>
-        <div class="txt sm">Storm Loch Ness · Storm the Bermuda Triangle · Storm the <b>Vatican Secret Archives</b></div>
-      </div>
-      <figure class="fig" style="flex:1 1 240px;min-width:200px;margin:0">
-        <img src="img/towtruck.jpg" alt="A rusty tow truck towing a flying saucer at the Little A'Le'Inn, Rachel, Nevada">
-        <figcaption>The Little A'Le'Inn, Rachel, Nevada · David James Henry, CC BY-SA 4.0</figcaption>
-      </figure>
+/* 8 five Ps — one page */
+{ kicker:'The framework · Week 5',
+  html:`<h2 class="sm">The 5 Ps — and where this one broke</h2>
+    <div class="ptable sp2">
+      <div class="prow"><div class="pn">Purpose</div><div class="pf">“It's a joke” vs “We're going”</div><div class="pv">never aligned</div></div>
+      <div class="prow"><div class="pn">Product</div><div class="pf">Only Heads and Hearts. Zero Hands.</div><div class="pv">nothing to commit to</div></div>
+      <div class="prow"><div class="pn">Participants</div><div class="pf">Course says 3–9. This was 2,000,000.</div><div class="pv">free to join, free to skip</div></div>
+      <div class="prow"><div class="pn">Probable Issues</div><div class="pf">Listed — by the county, not by us</div><div class="pv">someone else did our risk plan</div></div>
+      <div class="prow"><div class="pn">Process</div><div class="pf">Designed first. The other four never happened.</div><div class="pv">the whole failure</div></div>
     </div>`,
-  note:`<div class="nt">⏱ 10s · 节奏加快</div>
+  note:`<div class="nt">⏱ 30s · 这是知识点，其他都能省，这页不能</div>
 <ul class="nl">
-<li><b>空军那句原话——这就是第 2 题的答案</b><span class="en">The USAF quote. That answers Q2.</span></li>
-<li><b>五角大楼自己的公关部门发轰炸机推文，然后删推道歉</b><span class="en">The Pentagon's own PR office tweeted a bomber, then deleted it.</span></li>
-<li><b>百威承诺给外星人免费啤酒</b><span class="en">Bud Light promised a free beer to any alien.</span></li>
-<li><b>模仿者三个连着念，最后一个最快：尼斯湖、百慕大三角、梵蒂冈秘密档案馆</b><span class="en">The copycats — speed up: Loch Ness, Bermuda Triangle, Vatican Secret Archives.</span></li>
+<li><b>五个 P 从上往下念，一行一句，不要展开</b><span class="en">Read the five rows. One line each. Don't expand.</span></li>
+<li><b>Purpose：</b>主办方开玩笑，200 万人当真 — <b>从没对齐</b><span class="en">Two purposes, never aligned.</span></li>
+<li><b>Product：</b>三 H 里只有 Heads 和 Hearts，<b>Hands 是零</b> → 报名免费，免费不构成承诺<span class="en">Zero Hands = zero commitment.</span></li>
+<li><b>Participants：</b>课程建议 3–9 人，这里是 200 万<span class="en">3–9 recommended. 2,000,000 actual.</span></li>
+<li><b class="nw">Probable Issues：</b>风险清单列得很好——<b>是林肯县列的，不是主办方</b><span class="en">The risk list was made by the county.</span></li>
+<li><b class="nw">Process：</b>流程排第一，另外四个 P 从没发生 — <b>念完停两秒收尾</b><span class="en">Process came first. Stop after this line.</span></li>
 </ul>` },
 
-{ kicker:'The 5 Ps · 1 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>urpose — why are we doing this?</h2>
-    <div class="cols sp2">
-      <div class="col"><div class="lab">The organiser's purpose</div><div class="txt">“It's a joke.”</div></div>
-      <div class="col hi"><div class="lab">The 2,000,000's purpose</div><div class="txt">“We're going.”</div></div>
-    </div>
-    <div class="verdict">
-      <div class="v"><span class="am">2,000,000</span> clicked “Going”. &nbsp; <span class="am">150</span> showed up.</div>
-      <div class="vs">Purpose was never aligned — and nobody noticed.</div>
-    </div>`,
-  note:`<div class="nt">⏱ 8s</div>
-<ul class="nl">
-<li><b>两个目的：主办方"开玩笑" vs 200 万人"我们真去"</b><span class="en">"It's a joke" vs "We're going."</span></li>
-<li><b>指结论条：从没对齐，也没人发现</b><span class="en">Never aligned. Nobody noticed.</span></li>
-</ul>` },
-
-{ kicker:'The 5 Ps · 2 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>roduct — what comes out of it?</h2>
-    <div class="cols sp2">
-      <div class="col"><div class="lab">Hands — tangible output</div><div class="txt">Nothing was ever built.<br><span class="muted">Zero.</span></div></div>
-      <div class="col"><div class="lab">Heads — knowledge</div><div class="txt">The world learned about Area 51 lore.</div></div>
-      <div class="col"><div class="lab">Hearts — belief, trust, commitment</div><div class="txt">People wanted to belong to a moment.</div></div>
-    </div>
-    <div class="verdict">
-      <div class="v">Only <span class="am">Heads</span> and <span class="am">Hearts</span>. <span class="pk">Zero Hands.</span></div>
-      <div class="vs">2,000,000 could “commit” — and lose nothing by staying home.</div>
-    </div>`,
-  note:`<div class="nt">⏱ 8s</div>
-<ul class="nl">
-<li><b>三 H：产出只有 Heads 和 Hearts，Hands 是零</b><span class="en">Only Heads and Hearts. Zero Hands.</span></li>
-<li><b>指结论条：报名是免费的，免费不构成承诺</b><span class="en">Free to sign up = zero commitment.</span></li>
-</ul>` },
-
-{ kicker:'The 5 Ps · 3 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>articipants — who needs to be in the room?</h2>
-    <div class="cols sp2">
-      <div class="col"><div class="lab">Course guidance on size</div>
-        <div class="txt sm">Resolution &nbsp;<b>3–9</b> &nbsp;·&nbsp; Creation &nbsp;<b>7–16</b> &nbsp;·&nbsp; Review &nbsp;<b>2–100+</b></div></div>
-      <div class="col hi"><div class="lab">This event</div>
-        <div class="txt" style="font-size:clamp(32px,4.4vw,84px);letter-spacing:-.03em">2,000,000</div></div>
-    </div>
-    <div class="verdict">
-      <div class="v am">Zero-cost participation = zero commitment.</div>
-      <div class="vs">A sign-up button checks none of the selection criteria — understand the issue? have a stake? able to decide? respected? open to alternatives?</div>
-    </div>`,
-  note:`<div class="nt">⏱ 8s</div>
-<ul class="nl">
-<li><b>课程建议 3–9 人，这里是 200 万</b><span class="en">The course says 3–9. This is 2,000,000.</span></li>
-<li><b>五条选人标准，一个报名按钮一条都没检查</b><span class="en">A sign-up button checks none of the five criteria.</span></li>
-</ul>` },
-
-{ kicker:'The 5 Ps · 4 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>robable Issues — what could derail this?</h2>
-    <div class="cols sp2">
-      <div class="col"><div class="lab">Topics — needed to succeed</div><div class="txt sm">Get people there. Keep them alive in a desert.</div></div>
-      <div class="col hi"><div class="lab">Ditches — could sink it</div><div class="txt sm">184 hotel rooms. No water, no fuel, no signal. 40,000 expected.</div></div>
-      <div class="col"><div class="lab">Red herrings</div><div class="txt sm">Alien merchandise. Brand stunts. Copycat events.</div></div>
-    </div>
-    <div class="verdict">
-      <div class="v">The <span class="am">ditches were listed</span> — by Lincoln County, Nevada.</div>
-      <div class="vs">The emergency declaration. The 300 paramedics. The 150 police officers. All of it came from the county. Not from the organiser.</div>
-    </div>`,
-  note:`<div class="nt">⏱ 8s</div>
-<ul class="nl">
-<li><b>三类分清：Topics / Ditches / Red herrings</b><span class="en">Topics, ditches, red herrings.</span></li>
-<li><b class="nw">指结论条：风险清单列出来了——是林肯县列的，不是主办方</b><span class="en">The ditches were listed. By Lincoln County, not the organiser.</span></li>
-</ul>` },
-
-{ kicker:'The 5 Ps · 5 of 5',
-  html:`<h2 class="sm"><span class="am">P</span>rocess — how will we actually run it?</h2>
-    <div class="cols sp2">
-      <div class="col"><div class="lab">What the 5 Ps says</div>
-        <div class="txt sm">Design the Process <b>last</b> — after Purpose, Product, Participants and Probable Issues are settled.</div></div>
-      <div class="col hi"><div class="lab">What happened here</div>
-        <div class="txt sm">The Process was a Facebook event page.<br>No agenda. No ground rules. No notice.</div></div>
-    </div>
-    <div class="verdict">
-      <div class="v">The Process came <span class="am">first</span>. The other four Ps never happened.</div>
-      <div class="vs">Ten days before the event, the organiser left — with the money — and sent a lawyer's letter to the woman who held the permits.</div>
-    </div>`,
-  note:`<div class="nt">⏱ 8s · 收尾最强的一句</div>
-<ul class="nl">
-<li><b>课程说：Process 必须最后设计</b><span class="en">Design the process last.</span></li>
-<li><b>指结论条：这里 Process 排第一，另外四个 P 从没发生</b><span class="en">Here it came first. The other four never happened.</span></li>
-<li><b class="nw">最后一行念完就停，不要补总结</b><span class="en">Read the last line, then stop. No summary.</span></li>
-</ul>` },
-
+/* 9 references */
 { kicker:'References',
   html:`<h2 class="sm">References</h2>
     <div class="refs sp2">
@@ -673,37 +563,33 @@ const SLIDES = [
           <li><b>Area 51 Main Gate (cropped)</b> — David James Henry · CC BY-SA 4.0</li>
           <li><b>Lincoln County Deputies at Area 51 Back Gate</b> — David James Henry · CC BY-SA 4.0</li>
           <li><b>Crowd gathered at the back gate of Area 51</b> — David James Henry · CC BY-SA 4.0</li>
-          <li><b>F-22 over the Nevada Test and Training Range</b> — Senior Airman Matthew Lancaster, US Air Force · public domain</li>
           <li><b>Alienstock 2019 Music Festival</b> — David James Henry · CC BY-SA 4.0</li>
-          <li><b>The Little A'Le'Inn Tow Truck</b> — David James Henry · CC BY-SA 4.0</li>
         </ol>
-        <div class="lic">All photographs used under <b>CC BY-SA 4.0</b> or as <b>US Government works in the public domain</b>,
-        retrieved from Wikimedia Commons (<b>Category:Storm Area 51</b>). Licence text: creativecommons.org/licenses/by-sa/4.0.
-        Images resized and re-compressed; no other changes.</div>
+        <div class="lic">All photographs used under <b>CC BY-SA 4.0</b>, retrieved from Wikimedia Commons
+        (<b>Category:Storm Area 51</b>). Licence: creativecommons.org/licenses/by-sa/4.0.
+        Resized and re-compressed; no other changes.</div>
       </div>
       <div class="rcol">
         <h3>Facts and quotations</h3>
         <ol>
           <li><b>Wikipedia</b>, “Storm Area 51” — timeline, attendance, arrests, county preparations.</li>
           <li><b>BBC News</b> (13 Sep 2019), “Storm Area 51: The joke that became a ‘possible humanitarian disaster’”.</li>
-          <li><b>Vox</b> (20 Sep 2019), “The totally wild, true tale of a meme about aliens that almost inspired a real raid on Area 51”.</li>
+          <li><b>Vox</b> (20 Sep 2019), “The totally wild, true tale of a meme about aliens…”.</li>
           <li><b>The Washington Post</b> (13 Jul 2019) — US Air Force statement.</li>
           <li><b>NPR</b> (20 Sep 2019), “‘Storm Area 51’ Fails To Materialize”.</li>
-          <li><b>Netflix</b> (2025), documentary <i>Trainwreck: Storm Area 51</i>.</li>
         </ol>
         <h3 style="margin-top:16px">Course material</h3>
         <ol>
-          <li><b>PMGT1852</b> Stakeholder Management &amp; Facilitation — Week 5, <i>Facilitation: the 5 Ps</i> and the Three Hs (Hands · Heads · Hearts).</li>
+          <li><b>PMGT1852</b> Week 5 — <i>Facilitation: the 5 Ps</i> and the Three Hs (Hands · Heads · Hearts).</li>
         </ol>
       </div>
     </div>`,
-  note:`<div class="nt">⏱ 0s · 停在这里，不用讲</div>
+  note:`<div class="nt">⏱ 0s · 停着就好</div>
 <ul class="nl">
-<li><b>图片全部 CC BY-SA 4.0 或美国政府公有领域</b><span class="en">All images CC BY-SA 4.0 or US public domain.</span></li>
-<li><b>有人问来源再翻回来</b><span class="en">Only come back here if someone asks.</span></li>
+<li><b>不用讲。有人问来源再翻回来</b><span class="en">Nothing to say. Only if someone asks.</span></li>
 </ul>` },
 
-/* credit ----------------------------------------------------------- */
+/* 10 credit */
 { kicker:'',
   html:`<div class="credit">
       <div class="cmark"><span></span><span></span><span></span></div>
@@ -713,7 +599,7 @@ const SLIDES = [
     </div>`,
   note:`<div class="nt">⏱ 0s · 结束</div>
 <ul class="nl">
-<li><b>不用讲，停在上一页就行</b><span class="en">Nothing to say. Stop on the previous page.</span></li>
+<li><b>不用讲</b><span class="en">Stop on the previous page.</span></li>
 </ul>` }
 ];
 
