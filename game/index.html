@@ -425,6 +425,9 @@
   #notes .nk{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);
              font-weight:800;margin-bottom:10px}
   #notes .nb{max-width:74em}
+  #notes .nb p{font-size:15.5px;line-height:1.62;color:var(--ink2);margin:0 0 10px}
+  #notes .nb p:last-child{margin-bottom:0}
+  #notes .nb strong{color:var(--ink);font-weight:800}
   /* compact bilingual cue cards */
   #notes .nt{display:inline-block;background:var(--accent);color:#fff;font-weight:800;
              font-size:13px;padding:4px 13px;border-radius:999px;margin-bottom:11px;
@@ -559,11 +562,7 @@ const SLIDES = [
     <p class="bleedmeta sp2">Purpose · Product · Participants · Probable Issues · Process</p>
     <p class="big sp">A meeting that was <span class="am">never planned at all</span>.</p>`,
   note:`<div class="nt">⏱ 10s</div>
-<ul class="nl">
-<li><b>一个真实发生过的荒诞事件，和它的 5 Ps</b><span class="en">A true, absurd story — and its 5 Ps.</span></li>
-<li><b class="nw">不要说"200 万人"</b>（那是第 1 题答案）<span class="en">Don't say the number.</span></li>
-<li><b>开场前按 T 启动计时器</b><span class="en">Press T to start the 4:00 timer.</span></li>
-</ul>` },
+<p>Here is a true story, and I will use it to walk through the five Ps.</p>` },
 
 /* 2 the event */
 { kicker:'The event',
@@ -576,11 +575,8 @@ const SLIDES = [
       <div class="thstop"><span class="thdot"></span><div class="thdate">20 Sep</div><div class="thtext">The day arrives.</div></div>
     </div>`,
   note:`<div class="nt">⏱ 20s</div>
-<ul class="nl">
-<li><b>从上往下念，很短</b><span class="en">Read it top to bottom. It's short.</span></li>
-<li><b>念到"几乎没人响应"停一下</b>，再说"然后全球传播"<span class="en">Pause at "almost nobody responds" — that's the turn.</span></li>
-<li><b class="nw">全页不报数字</b><span class="en">No numbers. They're the quiz answers.</span></li>
-</ul>` },
+<p>In 2019, a 21-year-old posted on Facebook that he wanted to break into Area 51 —<br>
+the US military base said to be researching aliens, but actually used for developing fighter jets.</p>` },
 
 /* 3 the reaction */
 { kicker:'Meanwhile',
@@ -602,11 +598,8 @@ const SLIDES = [
       </div>
     </div>`,
   note:`<div class="nt">⏱ 15s</div>
-<ul class="nl">
-<li><b>只讲"动作"，不给数字</b>（4 万是第 3 题答案）<span class="en">Actions only. No figures.</span></li>
-<li><b>全县只有很少的酒店房</b> ← 这个对比要重读<span class="en">Stress: very few rooms in the whole county.</span></li>
-<li><b>照片的梗：牌子上写"禁止拍照"，而这就是在那儿拍的</b><span class="en">The sign says no photography. Someone photographed it.</span></li>
-</ul>` },
+<p>Meanwhile, everyone else takes it seriously.</p><br>
+<p>The county closest to Area 51 quickly brought in large numbers of police and emergency medical personnel from across the state.</p>` },
 
 /* 4 scan */
 { kicker:'Your phone is the remote',
@@ -623,23 +616,16 @@ const SLIDES = [
         </div>
       </div>
     </div>`,
-  note:`<div class="nt">⏱ 22s 含扫码</div>
-<ul class="nl">
-<li><b class="nw">必须说：这是个猜谜游戏，没有对错，不计分</b><span class="en">Say it: it's a guessing game. No wrong answers, nobody is graded.</span></li>
-<li><b>给大家 20 秒扫码答题</b><span class="en">Give them 20 seconds to tap through.</span></li>
-<li><b>下一屏数字会实时跳</b><span class="en">Next screen: the numbers move live.</span></li>
-</ul>` },
+  note:`<div class="nt">⏱ 22s</div>
+<p>This is a guessing game.</p>` },
 
 /* 5 live */
 { kicker:'Live results', special:'live',
-  note:`<div class="nt">⏱ 70s · 全场核心</div>
-<ul class="nl">
-<li><b>先看柱子已经涨起来了</b><span class="en">Show the bars already moving.</span></li>
-<li><b>逐题点 Reveal truth：Q1 → Q5</b><span class="en">Reveal one at a time, Q1 to Q5.</span></li>
-<li><b class="nw">Q4 揭晓后停 3 秒不说话</b>（200 万 vs 150）<span class="en">Q4: pause 3 seconds. Say nothing.</span></li>
-<li><b>Q5 念出来：7 人被捕，随地小便</b><span class="en">Q5: 7 arrests. Public urination, alcohol offences, indecent exposure.</span></li>
-<li><b>断网就点 Manual entry 手输</b><span class="en">Network dies → Manual entry.</span></li>
-</ul>` },
+  note:`<div class="nt">⏱ 70s</div>
+<p>Two million clicked "Going".</p><br>
+<p>The Air Force issued a public statement.</p><br>
+<p>The county prepared for forty thousand people — with 184 hotel rooms.</p><br>
+<p>In the end, 7 people were arrested, for other reasons.</p>` },
 
 /* 6 the day */
 { kicker:'What actually happened', layout:'bottom',
@@ -649,11 +635,7 @@ const SLIDES = [
     <p class="big sp"><span class="am" style="font-size:1.5em">1,500</span> &nbsp;went to a music festival the town hastily put on to stop the place <span class="pk">descending into chaos</span>.</p>
     <p class="big sp"><span class="pk" style="font-size:1.5em">7</span> &nbsp;arrests — Public urination, alcohol offences, indecent exposure.</p>`,
   note:`<div class="nt">⏱ 12s</div>
-<ul class="nl">
-<li><b>照片就是当晚的真实人数——出图后停两秒</b><span class="en">That photo is the real crowd. Pause two seconds.</span></li>
-<li><b class="nw">重读 "descending into chaos"</b>——音乐节是小镇为了防止游客涌入导致秩序崩溃临时办的<span class="en">Stress "descending into chaos". The town put it on to stop the place falling apart.</span></li>
-<li><b>7 人被捕，罪名是随地小便——等笑声</b><span class="en">7 arrests, public urination. Let them laugh.</span></li>
-</ul>` },
+<p>On the day they had agreed to storm Area 51, the number of people in the picture is the number who actually showed up — 150 — and another 1,500 went to the music festival the county had to hold to accommodate so many visitors.</p>` },
 
 { kicker:'The framework · Week 5',
   html:`<h2 class="sm">The 5 Ps — and where this one broke</h2>
@@ -664,15 +646,13 @@ const SLIDES = [
       <div class="psc"><div class="psn">Probable Issues</div><div class="psf">Listed — by the county, not by us</div><div class="psv">someone else did our risk plan</div></div>
       <div class="psc"><div class="psn">Process</div><div class="psf">Designed first. The other four never happened.</div><div class="psv">the whole failure</div></div>
     </div>`,
-  note:`<div class="nt">⏱ 30s · 这是知识点，其他都能省，这页不能</div>
-<ul class="nl">
-<li><b>五个 P 从上往下念，一行一句，不要展开</b><span class="en">Read the five rows. One line each. Don't expand.</span></li>
-<li><b>Purpose：</b>主办方开玩笑，200 万人当真 — <b>从没对齐</b><span class="en">Two purposes, never aligned.</span></li>
-<li><b>Product：</b>三 H 里只有 Heads 和 Hearts，<b>Hands 是零</b> → 报名免费，免费不构成承诺<span class="en">Zero Hands = zero commitment.</span></li>
-<li><b>Participants：</b>课程建议 3–9 人，这里是 200 万<span class="en">3–9 recommended. 2,000,000 actual.</span></li>
-<li><b class="nw">Probable Issues：</b>风险清单列得很好——<b>是林肯县列的，不是主办方</b><span class="en">The risk list was made by the county.</span></li>
-<li><b class="nw">Process：</b>流程排第一，另外四个 P 从没发生 — <b>念完停两秒收尾</b><span class="en">Process came first. Stop after this line.</span></li>
-</ul>` },
+  note:`<div class="nt">⏱ 30s</div>
+<p>Here is the whole thing.</p><br>
+<p><strong>Purpose</strong> never aligned: the initiator and some netizens wanted to make a joke; the 1,650 people who actually went genuinely wanted to go; Lincoln County's purpose was "please don't die on my home."</p><br>
+<p><strong>Product's</strong> Hands is 0 — this whole thing was just a Facebook post.</p><br>
+<p><strong>Participants</strong> is completely absent: 2,000,000 people participated directly, and the cost of participation was 0.</p><br>
+<p><strong>Probable Issues</strong> were listed — but by Lincoln County. The organisers had no one responsible for this at all.</p><br>
+<p>As for the <strong>process</strong> section: the only process seems to have been posting a Facebook post.</p>` },
 
 /* 9 references */
 { kicker:'References',
