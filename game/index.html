@@ -120,13 +120,6 @@
   .psc .psn{font-size:clamp(16px,1.8vw,31px);font-weight:800;color:var(--accent);letter-spacing:-.012em}
   .psc .psf{flex:1;font-size:clamp(15px,1.65vw,29px);line-height:1.3;font-weight:700;color:var(--ink2)}
   .psc .psv{font-size:clamp(14px,1.5vw,26px);font-weight:800;color:var(--pink);line-height:1.24}
-  .pscols{padding-bottom:clamp(14px,2.2vh,28px)}
-  .crack{position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--pink);
-         border-radius:4px;transform:rotate(-1.2deg);transform-origin:left center;
-         box-shadow:0 0 12px rgba(184,60,110,.35);pointer-events:none;
-         animation:crackin .7s cubic-bezier(.2,.85,.3,1) .15s backwards}
-  @keyframes crackin{from{transform:rotate(-1.2deg) scaleX(0)}to{transform:rotate(-1.2deg) scaleX(1)}}
-
   /* ---------- redaction on the big numbers ---------- */
   .gap .g .n{position:relative}
   .gap .g .n.pre::after{content:'';position:absolute;inset:1px -5px;background:var(--ink);
@@ -665,7 +658,6 @@ const SLIDES = [
 { kicker:'The framework · Week 5',
   html:`<h2 class="sm">The 5 Ps — and where this one broke</h2>
     <div class="pscols sp2">
-      <div class="crack"></div>
       <div class="psc"><div class="psn">Purpose</div><div class="psf">“It's a joke” vs “We're going”</div><div class="psv">never aligned</div></div>
       <div class="psc"><div class="psn">Product</div><div class="psf">Only Heads and Hearts. Zero Hands.</div><div class="psv">nothing to commit to</div></div>
       <div class="psc"><div class="psn">Participants</div><div class="psf">Course says 3–9. This was 2,000,000.</div><div class="psv">free to join, free to skip</div></div>
