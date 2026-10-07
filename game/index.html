@@ -38,11 +38,151 @@
   @keyframes drift2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-7vw,-4vh) scale(.94)}}
   @keyframes drift3{0%,100%{transform:translate(0,0) scale(.95)}50%{transform:translate(-5vw,6vh) scale(1.12)}}
 
-  #pbar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:40;
-        transition:width .4s cubic-bezier(.3,.9,.3,1);box-shadow:0 0 12px rgba(63,92,201,.5)}
+  /* ---------- layout: full-bleed pages ---------- */
+  .bleedbg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+  .bleedbg img{width:100%;height:100%;object-fit:cover;display:block;
+               animation:bleedin 1.1s cubic-bezier(.2,.8,.3,1)}
+  @keyframes bleedin{from{transform:scale(1.06);opacity:.4}to{transform:none;opacity:1}}
+  .bleedbg::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(238,243,253,.80) 0%,rgba(238,243,253,.10) 28%,
+               rgba(238,243,253,.72) 62%,var(--bg) 94%)}
+  body.bleed #stage{padding-bottom:clamp(150px,24vh,250px)}
+  #stage{position:relative;z-index:1}
+  .bleedmeta{font-size:clamp(13px,1.3vw,21px);letter-spacing:.18em;text-transform:uppercase;
+             font-weight:800;color:var(--muted)}
+
+  /* ---------- layout: horizontal timeline ---------- */
+  .tlh{position:relative;display:flex;gap:clamp(10px,1.6vw,30px);align-items:flex-start}
+  .tlh::before{content:'';position:absolute;left:0;right:0;top:clamp(6px,.55vw,9px);
+               height:2.5px;background:var(--line);border-radius:2px}
+  .thstop{position:relative;flex:1 1 0;min-width:0;padding-top:clamp(32px,4.6vh,62px)}
+  .thstop .thdot{position:absolute;top:0;left:0;width:clamp(14px,1.3vw,22px);height:clamp(14px,1.3vw,22px);
+                 border-radius:50%;background:#fff;border:3px solid var(--line2);z-index:2}
+  .thstop .thdate{font-size:clamp(13px,1.35vw,22px);font-weight:800;letter-spacing:.14em;
+                  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .thstop .thtext{font-size:clamp(18px,2.05vw,36px);line-height:1.26;font-weight:750;
+                  color:var(--ink);letter-spacing:-.012em}
+  .thstop.pivot .thdot{background:var(--pink);border-color:var(--pink)}
+  .thstop.pivot .thdate{color:var(--pink)}
+  .thstop.pivot .thtext{color:var(--pink)}
+
+  /* ---------- layout: papers on a desk ---------- */
+  .desk{position:relative;display:flex;gap:clamp(10px,1.8vw,36px);align-items:center;
+        justify-content:center;flex-wrap:wrap;padding:clamp(10px,2vh,26px) 0}
+  .paper{background:#fff;border:2px solid var(--line);border-radius:10px;
+         padding:clamp(20px,3.2vh,48px) clamp(20px,2.2vw,42px);
+         box-shadow:0 2px 4px rgba(21,32,70,.06),0 26px 50px -30px rgba(21,32,70,.55);
+         transition:transform .35s cubic-bezier(.2,.85,.3,1)}
+  .paper.r1{transform:rotate(-2.1deg)}
+  .paper.r2{transform:rotate(1.4deg)}
+  .paper.r3{transform:rotate(-1deg)}
+  .paper:hover{transform:rotate(0) translateY(-5px)}
+  .paper .lab{font-size:clamp(12px,1.2vw,19px);letter-spacing:.16em;text-transform:uppercase;
+              color:var(--muted);font-weight:800;margin-bottom:11px}
+  .paper.hi .lab{color:var(--accent)}
+  .paper .txt{font-size:clamp(18px,2.05vw,36px);line-height:1.32;font-weight:750}
+  .paper.big-txt .txt{font-size:clamp(24px,2.9vw,50px);letter-spacing:-.02em}
+  .paper .txt .muted{font-size:.74em;font-weight:650}
+
+  /* ---------- layout: tickets ---------- */
+  .tickets{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .ticket{position:relative;flex:1 1 260px;background:#fff;border:2px solid var(--line);
+          padding:clamp(22px,3.4vh,50px) clamp(22px,2.4vw,44px);
+          box-shadow:0 2px 4px rgba(21,32,70,.06),0 22px 44px -28px rgba(21,32,70,.5)}
+  .ticket:first-child{border-radius:14px 0 0 14px;border-right:none}
+  .ticket:last-child{border-radius:0 14px 14px 0;border-left:none}
+  .ticket::before,.ticket::after{content:'';position:absolute;width:clamp(14px,1.4vw,22px);
+       height:clamp(14px,1.4vw,22px);border-radius:50%;background:var(--bg);
+       border:2px solid var(--line);top:50%;transform:translateY(-50%)}
+  .ticket:first-child::after{right:calc(-1 * clamp(7px,.7vw,11px) - 1px)}
+  .ticket:last-child::before{left:calc(-1 * clamp(7px,.7vw,11px) - 1px)}
+  .tear{flex:0 0 0;border-left:2px dashed var(--line2);position:relative}
+  .ticket .lab{font-size:clamp(12px,1.2vw,19px);letter-spacing:.16em;text-transform:uppercase;
+               color:var(--accent);font-weight:800;margin-bottom:12px}
+  .ticket .txt{font-size:clamp(18px,2.05vw,36px);line-height:1.3;font-weight:750;color:var(--ink)}
+
+  /* ---------- layout: five columns, one broken line ---------- */
+  .pscols{position:relative;display:flex;gap:clamp(8px,1.1vw,20px);align-items:stretch}
+  .psc{flex:1 1 0;min-width:0;background:#fff;border:2px solid var(--line);border-radius:14px;
+       padding:clamp(16px,2.6vh,38px) clamp(13px,1.3vw,24px);display:flex;flex-direction:column;
+       gap:clamp(9px,1.5vh,18px);box-shadow:0 2px 4px rgba(21,32,70,.05),0 18px 36px -26px rgba(21,32,70,.5)}
+  .psc .psn{font-size:clamp(16px,1.8vw,31px);font-weight:800;color:var(--accent);letter-spacing:-.012em}
+  .psc .psf{flex:1;font-size:clamp(15px,1.65vw,29px);line-height:1.3;font-weight:700;color:var(--ink2)}
+  .psc .psv{font-size:clamp(14px,1.5vw,26px);font-weight:800;color:var(--pink);line-height:1.24}
+  .crack{position:absolute;left:-1%;right:-1%;top:52%;height:3px;background:var(--pink);
+         border-radius:3px;transform:rotate(-1.1deg);transform-origin:left center;
+         box-shadow:0 0 10px rgba(184,60,110,.32);pointer-events:none;
+         animation:crackin .7s cubic-bezier(.2,.85,.3,1) .15s backwards}
+  @keyframes crackin{from{transform:rotate(-1.1deg) scaleX(0)}to{transform:rotate(-1.1deg) scaleX(1)}}
+
+  /* ---------- redaction on the big numbers ---------- */
+  .gap .g .n{position:relative}
+  .gap .g .n.pre::after{content:'';position:absolute;inset:1px -5px;background:var(--ink);
+        border-radius:4px;transform-origin:right center;
+        transition:transform .6s cubic-bezier(.65,0,.35,1)}
+  .gap .g .n.open::after{transform:scaleX(0)}
+
+  /* ---------- story rail (replaces pager + progress bar) ---------- */
+  #rail{position:fixed;left:0;right:0;bottom:0;z-index:22;
+        padding:clamp(14px,2.4vh,30px) clamp(26px,5vw,96px) 14px;
+        background:linear-gradient(180deg,rgba(238,243,253,0),rgba(238,243,253,.92) 42%,var(--bg) 100%);
+        pointer-events:none;transition:opacity .2s}
+  .railstops{position:relative;display:flex;justify-content:space-between;align-items:flex-start;
+             max-width:1180px;margin:0 auto}
+  .rstop{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;
+         flex:1 1 0;min-width:0}
+  .rstop .rdot{width:clamp(9px,.85vw,14px);height:clamp(9px,.85vw,14px);border-radius:50%;
+               background:#fff;border:2.5px solid var(--line2);z-index:2;
+               transition:background .3s,border-color .3s,transform .3s,box-shadow .3s}
+  .rstop .rlab{font-size:clamp(10px,.95vw,14px);font-weight:800;letter-spacing:.1em;
+               text-transform:uppercase;color:#a7b2d4;white-space:nowrap;
+               transition:color .3s}
+  .rstop.done .rdot{background:var(--accent);border-color:var(--accent)}
+  .rstop.done .rlab{color:var(--muted)}
+  .rstop.cur .rdot{background:var(--accent);border-color:var(--accent);
+                   transform:scale(1.75);box-shadow:0 0 0 6px rgba(63,92,201,.18)}
+  .rstop.cur .rlab{color:var(--accent)}
+  .railine{position:relative;max-width:1180px;margin:0 auto;
+           height:2.5px;background:var(--line);border-radius:2px;
+           transform:translateY(calc(clamp(9px,.85vw,14px) / 2 + 0px))}
+  .railine i{display:block;height:100%;width:0;background:var(--accent);border-radius:2px;
+             transition:width .45s cubic-bezier(.3,.9,.3,1)}
+  .railstops{margin-top:calc(-1 * (clamp(9px,.85vw,14px) / 2))}
+  .railkeys{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+            margin-top:clamp(10px,1.8vh,20px);font-size:12px;color:#93a0c4}
+
+  /* ---------- persistent live pill ---------- */
+  .livepill{position:fixed;right:clamp(20px,4vw,72px);bottom:clamp(104px,15vh,150px);z-index:23;
+            display:inline-flex;align-items:center;gap:9px;background:#fff;
+            border:1.5px solid var(--line);border-radius:999px;padding:7px 16px;
+            box-shadow:0 2px 4px rgba(21,32,70,.05),0 14px 34px -20px rgba(21,32,70,.5);
+            font-weight:800;font-size:clamp(12px,1.15vw,17px);color:var(--ink2);
+            transition:opacity .3s,transform .3s;pointer-events:none}
+  .livepill .lpdot{width:8px;height:8px;border-radius:50%;background:var(--live);
+                   animation:pulse 1.5s ease-in-out infinite}
+  .livepill .lpnum{font-variant-numeric:tabular-nums;color:var(--accent);
+                   font-size:clamp(15px,1.5vw,24px)}
+  .livepill .lplab{font-size:.72em;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+  .livepill .lpspark{display:block;width:clamp(28px,3vw,54px);height:16px;overflow:visible}
+  .livepill .lpspark polyline{fill:none;stroke:var(--accent);stroke-width:1.6;
+                              stroke-linejoin:round;stroke-linecap:round;opacity:.75}
+  .livepill.hide{opacity:0;transform:translateY(10px)}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(18,160,94,.5)}
+                   50%{opacity:.7;box-shadow:0 0 0 6px rgba(18,160,94,0)}}
+
+  /* ---------- live panel grows out of the pill ---------- */
+  .grow{transform-origin:100% 100%;animation:grow .55s cubic-bezier(.2,.85,.3,1)}
+  @keyframes grow{from{opacity:0;transform:scale(.06)}to{opacity:1;transform:scale(1)}}
+
+  /* ---------- redaction bar ---------- */
+  .redact{position:relative;display:inline-block;overflow:hidden;vertical-align:baseline}
+  .redact::after{content:'';position:absolute;inset:-3px -5px;background:var(--ink);border-radius:3px;
+                 transform-origin:right center;
+                 transition:transform .55s cubic-bezier(.65,0,.35,1) .35s}
+  .redact.open::after{transform:scaleX(0)}
 
   #stage{position:relative;z-index:1;height:100vh;display:flex;flex-direction:column;
-         padding:clamp(20px,3.4vh,44px) clamp(26px,5vw,96px) 74px}
+         padding:clamp(18px,3vh,40px) clamp(26px,5vw,96px) clamp(140px,19vh,200px)}
   #topbar{display:flex;justify-content:space-between;align-items:baseline;gap:20px;
           margin-bottom:clamp(10px,2vh,24px)}
   .kicker{font-size:clamp(12px,1.2vw,17px);letter-spacing:.24em;text-transform:uppercase;
@@ -286,7 +426,8 @@
                     line-height:1.38;margin-top:1px}
   #notes .nl li .nw{color:var(--pink)}
   body.notes-open #stage{padding-bottom:56vh}
-  body.notes-open #chrome{opacity:0}
+  body.notes-open #rail{opacity:0}
+  body.notes-open .livepill{opacity:0}
   #topbar .tbright{display:flex;align-items:center;gap:clamp(10px,1.5vw,24px)}
   .timer{display:inline-flex;align-items:center;gap:9px;cursor:pointer;user-select:none;
          font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:.02em;
@@ -323,7 +464,6 @@
 </head>
 <body>
 <div id="amb"><i></i><i></i><i></i></div>
-<div id="pbar" style="width:0"></div>
 <div class="toast" id="toast"></div>
 
 <div id="stage">
@@ -339,12 +479,22 @@
   <div id="body"></div>
 </div>
 
-<div id="chrome">
-  <div class="k">
-    <span><kbd>→</kbd> next</span><span><kbd>←</kbd> back</span>
-    <span><kbd>L</kbd> live results</span><span><kbd>N</kbd> notes</span><span><kbd>T</kbd> timer</span><span><kbd>F</kbd> fullscreen</span>
+<!-- persistent live layer: always on, from page 1 -->
+<div class="livepill" id="livepill" title="Live answers from the room">
+  <span class="lpdot"></span>
+  <span class="lpnum" id="lpnum">0</span>
+  <span class="lplab">answers</span>
+  <span class="lpspark" id="lpspark"></span>
+</div>
+
+<!-- story rail replaces page counter + progress bar -->
+<div id="rail">
+  <div class="railine"><i id="railfill"></i></div>
+  <div class="railstops" id="railstops"></div>
+  <div class="railkeys">
+    <span><kbd>&rarr;</kbd> next</span><span><kbd>L</kbd> live</span><span><kbd>N</kbd> notes</span>
+    <span><kbd>T</kbd> timer</span><span><kbd>F</kbd> full</span>
   </div>
-  <div id="hint" style="font-weight:700"></div>
 </div>
 
 <div id="notes"><div class="nk">Presenter notes · 讲解备注</div><div class="nb" id="nb"></div></div>
@@ -389,15 +539,12 @@ const QUESTIONS = [
 /* ==================== slides — 10 pages, ~15 words each ==================== */
 const SLIDES = [
 /* 1 cover */
-{ kicker:'',
-  html:`<h1 style="font-size:clamp(40px,6.6vw,112px)">An absurd true story,<br>and its <span class="am">5 Ps</span></h1>
-    <p class="sp" style="font-size:clamp(16px,1.7vw,27px);letter-spacing:.03em;color:var(--muted);font-weight:700">
-      Purpose · Product · Participants · Probable Issues · Process</p>
-    <p class="big sp">A meeting that was <span class="am">never planned at all</span>.</p>
-    <figure class="band">
-      <img src="img/gate-wide.jpg" alt="The main gate of the Nevada Test and Training Range, known as Area 51">
-      <figcaption>Storm Area 51 · 20 September 2019 · CC BY-SA 4.0</figcaption>
-    </figure>`,
+{ kicker:'', layout:'bottom',
+  html:`<div class="bleedbg"><img src="img/gate-wide.jpg" alt="The main gate of the Nevada Test and Training Range, known as Area 51"></div>
+    <p class="bleedmeta">Storm Area 51 · 20 September 2019</p>
+    <h1 class="sp" style="font-size:clamp(38px,6.4vw,108px)">An absurd true story,<br>and its <span class="am">5 Ps</span></h1>
+    <p class="bleedmeta sp2">Purpose · Product · Participants · Probable Issues · Process</p>
+    <p class="big sp">A meeting that was <span class="am">never planned at all</span>.</p>`,
   note:`<div class="nt">⏱ 10s</div>
 <ul class="nl">
 <li><b>一个真实发生过的荒诞事件，和它的 5 Ps</b><span class="en">A true, absurd story — and its 5 Ps.</span></li>
@@ -408,12 +555,12 @@ const SLIDES = [
 /* 2 the event */
 { kicker:'The event',
   html:`<h2 class="sm">In eight weeks, a joke became an emergency</h2>
-    <div class="tl sp2">
-      <div class="trow"><div class="tw">27 Jun</div><div class="tc">A 21-year-old posts a joke on Facebook.</div></div>
-      <div class="trow"><div class="tw">The title</div><div class="tc">“They Can't Stop All of Us.”</div></div>
-      <div class="trow pivot"><div class="tw">First 3 days</div><div class="tc">Almost nobody responds.</div></div>
-      <div class="trow pivot"><div class="tw">Then</div><div class="tc">It went viral. Worldwide.</div></div>
-      <div class="trow"><div class="tw">20 Sep</div><div class="tc">The day arrives.</div></div>
+    <div class="tlh sp2">
+      <div class="thstop"><span class="thdot"></span><div class="thdate">27 Jun</div><div class="thtext">A 21-year-old posts a joke on Facebook.</div></div>
+      <div class="thstop"><span class="thdot"></span><div class="thdate">The title</div><div class="thtext">“They Can't Stop All of Us.”</div></div>
+      <div class="thstop pivot"><span class="thdot"></span><div class="thdate">First 3 days</div><div class="thtext">Almost nobody responds.</div></div>
+      <div class="thstop pivot"><span class="thdot"></span><div class="thdate">Then</div><div class="thtext">It went viral. Worldwide.</div></div>
+      <div class="thstop"><span class="thdot"></span><div class="thdate">20 Sep</div><div class="thtext">The day arrives.</div></div>
     </div>`,
   note:`<div class="nt">⏱ 20s</div>
 <ul class="nl">
@@ -425,22 +572,22 @@ const SLIDES = [
 /* 3 the reaction */
 { kicker:'Meanwhile',
   html:`<h2 class="sm">Everyone else took it seriously</h2>
-    <div class="cols sp2" style="align-items:stretch">
-      <div class="col hi">
+    <div class="desk sp2">
+      <div class="paper r1 hi">
         <div class="lab">Lincoln County, Nevada</div>
-        <div class="txt sm">Emergency declaration. Extra medics and police.<br>
+        <div class="txt">Emergency declaration.<br>Extra medics and police.<br>
         <span class="muted">184 hotel rooms — entire county.</span></div>
       </div>
-      <div class="col">
+      <figure class="paper r3" style="padding:clamp(9px,1.2vw,16px);margin:0">
+        <img src="img/deputies.jpg" alt="Lincoln County deputies at the back gate beside a sign reading Photography Of This Area Is Prohibited"
+             style="display:block;width:100%;max-width:clamp(190px,22vw,380px);height:auto;border-radius:6px">
+      </figure>
+      <div class="paper r2">
         <div class="lab">Rachel, Nevada · pop. 56</div>
-        <div class="txt sm">Warns visitors on its own website.<br>
+        <div class="txt">Warns visitors on its own website.<br>
         <span class="muted">No food, water or fuel here.</span></div>
       </div>
-    </div>
-    <figure class="band">
-      <img src="img/deputies.jpg" alt="Lincoln County deputies at the back gate beside a sign reading Photography Of This Area Is Prohibited">
-      <figcaption>The sign reads “Photography Of This Area Is Prohibited” · CC BY-SA 4.0</figcaption>
-    </figure>`,
+    </div>`,
   note:`<div class="nt">⏱ 15s</div>
 <ul class="nl">
 <li><b>只讲"动作"，不给数字</b>（4 万是第 3 题答案）<span class="en">Actions only. No figures.</span></li>
@@ -483,19 +630,12 @@ const SLIDES = [
 </ul>` },
 
 /* 6 the day */
-{ kicker:'What actually happened',
-  html:`<div class="split">
-      <div class="txt">
-        <div class="label">20 September 2019</div>
-        <p class="big"><span class="am">About 150</span> people reached the gates.</p>
-        <p class="big sp">About <span class="am">1,500</span> went to two festivals that <span class="pk">did not exist yet</span>.</p>
-        <p class="big sp"><span class="pk">7</span> arrests — public urination.</p>
-      </div>
-      <figure class="fig tall">
-        <img src="img/crowd-gate.jpg" alt="A crowd at night at the back gate of Area 51 under floodlights">
-        <figcaption>The back gate that night · CC BY-SA 4.0</figcaption>
-      </figure>
-    </div>`,
+{ kicker:'What actually happened', layout:'bottom',
+  html:`<div class="bleedbg"><img src="img/crowd-gate.jpg" alt="A crowd at night at the back gate of Area 51 under floodlights"></div>
+    <p class="bleedmeta">20 September 2019</p>
+    <p class="big sp"><span class="am" style="font-size:1.5em">150</span> &nbsp;reached the gates.</p>
+    <p class="big sp"><span class="am" style="font-size:1.5em">1,500</span> &nbsp;went to two festivals that <span class="pk">did not exist yet</span>.</p>
+    <p class="big sp"><span class="pk" style="font-size:1.5em">7</span> &nbsp;arrests — public urination.</p>`,
   note:`<div class="nt">⏱ 12s</div>
 <ul class="nl">
 <li><b>照片就是当晚的真实人数——出图后停两秒</b><span class="en">That photo is the real crowd. Pause two seconds.</span></li>
@@ -506,19 +646,16 @@ const SLIDES = [
 /* 7 two festivals */
 { kicker:'The part nobody planned',
   html:`<h2 class="sm">A joke became a festival. Then <span class="am">two</span>.</h2>
-    <div class="cols sp2" style="align-items:stretch">
-      <div class="col hi" style="flex:1 1 260px">
+    <div class="tickets sp2">
+      <div class="ticket">
         <div class="lab">Alienstock · Rachel</div>
-        <div class="txt sm">Run by the owner of the town's only inn.</div>
+        <div class="txt">Run by the owner of the town's only inn.</div>
       </div>
-      <div class="col" style="flex:1 1 260px">
+      <div class="tear"></div>
+      <div class="ticket">
         <div class="lab">Basecamp · Hiko</div>
-        <div class="txt sm">Run by a promoter chasing the same crowd.</div>
+        <div class="txt">Run by a promoter chasing the same crowd.</div>
       </div>
-      <figure class="fig" style="flex:1 1 280px;margin:0">
-        <img src="img/alienstock.jpg" alt="The Alienstock 2019 stage at night in the Nevada desert">
-        <figcaption>Alienstock 2019 · CC BY-SA 4.0</figcaption>
-      </figure>
     </div>
     <div class="verdict">
       <div class="v">Ten days before it opened, the organiser left with the money — and went to a party in Vegas.</div>
@@ -536,12 +673,13 @@ const SLIDES = [
 /* 8 five Ps — one page */
 { kicker:'The framework · Week 5',
   html:`<h2 class="sm">The 5 Ps — and where this one broke</h2>
-    <div class="ptable sp2">
-      <div class="prow"><div class="pn">Purpose</div><div class="pf">“It's a joke” vs “We're going”</div><div class="pv">never aligned</div></div>
-      <div class="prow"><div class="pn">Product</div><div class="pf">Only Heads and Hearts. Zero Hands.</div><div class="pv">nothing to commit to</div></div>
-      <div class="prow"><div class="pn">Participants</div><div class="pf">Course says 3–9. This was 2,000,000.</div><div class="pv">free to join, free to skip</div></div>
-      <div class="prow"><div class="pn">Probable Issues</div><div class="pf">Listed — by the county, not by us</div><div class="pv">someone else did our risk plan</div></div>
-      <div class="prow"><div class="pn">Process</div><div class="pf">Designed first. The other four never happened.</div><div class="pv">the whole failure</div></div>
+    <div class="pscols sp2">
+      <div class="crack"></div>
+      <div class="psc"><div class="psn">Purpose</div><div class="psf">“It's a joke” vs “We're going”</div><div class="psv">never aligned</div></div>
+      <div class="psc"><div class="psn">Product</div><div class="psf">Only Heads and Hearts. Zero Hands.</div><div class="psv">nothing to commit to</div></div>
+      <div class="psc"><div class="psn">Participants</div><div class="psf">Course says 3–9. This was 2,000,000.</div><div class="psv">free to join, free to skip</div></div>
+      <div class="psc"><div class="psn">Probable Issues</div><div class="psf">Listed — by the county, not by us</div><div class="psv">someone else did our risk plan</div></div>
+      <div class="psc"><div class="psn">Process</div><div class="psf">Designed first. The other four never happened.</div><div class="psv">the whole failure</div></div>
     </div>`,
   note:`<div class="nt">⏱ 30s · 这是知识点，其他都能省，这页不能</div>
 <ul class="nl">
@@ -606,7 +744,40 @@ const SLIDES = [
 /* ==================== engine ==================== */
 const $ = id => document.getElementById(id);
 const bodyEl = $('body'), kickerEl = $('kicker'), notesEl = $('notes'), nbEl = $('nb');
-const pagenumEl = $('pagenum'), pbarEl = $('pbar'), hintEl = $('hint'), toastEl = $('toast');
+const pagenumEl = $('pagenum'), toastEl = $('toast');
+const railStopsEl = $('railstops'), railFillEl = $('railfill');
+const pillEl = $('livepill'), lpnumEl = $('lpnum'), lpsparkEl = $('lpspark');
+
+/* ---------- story rail: 7 stops, pages map onto them ---------- */
+const RAIL = ['27 Jun','The title','3 days','Viral','August','20 Sep','The 5 Ps'];
+const PAGE_STOP = [0, 3, 4, 4, 4, 5, 5, 6, 6, 6];   /* page index -> rail stop */
+
+function buildRail(){
+  railStopsEl.innerHTML = RAIL.map((lab,i) =>
+    `<div class="rstop" data-i="${i}"><span class="rdot"></span><span class="rlab">${lab}</span></div>`).join('');
+}
+function paintRail(){
+  const stop = PAGE_STOP[cur] ?? 0;
+  [...railStopsEl.children].forEach((el,i) => {
+    el.classList.toggle('cur', i === stop);
+    el.classList.toggle('done', i < stop);
+  });
+  const n = RAIL.length - 1;
+  railFillEl.style.width = (n ? (stop / n * 100) : 0) + '%';
+}
+
+/* ---------- live pill ---------- */
+let spark = [];
+function paintPill(total){
+  if(!lpnumEl) return;
+  lpnumEl.textContent = total.toLocaleString('en-US');
+  spark.push(total);
+  if(spark.length > 22) spark.shift();
+  const max = Math.max(1, ...spark), w = 54, h = 16;
+  const pts = spark.map((v,i) =>
+    `${(i / Math.max(1, spark.length - 1) * w).toFixed(1)},${(h - (v / max) * (h - 2) - 1).toFixed(1)}`).join(' ');
+  lpsparkEl.innerHTML = `<polyline points="${pts}"/>`;
+}
 
 let cur = 0, notesOpen = false;
 let key = localStorage.getItem(LS_KEY) || '';
@@ -670,18 +841,25 @@ function render(){
   const s = SLIDES[cur];
   kickerEl.textContent = s.kicker || '';
   pagenumEl.textContent = (cur + 1) + ' / ' + SLIDES.length;
-  pbarEl.style.width = ((cur + 1) / SLIDES.length * 100) + '%';
+  paintRail();
   try{ history.replaceState(null, '', '#' + (cur + 1)); }catch(e){}
 
+  /* bleed pages let the artwork own the whole viewport */
+  const bleed = s.layout === 'bleed';
+  document.body.classList.toggle('bleed', bleed);
+  pillEl.classList.toggle('hide', s.special === 'live');
+
   if(s.special === 'live'){
+    liveEls = null;
     buildLive();
     updateLive();
-    startPolling();
-    hintEl.textContent = 'press L for live results';
+    const panel = bodyEl.firstElementChild;
+    if(panel) panel.classList.add('grow');
   } else {
-    stopPolling(); liveEls = null; gapAnimated = false;
-    bodyEl.innerHTML = '<div class="pagein" style="display:flex;flex-direction:column;justify-content:center;height:100%">' + (s.html || '') + '</div>';
-    hintEl.textContent = '';
+    liveEls = null; gapAnimated = false;
+    const just = s.layout === 'bottom' ? 'flex-end' : 'center';
+    bodyEl.innerHTML = '<div class="pagein" style="display:flex;flex-direction:column;justify-content:' + just +
+                       ';height:100%">' + (s.html || '') + '</div>';
   }
   nbEl.innerHTML = s.note || '';
   bindTimer();
@@ -710,8 +888,8 @@ function buildLive(){
       </div>
       <div class="truth" data-role="truth">TRUTH → ${q.truth}</div>
       ${q.id === 'q4' ? `<div class="gap" data-role="gap">
-          <div class="g"><span class="n" data-role="big">0</span><span class="r" data-role="bigbar" style="width:0"></span><span class="t">clicked “Going”</span></div>
-          <div class="g"><span class="n" data-role="small">0</span><span class="r tiny" data-role="smallbar" style="width:0"></span><span class="t">showed up</span></div>
+          <div class="g"><span class="n pre" data-role="big">0</span><span class="r" data-role="bigbar" style="width:0"></span><span class="t">clicked “Going”</span></div>
+          <div class="g"><span class="n pre" data-role="small">0</span><span class="r tiny" data-role="smallbar" style="width:0"></span><span class="t">showed up</span></div>
         </div>` : ''}
     </div>`).join('');
 
@@ -813,6 +991,7 @@ function updateLive(){
     const show = !!live.showTruth[q.id];
     ref.root.classList.toggle('rev', show);
     ref.truth.classList.toggle('show', show);
+    ref.truth.querySelectorAll('.redact').forEach(r => r.classList.toggle('open', show));
     ref.truthBtn.textContent = show ? 'Hide truth' : 'Reveal truth';
     ref.truthBtn.classList.toggle('on', show);
 
@@ -820,13 +999,19 @@ function updateLive(){
       ref.gap.classList.toggle('show', show);
       if(show && !gapAnimated){
         gapAnimated = true;
-        countUp(ref.big, 2000000, 1100);
-        countUp(ref.small, 150, 1100);
-        ref.bigbar.style.width = 'calc(100% - 4px)';
-        ref.smallbar.style.width = '6px';
+        ref.big.classList.remove('open'); ref.small.classList.remove('open');   /* bars shut */
+        setTimeout(() => {
+          if(!gapAnimated) return;
+          ref.big.classList.add('open'); ref.small.classList.add('open');      /* bars slide away */
+          countUp(ref.big, 2000000, 1150);
+          countUp(ref.small, 150, 1150);
+          ref.bigbar.style.width = 'calc(100% - 4px)';
+          ref.smallbar.style.width = '6px';
+        }, 850);
       }
       if(!show){
         gapAnimated = false;
+        ref.big.classList.remove('open'); ref.small.classList.remove('open');
         ref.bigbar.style.width = '0';
         ref.smallbar.style.width = '0';
       }
@@ -916,6 +1101,12 @@ async function poll(){
     if(!d.ok) return;
     live.counts = d.counts || {};
     live.ctrl = d.ctrl || {};
+
+    /* the pill is live on every page — that is the whole point */
+    const grand = QUESTIONS.reduce((a,q) =>
+      a + Object.values(live.counts[q.id] || {}).reduce((x,y)=>x+y,0), 0);
+    paintPill(grand);
+
     if(SLIDES[cur].special !== 'live') return;
     if(live.manual) return;
     const ae = document.activeElement;
@@ -966,7 +1157,9 @@ document.addEventListener('keydown', e => {
   if(n >= 1 && n <= SLIDES.length) cur = n - 1;
 })();
 
+buildRail();
 render();
+startPolling();
 </script>
 </body>
 </html>
