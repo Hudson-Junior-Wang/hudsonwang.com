@@ -8,7 +8,9 @@ Everything lives in `index.html` (HTML + CSS + content, no build step). The note
 
 | File | Purpose |
 |------|---------|
-| `index.html` | The whole notes site and the tool entry point. |
+| `index.html` | The whole notes site: home, courses, tools entry, and the `#/writing` view (essays synced from the HudsonOffice Writing desktop app). |
+| `writing/index.html` | Redirect stub: old `/writing/` links land on `/#/writing`. |
+| `vendor/mathlive/` | MathLive build shared with the desktop app, so formulas render identically. |
 | `tools/critical-path.html` | Session-only Critical Path Analysis designer; exports PDF and PNG, including a visual schedule PNG. |
 | `tools/README.md` | Tool behavior and public URL. |
 | `CNAME` | Tells GitHub Pages to serve the site at `hudsonwang.com`. |
