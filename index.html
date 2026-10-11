@@ -10,6 +10,9 @@
 <meta name="theme-color" content="#8a5a44">
 <!-- MathLive：和桌面 App 用的是同一份（vendor/mathlive），网页上的公式与编辑器里长得一样 -->
 <link rel="stylesheet" href="vendor/mathlive/mathlive-fonts.css">
+<!-- 公式的排版规则（分数/根号/上下标）只存在于 MathLive 的运行时样式表里，
+     字体文件里没有 —— 缺了它公式会显示成一行裸 LaTeX。这份是从 App 里抓出来的。 -->
+<link rel="stylesheet" href="vendor/mathlive/mathlive-layout.css">
 <script src="vendor/mathlive/mathlive.min.js"></script>
 <style>
   :root{
