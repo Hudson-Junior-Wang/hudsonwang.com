@@ -78,6 +78,13 @@
   article th,article td{border:1px solid var(--line);padding:8px 11px;text-align:left}
   article th{background:var(--sidebar);font-weight:600}
   article math-field{font-size:1.05em;vertical-align:middle}
+  /* 网页是只读的：MathLive 给每个公式挂的"软键盘 / 菜单"按钮是编辑用的，
+     在只读页面上既没用又会误导（点了真能弹出来），所以整个藏掉。 */
+  article math-field{pointer-events:none}
+  article math-field::part(virtual-keyboard-toggle),
+  article math-field::part(menu-toggle){display:none !important}
+  article .ML__virtual-keyboard-toggle,
+  article .ML__menu-toggle{display:none !important}
   article .formula-display,article math-field[display]{display:block;text-align:center;margin:20px 0}
   /* 图片不在网页上：App 只同步文字。留一个安静的占位，说明这里原本有图。 */
   article .ho-omitted-image{display:inline-block;width:56px;height:13px;vertical-align:middle;
@@ -247,6 +254,13 @@ async function renderDoc(id) {
         '<span>更新于 ' + esc(fmtTime(doc.updatedAt || doc.syncedAt)) + '</span>' +
       '</p>' +
       '<article>' + sanitize(doc.content) + '</article>';
+    // 只读：不让公式变成可编辑控件（也顺手把控件按钮压掉）
+    pageEl.querySelectorAll('article math-field').forEach(function (mf) {
+      mf.setAttribute('read-only', '');
+      mf.removeAttribute('contenteditable');
+      mf.removeAttribute('tabindex');
+      mf.setAttribute('aria-readonly', 'true');
+    });
     window.scrollTo(0, 0);
   } catch (e) {
     pageEl.innerHTML = '<p class="crumb"><a href="#/">← 全部文稿</a></p>' +
