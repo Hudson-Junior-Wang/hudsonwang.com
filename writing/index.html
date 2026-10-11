@@ -106,7 +106,7 @@
      1) 网址参数： /writing/?api=http://127.0.0.1:8787   （本地调试、验收用）
      2) 本机记住的地址：localStorage["ho.writing.api"]
      3) 这一行的正式地址  */
-const API_DEFAULT = "https://writing-api.hudsonwang.com";
+const API_DEFAULT = "https://hudsonwang-writing-sync.hudsonwang.workers.dev";
 const API_BASE = (function () {
   try {
     const q = new URLSearchParams(location.search).get("api");
