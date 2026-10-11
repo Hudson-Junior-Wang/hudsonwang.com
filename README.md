@@ -1,59 +1,42 @@
-# Hudson's Notes
+# hudsonwang.com
 
-A minimalist, single-page static site for sharing course study notes, hosted on GitHub Pages at **hudsonwang.com**.
+桌面上那个写作 App（**HudsonOffice Writing**）的公开阅读端：网站本身就是文稿。
 
-Everything lives in `index.html` (HTML + CSS + content, no build step). The notes themselves are plain HTML strings inside the `<script>` block — to publish a new note, add an `html` field to the relevant note object in the `SECTIONS` array.
+- 首页就是文稿树（钉子在最上面，下面按文件夹铺开），和 App 侧栏同一套结构
+- 单篇用自己的链接：`https://hudsonwang.com/#/<文稿id>`
+- 公式用**和 App 同一份** `vendor/mathlive` 渲染，所以网页和编辑器里长得一样
+- **只同步文字**：图片、音乐、AI 对话都不上传；图片位置留一个「图未同步」占位块
+- 内容来自 Cloudflare Worker：`https://hudsonwang-writing-sync.hudsonwang.workers.dev`
+  （清单 `/v1/tree`、单篇 `/v1/doc/:id`；写入要令牌，只有 App 有）
 
-## Files
+## 文件
 
-| File | Purpose |
-|------|---------|
-| `index.html` | The whole notes site: home, courses, tools entry, and the `#/writing` view (essays synced from the HudsonOffice Writing desktop app). |
-| `writing/index.html` | Redirect stub: old `/writing/` links land on `/#/writing`. |
-| `vendor/mathlive/` | MathLive build shared with the desktop app, so formulas render identically. |
-| `tools/critical-path.html` | Session-only Critical Path Analysis designer; exports PDF and PNG, including a visual schedule PNG. |
-| `tools/README.md` | Tool behavior and public URL. |
-| `CNAME` | Tells GitHub Pages to serve the site at `hudsonwang.com`. |
-| `.nojekyll` | Disables Jekyll so files are served as-is. |
+| 文件 | 说明 |
+|---|---|
+| `index.html` | 整个站点：侧栏树 + 阅读视图 + 路由（`#/<id>`） |
+| `vendor/mathlive/` | MathLive 构建，与桌面 App 共用同一份 |
+| `CNAME` / `.nojekyll` | 域名与"别走 Jekyll"的开关，**不能删** |
+| `favicon.svg` / `apple-touch-icon.png` | 站点图标 |
 
-## PMGT1865 notes
+## 调试
 
-Week 3 and Week 4 Online Modules and their Slides Summary files are written into the PMGT1865 reading pages, following the existing article-note style. Formula crops under `assets/pmgt1865/formulas/` retain the source PDF’s original visual treatment; the source PDFs and DOCX files are not copied or linked as downloads.
+带 `?api=` 可以临时把站点指到本地 Worker（会记住）：
 
-## Deploy to GitHub Pages
-
-1. Create a repo on GitHub (e.g. `hudson/hudsonwang.com`) and push these files to the `main` branch:
-   ```sh
-   git init
-   git add .
-   git commit -m "Initial site"
-   git branch -M main
-   git remote add origin git@github.com:<your-username>/<repo>.git
-   git push -u origin main
-   ```
-2. In the repo: **Settings → Pages → Build and deployment**. Set **Source** to *Deploy from a branch*, branch `main`, folder `/ (root)`. Save.
-3. Under **Custom domain**, enter `hudsonwang.com` (the `CNAME` file already sets this). Enable **Enforce HTTPS** once the certificate is issued.
-
-## Point the domain at GitHub Pages (DNS)
-
-At your domain registrar, add these records:
-
-- Apex `hudsonwang.com` → four **A** records:
-  `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-  (optionally the matching **AAAA** records for IPv6).
-- `www` subdomain → **CNAME** → `<your-username>.github.io`
-
-DNS can take up to ~24h to propagate; the HTTPS certificate is issued automatically afterward.
-
-## Adding a note
-
-Find the note object in `index.html` and give it an `html` field (and a real title):
-
-```js
-{ num:"003", title:"My New Note Title", html:`
-  <h2>Section heading</h2>
-  <p>Body text…</p>
-` },
+```
+https://hudsonwang.com/?api=http://127.0.0.1:8787
 ```
 
-Notes without an `html` field automatically show as **"To be updated."**
+清除：
+
+```js
+localStorage.removeItem("ho.writing.api")
+```
+
+## 历史
+
+课程笔记那一版（首页 + 44 门课 + CPA/4MA 工具 + 课表）完整保存在两个地方：
+
+1. GitHub 分支 **`archive-notes-20261011`**（推送于动手之前的那一刻）
+2. 仓库根目录的 **`old-notes.html`**（同一个文件的快照，方便直接打开看）
+
+想恢复整站：`git checkout archive-notes-20261011 -- .` 之后重新提交即可。
