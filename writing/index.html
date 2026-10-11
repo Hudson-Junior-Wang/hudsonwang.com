@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>文稿 · HudsonOffice Writing</title>
+<!-- MathLive：和 App 里用的是同一份（vendor/mathlive），所以公式在网页上和在编辑器里长得一样 -->
+<link rel="stylesheet" href="vendor/mathlive/mathlive-fonts.css">
+<script src="vendor/mathlive/mathlive.min.js"></script>
+<style>
+  :root{
+    --paper:#fbf9f5; --ink:#1f1d1a; --ink-soft:#57534e; --ink-faint:#a8a29e;
+    --border:#e7e2d8; --accent:#b4532a; --accent-soft:#f3e3d8; --sidebar:#f5f1e8;
+    --serif:"Songti SC","Source Han Serif SC","Noto Serif CJK SC",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);
+       -webkit-font-smoothing:antialiased}
+  .app{display:flex;height:100vh;overflow:hidden}
+
+  /* ---------- 侧栏：钉子在最上面，然后是文件夹树 ---------- */
+  aside{width:264px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);
+        display:flex;flex-direction:column;overflow:hidden}
+  .brand{padding:16px 16px 10px}
+  .brand a{color:var(--ink);text-decoration:none;font-size:15px;font-weight:600;letter-spacing:.2px}
+  .brand .sub{display:block;margin-top:3px;font-size:11.5px;color:var(--ink-faint)}
+  .tree{flex:1;overflow-y:auto;padding:4px 8px 24px}
+  .group-label{font-size:11px;color:var(--ink-faint);letter-spacing:.6px;text-transform:uppercase;
+               padding:12px 8px 5px}
+  .node{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:7px;
+        cursor:pointer;font-size:13.5px;color:var(--ink-soft);line-height:1.35}
+  .node:hover{background:#ece7dc;color:var(--ink)}
+  .node.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  .node .tw{width:12px;flex-shrink:0;color:var(--ink-faint);font-size:10px;transition:transform .12s}
+  .node.open .tw{transform:rotate(90deg)}
+  .node .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .node .cloud{font-size:10px;color:var(--accent);opacity:.75}
+  .kids{margin-left:10px}
+  .kids.hidden{display:none}
+
+  /* ---------- 阅读区 ---------- */
+  main{flex:1;overflow-y:auto;padding:56px 64px 160px}
+  .page{max-width:712px;margin:0 auto}
+  h1.title{font-family:var(--serif);font-size:30px;line-height:1.3;margin:0 0 6px;font-weight:600}
+  .meta{font-size:12px;color:var(--ink-faint);margin-bottom:36px;
+        display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .meta .pill{background:#efe9dc;border-radius:999px;padding:2px 9px;font-size:11px}
+  .doc{font-family:var(--serif);font-size:17px;line-height:1.85;color:#26231f}
+  .doc h1{font-size:26px;line-height:1.35;margin:38px 0 12px}
+  .doc h2{font-size:21px;line-height:1.4;margin:32px 0 10px}
+  .doc h3{font-size:18px;line-height:1.45;margin:26px 0 8px}
+  .doc p{margin:0 0 14px}
+  .doc ul,.doc ol{margin:0 0 14px;padding-left:26px}
+  .doc li{margin:5px 0}
+  .doc blockquote{margin:18px 0;padding:2px 0 2px 16px;border-left:3px solid var(--border);
+                  color:var(--ink-soft)}
+  .doc table{border-collapse:collapse;margin:18px 0;font-size:15px;width:100%}
+  .doc th,.doc td{border:1px solid var(--border);padding:7px 10px;text-align:left}
+  .doc th{background:#f3efe6;font-weight:600}
+  .doc hr{border:none;border-top:1px solid var(--border);margin:28px 0}
+  .doc img{max-width:100%}
+  .doc math-field{font-size:1.05em;vertical-align:middle}
+  .doc .formula-display, .doc math-field[display] {display:block;text-align:center;margin:18px 0}
+  /* 图片不在网页上：App 只同步文字。留一个安静的占位，说明这里原本有图。 */
+  .doc .ho-omitted-image{display:inline-block;width:64px;height:14px;vertical-align:middle;
+        border-radius:4px;background:repeating-linear-gradient(45deg,#eee7da,#eee7da 4px,#f6f1e6 4px,#f6f1e6 8px)}
+  .doc .ho-omitted-image::after{content:"图未同步";font-size:10px;color:var(--ink-faint);
+        position:relative;top:-1px;left:70px;white-space:nowrap;font-family:var(--sans)}
+  .empty{color:var(--ink-faint);font-size:14px;line-height:1.8;padding:60px 0;text-align:center}
+  .state{font-size:12px;color:var(--ink-faint);padding:6px 2px}
+  a{color:var(--accent)}
+  @media (max-width:760px){
+    .app{flex-direction:column;height:auto}
+    aside{width:100%;height:auto;max-height:44vh;border-right:none;border-bottom:1px solid var(--border)}
+    main{padding:26px 20px 90px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand">
+      <a href="/">Hudson Junior's Notes</a>
+      <span class="sub">文稿 · 同步自 HudsonOffice Writing</span>
+    </div>
+    <div class="tree" id="tree"><div class="state">载入中…</div></div>
+  </aside>
+  <main id="main">
+    <div class="page">
+      <h1 class="title" id="docTitle">文稿</h1>
+      <div class="meta" id="docMeta"><span id="count" class="pill">—</span><span id="rev"></span></div>
+      <div id="doc">
+        <div class="empty">左边选一篇看。<br>
+          这里的内容来自 HudsonOffice Writing 里<b>被标为「允许同步」的文件夹</b>，只同步文字——
+          图片、音乐、AI 对话都不会上传。</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+/* 同步服务（Cloudflare Worker）的地址。三种改法，优先级从上到下：
+     1) 网址参数： /writing/?api=http://127.0.0.1:8787   （本地调试、验收用）
+     2) 本机记住的地址：localStorage["ho.writing.api"]
+     3) 这一行的正式地址  */
+const API_DEFAULT = "https://writing-api.hudsonwang.com";
+const API_BASE = (function () {
+  try {
+    const q = new URLSearchParams(location.search).get("api");
+    if (q) { localStorage.setItem("ho.writing.api", q); return q.replace(/\/+$/, ""); }
+  } catch (e) {}
+  try {
+    const saved = localStorage.getItem("ho.writing.api");
+    if (saved) return saved.replace(/\/+$/, "");
+  } catch (e) {}
+  return API_DEFAULT;
+})();
+
+const treeEl = document.getElementById("tree");
+const docEl  = document.getElementById("doc");
+const mainEl = document.getElementById("main");
+const countEl = document.getElementById("count");
+const revEl = document.getElementById("rev");
+const titleEl = document.getElementById("docTitle");
+const metaEl = document.getElementById("docMeta");
+let listMetaHTML = metaEl.innerHTML;        // "没有打开任何文稿"时的原标题/计数
+
+let tree = { rev: 0, items: [] };
+let byId = {};
+let activeDoc = "";
+
+const esc = (s) => String(s == null ? "" : s)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
+/* 服务端已经剥过一遍（见 Worker 的 textOnly），这里再兜一道：
+   毕竟这些 HTML 是要塞进 DOM 的。 */
+function sanitize(html) {
+  const t = document.createElement("template");
+  t.innerHTML = String(html || "");
+  t.content.querySelectorAll("script,iframe,object,embed,link,meta,style,form,input,button").forEach(n => n.remove());
+  t.content.querySelectorAll("*").forEach(n => {
+    [...n.attributes].forEach(a => {
+      const name = a.name.toLowerCase();
+      if (name.startsWith("on")) n.removeAttribute(a.name);
+      if ((name === "href" || name === "src") && /^\s*javascript:/i.test(a.value)) n.removeAttribute(a.name);
+      if (name === "src" && /^\s*data:/i.test(a.value) && n.tagName !== "IMG") n.removeAttribute(a.name);
+    });
+  });
+  return t.innerHTML;
+}
+
+const childrenOf = (pid) => tree.items
+  .filter(i => (i.parentId || null) === pid && !i.archived)
+  .sort((a, b) => (a.pinned ? 0 : 1) - (b.pinned ? 0 : 1) || (a.order || 0) - (b.order || 0));
+
+const slugify = (s) => String(s || "").trim().toLowerCase()
+  .replace(/[\s\u3000]+/g, "-").replace(/[^\w\u4e00-\u9fa5\-]+/g, "").slice(0, 60) || "doc";
+
+function renderTree() {
+  treeEl.innerHTML = "";
+  const pinned = tree.items.filter(i => i.pinned && i.type === "file" && !i.archived);
+  if (pinned.length) {
+    const label = document.createElement("div");
+    label.className = "group-label";
+    label.textContent = "Pinned";
+    treeEl.appendChild(label);
+    pinned.forEach(it => treeEl.appendChild(nodeFor(it, true)));
+  }
+  const roots = childrenOf(null);
+  if (roots.length) {
+    const label = document.createElement("div");
+    label.className = "group-label";
+    label.textContent = "All";
+    treeEl.appendChild(label);
+    roots.forEach(it => treeEl.appendChild(nodeFor(it, false)));
+  }
+  if (!tree.items.length) {
+    treeEl.innerHTML = '<div class="state">还没有文稿被允许同步。</div>';
+  }
+}
+
+function nodeFor(item, flat) {
+  const node = document.createElement("div");
+  node.className = "node" + (item.type === "folder" && item.expanded ? " open" : "") +
+                   (item.id === activeDoc ? " active" : "");
+  node.dataset.id = item.id;
+
+  const tw = document.createElement("span");
+  tw.className = "tw";
+  tw.textContent = item.type === "folder" ? "▶" : "";
+  node.appendChild(tw);
+
+  const nm = document.createElement("span");
+  nm.className = "nm";
+  nm.textContent = item.name || "(未命名)";
+  node.appendChild(nm);
+
+  if (item.enabled) {
+    const c = document.createElement("span");
+    c.className = "cloud";
+    c.textContent = "☁";
+    c.title = "允许同步至网页";
+    node.appendChild(c);
+  }
+
+  const frag = document.createDocumentFragment();
+  frag.appendChild(node);
+
+  if (item.type === "folder") {
+    const kids = document.createElement("div");
+    kids.className = "kids" + (item.expanded ? "" : " hidden");
+    childrenOf(item.id).forEach(k => kids.appendChild(nodeFor(k, false)));
+    frag.appendChild(kids);
+    node.addEventListener("click", () => {
+      item.expanded = !item.expanded;
+      renderTree();
+    });
+  } else {
+    node.addEventListener("click", () => openDoc(item.id));
+  }
+  return frag;
+}
+
+async function openDoc(id) {
+  activeDoc = id;
+  const item = byId[id] || {};
+  renderTree();
+  docEl.innerHTML = '<div class="empty">载入中…</div>';
+  history.replaceState(null, "", "#" + id);
+  try {
+    const res = await fetch(API_BASE + "/v1/doc/" + encodeURIComponent(id), { cache: "no-store" });
+    if (!res.ok) {
+      titleEl.textContent = item.name || "未命名";
+      docEl.innerHTML = '<div class="empty">这篇没有在网页上（可能刚被取消同步）。</div>';
+      return;
+    }
+    const doc = await res.json();
+    titleEl.textContent = item.name || "未命名";
+    metaEl.innerHTML =
+      '<span class="pill">' + esc(fmtBytes((doc.content || "").length)) + "</span>" +
+      (doc.images ? '<span class="pill">' + doc.images + " 张图未同步</span>" : "") +
+      '<span>更新于 ' + esc(fmtTime(doc.updatedAt || doc.syncedAt)) + "</span>";
+    docEl.innerHTML = '<div class="doc">' + sanitize(doc.content) + "</div>";
+    mainEl.scrollTo({ top: 0 });
+  } catch (e) {
+    docEl.innerHTML = '<div class="empty">连不上同步服务：' + esc(e.message) + "</div>";
+  }
+}
+
+function fmtBytes(n) {
+  if (n < 1000) return n + " 字";
+  return (n / 1000).toFixed(1) + "k 字";
+}
+function fmtTime(ms) {
+  if (!ms) return "—";
+  const d = new Date(Number(ms));
+  const p = (x) => String(x).padStart(2, "0");
+  return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) +
+         " " + p(d.getHours()) + ":" + p(d.getMinutes());
+}
+
+async function load() {
+  try {
+    const res = await fetch(API_BASE + "/v1/tree", { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    tree = await res.json();
+    byId = {};
+    (tree.items || []).forEach(i => { byId[i.id] = i; });
+    // 默认把有内容的文件夹展开一层，好看清结构
+    (tree.items || []).forEach(i => {
+      if (i.type === "folder" && childrenOf(i.id).length) i.expanded = true;
+    });
+    const docs = (tree.items || []).filter(i => i.type === "file" && i.hasDoc);
+    countEl.textContent = docs.length + " 篇在网页上";
+    revEl.textContent = "同步版本 " + (tree.rev || 0);
+    listMetaHTML = metaEl.innerHTML;        // 记下这一版，返回列表时原样还原
+    renderTree();
+    const hash = location.hash.replace(/^#/, "");
+    if (hash && byId[hash]) openDoc(hash);
+    else { titleEl.textContent = "文稿"; metaEl.innerHTML = listMetaHTML; }
+  } catch (e) {
+    treeEl.innerHTML = '<div class="state">连不上同步服务：' + esc(e.message) + "</div>";
+  }
+}
+
+window.addEventListener("hashchange", () => {
+  const id = location.hash.replace(/^#/, "");
+  if (!id) {                       // 后退到列表：标题和计数回到列表状态
+    activeDoc = "";
+    titleEl.textContent = "文稿";
+    metaEl.innerHTML = listMetaHTML;
+    renderTree();
+    return;
+  }
+  if (byId[id] && id !== activeDoc) openDoc(id);
+});
+
+load();
+</script>
+</body>
+</html>
