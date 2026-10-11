@@ -6,6 +6,9 @@
 <title>Hudson Junior's Notes</title>
 <meta name="description" content="A minimalist place where Hudson Junior shares his study notes — slowly, one course at a time." />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<!-- MathLive：和桌面 App 用的是同一份（vendor/mathlive），网页上的公式与编辑器里长得一样 -->
+<link rel="stylesheet" href="vendor/mathlive/mathlive-fonts.css" />
+<script src="vendor/mathlive/mathlive.min.js"></script>
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <meta name="theme-color" content="#8a5a44" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -200,6 +203,35 @@
   .toc-group-body .toc-row{padding-left:40px}
   .toc-row.toc-sub .toc-name{font-size:17px}
 
+  /* ---------- My Writing（桌面 App 同步过来的文稿） ---------- */
+  .wr-head h1{font-size:32px;font-weight:600;letter-spacing:-.02em;margin:0 0 6px}
+  .wr-meta{font-family:"Inter",sans-serif;font-size:12.5px;color:var(--faint);margin:0 0 26px;
+           display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .wr-meta .pill{background:var(--accent-soft);border-radius:999px;padding:2px 9px;color:var(--accent)}
+  .wr-tree .grp{font-family:"Inter",sans-serif;font-size:11px;letter-spacing:.08em;
+                text-transform:uppercase;color:var(--faint);margin:20px 0 6px}
+  .wr-node{display:flex;align-items:baseline;gap:9px;padding:9px 6px;border-top:1px solid var(--line);
+           cursor:pointer;font-size:18px}
+  .wr-node:last-child{border-bottom:1px solid var(--line)}
+  .wr-node:hover .wr-name{color:var(--accent)}
+  .wr-node.is-folder{color:var(--ink);font-weight:500}
+  .wr-tw{width:14px;flex:0 0 14px;font-size:10px;color:var(--faint);font-family:"Inter",sans-serif}
+  .wr-node.open .wr-tw{transform:rotate(90deg)}
+  .wr-name{flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .wr-cloud{font-size:11px;color:var(--accent);opacity:.8}
+  .wr-kids{margin-left:18px}
+  .wr-kids[hidden]{display:none}
+  .wr-empty{color:var(--muted);font-size:17px;line-height:1.7;padding:34px 0}
+  .wr-followup{margin-top:26px;font-family:"Inter",sans-serif;font-size:12.5px;color:var(--faint);line-height:1.7}
+  .wr-back{font-family:"Inter",sans-serif;font-size:12.5px;color:var(--faint);margin-bottom:20px;display:inline-block}
+  .wr-back:hover{color:var(--accent)}
+  /* 文稿正文：沿用站点的排版，公式与表格照旧 */
+  article .ho-omitted-image{display:inline-block;width:56px;height:13px;vertical-align:middle;
+      border-radius:4px;background:repeating-linear-gradient(45deg,#e9e3d8,#e9e3d8 4px,#f5f0e6 4px,#f5f0e6 8px)}
+  article .ho-omitted-image::after{content:"图未同步";font-size:10px;color:var(--faint);
+      position:relative;top:-1px;left:62px;white-space:nowrap;font-family:"Inter",sans-serif}
+  article math-field{font-size:1.05em}
+
   /* ---------- empty / overview states ---------- */
   .empty-state{text-align:center;padding:64px 10px;color:var(--muted)}
   .empty-state .mk{font-size:34px;margin-bottom:14px;opacity:.65}
@@ -290,9 +322,9 @@
       <button class="sidebar-toggle" id="sidebarToggle" aria-label="Hide sidebar" title="Hide sidebar">«</button>
       <h1 class="brand"><a href="#/" data-home>Hudson Junior's Notes</a></h1>
       <p class="brand-sub">Learning in public</p>
-      <a class="tool-link" href="writing/">
+      <a class="tool-link" id="writingLink" href="#/writing">
         My Writing
-        <small>Notes from HudsonOffice Writing</small>
+        <small>From HudsonOffice Writing</small>
       </a>
       <nav id="nav"></nav>
       <div class="contact-link">Contact me: <a href="mailto:learning@hudsonwang.com">learning@hudsonwang.com</a></div>
@@ -6354,7 +6386,7 @@ function renderHome(){
     <p class="crumb">Welcome</p>
     <h1 style="font-size:36px;font-weight:600;letter-spacing:-.02em;margin:0 0 18px">A quiet place for my notes.</h1>
     <p class="home-lead">Hi — I'm Hudson Junior. This is where I keep and share the notes I take from the courses I'm working through. It grows slowly, in public.</p>
-    <a class="tool-card" href="writing/">
+    <a class="tool-card" href="#/writing">
       <span class="tool-card-kicker">HudsonOffice Writing</span>
       <strong>My Writing →</strong>
       <span>Essays and notes I write in the desktop app, published here as plain text — with the same folder tree and the same formulas.</span>
@@ -6427,6 +6459,8 @@ function renderNote(sec,idx){
 }
 
 function highlightNav(secId,noteIdx){
+  const wl=document.getElementById("writingLink");
+  if(wl) wl.classList.toggle("active", secId==="writing");
   document.querySelectorAll(".sec").forEach(s=>{
     if(s.dataset.sec===secId) s.classList.add("open");
   });
@@ -6437,6 +6471,189 @@ function highlightNav(secId,noteIdx){
   }
 }
 
+/* ============================================================
+   MY WRITING — 桌面 App（HudsonOffice Writing）同步过来的文稿
+   ------------------------------------------------------------
+   写入通道是一个 Cloudflare Worker（GitHub Pages 收不了文件）；
+   这里只读：拉清单 → 渲染成和 App 侧栏一样的树（钉子在最上面）。
+   只同步文字：图片在服务端就被剥掉了，正文里留一个占位标记。
+   ============================================================ */
+const WRITING_API = (function () {
+  // 调试用：?api=http://127.0.0.1:8787 可以临时指向本地 Worker（会被记住）
+  try {
+    const q = new URLSearchParams(location.search).get("api");
+    if (q) { localStorage.setItem("ho.writing.api", q); return q.replace(/\/+$/, ""); }
+  } catch (e) {}
+  try {
+    const saved = localStorage.getItem("ho.writing.api");
+    if (saved) return saved.replace(/\/+$/, "");
+  } catch (e) {}
+  return "https://hudsonwang-writing-sync.hudsonwang.workers.dev";
+})();
+
+let writingTree = null;
+const wrExpanded = {};          // 文件夹展开状态：重绘时不会丢
+const wrEsc = (v) => String(v == null ? "" : v)
+  .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+  .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+const wrNum = (n) => Number(n) || 0;
+
+/* 服务端已经剥过一遍，这里再兜一道：这些 HTML 是要塞进 DOM 的 */
+function wrSanitize(html) {
+  const t = document.createElement("template");
+  t.innerHTML = String(html || "");
+  t.content.querySelectorAll("script,iframe,object,embed,link,meta,style,form,input,button")
+    .forEach(n => n.remove());
+  t.content.querySelectorAll("*").forEach(n => {
+    [...n.attributes].forEach(a => {
+      const name = a.name.toLowerCase();
+      if (name.startsWith("on")) n.removeAttribute(a.name);
+      if ((name === "href" || name === "src") && /^\s*javascript:/i.test(a.value)) n.removeAttribute(a.name);
+    });
+  });
+  return t.innerHTML;
+}
+function wrTime(ms) {
+  if (!ms) return "—";
+  const d = new Date(Number(ms)), p = (x) => String(x).padStart(2, "0");
+  return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) +
+         " " + p(d.getHours()) + ":" + p(d.getMinutes());
+}
+
+/* 视图一：文稿列表（钉子 → 文件夹树） */
+async function renderWritingList(){
+  const view = document.getElementById("view");
+  view.innerHTML = `
+    <div class="wr-head">
+      <p class="crumb">My Writing</p>
+      <h1>文稿</h1>
+      <div class="wr-meta" id="wrMeta">载入中…</div>
+    </div>
+    <div class="wr-tree" id="wrTree"></div>
+    <p class="wr-followup">这里的内容来自我家那台 Mac/Windows 上的 HudsonOffice Writing，
+      只有被标为「允许同步」的文件夹才会出现在这儿。只同步文字——图片、音乐、AI 对话都不会上传。</p>`;
+  const treeEl = document.getElementById("wrTree");
+  const metaEl = document.getElementById("wrMeta");
+  try {
+    const res = await fetch(WRITING_API + "/v1/tree", { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    writingTree = await res.json();
+  } catch (e) {
+    treeEl.innerHTML = `<p class="wr-empty">连不上同步服务：${wrEsc(e.message)}</p>`;
+    metaEl.textContent = "";
+    return;
+  }
+  const items = writingTree.items || [];
+  const live = items.filter(i => i.type === "file" && i.hasDoc && !i.archived);
+  metaEl.innerHTML = `<span class="pill">${live.length} 篇</span>` +
+    `<span>同步版本 ${wrNum(writingTree.rev)}</span>` +
+    (writingTree.updatedAt ? `<span>更新于 ${wrEsc(wrTime(writingTree.updatedAt))}</span>` : "");
+  wrRenderTree(treeEl, items);
+}
+
+function wrRenderTree(treeEl, items){
+  const kidsOf = (pid) => items
+    .filter(i => (i.parentId || null) === pid && !i.archived)
+    .sort((a, b) => (a.pinned ? 0 : 1) - (b.pinned ? 0 : 1) || wrNum(a.order) - wrNum(b.order));
+  treeEl.innerHTML = "";
+  const pinned = items.filter(i => i.pinned && i.type === "file" && !i.archived);
+
+  function nodeFor(item){
+    const node = document.createElement("div");
+    node.className = "wr-node" + (item.type === "folder" ? " is-folder" : "") +
+                     (item.type === "folder" && wrExpanded[item.id] ? " open" : "");
+    const tw = document.createElement("span");
+    tw.className = "wr-tw";
+    tw.textContent = item.type === "folder" ? "▶" : "";
+    node.appendChild(tw);
+    const nm = document.createElement("span");
+    nm.className = "wr-name";
+    nm.textContent = item.name || "(未命名)";
+    node.appendChild(nm);
+    if (item.enabled) {
+      const c = document.createElement("span");
+      c.className = "wr-cloud";
+      c.textContent = "☁";
+      c.title = "允许同步至网页";
+      node.appendChild(c);
+    }
+    node.dataset.id = item.id;
+    return node;
+  }
+
+  function addNode(item, container, flat){
+    container.appendChild(nodeFor(item));
+    if (item.type === "folder") {
+      if (!(item.id in wrExpanded)) wrExpanded[item.id] = kidsOf(item.id).length > 0;
+      const kids = document.createElement("div");
+      kids.className = "wr-kids";
+      kids.hidden = !wrExpanded[item.id];
+      const node = container.lastElementChild;
+      node.addEventListener("click", (e) => {
+        e.stopPropagation();
+        wrExpanded[item.id] = !wrExpanded[item.id];
+        kids.hidden = !wrExpanded[item.id];
+        node.classList.toggle("open", wrExpanded[item.id]);
+      });
+      kidsOf(item.id).forEach(k => addNode(k, kids, false));
+      container.appendChild(kids);
+    } else {
+      container.lastElementChild.addEventListener("click", () => { location.hash = "#/writing/" + item.id; });
+    }
+  }
+
+  if (pinned.length){
+    const g = document.createElement("div");
+    g.className = "grp";
+    g.textContent = "Pinned";
+    treeEl.appendChild(g);
+    pinned.forEach(it => addNode(it, treeEl, true));
+  }
+  const roots = kidsOf(null);
+  if (roots.length){
+    const g = document.createElement("div");
+    g.className = "grp";
+    g.textContent = "All";
+    treeEl.appendChild(g);
+    roots.forEach(it => addNode(it, treeEl, false));
+  }
+  if (!items.length) {
+    treeEl.innerHTML = `<p class="wr-empty">还没有文稿被允许同步。<br>
+      在 App 里右键一个文件夹 →「允许同步至网页」，它就会出现在这里。</p>`;
+  }
+}
+
+/* 视图二：读一篇 */
+async function renderWritingDoc(id){
+  const view = document.getElementById("view");
+  view.innerHTML = `<a class="wr-back" href="#/writing">← 全部文稿</a>
+    <article class="wr-read"><p class="wr-empty">载入中…</p></article>`;
+  const art = view.querySelector("article");
+  if (!writingTree) {                       // 直接深链接进来：先把清单拉一次
+    try {
+      const r = await fetch(WRITING_API + "/v1/tree", { cache: "no-store" });
+      writingTree = await r.json();
+    } catch (e) { writingTree = { items: [] }; }
+  }
+  const item = (writingTree.items || []).find(i => i.id === id);
+  try {
+    const res = await fetch(WRITING_API + "/v1/doc/" + encodeURIComponent(id), { cache: "no-store" });
+    if (!res.ok) throw new Error("这篇没有在网页上（可能刚被取消同步）");
+    const doc = await res.json();
+    document.title = (item && item.name ? item.name + " · " : "") + "Hudson Junior's Notes";
+    art.innerHTML =
+      `<h1>${wrEsc(item ? item.name : "未命名")}</h1>` +
+      `<div class="wr-meta">` +
+        `<span class="pill">${wrEsc(((doc.content || "").length / 1000).toFixed(1))}k 字</span>` +
+        (doc.images ? `<span>${doc.images} 张图未同步</span>` : "") +
+        `<span>更新于 ${wrEsc(wrTime(doc.updatedAt || doc.syncedAt))}</span>` +
+      `</div>` +
+      wrSanitize(doc.content);
+  } catch (e) {
+    art.innerHTML = `<p class="wr-empty">${wrEsc(e.message)}</p>`;
+  }
+}
+
 function router(){
   const hash=location.hash.replace(/^#\/?/,"");
   const parts=hash.split("/").filter(Boolean);
@@ -6444,6 +6661,13 @@ function router(){
   window.scrollTo(0,0);
 
   if(parts.length===0){ renderHome(); highlightNav(null); return; }
+  if(parts[0]==="writing"){
+    document.title="My Writing · Hudson Junior's Notes";
+    highlightNav("writing");
+    if(parts[1]) renderWritingDoc(decodeURIComponent(parts[1]));
+    else renderWritingList();
+    return;
+  }
   const sec=SECTIONS.find(s=>s.id===parts[0]);
   if(!sec){ renderHome(); highlightNav(null); return; }
   if(parts.length===1){ renderSection(sec); highlightNav(sec.id); return; }
