@@ -80,7 +80,12 @@
   article math-field{font-size:1.05em;vertical-align:middle}
   /* 网页是只读的：MathLive 给每个公式挂的"软键盘 / 菜单"按钮是编辑用的，
      在只读页面上既没用又会误导（点了真能弹出来），所以整个藏掉。 */
-  article math-field{pointer-events:none}
+  article math-field{pointer-events:none; background:none; border:none; padding:0}
+  /* 编辑态才需要的容器外观（虚线框、内边距）在只读页面上全部去掉 */
+  article .formula, article [data-formula-latex]{
+    background:none !important; border:none !important; box-shadow:none !important;
+    padding:0 !important; min-width:0 !important;
+  }
   article math-field::part(virtual-keyboard-toggle),
   article math-field::part(menu-toggle){display:none !important}
   article .ML__virtual-keyboard-toggle,
@@ -254,12 +259,23 @@ async function renderDoc(id) {
         '<span>更新于 ' + esc(fmtTime(doc.updatedAt || doc.syncedAt)) + '</span>' +
       '</p>' +
       '<article>' + sanitize(doc.content) + '</article>';
-    // 只读：不让公式变成可编辑控件（也顺手把控件按钮压掉）
+    // 公式：只读 + 真正渲染出来。
+    // App 存的是 data-formula-latex（真正的 LaTeX 源码），元素的子节点是它自己的
+    // 纯文本回退；这里把 LaTeX 喂回去，MathLive 才会画出分式/根号/上下标。
     pageEl.querySelectorAll('article math-field').forEach(function (mf) {
+      const holder = mf.closest('[data-formula-latex]');
+      const latex = (holder && holder.getAttribute('data-formula-latex')) ||
+                    mf.getAttribute('data-formula-latex') || mf.getAttribute('latex') || '';
+      if (latex) { try { mf.value = latex; } catch (e) { mf.setAttribute('latex', latex); } }
+      mf.innerHTML = '';                       // 丢掉纯文本回退，只留 MathLive 画出来的
       mf.setAttribute('read-only', '');
       mf.removeAttribute('contenteditable');
       mf.removeAttribute('tabindex');
       mf.setAttribute('aria-readonly', 'true');
+    });
+    // 纯文本回退那一层也藏掉（否则会和渲染出来的公式重叠）
+    pageEl.querySelectorAll('article .formula-fallback').forEach(function (el) {
+      el.style.display = 'none';
     });
     window.scrollTo(0, 0);
   } catch (e) {
