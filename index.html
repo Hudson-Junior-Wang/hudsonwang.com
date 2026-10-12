@@ -168,12 +168,21 @@ function fmtTime(ms) {
 }
 const childrenOf = (pid) => items
   .filter(i => (i.parentId || null) === pid && !i.archived)
-  .sort((a, b) => (a.pinned ? 0 : 1) - (b.pinned ? 0 : 1) || num(a.order) - num(b.order));
+  .sort((a, b) => num(a.order) - num(b.order));
+// Shortcut order is global and separate from each folder's normal sibling order.
+function pinnedOf(list) {
+  return list.map((item, index) => ({ item, index, rank:
+      (typeof item.pinOrder === "number" || (typeof item.pinOrder === "string" && item.pinOrder.trim() !== ""))
+        && Number.isFinite(Number(item.pinOrder)) ? Number(item.pinOrder) : index }))
+    .filter(entry => entry.item.pinned && entry.item.type === "file" && !entry.item.archived)
+    .sort((a, b) => a.rank - b.rank || a.index - b.index)
+    .map(entry => entry.item);
+}
 
 /* ---------- 侧栏树 ---------- */
 function renderTree() {
   treeEl.innerHTML = "";
-  const pinned = items.filter(i => i.pinned && i.type === "file" && !i.archived);
+  const pinned = pinnedOf(items);
   const group = (label) => {
     const g = document.createElement("div");
     g.className = "grp";
