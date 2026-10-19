@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>文稿 · hudsonwang.com</title>
 <meta name="description" content="Hudson 的文稿：由桌面上的 HudsonOffice Writing 同步上来的文字。">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -99,25 +99,77 @@
   .state{color:var(--muted);font-size:15px;line-height:1.8}
   .state.big{padding:40px 0}
 
+  .mobile-header,.drawer-close,.home-picker{display:none}
+  button{touch-action:manipulation}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .pin-toggle{display:flex;align-items:center;gap:8px;width:100%;border:0;
+    background:none;padding:10px 0;cursor:pointer;text-align:left;font-family:var(--sans)}
+  .pin-toggle::before{content:"▶";font-size:9px}
+  .pin-toggle[aria-expanded="true"]::before{content:"▼"}
+  .table-scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:20px 0}
+  .table-scroll table{margin:0}
+  article pre{max-width:100%;overflow-x:auto;white-space:pre;padding:12px;background:var(--sidebar)}
+  article img,article video,article svg{max-width:100%;height:auto}
+  article .formula-display,article math-field[display]{max-width:100%;overflow-x:auto}
+  @media (prefers-reduced-motion:reduce){aside{transition:none !important}}
   @media (max-width:820px){
-    .wrap{flex-direction:column}
-    aside{width:100%;flex:0 0 auto;border-right:none;border-bottom:1px solid var(--line);
-          padding:22px 18px 18px;max-height:52vh}
-    main{padding:28px 20px 100px}
-    h1.title{font-size:30px}
+    .mobile-header{display:flex;position:sticky;top:0;z-index:20;align-items:center;
+      justify-content:space-between;gap:12px;background:var(--bg);border-bottom:1px solid var(--line);
+      padding:12px max(18px,env(safe-area-inset-right)) 12px max(18px,env(safe-area-inset-left))}
+    .mobile-brand{font-family:var(--serif);font-size:20px;font-weight:600}
+    .mobile-brand small{display:block;font:11px var(--sans);color:var(--muted)}
+    .menu-button,.drawer-close{min-height:44px;min-width:44px;border:1px solid var(--line);
+      border-radius:10px;background:var(--sidebar);color:var(--ink);font:14px var(--sans);cursor:pointer}
+    .menu-button{padding:8px 14px}
+    .drawer-close{display:block;position:absolute;right:14px;top:18px}
+    .wrap{min-height:calc(100svh - 76px)}
+    aside{position:fixed;inset:0 auto 0 0;z-index:40;width:min(340px,88vw);height:100vh;height:100dvh;
+      padding:calc(26px + env(safe-area-inset-top)) 18px calc(22px + env(safe-area-inset-bottom));
+      transform:translateX(-100%);visibility:hidden;transition:transform .2s ease,visibility .2s;
+      box-shadow:12px 0 40px #23211d15}
+    aside .brand{padding-right:40px}
+    .tl{min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+    .node{min-height:44px;align-items:center;padding:10px 8px}
+    .pin-toggle{min-height:44px}
+    .aside-foot{flex-shrink:0}
+    body.menu-open{overflow:hidden}
+    body.menu-open aside{transform:translateX(0);visibility:visible}
+    .drawer-backdrop{position:fixed;inset:0;z-index:30;background:#23211d66;border:0;
+      padding:0;width:100%;height:100%;cursor:pointer}
+    main{padding:28px max(20px,env(safe-area-inset-right)) calc(64px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
+    h1.title{font-size:clamp(26px,7vw,32px);overflow-wrap:anywhere}
+    .lead{font-size:18px}
+    .meta{gap:6px 10px;margin-bottom:24px}
+    article{font-size:18px;overflow-wrap:anywhere}
+    article h1{font-size:26px} article h2{font-size:22px}
+    article blockquote{margin:18px 0;padding-left:12px}
+    article ul,article ol{padding-left:24px}
+    article table{font-size:15px}
+    article th,article td{padding:8px;min-width:90px}
+    .crumb a{display:inline-flex;align-items:center;min-height:44px}
+    .crumb{margin-bottom:8px}
+    .home-picker{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;
+      margin-top:14px;border:1px solid var(--line);border-radius:10px;background:var(--accent-soft);
+      color:var(--accent);font:14px var(--sans);cursor:pointer}
   }
 </style>
 </head>
 <body>
+<header class="mobile-header">
+  <a class="mobile-brand" href="#/">文稿<small>hudsonwang.com</small></a>
+  <button class="menu-button" id="menu-toggle" type="button" aria-controls="site-sidebar" aria-expanded="false">☰ 目录</button>
+</header>
+<button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="关闭目录" tabindex="-1" hidden></button>
 <div class="wrap">
-  <aside>
+  <aside id="site-sidebar" aria-label="文稿目录">
+    <button class="drawer-close" id="drawer-close" type="button" aria-label="关闭目录">✕</button>
     <h1 class="brand">文稿<small>hudsonwang.com · 同步自 HudsonOffice Writing</small></h1>
-    <nav class="tl" id="tree"><p class="state">载入中…</p></nav>
+    <nav class="tl" id="tree" aria-label="文稿列表"><p class="state">载入中…</p></nav>
     <p class="aside-foot">
       只有被标为「允许同步」的文件夹才会出现在这里。<br>只同步文字——图片、音乐、AI 对话都不会上传。
     </p>
   </aside>
-  <main><div class="page" id="page"></div></main>
+  <main id="main-content"><div class="page" id="page"></div></main>
 </div>
 
 <script>
@@ -138,6 +190,7 @@ const treeEl = document.getElementById("tree");
 const pageEl = document.getElementById("page");
 let items = [];                 // 站点清单
 let rev = 0, updatedAt = 0;
+let pinnedOpen = false;        // Pinned 默认折叠，重绘时保留本次状态
 const expanded = {};            // 文件夹展开状态
 
 const esc = (v) => String(v == null ? "" : v)
@@ -178,6 +231,55 @@ function pinnedOf(list) {
     .sort((a, b) => a.rank - b.rank || a.index - b.index)
     .map(entry => entry.item);
 }
+
+/* ---------- 手机目录：遮罩、键盘与焦点 ---------- */
+const mobileQuery = window.matchMedia('(max-width:820px)');
+const sidebar = document.getElementById('site-sidebar');
+const menuToggle = document.getElementById('menu-toggle');
+const backdrop = document.getElementById('drawer-backdrop');
+const closeButton = document.getElementById('drawer-close');
+let menuReturnFocus = null;
+function setMenu(open, restoreFocus = true) {
+  open = Boolean(open && mobileQuery.matches);
+  if (open) menuReturnFocus = document.activeElement;
+  document.body.classList.toggle('menu-open', open);
+  menuToggle.setAttribute('aria-expanded', String(open));
+  backdrop.hidden = !open;
+  sidebar.inert = mobileQuery.matches && !open;
+  document.querySelector('main').inert = open;
+  document.querySelector('.mobile-header').inert = open;
+  if (open) {
+    sidebar.setAttribute('role', 'dialog');
+    sidebar.setAttribute('aria-modal', 'true');
+    closeButton.focus();
+  } else {
+    sidebar.removeAttribute('role');
+    sidebar.removeAttribute('aria-modal');
+    if (restoreFocus && mobileQuery.matches && menuReturnFocus) menuReturnFocus.focus();
+  }
+}
+menuToggle.addEventListener('click', () => setMenu(true));
+closeButton.addEventListener('click', () => setMenu(false));
+backdrop.addEventListener('click', () => setMenu(false));
+mobileQuery.addEventListener('change', () => setMenu(false));
+document.addEventListener('keydown', e => {
+  if (!document.body.classList.contains('menu-open')) return;
+  if (e.key === 'Escape') { e.preventDefault(); setMenu(false); }
+  if (e.key === 'Tab') {
+    const links = [...sidebar.querySelectorAll('a[href],button')].filter(el => el.getClientRects().length);
+    const first = links[0], last = links[links.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+treeEl.addEventListener('click', e => {
+  const node = e.target.closest('a.node:not(.is-folder)');
+  if (node) setMenu(false);
+});
+pageEl.addEventListener('click', e => {
+  if (e.target.closest('[data-open-menu]')) setMenu(true);
+});
+setMenu(false, false);
 
 /* ---------- 侧栏树 ---------- */
 function renderTree() {
@@ -225,7 +327,24 @@ function renderTree() {
     childrenOf(item.id).forEach(k => add(k, kids));
     container.appendChild(kids);
   }
-  if (pinned.length) { group("Pinned"); pinned.forEach(i => add(i, treeEl)); }
+  if (pinned.length) {
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'grp pin-toggle';
+    toggle.textContent = 'Pinned · ' + pinned.length;
+    toggle.setAttribute('aria-controls', 'pinned-items');
+    toggle.setAttribute('aria-expanded', String(pinnedOpen));
+    const list = document.createElement('div');
+    list.id = 'pinned-items';
+    list.hidden = !pinnedOpen;
+    pinned.forEach(i => add(i, list));
+    toggle.addEventListener('click', () => {
+      pinnedOpen = !pinnedOpen;
+      list.hidden = !pinnedOpen;
+      toggle.setAttribute('aria-expanded', String(pinnedOpen));
+    });
+    treeEl.append(toggle, list);
+  }
   const roots = childrenOf(null);
   if (roots.length) { group("All"); roots.forEach(i => add(i, treeEl)); }
   if (!items.length) {
@@ -244,8 +363,9 @@ function renderHome() {
       '<span>同步版本 ' + num(rev) + '</span>' +
       (updatedAt ? '<span>更新于 ' + esc(fmtTime(updatedAt)) + '</span>' : '') +
     '</p>' +
-    '<p class="lead">左边选一篇。这里是桌面 App「HudsonOffice Writing」里被标为允许同步的文字，' +
-    '公式照旧，图片不上传。</p>';
+    '<p class="lead">从目录中选一篇文稿。这里是桌面 App「HudsonOffice Writing」里被标为允许同步的文字，' +
+    '公式照旧，图片不上传。</p>' +
+    '<button class="home-picker" type="button" data-open-menu>打开文稿目录 →</button>';
 }
 
 /* ---------- 单篇 ---------- */
@@ -268,6 +388,15 @@ async function renderDoc(id) {
         '<span>更新于 ' + esc(fmtTime(doc.updatedAt || doc.syncedAt)) + '</span>' +
       '</p>' +
       '<article>' + sanitize(doc.content) + '</article>';
+    pageEl.querySelectorAll('article table').forEach(table => {
+      const scroll = document.createElement('div');
+      scroll.className = 'table-scroll';
+      scroll.tabIndex = 0;
+      scroll.setAttribute('role', 'region');
+      scroll.setAttribute('aria-label', '表格，可左右滚动');
+      table.before(scroll);
+      scroll.appendChild(table);
+    });
     // 公式：只读 + 真正渲染出来。
     // App 存的是 data-formula-latex（真正的 LaTeX 源码），元素的子节点是它自己的
     // 纯文本回退；这里把 LaTeX 喂回去，MathLive 才会画出分式/根号/上下标。
