@@ -160,18 +160,9 @@
 </div>
 
 <script>
-/* 同步服务（Cloudflare Worker）。调试时可以带 ?api=http://127.0.0.1:8787 指到本地。 */
-const API = (function () {
-  try {
-    const q = new URLSearchParams(location.search).get("api");
-    if (q) { localStorage.setItem("ho.writing.api", q); return q.replace(/\/+$/, ""); }
-  } catch (e) {}
-  try {
-    const saved = localStorage.getItem("ho.writing.api");
-    if (saved) return saved.replace(/\/+$/, "");
-  } catch (e) {}
-  return "https://hudsonwang-writing-sync.hudsonwang.workers.dev";
-})();
+/* Exact replacement from the ten supplied archives. Never merge retired cloud data. */
+const MANIFEST = "documents/tree.json";
+try { localStorage.removeItem("ho.writing.api"); } catch (e) {}
 
 const treeEl = document.getElementById("tree");
 const pageEl = document.getElementById("page");
@@ -348,8 +339,11 @@ function renderTree() {
 function renderHome() {
   document.title = "Writing · hudsonwang.com";
   treeEl.querySelectorAll(".node.active").forEach(n => n.classList.remove("active"));
-  pageEl.innerHTML =
-    '<button class="home-picker" type="button" data-open-menu>Browse writing →</button>';
+  pageEl.innerHTML = '<h1 class="title">Course notes</h1>' +
+    '<p class="lead">10 courses · 145 documents</p>' +
+    '<p class="state">Select a document to read online or download the original Word file.</p>' +
+    '<button class="home-picker" type="button" data-open-menu>Browse writing →</button>' +
+    '<ul>' + childrenOf(null).map(folder => '<li><a href="#/' + esc(folder.id) + '">' + esc(folder.name) + '</a> · ' + childrenOf(folder.id).length + ' documents</li>').join('') + '</ul>';
 }
 
 /* ---------- 单篇 ---------- */
@@ -358,7 +352,8 @@ async function renderDoc(id) {
   const item = items.find(i => i.id === id) || {};
   pageEl.innerHTML = '<p class="crumb"><a href="#/">← All writing</a></p><p class="state">Loading…</p>';
   try {
-    const res = await fetch(API + "/v1/doc/" + encodeURIComponent(id), { cache: "no-store" });
+    if (item.type !== "file" || !item.path) throw new Error("This document is no longer available on the website.");
+    const res = await fetch(item.path, { cache: "no-store" });
     if (!res.ok) throw new Error("This document is no longer available on the website.");
     const doc = await res.json();
     const name = item.name || "Untitled";
@@ -373,6 +368,7 @@ async function renderDoc(id) {
       '<p class="meta">' +
         '<span class="pill">' + esc((characters / 1000).toFixed(1)) + 'k characters</span>' +
         '<span>Updated ' + esc(fmtTime(doc.updatedAt || doc.syncedAt)) + '</span>' +
+        '<a class="pill" href="' + esc(doc.download) + '" download>Download Word ↓</a>' +
       '</p>' +
       '<article>' + content + '</article>';
     pageEl.querySelectorAll('article table').forEach(table => {
@@ -422,15 +418,15 @@ window.addEventListener("hashchange", route);
 /* ---------- 起步 ---------- */
 async function load() {
   try {
-    const res = await fetch(API + "/v1/tree", { cache: "no-store" });
+    const res = await fetch(MANIFEST, { cache: "no-store" });
     if (!res.ok) throw new Error("HTTP " + res.status);
     const tree = await res.json();
     items = Array.isArray(tree.items) ? tree.items : [];
     renderTree();
     route();
   } catch (e) {
-    treeEl.innerHTML = '<p class="state">Unable to reach the sync service: ' + esc(e.message) + '</p>';
-    pageEl.innerHTML = '<p class="state big">Unable to reach the sync service: ' + esc(e.message) + '</p>';
+    treeEl.innerHTML = '<p class="state">Unable to load published documents: ' + esc(e.message) + '</p>';
+    pageEl.innerHTML = '<p class="state big">Unable to load published documents: ' + esc(e.message) + '</p>';
   }
 }
 load();

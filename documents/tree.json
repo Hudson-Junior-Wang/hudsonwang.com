@@ -1,0 +1,1381 @@
+{
+  "version": "2026-10-28-replacement",
+  "documentCount": 145,
+  "items": [
+    {
+      "id": "intro-to-psychology",
+      "name": "Intro to Psychology",
+      "type": "folder",
+      "parentId": null,
+      "order": 0
+    },
+    {
+      "id": "intro-to-psychology--01_introduction",
+      "name": "01 Introduction",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 0,
+      "path": "documents/intro-to-psychology/01_Introduction.json",
+      "download": "documents/intro-to-psychology/01_Introduction.docx"
+    },
+    {
+      "id": "intro-to-psychology--02_foundations_this_is_your_brain",
+      "name": "02 Foundations This Is Your Brain",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 1,
+      "path": "documents/intro-to-psychology/02_Foundations_This_Is_Your_Brain.json",
+      "download": "documents/intro-to-psychology/02_Foundations_This_Is_Your_Brain.docx"
+    },
+    {
+      "id": "intro-to-psychology--03_foundations_freud",
+      "name": "03 Foundations Freud",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 2,
+      "path": "documents/intro-to-psychology/03_Foundations_Freud.json",
+      "download": "documents/intro-to-psychology/03_Foundations_Freud.docx"
+    },
+    {
+      "id": "intro-to-psychology--04_foundations_skinner",
+      "name": "04 Foundations Skinner",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 3,
+      "path": "documents/intro-to-psychology/04_Foundations_Skinner.json",
+      "download": "documents/intro-to-psychology/04_Foundations_Skinner.docx"
+    },
+    {
+      "id": "intro-to-psychology--05_what_is_it_like_to_be_a_baby_the_development_of_thought",
+      "name": "05 What Is It Like to Be a Baby The Development of Thought",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 4,
+      "path": "documents/intro-to-psychology/05_What_Is_It_Like_to_Be_a_Baby_The_Development_of_Thought.json",
+      "download": "documents/intro-to-psychology/05_What_Is_It_Like_to_Be_a_Baby_The_Development_of_Thought.docx"
+    },
+    {
+      "id": "intro-to-psychology--06_how_do_we_communicate__language_in_the_brain__mouth",
+      "name": "06 How Do We Communicate? Language in the Brain, Mouth",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 5,
+      "path": "documents/intro-to-psychology/06_How_Do_We_Communicate__Language_in_the_Brain__Mouth.json",
+      "download": "documents/intro-to-psychology/06_How_Do_We_Communicate__Language_in_the_Brain__Mouth.docx"
+    },
+    {
+      "id": "intro-to-psychology--07_conscious_of_the_present__conscious_of_the_past_language",
+      "name": "07 Conscious of the Present; Conscious of the Past Language",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 6,
+      "path": "documents/intro-to-psychology/07_Conscious_of_the_Present__Conscious_of_the_Past_Language.json",
+      "download": "documents/intro-to-psychology/07_Conscious_of_the_Present__Conscious_of_the_Past_Language.docx"
+    },
+    {
+      "id": "intro-to-psychology--08_conscious_of_the_present__conscious_of_the_past",
+      "name": "08 Conscious of the Present; Conscious of the Past",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 7,
+      "path": "documents/intro-to-psychology/08_Conscious_of_the_Present__Conscious_of_the_Past.json",
+      "download": "documents/intro-to-psychology/08_Conscious_of_the_Present__Conscious_of_the_Past.docx"
+    },
+    {
+      "id": "intro-to-psychology--09_evolution__emotion__and_reason_love__guest_lecture_by_dr__peter_salovey_",
+      "name": "09 Evolution, Emotion, and Reason Love (Guest Lecture by Dr. Peter Salovey)",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 8,
+      "path": "documents/intro-to-psychology/09_Evolution__Emotion__and_Reason_Love__Guest_Lecture_by_Dr__Peter_Salovey_.json",
+      "download": "documents/intro-to-psychology/09_Evolution__Emotion__and_Reason_Love__Guest_Lecture_by_Dr__Peter_Salovey_.docx"
+    },
+    {
+      "id": "intro-to-psychology--10_evolution__emotion__and_reason_evolution_and_rationality",
+      "name": "10 Evolution, Emotion, and Reason Evolution and Rationality",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 9,
+      "path": "documents/intro-to-psychology/10_Evolution__Emotion__and_Reason_Evolution_and_Rationality.json",
+      "download": "documents/intro-to-psychology/10_Evolution__Emotion__and_Reason_Evolution_and_Rationality.docx"
+    },
+    {
+      "id": "intro-to-psychology--11_evolution__emotion__and_reason_emotions__part_i",
+      "name": "11 Evolution, Emotion, and Reason Emotions, Part I",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 10,
+      "path": "documents/intro-to-psychology/11_Evolution__Emotion__and_Reason_Emotions__Part_I.json",
+      "download": "documents/intro-to-psychology/11_Evolution__Emotion__and_Reason_Emotions__Part_I.docx"
+    },
+    {
+      "id": "intro-to-psychology--12_evolution__emotion__and_reason_emotions__part_ii",
+      "name": "12 Evolution, Emotion, and Reason Emotions, Part II",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 11,
+      "path": "documents/intro-to-psychology/12_Evolution__Emotion__and_Reason_Emotions__Part_II.json",
+      "download": "documents/intro-to-psychology/12_Evolution__Emotion__and_Reason_Emotions__Part_II.docx"
+    },
+    {
+      "id": "intro-to-psychology--13_why_are_people_different__differences",
+      "name": "13 Why Are People Different? Differences",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 12,
+      "path": "documents/intro-to-psychology/13_Why_Are_People_Different__Differences.json",
+      "download": "documents/intro-to-psychology/13_Why_Are_People_Different__Differences.docx"
+    },
+    {
+      "id": "intro-to-psychology--14_what_motivates_us_sex",
+      "name": "14 What Motivates Us Sex",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 13,
+      "path": "documents/intro-to-psychology/14_What_Motivates_Us_Sex.json",
+      "download": "documents/intro-to-psychology/14_What_Motivates_Us_Sex.docx"
+    },
+    {
+      "id": "intro-to-psychology--15_a_person_in_the_world_of_people_morality",
+      "name": "15 A Person in the World of People Morality",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 14,
+      "path": "documents/intro-to-psychology/15_A_Person_in_the_World_of_People_Morality.json",
+      "download": "documents/intro-to-psychology/15_A_Person_in_the_World_of_People_Morality.docx"
+    },
+    {
+      "id": "intro-to-psychology--16_a_person_in_the_world_of_people_self_and_other__part_i",
+      "name": "16 A Person in the World of People Self and Other, Part I",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 15,
+      "path": "documents/intro-to-psychology/16_A_Person_in_the_World_of_People_Self_and_Other__Part_I.json",
+      "download": "documents/intro-to-psychology/16_A_Person_in_the_World_of_People_Self_and_Other__Part_I.docx"
+    },
+    {
+      "id": "intro-to-psychology--17_a_person_in_the_world_of_people_self_and_other__part_ii_",
+      "name": "17 A Person in the World of People Self and Other, Part II;",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 16,
+      "path": "documents/intro-to-psychology/17_A_Person_in_the_World_of_People_Self_and_Other__Part_II_.json",
+      "download": "documents/intro-to-psychology/17_A_Person_in_the_World_of_People_Self_and_Other__Part_II_.docx"
+    },
+    {
+      "id": "intro-to-psychology--18_what_happens_when_things_go_wrong_mental_illness__part_i",
+      "name": "18 What Happens When Things Go Wrong Mental Illness, Part I",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 17,
+      "path": "documents/intro-to-psychology/18_What_Happens_When_Things_Go_Wrong_Mental_Illness__Part_I.json",
+      "download": "documents/intro-to-psychology/18_What_Happens_When_Things_Go_Wrong_Mental_Illness__Part_I.docx"
+    },
+    {
+      "id": "intro-to-psychology--19_what_happens_when_things_go_wrong_mental_illness__part_ii",
+      "name": "19 What Happens When Things Go Wrong Mental Illness, Part II",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 18,
+      "path": "documents/intro-to-psychology/19_What_Happens_When_Things_Go_Wrong_Mental_Illness__Part_II.json",
+      "download": "documents/intro-to-psychology/19_What_Happens_When_Things_Go_Wrong_Mental_Illness__Part_II.docx"
+    },
+    {
+      "id": "intro-to-psychology--20_the_good_life_happiness",
+      "name": "20 The Good Life Happiness",
+      "type": "file",
+      "parentId": "intro-to-psychology",
+      "order": 19,
+      "path": "documents/intro-to-psychology/20_The_Good_Life_Happiness.json",
+      "download": "documents/intro-to-psychology/20_The_Good_Life_Happiness.docx"
+    },
+    {
+      "id": "philosophy-of-death",
+      "name": "Philosophy of Death",
+      "type": "folder",
+      "parentId": null,
+      "order": 1
+    },
+    {
+      "id": "philosophy-of-death--0__overview",
+      "name": "0. Overview",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 0,
+      "path": "documents/philosophy-of-death/0__Overview.json",
+      "download": "documents/philosophy-of-death/0__Overview.docx"
+    },
+    {
+      "id": "philosophy-of-death--1___course_introduction",
+      "name": "1.  Course Introduction",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 1,
+      "path": "documents/philosophy-of-death/1___Course_Introduction.json",
+      "download": "documents/philosophy-of-death/1___Course_Introduction.docx"
+    },
+    {
+      "id": "philosophy-of-death--00__course_overview",
+      "name": "00. Course overview",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 2,
+      "path": "documents/philosophy-of-death/00__Course_overview.json",
+      "download": "documents/philosophy-of-death/00__Course_overview.docx"
+    },
+    {
+      "id": "philosophy-of-death--01__course_introduction",
+      "name": "01. Course introduction",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 3,
+      "path": "documents/philosophy-of-death/01__Course_introduction.json",
+      "download": "documents/philosophy-of-death/01__Course_introduction.docx"
+    },
+    {
+      "id": "philosophy-of-death--02__the_nature_of_persons__dualism_vs__physicalism",
+      "name": "02. The nature of persons: dualism vs. physicalism",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 4,
+      "path": "documents/philosophy-of-death/02__The_nature_of_persons__dualism_vs__physicalism.json",
+      "download": "documents/philosophy-of-death/02__The_nature_of_persons__dualism_vs__physicalism.docx"
+    },
+    {
+      "id": "philosophy-of-death--03__arguments_for_the_existence_of_the_soul__part_i",
+      "name": "03. Arguments for the existence of the soul, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 5,
+      "path": "documents/philosophy-of-death/03__Arguments_for_the_existence_of_the_soul__Part_I.json",
+      "download": "documents/philosophy-of-death/03__Arguments_for_the_existence_of_the_soul__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--04__introduction_to_plato_s_phaedo__arguments_for_the_existence_of_the_soul__part_ii",
+      "name": "04. Introduction to Plato's Phaedo; Arguments for the existence of the soul, Part II",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 6,
+      "path": "documents/philosophy-of-death/04__Introduction_to_Plato_s_Phaedo__Arguments_for_the_existence_of_the_soul__Part_II.json",
+      "download": "documents/philosophy-of-death/04__Introduction_to_Plato_s_Phaedo__Arguments_for_the_existence_of_the_soul__Part_II.docx"
+    },
+    {
+      "id": "philosophy-of-death--05__arguments_for_the_existence_of_the_soul__part_iii__free_will_and_near-death_experiences",
+      "name": "05. Arguments for the existence of the soul, Part III: Free will and near-death experiences",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 7,
+      "path": "documents/philosophy-of-death/05__Arguments_for_the_existence_of_the_soul__Part_III__Free_will_and_near-death_experiences.json",
+      "download": "documents/philosophy-of-death/05__Arguments_for_the_existence_of_the_soul__Part_III__Free_will_and_near-death_experiences.docx"
+    },
+    {
+      "id": "philosophy-of-death--06___arguments_for_the_existence_of_the_soul__part_iv__plato__part_i",
+      "name": "06.  Arguments for the existence of the soul, Part IV; Plato, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 8,
+      "path": "documents/philosophy-of-death/06___Arguments_for_the_existence_of_the_soul__Part_IV__Plato__Part_I.json",
+      "download": "documents/philosophy-of-death/06___Arguments_for_the_existence_of_the_soul__Part_IV__Plato__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--07__plato__part_ii__arguments_for_the_immortality_of_the_soul",
+      "name": "07. Plato, Part II: Arguments for the immortality of the soul",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 9,
+      "path": "documents/philosophy-of-death/07__Plato__Part_II__Arguments_for_the_immortality_of_the_soul.json",
+      "download": "documents/philosophy-of-death/07__Plato__Part_II__Arguments_for_the_immortality_of_the_soul.docx"
+    },
+    {
+      "id": "philosophy-of-death--08__plato__part_iii__arguments_for_the_immortality_of_the_soul__cont__",
+      "name": "08. Plato, Part III: Arguments for the immortality of the soul (cont.)",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 10,
+      "path": "documents/philosophy-of-death/08__Plato__Part_III__Arguments_for_the_immortality_of_the_soul__cont__.json",
+      "download": "documents/philosophy-of-death/08__Plato__Part_III__Arguments_for_the_immortality_of_the_soul__cont__.docx"
+    },
+    {
+      "id": "philosophy-of-death--09__plato__part_iv__arguments_for_the_immortality_of_the_soul__cont__",
+      "name": "09. Plato, Part IV: Arguments for the immortality of the soul (cont.)",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 11,
+      "path": "documents/philosophy-of-death/09__Plato__Part_IV__Arguments_for_the_immortality_of_the_soul__cont__.json",
+      "download": "documents/philosophy-of-death/09__Plato__Part_IV__Arguments_for_the_immortality_of_the_soul__cont__.docx"
+    },
+    {
+      "id": "philosophy-of-death--10__personal_identity__part_i__identity_across_space_and_time_and_the_soul_theory",
+      "name": "10. Personal identity, Part I: Identity across space and time and the soul theory",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 12,
+      "path": "documents/philosophy-of-death/10__Personal_identity__Part_I__Identity_across_space_and_time_and_the_soul_theory.json",
+      "download": "documents/philosophy-of-death/10__Personal_identity__Part_I__Identity_across_space_and_time_and_the_soul_theory.docx"
+    },
+    {
+      "id": "philosophy-of-death--11__personal_identity__part_ii__the_body_theory_and_the_personality_theory",
+      "name": "11. Personal identity, Part II: The body theory and the personality theory",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 13,
+      "path": "documents/philosophy-of-death/11__Personal_identity__Part_II__The_body_theory_and_the_personality_theory.json",
+      "download": "documents/philosophy-of-death/11__Personal_identity__Part_II__The_body_theory_and_the_personality_theory.docx"
+    },
+    {
+      "id": "philosophy-of-death--12__personal_identity__part_iii__objections_to_the_personality_theory",
+      "name": "12. Personal identity, Part III: Objections to the personality theory",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 14,
+      "path": "documents/philosophy-of-death/12__Personal_identity__Part_III__Objections_to_the_personality_theory.json",
+      "download": "documents/philosophy-of-death/12__Personal_identity__Part_III__Objections_to_the_personality_theory.docx"
+    },
+    {
+      "id": "philosophy-of-death--13__personal_identity__part_iv__what_matters_",
+      "name": "13. Personal identity, Part IV; What matters?",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 15,
+      "path": "documents/philosophy-of-death/13__Personal_identity__Part_IV__What_matters_.json",
+      "download": "documents/philosophy-of-death/13__Personal_identity__Part_IV__What_matters_.docx"
+    },
+    {
+      "id": "philosophy-of-death--14__what_matters__cont____the_nature_of_death__part_i",
+      "name": "14. What matters (cont.); The nature of death, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 16,
+      "path": "documents/philosophy-of-death/14__What_matters__cont____The_nature_of_death__Part_I.json",
+      "download": "documents/philosophy-of-death/14__What_matters__cont____The_nature_of_death__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--15__the_nature_of_death__cont____believing_you_will_die",
+      "name": "15. The nature of death (cont.); Believing you will die",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 17,
+      "path": "documents/philosophy-of-death/15__The_nature_of_death__cont____Believing_you_will_die.json",
+      "download": "documents/philosophy-of-death/15__The_nature_of_death__cont____Believing_you_will_die.docx"
+    },
+    {
+      "id": "philosophy-of-death--16__dying_alone__the_badness_of_death__part_i",
+      "name": "16. Dying alone; The badness of death, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 18,
+      "path": "documents/philosophy-of-death/16__Dying_alone__The_badness_of_death__Part_I.json",
+      "download": "documents/philosophy-of-death/16__Dying_alone__The_badness_of_death__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--17__the_badness_of_death__part_ii__the_deprivation_account",
+      "name": "17. The badness of death, Part II: The deprivation account",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 19,
+      "path": "documents/philosophy-of-death/17__The_badness_of_death__Part_II__The_deprivation_account.json",
+      "download": "documents/philosophy-of-death/17__The_badness_of_death__Part_II__The_deprivation_account.docx"
+    },
+    {
+      "id": "philosophy-of-death--18__the_badness_of_death__part_iii__immortality__part_i",
+      "name": "18. The badness of death, Part III; Immortality, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 20,
+      "path": "documents/philosophy-of-death/18__The_badness_of_death__Part_III__Immortality__Part_I.json",
+      "download": "documents/philosophy-of-death/18__The_badness_of_death__Part_III__Immortality__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--19__immortality_part_ii__the_value_of_life__part_i",
+      "name": "19. Immortality Part II; The value of life, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 21,
+      "path": "documents/philosophy-of-death/19__Immortality_Part_II__The_value_of_life__Part_I.json",
+      "download": "documents/philosophy-of-death/19__Immortality_Part_II__The_value_of_life__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--20__the_value_of_life__part_ii__other_bad_aspects_of_death__part_i",
+      "name": "20. The value of life, Part II; Other bad aspects of death, Part I",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 22,
+      "path": "documents/philosophy-of-death/20__The_value_of_life__Part_II__Other_bad_aspects_of_death__Part_I.json",
+      "download": "documents/philosophy-of-death/20__The_value_of_life__Part_II__Other_bad_aspects_of_death__Part_I.docx"
+    },
+    {
+      "id": "philosophy-of-death--21__other_bad_aspects_of_death__part_ii",
+      "name": "21. Other bad aspects of death, Part II",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 23,
+      "path": "documents/philosophy-of-death/21__Other_bad_aspects_of_death__Part_II.json",
+      "download": "documents/philosophy-of-death/21__Other_bad_aspects_of_death__Part_II.docx"
+    },
+    {
+      "id": "philosophy-of-death--22__fear_of_death",
+      "name": "22. Fear of death",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 24,
+      "path": "documents/philosophy-of-death/22__Fear_of_death.json",
+      "download": "documents/philosophy-of-death/22__Fear_of_death.docx"
+    },
+    {
+      "id": "philosophy-of-death--23__how_to_live_given_the_certainty_of_death",
+      "name": "23. How to live given the certainty of death",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 25,
+      "path": "documents/philosophy-of-death/23__How_to_live_given_the_certainty_of_death.json",
+      "download": "documents/philosophy-of-death/23__How_to_live_given_the_certainty_of_death.docx"
+    },
+    {
+      "id": "philosophy-of-death--24__suicide__part_i__the_rationality_of_suicide",
+      "name": "24. Suicide, Part I: The rationality of suicide",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 26,
+      "path": "documents/philosophy-of-death/24__Suicide__Part_I__The_rationality_of_suicide.json",
+      "download": "documents/philosophy-of-death/24__Suicide__Part_I__The_rationality_of_suicide.docx"
+    },
+    {
+      "id": "philosophy-of-death--25__suicide__part_ii__deciding_under_uncertainty",
+      "name": "25. Suicide, Part II: Deciding under uncertainty",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 27,
+      "path": "documents/philosophy-of-death/25__Suicide__Part_II__Deciding_under_uncertainty.json",
+      "download": "documents/philosophy-of-death/25__Suicide__Part_II__Deciding_under_uncertainty.docx"
+    },
+    {
+      "id": "philosophy-of-death--26__suicide__part_iii__the_morality_of_suicide_and_course_conclusion",
+      "name": "26. Suicide, Part III: The morality of suicide and course conclusion",
+      "type": "file",
+      "parentId": "philosophy-of-death",
+      "order": 28,
+      "path": "documents/philosophy-of-death/26__Suicide__Part_III__The_morality_of_suicide_and_course_conclusion.json",
+      "download": "documents/philosophy-of-death/26__Suicide__Part_III__The_morality_of_suicide_and_course_conclusion.docx"
+    },
+    {
+      "id": "illusionism",
+      "name": "Illusionism",
+      "type": "folder",
+      "parentId": null,
+      "order": 2
+    },
+    {
+      "id": "illusionism--lecture_1_the_illusionist_option_notes",
+      "name": "Lecture 1 The Illusionist Option Notes",
+      "type": "file",
+      "parentId": "illusionism",
+      "order": 0,
+      "path": "documents/illusionism/Lecture_1_The_Illusionist_Option_Notes.json",
+      "download": "documents/illusionism/Lecture_1_The_Illusionist_Option_Notes.docx"
+    },
+    {
+      "id": "illusionism--lecture_2_the_case_against_qualia_notes",
+      "name": "Lecture 2 The Case Against Qualia Notes",
+      "type": "file",
+      "parentId": "illusionism",
+      "order": 1,
+      "path": "documents/illusionism/Lecture_2_The_Case_Against_Qualia_Notes.json",
+      "download": "documents/illusionism/Lecture_2_The_Case_Against_Qualia_Notes.docx"
+    },
+    {
+      "id": "illusionism--lecture_3_the_case_for_illusionism_notes",
+      "name": "Lecture 3 The Case for Illusionism Notes",
+      "type": "file",
+      "parentId": "illusionism",
+      "order": 2,
+      "path": "documents/illusionism/Lecture_3_The_Case_for_Illusionism_Notes.json",
+      "download": "documents/illusionism/Lecture_3_The_Case_for_Illusionism_Notes.docx"
+    },
+    {
+      "id": "illusionism--lecture_4_objections_to_illusionism_notes",
+      "name": "Lecture 4 Objections to Illusionism Notes",
+      "type": "file",
+      "parentId": "illusionism",
+      "order": 3,
+      "path": "documents/illusionism/Lecture_4_Objections_to_Illusionism_Notes.json",
+      "download": "documents/illusionism/Lecture_4_Objections_to_Illusionism_Notes.docx"
+    },
+    {
+      "id": "illusionism--lecture_5_varieties_of_illusionism_notes",
+      "name": "Lecture 5 Varieties of Illusionism Notes",
+      "type": "file",
+      "parentId": "illusionism",
+      "order": 4,
+      "path": "documents/illusionism/Lecture_5_Varieties_of_Illusionism_Notes.json",
+      "download": "documents/illusionism/Lecture_5_Varieties_of_Illusionism_Notes.docx"
+    },
+    {
+      "id": "illusionism--lecture_6_implications_of_illusionism_notes",
+      "name": "Lecture 6 Implications of Illusionism Notes",
+      "type": "file",
+      "parentId": "illusionism",
+      "order": 5,
+      "path": "documents/illusionism/Lecture_6_Implications_of_Illusionism_Notes.json",
+      "download": "documents/illusionism/Lecture_6_Implications_of_Illusionism_Notes.docx"
+    },
+    {
+      "id": "buss1020",
+      "name": "BUSS1020",
+      "type": "folder",
+      "parentId": null,
+      "order": 3
+    },
+    {
+      "id": "buss1020--buss1020_week_01",
+      "name": "BUSS1020 Week 01",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 0,
+      "path": "documents/buss1020/BUSS1020_Week_01.json",
+      "download": "documents/buss1020/BUSS1020_Week_01.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_02",
+      "name": "BUSS1020 Week 02",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 1,
+      "path": "documents/buss1020/BUSS1020_Week_02.json",
+      "download": "documents/buss1020/BUSS1020_Week_02.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_03",
+      "name": "BUSS1020 Week 03",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 2,
+      "path": "documents/buss1020/BUSS1020_Week_03.json",
+      "download": "documents/buss1020/BUSS1020_Week_03.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_04",
+      "name": "BUSS1020 Week 04",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 3,
+      "path": "documents/buss1020/BUSS1020_Week_04.json",
+      "download": "documents/buss1020/BUSS1020_Week_04.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_05",
+      "name": "BUSS1020 Week 05",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 4,
+      "path": "documents/buss1020/BUSS1020_Week_05.json",
+      "download": "documents/buss1020/BUSS1020_Week_05.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_06",
+      "name": "BUSS1020 Week 06",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 5,
+      "path": "documents/buss1020/BUSS1020_Week_06.json",
+      "download": "documents/buss1020/BUSS1020_Week_06.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_07",
+      "name": "BUSS1020 Week 07",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 6,
+      "path": "documents/buss1020/BUSS1020_Week_07.json",
+      "download": "documents/buss1020/BUSS1020_Week_07.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_08",
+      "name": "BUSS1020 Week 08",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 7,
+      "path": "documents/buss1020/BUSS1020_Week_08.json",
+      "download": "documents/buss1020/BUSS1020_Week_08.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_09",
+      "name": "BUSS1020 Week 09",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 8,
+      "path": "documents/buss1020/BUSS1020_Week_09.json",
+      "download": "documents/buss1020/BUSS1020_Week_09.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_10",
+      "name": "BUSS1020 Week 10",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 9,
+      "path": "documents/buss1020/BUSS1020_Week_10.json",
+      "download": "documents/buss1020/BUSS1020_Week_10.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_11",
+      "name": "BUSS1020 Week 11",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 10,
+      "path": "documents/buss1020/BUSS1020_Week_11.json",
+      "download": "documents/buss1020/BUSS1020_Week_11.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_12",
+      "name": "BUSS1020 Week 12",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 11,
+      "path": "documents/buss1020/BUSS1020_Week_12.json",
+      "download": "documents/buss1020/BUSS1020_Week_12.docx"
+    },
+    {
+      "id": "buss1020--buss1020_week_13",
+      "name": "BUSS1020 Week 13",
+      "type": "file",
+      "parentId": "buss1020",
+      "order": 12,
+      "path": "documents/buss1020/BUSS1020_Week_13.json",
+      "download": "documents/buss1020/BUSS1020_Week_13.docx"
+    },
+    {
+      "id": "pmgt1711",
+      "name": "PMGT1711",
+      "type": "folder",
+      "parentId": null,
+      "order": 4
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_01",
+      "name": "PMGT1711 Week 01",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 0,
+      "path": "documents/pmgt1711/PMGT1711_Week_01.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_01.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_02",
+      "name": "PMGT1711 Week 02",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 1,
+      "path": "documents/pmgt1711/PMGT1711_Week_02.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_02.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_03",
+      "name": "PMGT1711 Week 03",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 2,
+      "path": "documents/pmgt1711/PMGT1711_Week_03.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_03.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_04",
+      "name": "PMGT1711 Week 04",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 3,
+      "path": "documents/pmgt1711/PMGT1711_Week_04.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_04.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_05",
+      "name": "PMGT1711 Week 05",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 4,
+      "path": "documents/pmgt1711/PMGT1711_Week_05.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_05.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_06",
+      "name": "PMGT1711 Week 06",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 5,
+      "path": "documents/pmgt1711/PMGT1711_Week_06.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_06.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_07",
+      "name": "PMGT1711 Week 07",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 6,
+      "path": "documents/pmgt1711/PMGT1711_Week_07.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_07.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_08",
+      "name": "PMGT1711 Week 08",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 7,
+      "path": "documents/pmgt1711/PMGT1711_Week_08.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_08.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_09",
+      "name": "PMGT1711 Week 09",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 8,
+      "path": "documents/pmgt1711/PMGT1711_Week_09.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_09.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_10",
+      "name": "PMGT1711 Week 10",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 9,
+      "path": "documents/pmgt1711/PMGT1711_Week_10.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_10.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_11",
+      "name": "PMGT1711 Week 11",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 10,
+      "path": "documents/pmgt1711/PMGT1711_Week_11.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_11.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_12",
+      "name": "PMGT1711 Week 12",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 11,
+      "path": "documents/pmgt1711/PMGT1711_Week_12.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_12.docx"
+    },
+    {
+      "id": "pmgt1711--pmgt1711_week_13",
+      "name": "PMGT1711 Week 13",
+      "type": "file",
+      "parentId": "pmgt1711",
+      "order": 12,
+      "path": "documents/pmgt1711/PMGT1711_Week_13.json",
+      "download": "documents/pmgt1711/PMGT1711_Week_13.docx"
+    },
+    {
+      "id": "pmgt1850",
+      "name": "PMGT1850",
+      "type": "folder",
+      "parentId": null,
+      "order": 5
+    },
+    {
+      "id": "pmgt1850--intro_of_pm",
+      "name": "Intro of PM",
+      "type": "file",
+      "parentId": "pmgt1850",
+      "order": 0,
+      "path": "documents/pmgt1850/Intro_of_PM.json",
+      "download": "documents/pmgt1850/Intro_of_PM.docx"
+    },
+    {
+      "id": "pmgt1852",
+      "name": "PMGT1852",
+      "type": "folder",
+      "parentId": null,
+      "order": 6
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_01",
+      "name": "PMGT1852 Week 01",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 0,
+      "path": "documents/pmgt1852/PMGT1852_Week_01.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_01.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_02",
+      "name": "PMGT1852 Week 02",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 1,
+      "path": "documents/pmgt1852/PMGT1852_Week_02.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_02.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_03",
+      "name": "PMGT1852 Week 03",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 2,
+      "path": "documents/pmgt1852/PMGT1852_Week_03.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_03.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_04",
+      "name": "PMGT1852 Week 04",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 3,
+      "path": "documents/pmgt1852/PMGT1852_Week_04.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_04.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_05",
+      "name": "PMGT1852 Week 05",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 4,
+      "path": "documents/pmgt1852/PMGT1852_Week_05.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_05.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_06",
+      "name": "PMGT1852 Week 06",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 5,
+      "path": "documents/pmgt1852/PMGT1852_Week_06.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_06.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_07",
+      "name": "PMGT1852 Week 07",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 6,
+      "path": "documents/pmgt1852/PMGT1852_Week_07.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_07.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_08",
+      "name": "PMGT1852 Week 08",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 7,
+      "path": "documents/pmgt1852/PMGT1852_Week_08.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_08.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_09",
+      "name": "PMGT1852 Week 09",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 8,
+      "path": "documents/pmgt1852/PMGT1852_Week_09.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_09.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_10",
+      "name": "PMGT1852 Week 10",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 9,
+      "path": "documents/pmgt1852/PMGT1852_Week_10.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_10.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_11",
+      "name": "PMGT1852 Week 11",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 10,
+      "path": "documents/pmgt1852/PMGT1852_Week_11.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_11.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_12",
+      "name": "PMGT1852 Week 12",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 11,
+      "path": "documents/pmgt1852/PMGT1852_Week_12.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_12.docx"
+    },
+    {
+      "id": "pmgt1852--pmgt1852_week_13",
+      "name": "PMGT1852 Week 13",
+      "type": "file",
+      "parentId": "pmgt1852",
+      "order": 12,
+      "path": "documents/pmgt1852/PMGT1852_Week_13.json",
+      "download": "documents/pmgt1852/PMGT1852_Week_13.docx"
+    },
+    {
+      "id": "the-nature-of-mind",
+      "name": "The Nature of Mind",
+      "type": "folder",
+      "parentId": null,
+      "order": 7
+    },
+    {
+      "id": "the-nature-of-mind--00_-_course_overview_and_note_index",
+      "name": "00 - Course Overview and Note Index",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 0,
+      "path": "documents/the-nature-of-mind/00_-_Course_Overview_and_Note_Index.json",
+      "download": "documents/the-nature-of-mind/00_-_Course_Overview_and_Note_Index.docx"
+    },
+    {
+      "id": "the-nature-of-mind--01_-_introduction_to_the_nature_of_mind",
+      "name": "01 - Introduction to the Nature of Mind",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 1,
+      "path": "documents/the-nature-of-mind/01_-_Introduction_to_the_Nature_of_Mind.json",
+      "download": "documents/the-nature-of-mind/01_-_Introduction_to_the_Nature_of_Mind.docx"
+    },
+    {
+      "id": "the-nature-of-mind--02_-_foundations_-_dualism__behaviorism__central_state_materialism",
+      "name": "02 - Foundations - Dualism, Behaviorism, Central State Materialism",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 2,
+      "path": "documents/the-nature-of-mind/02_-_Foundations_-_Dualism__Behaviorism__Central_State_Materialism.json",
+      "download": "documents/the-nature-of-mind/02_-_Foundations_-_Dualism__Behaviorism__Central_State_Materialism.docx"
+    },
+    {
+      "id": "the-nature-of-mind--03_-_analytical_behaviorism_-_ryle_s_descartes__myth",
+      "name": "03 - Analytical Behaviorism - Ryle's Descartes' Myth",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 3,
+      "path": "documents/the-nature-of-mind/03_-_Analytical_Behaviorism_-_Ryle_s_Descartes__Myth.json",
+      "download": "documents/the-nature-of-mind/03_-_Analytical_Behaviorism_-_Ryle_s_Descartes__Myth.docx"
+    },
+    {
+      "id": "the-nature-of-mind--04_-_hilary_putnam_s_brains_and_behavior",
+      "name": "04 - Hilary Putnam's Brains and Behavior",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 4,
+      "path": "documents/the-nature-of-mind/04_-_Hilary_Putnam_s_Brains_and_Behavior.json",
+      "download": "documents/the-nature-of-mind/04_-_Hilary_Putnam_s_Brains_and_Behavior.docx"
+    },
+    {
+      "id": "the-nature-of-mind--05_-_putnam_s_the_nature_of_mental_states",
+      "name": "05 - Putnam's The Nature of Mental States",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 5,
+      "path": "documents/the-nature-of-mind/05_-_Putnam_s_The_Nature_of_Mental_States.json",
+      "download": "documents/the-nature-of-mind/05_-_Putnam_s_The_Nature_of_Mental_States.docx"
+    },
+    {
+      "id": "the-nature-of-mind--06_-_ned_block_s_troubles_with_functionalism",
+      "name": "06 - Ned Block's Troubles with Functionalism",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 6,
+      "path": "documents/the-nature-of-mind/06_-_Ned_Block_s_Troubles_with_Functionalism.json",
+      "download": "documents/the-nature-of-mind/06_-_Ned_Block_s_Troubles_with_Functionalism.docx"
+    },
+    {
+      "id": "the-nature-of-mind--07_-_the_inverted_spectrum_and_pseudonormal_vision",
+      "name": "07 - The Inverted Spectrum and Pseudonormal Vision",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 7,
+      "path": "documents/the-nature-of-mind/07_-_The_Inverted_Spectrum_and_Pseudonormal_Vision.json",
+      "download": "documents/the-nature-of-mind/07_-_The_Inverted_Spectrum_and_Pseudonormal_Vision.docx"
+    },
+    {
+      "id": "the-nature-of-mind--08_-_searle_s_can_computers_think",
+      "name": "08 - Searle's Can Computers Think",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 8,
+      "path": "documents/the-nature-of-mind/08_-_Searle_s_Can_Computers_Think.json",
+      "download": "documents/the-nature-of-mind/08_-_Searle_s_Can_Computers_Think.docx"
+    },
+    {
+      "id": "the-nature-of-mind--09_-_searle_s_can_computers_think_-_the_chinese_room",
+      "name": "09 - Searle's Can Computers Think - The Chinese Room",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 9,
+      "path": "documents/the-nature-of-mind/09_-_Searle_s_Can_Computers_Think_-_The_Chinese_Room.json",
+      "download": "documents/the-nature-of-mind/09_-_Searle_s_Can_Computers_Think_-_The_Chinese_Room.docx"
+    },
+    {
+      "id": "the-nature-of-mind--10_-_review_for_exam_1",
+      "name": "10 - Review for Exam 1",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 10,
+      "path": "documents/the-nature-of-mind/10_-_Review_for_Exam_1.json",
+      "download": "documents/the-nature-of-mind/10_-_Review_for_Exam_1.docx"
+    },
+    {
+      "id": "the-nature-of-mind--11_-_nagel_s_what_is_it_like_to_be_a_bat",
+      "name": "11 - Nagel's What Is It Like to Be a Bat",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 11,
+      "path": "documents/the-nature-of-mind/11_-_Nagel_s_What_Is_It_Like_to_Be_a_Bat.json",
+      "download": "documents/the-nature-of-mind/11_-_Nagel_s_What_Is_It_Like_to_Be_a_Bat.docx"
+    },
+    {
+      "id": "the-nature-of-mind--12_-_neuroscientific_approaches_to_the_consciousness_question",
+      "name": "12 - Neuroscientific Approaches to the Consciousness Question",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 12,
+      "path": "documents/the-nature-of-mind/12_-_Neuroscientific_Approaches_to_the_Consciousness_Question.json",
+      "download": "documents/the-nature-of-mind/12_-_Neuroscientific_Approaches_to_the_Consciousness_Question.docx"
+    },
+    {
+      "id": "the-nature-of-mind--13_-_discussion_on_the_science_of_consciousness",
+      "name": "13 - Discussion on the Science of Consciousness",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 13,
+      "path": "documents/the-nature-of-mind/13_-_Discussion_on_the_Science_of_Consciousness.json",
+      "download": "documents/the-nature-of-mind/13_-_Discussion_on_the_Science_of_Consciousness.docx"
+    },
+    {
+      "id": "the-nature-of-mind--14_-_jackson_s_epiphenomenal_qualia",
+      "name": "14 - Jackson's Epiphenomenal Qualia",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 14,
+      "path": "documents/the-nature-of-mind/14_-_Jackson_s_Epiphenomenal_Qualia.json",
+      "download": "documents/the-nature-of-mind/14_-_Jackson_s_Epiphenomenal_Qualia.docx"
+    },
+    {
+      "id": "the-nature-of-mind--15_-_huxley_s_animals_as_automata",
+      "name": "15 - Huxley's Animals as Automata",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 15,
+      "path": "documents/the-nature-of-mind/15_-_Huxley_s_Animals_as_Automata.json",
+      "download": "documents/the-nature-of-mind/15_-_Huxley_s_Animals_as_Automata.docx"
+    },
+    {
+      "id": "the-nature-of-mind--16_-_schizophrenia",
+      "name": "16 - Schizophrenia",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 16,
+      "path": "documents/the-nature-of-mind/16_-_Schizophrenia.json",
+      "download": "documents/the-nature-of-mind/16_-_Schizophrenia.docx"
+    },
+    {
+      "id": "the-nature-of-mind--17_-_imagination_and_physicalism",
+      "name": "17 - Imagination and Physicalism",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 17,
+      "path": "documents/the-nature-of-mind/17_-_Imagination_and_Physicalism.json",
+      "download": "documents/the-nature-of-mind/17_-_Imagination_and_Physicalism.docx"
+    },
+    {
+      "id": "the-nature-of-mind--18_-_john_locke_s_of_identity_and_diversity",
+      "name": "18 - John Locke's Of Identity and Diversity",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 18,
+      "path": "documents/the-nature-of-mind/18_-_John_Locke_s_Of_Identity_and_Diversity.json",
+      "download": "documents/the-nature-of-mind/18_-_John_Locke_s_Of_Identity_and_Diversity.docx"
+    },
+    {
+      "id": "the-nature-of-mind--19_-_bernard_williams__the_self_and_the_future",
+      "name": "19 - Bernard Williams' The Self and the Future",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 19,
+      "path": "documents/the-nature-of-mind/19_-_Bernard_Williams__The_Self_and_the_Future.json",
+      "download": "documents/the-nature-of-mind/19_-_Bernard_Williams__The_Self_and_the_Future.docx"
+    },
+    {
+      "id": "the-nature-of-mind--20_-_review_for_exam_2",
+      "name": "20 - Review for Exam 2",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 20,
+      "path": "documents/the-nature-of-mind/20_-_Review_for_Exam_2.json",
+      "download": "documents/the-nature-of-mind/20_-_Review_for_Exam_2.docx"
+    },
+    {
+      "id": "the-nature-of-mind--21_-_derek_parfit_s_personal_identity_i",
+      "name": "21 - Derek Parfit's Personal Identity I",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 21,
+      "path": "documents/the-nature-of-mind/21_-_Derek_Parfit_s_Personal_Identity_I.json",
+      "download": "documents/the-nature-of-mind/21_-_Derek_Parfit_s_Personal_Identity_I.docx"
+    },
+    {
+      "id": "the-nature-of-mind--22_-_derek_parfit_s_personal_identity_ii",
+      "name": "22 - Derek Parfit's Personal Identity II",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 22,
+      "path": "documents/the-nature-of-mind/22_-_Derek_Parfit_s_Personal_Identity_II.json",
+      "download": "documents/the-nature-of-mind/22_-_Derek_Parfit_s_Personal_Identity_II.docx"
+    },
+    {
+      "id": "the-nature-of-mind--23_-_derek_parfit_s_personal_identity_iii",
+      "name": "23 - Derek Parfit's Personal Identity III",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 23,
+      "path": "documents/the-nature-of-mind/23_-_Derek_Parfit_s_Personal_Identity_III.json",
+      "download": "documents/the-nature-of-mind/23_-_Derek_Parfit_s_Personal_Identity_III.docx"
+    },
+    {
+      "id": "the-nature-of-mind--24_-_churchland_s_eliminative_materialism",
+      "name": "24 - Churchland's Eliminative Materialism",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 24,
+      "path": "documents/the-nature-of-mind/24_-_Churchland_s_Eliminative_Materialism.json",
+      "download": "documents/the-nature-of-mind/24_-_Churchland_s_Eliminative_Materialism.docx"
+    },
+    {
+      "id": "the-nature-of-mind--25_-_dennett_s_true_believers",
+      "name": "25 - Dennett's True Believers",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 25,
+      "path": "documents/the-nature-of-mind/25_-_Dennett_s_True_Believers.json",
+      "download": "documents/the-nature-of-mind/25_-_Dennett_s_True_Believers.docx"
+    },
+    {
+      "id": "the-nature-of-mind--26_-_clark_and_chalmers__the_extended_mind",
+      "name": "26 - Clark and Chalmers' The Extended Mind",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 26,
+      "path": "documents/the-nature-of-mind/26_-_Clark_and_Chalmers__The_Extended_Mind.json",
+      "download": "documents/the-nature-of-mind/26_-_Clark_and_Chalmers__The_Extended_Mind.docx"
+    },
+    {
+      "id": "the-nature-of-mind--27_-_review_of_the_course",
+      "name": "27 - Review of the Course",
+      "type": "file",
+      "parentId": "the-nature-of-mind",
+      "order": 27,
+      "path": "documents/the-nature-of-mind/27_-_Review_of_the_Course.json",
+      "download": "documents/the-nature-of-mind/27_-_Review_of_the_Course.docx"
+    },
+    {
+      "id": "general-psychiatry",
+      "name": "General Psychiatry",
+      "type": "folder",
+      "parentId": null,
+      "order": 8
+    },
+    {
+      "id": "general-psychiatry--01-psychiatric-assessment",
+      "name": "01-Psychiatric-Assessment",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 0,
+      "path": "documents/general-psychiatry/01-Psychiatric-Assessment.json",
+      "download": "documents/general-psychiatry/01-Psychiatric-Assessment.docx"
+    },
+    {
+      "id": "general-psychiatry--02-mood-disorders",
+      "name": "02-Mood-Disorders",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 1,
+      "path": "documents/general-psychiatry/02-Mood-Disorders.json",
+      "download": "documents/general-psychiatry/02-Mood-Disorders.docx"
+    },
+    {
+      "id": "general-psychiatry--03-schizophrenia",
+      "name": "03-Schizophrenia",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 2,
+      "path": "documents/general-psychiatry/03-Schizophrenia.json",
+      "download": "documents/general-psychiatry/03-Schizophrenia.docx"
+    },
+    {
+      "id": "general-psychiatry--04-anxiety-disorders",
+      "name": "04-Anxiety-Disorders",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 3,
+      "path": "documents/general-psychiatry/04-Anxiety-Disorders.json",
+      "download": "documents/general-psychiatry/04-Anxiety-Disorders.docx"
+    },
+    {
+      "id": "general-psychiatry--05-personality-disorders",
+      "name": "05-Personality-Disorders",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 4,
+      "path": "documents/general-psychiatry/05-Personality-Disorders.json",
+      "download": "documents/general-psychiatry/05-Personality-Disorders.docx"
+    },
+    {
+      "id": "general-psychiatry--06-descriptive-psychopathology",
+      "name": "06-Descriptive-Psychopathology",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 5,
+      "path": "documents/general-psychiatry/06-Descriptive-Psychopathology.json",
+      "download": "documents/general-psychiatry/06-Descriptive-Psychopathology.docx"
+    },
+    {
+      "id": "general-psychiatry--07-dementia",
+      "name": "07-Dementia",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 6,
+      "path": "documents/general-psychiatry/07-Dementia.json",
+      "download": "documents/general-psychiatry/07-Dementia.docx"
+    },
+    {
+      "id": "general-psychiatry--08-delirium",
+      "name": "08-Delirium",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 7,
+      "path": "documents/general-psychiatry/08-Delirium.json",
+      "download": "documents/general-psychiatry/08-Delirium.docx"
+    },
+    {
+      "id": "general-psychiatry--09-alcohol-misuse-disorders",
+      "name": "09-Alcohol-Misuse-Disorders",
+      "type": "file",
+      "parentId": "general-psychiatry",
+      "order": 8,
+      "path": "documents/general-psychiatry/09-Alcohol-Misuse-Disorders.json",
+      "download": "documents/general-psychiatry/09-Alcohol-Misuse-Disorders.docx"
+    },
+    {
+      "id": "pmgt1865",
+      "name": "PMGT1865",
+      "type": "folder",
+      "parentId": null,
+      "order": 9
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_01",
+      "name": "PMGT1865 Week 01",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 0,
+      "path": "documents/pmgt1865/PMGT1865_Week_01.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_01.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_02",
+      "name": "PMGT1865 Week 02",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 1,
+      "path": "documents/pmgt1865/PMGT1865_Week_02.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_02.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_03",
+      "name": "PMGT1865 Week 03",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 2,
+      "path": "documents/pmgt1865/PMGT1865_Week_03.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_03.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_04",
+      "name": "PMGT1865 Week 04",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 3,
+      "path": "documents/pmgt1865/PMGT1865_Week_04.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_04.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_05",
+      "name": "PMGT1865 Week 05",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 4,
+      "path": "documents/pmgt1865/PMGT1865_Week_05.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_05.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_06",
+      "name": "PMGT1865 Week 06",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 5,
+      "path": "documents/pmgt1865/PMGT1865_Week_06.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_06.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_07",
+      "name": "PMGT1865 Week 07",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 6,
+      "path": "documents/pmgt1865/PMGT1865_Week_07.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_07.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_08",
+      "name": "PMGT1865 Week 08",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 7,
+      "path": "documents/pmgt1865/PMGT1865_Week_08.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_08.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_09",
+      "name": "PMGT1865 Week 09",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 8,
+      "path": "documents/pmgt1865/PMGT1865_Week_09.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_09.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_10",
+      "name": "PMGT1865 Week 10",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 9,
+      "path": "documents/pmgt1865/PMGT1865_Week_10.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_10.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_11",
+      "name": "PMGT1865 Week 11",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 10,
+      "path": "documents/pmgt1865/PMGT1865_Week_11.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_11.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_12",
+      "name": "PMGT1865 Week 12",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 11,
+      "path": "documents/pmgt1865/PMGT1865_Week_12.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_12.docx"
+    },
+    {
+      "id": "pmgt1865--pmgt1865_week_13",
+      "name": "PMGT1865 Week 13",
+      "type": "file",
+      "parentId": "pmgt1865",
+      "order": 12,
+      "path": "documents/pmgt1865/PMGT1865_Week_13.json",
+      "download": "documents/pmgt1865/PMGT1865_Week_13.docx"
+    }
+  ]
+}
