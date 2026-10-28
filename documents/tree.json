@@ -7,7 +7,7 @@
       "name": "Intro to Psychology",
       "type": "folder",
       "parentId": null,
-      "order": 0
+      "order": 5
     },
     {
       "id": "intro-to-psychology--01_introduction",
@@ -194,7 +194,7 @@
       "name": "Philosophy of Death",
       "type": "folder",
       "parentId": null,
-      "order": 1
+      "order": 6
     },
     {
       "id": "philosophy-of-death--0__overview",
@@ -462,7 +462,7 @@
       "name": "Illusionism",
       "type": "folder",
       "parentId": null,
-      "order": 2
+      "order": 7
     },
     {
       "id": "illusionism--lecture_1_the_illusionist_option_notes",
@@ -523,7 +523,7 @@
       "name": "BUSS1020",
       "type": "folder",
       "parentId": null,
-      "order": 3
+      "order": 1
     },
     {
       "id": "buss1020--buss1020_week_01",
@@ -647,7 +647,7 @@
       "name": "PMGT1711",
       "type": "folder",
       "parentId": null,
-      "order": 4
+      "order": 2
     },
     {
       "id": "pmgt1711--pmgt1711_week_01",
@@ -771,7 +771,7 @@
       "name": "PMGT1850",
       "type": "folder",
       "parentId": null,
-      "order": 5
+      "order": 0
     },
     {
       "id": "pmgt1850--intro_of_pm",
@@ -787,7 +787,7 @@
       "name": "PMGT1852",
       "type": "folder",
       "parentId": null,
-      "order": 6
+      "order": 3
     },
     {
       "id": "pmgt1852--pmgt1852_week_01",
@@ -911,7 +911,7 @@
       "name": "The Nature of Mind",
       "type": "folder",
       "parentId": null,
-      "order": 7
+      "order": 8
     },
     {
       "id": "the-nature-of-mind--00_-_course_overview_and_note_index",
@@ -1170,7 +1170,7 @@
       "name": "General Psychiatry",
       "type": "folder",
       "parentId": null,
-      "order": 8
+      "order": 9
     },
     {
       "id": "general-psychiatry--01-psychiatric-assessment",
@@ -1258,7 +1258,7 @@
       "name": "PMGT1865",
       "type": "folder",
       "parentId": null,
-      "order": 9
+      "order": 4
     },
     {
       "id": "pmgt1865--pmgt1865_week_01",

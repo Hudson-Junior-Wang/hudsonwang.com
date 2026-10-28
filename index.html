@@ -297,7 +297,7 @@ function renderTree() {
     const node = nodeFor(item);
     container.appendChild(node);
     if (item.type !== "folder") return;
-    if (!(item.id in expanded)) expanded[item.id] = childrenOf(item.id).length > 0;
+    if (!(item.id in expanded)) expanded[item.id] = false;
     const kids = document.createElement("div");
     kids.className = "kids";
     kids.hidden = !expanded[item.id];
