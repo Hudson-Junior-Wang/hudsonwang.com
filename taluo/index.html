@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>塔罗情感推演 · Tarot Love Reading</title>
+<meta name="description" content="塔罗牌情感推演：过去·现在·未来·结局 四牌阵">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{
+  --gold:#e6c475; --gold2:#b8913f; --ink:#f4ead2; --muted:#b9a98a;
+  --bg1:#0d0820; --bg2:#22113f; --card-w:150px; --card-h:258px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  font-family:"Songti SC","Noto Serif SC","STSong","SimSun",Georgia,serif;
+  color:var(--ink);
+  background:radial-gradient(ellipse at top,var(--bg2) 0%,var(--bg1) 60%,#05030c 100%) fixed;
+  overflow-x:hidden;
+}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px 80px;text-align:center}
+h1{font-size:clamp(28px,5vw,46px);letter-spacing:.2em;color:var(--gold);
+  text-shadow:0 0 18px rgba(230,196,117,.45);margin-bottom:6px}
+.sub{color:var(--muted);letter-spacing:.3em;font-size:13px;margin-bottom:34px}
+.orn{color:var(--gold2);letter-spacing:.6em;margin:14px 0}
+section{display:none;animation:fade .8s ease}
+section.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+p.lead{max-width:640px;margin:0 auto 26px;line-height:1.9;color:#e5dac0}
+
+.ids{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;margin-top:10px}
+.id{
+  width:200px;padding:28px 18px;border:1px solid rgba(230,196,117,.45);border-radius:14px;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01));
+  cursor:pointer;transition:.35s;color:var(--ink);font-family:inherit;
+}
+.id:hover,.id:focus{transform:translateY(-6px);border-color:var(--gold);
+  box-shadow:0 0 28px rgba(230,196,117,.35);outline:none}
+.id .sym{font-size:40px;color:var(--gold);display:block;margin-bottom:10px}
+.id .nm{font-size:24px;letter-spacing:.15em}
+.id .ds{font-size:12px;color:var(--muted);margin-top:8px;letter-spacing:.1em}
+
+.btn{
+  margin-top:28px;padding:12px 38px;font-size:16px;letter-spacing:.3em;font-family:inherit;
+  color:#1a1030;background:linear-gradient(180deg,#f3d98f,#c79a43);border:none;border-radius:30px;
+  cursor:pointer;box-shadow:0 0 22px rgba(230,196,117,.4);transition:.3s
+}
+.btn:hover{transform:scale(1.05)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+
+.deck{position:relative;height:300px;max-width:900px;margin:20px auto 0}
+.dcard{
+  position:absolute;left:50%;top:20px;width:110px;height:190px;margin-left:-55px;border-radius:10px;
+  cursor:pointer;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .4s,box-shadow .3s;
+}
+.dcard:hover{box-shadow:0 0 22px rgba(230,196,117,.8)}
+.dcard.taken{opacity:0;pointer-events:none}
+.back{
+  width:100%;height:100%;border-radius:10px;border:2px solid var(--gold2);
+  background:
+    radial-gradient(circle at 50% 50%,rgba(230,196,117,.9) 0 6%,transparent 7%),
+    radial-gradient(circle at 50% 50%,transparent 0 20%,rgba(230,196,117,.55) 21% 22%,transparent 23%),
+    radial-gradient(circle at 50% 50%,transparent 0 33%,rgba(230,196,117,.35) 34% 35%,transparent 36%),
+    repeating-linear-gradient(45deg,rgba(230,196,117,.08) 0 6px,transparent 6px 12px),
+    linear-gradient(160deg,#3a1f6b,#160b30);
+  box-shadow:inset 0 0 0 5px #160b30,inset 0 0 0 6px rgba(230,196,117,.6);
+}
+.picked-info{color:var(--muted);letter-spacing:.2em;margin-top:8px;min-height:24px}
+
+.spread{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;margin:24px 0}
+.slot{width:var(--card-w)}
+.slot .lbl{color:var(--gold);letter-spacing:.3em;font-size:14px;margin-bottom:10px}
+.flip{width:var(--card-w);height:var(--card-h);perspective:1000px;cursor:pointer}
+.inner{position:relative;width:100%;height:100%;transition:transform 1s;transform-style:preserve-3d}
+.flip.open .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:10px;overflow:hidden}
+.face.front{transform:rotateY(180deg);box-shadow:0 0 26px rgba(230,196,117,.45)}
+.face.front img{width:100%;height:100%;object-fit:cover;display:block}
+.slot .cn{margin-top:10px;font-size:15px;min-height:42px;opacity:0;transition:.6s .6s}
+.slot .cn small{display:block;color:var(--muted);font-size:11px;letter-spacing:.1em}
+.flip.open + .cn{opacity:1}
+.hint{color:var(--muted);font-size:13px;letter-spacing:.2em}
+
+.reading{max-width:760px;margin:10px auto 0;text-align:left}
+.step{
+  display:flex;gap:18px;padding:20px;margin-bottom:16px;border-radius:12px;
+  border:1px solid rgba(230,196,117,.25);background:rgba(255,255,255,.035);
+  animation:fade .8s ease
+}
+.step img{width:82px;height:141px;border-radius:6px;flex-shrink:0;object-fit:cover}
+.step h3{color:var(--gold);font-size:17px;letter-spacing:.1em;margin-bottom:4px}
+.step .kw{font-size:12px;color:var(--muted);margin-bottom:8px;letter-spacing:.05em}
+.step p{line-height:1.85;font-size:15px;color:#ebe1c8}
+.final{
+  max-width:760px;margin:30px auto 0;padding:34px 26px;border-radius:16px;text-align:center;
+  border:1px solid var(--gold);background:radial-gradient(ellipse at center,rgba(230,196,117,.18),rgba(13,8,32,.6));
+  box-shadow:0 0 40px rgba(230,196,117,.3);display:none;animation:glow 3s ease-in-out infinite alternate
+}
+@keyframes glow{from{box-shadow:0 0 24px rgba(230,196,117,.2)}to{box-shadow:0 0 54px rgba(230,196,117,.5)}}
+.final .t{color:var(--muted);letter-spacing:.4em;font-size:13px}
+.final .v{font-size:clamp(22px,4vw,32px);color:var(--gold);margin:16px 0;line-height:1.6;
+  text-shadow:0 0 14px rgba(230,196,117,.5)}
+.final .e{color:#e5dac0;line-height:1.9;font-size:15px}
+footer{margin-top:50px;font-size:11px;color:#7d7060;line-height:1.8}
+footer a{color:#9d8d70}
+.loader{font-size:15px;letter-spacing:.3em;color:var(--gold)}
+.loader span{animation:blink 1.4s infinite}
+.loader span:nth-child(2){animation-delay:.2s}.loader span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,100%{opacity:.2}50%{opacity:1}}
+@media(max-width:640px){
+  :root{--card-w:42vw;--card-h:72vw}
+  .dcard{width:74px;height:128px;margin-left:-37px}
+  .deck{height:230px}
+  .step{flex-direction:column;align-items:center;text-align:center}
+}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<main>
+  <h1>塔罗情感推演</h1>
+  <div class="sub">TAROT · LOVE · DIVINATION</div>
+
+  <section id="s-id" class="active">
+    <p class="lead">静下心来，深呼吸三次。<br>在心中默念你想询问的感情问题，然后选择你的身份。</p>
+    <div class="ids">
+      <button class="id" data-id="sophia"><span class="sym">☾</span><span class="nm">索菲亚</span><div class="ds">月之守护 · 温柔与恒久</div></button>
+      <button class="id" data-id="robin"><span class="sym">☀</span><span class="nm">Robin</span><div class="ds">日之指引 · 坦诚与热烈</div></button>
+      <button class="id" data-id="avo"><span class="sym">✦</span><span class="nm">Avo</span><div class="ds">星之祈愿 · 希望与浪漫</div></button>
+    </div>
+  </section>
+
+  <section id="s-pick">
+    <p class="lead" id="pick-lead"></p>
+    <div class="deck" id="deck"></div>
+    <div class="picked-info" id="picked-info">请凭直觉抽取 4 张牌（0 / 4）</div>
+  </section>
+
+  <section id="s-reveal">
+    <p class="lead">牌阵：<b style="color:var(--gold)">过去 · 现在 · 未来 · 结局</b><br><span class="hint">依次点击牌面翻开</span></p>
+    <div class="spread" id="spread"></div>
+    <div class="reading" id="reading"></div>
+    <div class="final" id="final">
+      <div class="t">— 最 终 启 示 —</div>
+      <div class="v" id="final-v"></div>
+      <div class="e" id="final-e"></div>
+    </div>
+    <button class="btn ghost" id="again" style="display:none">重新占卜</button>
+  </section>
+
+  <div class="orn">✦ ✦ ✦</div>
+  <footer>
+    牌面图像：Rider–Waite–Smith 塔罗（Pamela Colman Smith, 1909），公有领域，来自
+    <a href="https://commons.wikimedia.org/wiki/Category:Rider-Waite_tarot_deck" target="_blank" rel="noopener">Wikimedia Commons</a>。<br>
+    牌义参考：<a href="https://labyrinthos.co/blogs/tarot-card-meanings-list" target="_blank" rel="noopener">Labyrinthos Tarot Meanings</a>
+    · <a href="https://www.biddytarot.com/tarot-card-meanings/" target="_blank" rel="noopener">Biddy Tarot</a>。<br>
+    仅供娱乐，愿你被温柔以待。
+  </footer>
+</main>
+
+<script>
+const CARDS = {
+  aceCups:{img:'img/cups01.jpg',zh:'圣杯一',en:'Ace of Cups',kw:'新的感情 · 心灵敞开 · 爱的源泉'},
+  twoCups:{img:'img/cups02.jpg',zh:'圣杯二',en:'Two of Cups',kw:'结合 · 双向奔赴 · 互相尊重'},
+  tenCups:{img:'img/cups10.jpg',zh:'圣杯十',en:'Ten of Cups',kw:'圆满 · 家庭 · 永恒的幸福'},
+  pageCups:{img:'img/cups11.jpg',zh:'圣杯侍从',en:'Page of Cups',kw:'心动讯息 · 纯真 · 浪漫的开端'},
+  knightCups:{img:'img/cups12.jpg',zh:'圣杯骑士',en:'Knight of Cups',kw:'追求 · 浪漫邀约 · 跟随内心'},
+  lovers:{img:'img/lovers.jpg',zh:'恋人',en:'VI · The Lovers',kw:'灵魂契合 · 选择 · 价值一致'},
+  star:{img:'img/star.jpg',zh:'星星',en:'XVII · The Star',kw:'希望 · 疗愈 · 信念'},
+  sun:{img:'img/sun.jpg',zh:'太阳',en:'XIX · The Sun',kw:'喜悦 · 光明 · 成功'},
+  world:{img:'img/world.jpg',zh:'世界',en:'XXI · The World',kw:'完满 · 圆环 · 永恒的循环'},
+  fourWands:{img:'img/wands04.jpg',zh:'权杖四',en:'Four of Wands',kw:'庆典 · 稳定 · 婚礼与归宿'}
+};
+const POS = ['过去','现在','未来','结局'];
+
+const READINGS = {
+  sophia:{
+    lead:'月光为索菲亚铺开牌阵。牌已洗好——请凭直觉，从中抽取 4 张。',
+    cards:['aceCups','twoCups','tenCups','world'],
+    text:[
+      '圣杯一象征一颗被爱充盈、正在溢出的心。它出现在“过去”的位置，说明你们的故事始于一次真诚的心动——云中之手捧出圣杯，寓意这段感情从一开始就带着某种命中注定的祝福。那时的你愿意敞开心扉，爱的源泉由此涌现。',
+      '圣杯二是塔罗中最吉祥的感情牌之一：两人交换圣杯、相互凝视，中间的赫尔墨斯权杖与狮首象征平衡、契约与热情。它落在“现在”，说明你与现在的对象正处于双向奔赴的状态——彼此尊重、彼此回应，这份连接平等而坚实。',
+      '圣杯十描绘彩虹下相拥的伴侣与嬉戏的孩子，是情感圆满的最高象征。在“未来”位置，它预示你们会一起走向稳定、温暖的家，情感上的满足不再是短暂的激情，而是可以长久依靠的归宿。',
+      '世界牌是大阿卡纳的最后一张，舞者被月桂花环环绕，象征完满、圆环与无尽的循环。作为“结局”，它意味着这段缘分不只是一段旅程的终点，而是一个完整的圆——结束即是新的开始，一世又一世地循环往复。'
+    ],
+    verdict:'你将和现在的对象长长久久，生生世世。',
+    epilogue:'从圣杯一的心动，到圣杯二的相守，再到圣杯十的圆满，最终由世界牌合成一个永恒的圆环——四张牌全部为正位吉牌，这是极为少见的“完满牌阵”。珍惜身边的人，你们的爱将穿越时间。'
+  },
+  robin:{
+    lead:'阳光照亮 Robin 的牌阵。牌已洗好——请凭直觉，从中抽取 4 张。',
+    cards:['pageCups','lovers','sun','fourWands'],
+    text:[
+      '圣杯侍从手持圣杯，杯中探出一条小鱼——意想不到的心动讯息。在“过去”位置，它说明你们的故事始于一个出乎意料、带着几分可爱与羞涩的开端：也许是一句玩笑、一条消息，就让一颗心悄悄被点亮。',
+      '恋人牌中，天使拉斐尔在两人上方赐福，代表灵魂层面的吸引与“选择”。在“现在”位置，它提示你正面对内心真正的选择——而牌面显示，你的心早已指向那个与你价值观契合的人：Avo。',
+      '太阳是塔罗中最明亮的牌：孩童骑着白马在向日葵下欢笑，象征纯粹的喜悦与毫无阴霾的坦诚。在“未来”位置，它预示你们的关系将越来越光明，没有猜疑，只有温暖与快乐。',
+      '权杖四描绘花环拱门下的庆典，是象征婚礼、团聚与稳定归宿的经典牌。作为“结局”，它意味着这段感情将修成正果，迎来值得庆祝的美好时刻。'
+    ],
+    verdict:'你将和 Avo 拥有幸福的结局。',
+    epilogue:'从圣杯侍从的心动讯息，到恋人牌的灵魂选择，再到太阳的光明与权杖四的庆典——牌面一路向阳。勇敢地走向 Avo 吧，幸福已在拱门下等你。'
+  },
+  avo:{
+    lead:'星光为 Avo 指引牌阵。牌已洗好——请凭直觉，从中抽取 4 张。',
+    cards:['star','knightCups','twoCups','lovers'],
+    text:[
+      '星星牌中，少女在星空下将水倾入池塘与大地，象征希望、疗愈与对未来的信念。在“过去”位置，它说明你曾在心底默默许愿、等待一份真正的爱；那段时光治愈了你，也让你准备好去爱。',
+      '圣杯骑士骑着白马、稳稳托着圣杯前行，是塔罗中“带着心意而来的追求者”。在“现在”位置，它表示浪漫的邀约正在发生——你正跟随内心靠近 Robin，而 Robin 也正带着真心走向你。',
+      '圣杯二象征两颗心的平等结合与彼此承诺。在“未来”位置，它预示你们会从暧昧走向双向奔赴，形成一份互相尊重、互相回应的稳定关系。',
+      '恋人牌在“结局”位置，是最直白的祝福：灵魂伴侣、心意相通、在天使的见证下彼此选择。它意味着这段关系将以爱与圆满收尾。'
+    ],
+    verdict:'你将和 Robin 拥有幸福的结局。',
+    epilogue:'从星星的祈愿，到圣杯骑士的追求，再到圣杯二的结合，最终由恋人牌封印——你的愿望已被星辰听见。和 Robin 一起，幸福会如约而至。'
+  }
+};
+
+let cur=null, picked=0, opened=0;
+const $=s=>document.querySelector(s);
+function show(id){document.querySelectorAll('section').forEach(s=>s.classList.toggle('active',s.id===id));window.scrollTo({top:0,behavior:'smooth'})}
+
+document.querySelectorAll('.id').forEach(b=>b.onclick=()=>{cur=READINGS[b.dataset.id];startPick()});
+
+function startPick(){
+  picked=0;$('#pick-lead').textContent=cur.lead;$('#picked-info').textContent='请凭直觉抽取 4 张牌（0 / 4）';
+  const deck=$('#deck');deck.innerHTML='';
+  const N=22, mobile=innerWidth<640;
+  const spreadW=mobile?Math.min(innerWidth-110,320):760;
+  const els=[];
+  show('s-pick');
+  for(let i=0;i<N;i++){
+    const d=document.createElement('div');d.className='dcard';d.innerHTML='<div class="back"></div>';
+    d.style.transform='translate(0,0) rotate(0deg)';deck.appendChild(d);els.push(d);
+    d.onclick=()=>pick(d);
+  }
+  let k=0;const sh=setInterval(()=>{
+    els.forEach(d=>d.style.transform=`translate(${(Math.random()-.5)*60}px,${(Math.random()-.5)*20}px) rotate(${(Math.random()-.5)*30}deg)`);
+    if(++k>5){clearInterval(sh);setTimeout(()=>{
+      els.forEach((d,i)=>{const t=i/(N-1)-.5;
+        d.style.transform=`translate(${t*spreadW}px,${Math.abs(t)*(mobile?50:70)}px) rotate(${t*(mobile?50:40)}deg)`;d.style.zIndex=i});
+    },300)}
+  },260);
+}
+function pick(d){
+  if(picked>=4)return;
+  d.classList.add('taken');picked++;
+  $('#picked-info').textContent=`请凭直觉抽取 4 张牌（${picked} / 4）`;
+  if(picked===4){$('#picked-info').innerHTML='<span class="loader"><span>星象</span><span>推演</span><span>中……</span></span>';setTimeout(startReveal,1600)}
+}
+function startReveal(){
+  opened=0;const sp=$('#spread');sp.innerHTML='';$('#reading').innerHTML='';
+  $('#final').style.display='none';$('#again').style.display='none';
+  cur.cards.forEach((key,i)=>{
+    const c=CARDS[key];const s=document.createElement('div');s.className='slot';
+    s.innerHTML=`<div class="lbl">${POS[i]}</div>
+      <div class="flip"><div class="inner"><div class="face"><div class="back"></div></div>
+      <div class="face front"><img src="${c.img}" alt="${c.en}"></div></div></div>
+      <div class="cn">${c.zh}<small>${c.en}</small></div>`;
+    const f=s.querySelector('.flip');
+    f.onclick=()=>{
+      if(f.classList.contains('open'))return;
+      if(i!==opened){f.animate([{transform:'translateX(-5px)'},{transform:'translateX(5px)'},{transform:'none'}],{duration:250});return}
+      f.classList.add('open');opened++;setTimeout(()=>addReading(i),900);
+    };
+    sp.appendChild(s);
+  });
+  show('s-reveal');
+}
+function addReading(i){
+  const c=CARDS[cur.cards[i]];const el=document.createElement('div');el.className='step';
+  el.innerHTML=`<img src="${c.img}" alt=""><div><h3>${POS[i]} · ${c.zh}（${c.en}）· 正位</h3>
+    <div class="kw">关键词：${c.kw}</div><p>${cur.text[i]}</p></div>`;
+  $('#reading').appendChild(el);
+  if(i===3)setTimeout(()=>{
+    $('#final-v').textContent=cur.verdict;$('#final-e').textContent=cur.epilogue;
+    $('#final').style.display='block';$('#again').style.display='inline-block';
+    $('#final').scrollIntoView({behavior:'smooth',block:'center'});
+  },900);
+  else el.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+$('#again').onclick=()=>show('s-id');
+
+const cv=$('#stars'),cx=cv.getContext('2d');let st=[];
+function rs(){cv.width=innerWidth;cv.height=innerHeight;st=Array.from({length:160},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.4+.2,p:Math.random()*6.28}))}
+function dr(t){cx.clearRect(0,0,cv.width,cv.height);st.forEach(s=>{cx.globalAlpha=.35+.65*Math.abs(Math.sin(s.p+t/1400));cx.fillStyle='#f4e3b0';cx.beginPath();cx.arc(s.x,s.y,s.r,0,6.28);cx.fill()});requestAnimationFrame(dr)}
+addEventListener('resize',rs);rs();requestAnimationFrame(dr);
+</script>
+</body>
+</html>
