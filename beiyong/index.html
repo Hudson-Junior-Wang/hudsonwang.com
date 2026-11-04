@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>FiReControl — Group 36</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+  body { cursor: default; user-select: none; -webkit-user-select: none; font-family: -apple-system, system-ui, sans-serif; }
+  body.hide-cursor { cursor: none; }
+  #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #stage img { width: 100vw; height: 100vh; object-fit: contain; display: block; }
+  #bar { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 10px; align-items: center; justify-content: center;
+         padding: 10px; background: linear-gradient(transparent, rgba(0,0,0,.6)); color: #fff; font-size: 14px;
+         opacity: 0; transition: opacity .3s; }
+  body.show-bar #bar { opacity: 1; }
+  #bar button, #bar a { background: rgba(255,255,255,.15); color: #fff; border: 0; border-radius: 6px; padding: 6px 12px;
+         font-size: 14px; cursor: pointer; text-decoration: none; }
+  #bar button:hover, #bar a:hover { background: rgba(255,255,255,.3); }
+  #progress { position: fixed; left: 0; bottom: 0; height: 3px; background: #1b6f73; transition: width .2s; }
+  #hint { position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,.75); color: #fff;
+          padding: 18px 26px; border-radius: 10px; font-size: 16px; line-height: 1.6; text-align: center; transition: opacity .6s; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage"><img id="slide" alt="slide" draggable="false"></div>
+<div id="progress"></div>
+<div id="bar">
+  <button id="prev">◀</button>
+  <span id="count">1 / 17</span>
+  <button id="next">▶</button>
+  <button id="fs">Full screen (F)</button>
+  <a href="FiReControl.pptx" download>Download .pptx</a>
+</div>
+<div id="hint">Click / → / Space: next &nbsp;·&nbsp; ← : back<br>F: full screen &nbsp;·&nbsp; Home / End</div>
+<script>
+(() => {
+  const N = 17;
+  const src = i => `slides/page-${String(i).padStart(4, '0')}.png`;
+  const img = document.getElementById('slide');
+  const count = document.getElementById('count');
+  const progress = document.getElementById('progress');
+  // Preload everything so slide changes are instant (no network lag mid-talk)
+  const cache = [];
+  for (let i = 1; i <= N; i++) { const p = new Image(); p.src = src(i); cache.push(p); }
+
+  let cur = Math.min(N, Math.max(1, parseInt(location.hash.slice(1)) || 1));
+  function show(i) {
+    cur = Math.min(N, Math.max(1, i));
+    img.src = src(cur);
+    count.textContent = `${cur} / ${N}`;
+    progress.style.width = (cur / N * 100) + '%';
+    history.replaceState(null, '', '#' + cur);
+  }
+  const next = () => show(cur + 1), prev = () => show(cur - 1);
+  function toggleFs() {
+    const d = document, el = d.documentElement;
+    if (d.fullscreenElement || d.webkitFullscreenElement) (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+    else (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','ArrowDown','PageDown',' ','Enter','n'].includes(e.key)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft','ArrowUp','PageUp','Backspace','p'].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') show(1);
+    else if (e.key === 'End') show(N);
+    else if (e.key === 'f' || e.key === 'F') toggleFs();
+  });
+  document.getElementById('stage').addEventListener('click', e => {
+    (e.clientX < window.innerWidth * 0.25) ? prev() : next();
+  });
+  document.getElementById('prev').onclick = prev;
+  document.getElementById('next').onclick = next;
+  document.getElementById('fs').onclick = toggleFs;
+
+  // Touch swipe
+  let sx = null;
+  addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', e => {
+    if (sx === null) return;
+    const dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) > 40) (dx < 0 ? next() : prev());
+  });
+
+  // Auto-hide controls and cursor
+  let t;
+  addEventListener('mousemove', e => {
+    document.body.classList.remove('hide-cursor');
+    document.body.classList.toggle('show-bar', e.clientY > innerHeight - 80);
+    clearTimeout(t);
+    t = setTimeout(() => document.body.classList.add('hide-cursor'), 1500);
+  });
+  setTimeout(() => document.getElementById('hint').style.opacity = 0, 3000);
+
+  show(cur);
+})();
+</script>
+</body>
+</html>
