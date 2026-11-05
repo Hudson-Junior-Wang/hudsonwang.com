@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>PMGT1711 · Final Review 背诵大纲</title>
+<link rel="icon" href="../favicon.svg">
+<style>
+:root{--paper:#f6f5f1;--surface:#fff;--ink:#242c32;--muted:#6f777c;--line:#e2e3dc;--accent:#405dcc;--soft:#edf0fb;--olive:#5f7352;--olive-soft:#eef2ea;--orange:#b5703f;--orange-soft:#fbf2ea;--red:#b94d48;--red-soft:#fbefed;--side:250px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+body{margin:0;background:var(--paper);color:var(--ink);font:15.5px/1.75 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+a{color:var(--accent);text-decoration:none}
+nav{position:fixed;inset:0 auto 0 0;width:var(--side);padding:26px 18px;background:#eeeee8;border-right:1px solid #dddfd6;overflow-y:auto;z-index:20}
+nav .brand{font-weight:800;font-size:17px;margin-bottom:2px}
+nav .sub{color:var(--muted);font-size:12.5px;margin-bottom:16px}
+nav a{display:block;padding:5px 10px;border-radius:9px;color:var(--ink);font-size:14px}
+nav a:hover,nav a.on{background:#fff}
+nav .grp{margin:14px 0 4px 10px;font-size:11.5px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.tools{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.tools button{border:1px solid #c9ccc2;background:#fff;border-radius:10px;padding:7px 10px;font:inherit;font-size:13.5px;cursor:pointer;text-align:left}
+.tools button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+main{margin-left:var(--side);padding:40px 48px 120px;max-width:1080px}
+h1{font-size:30px;margin:0 0 6px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 26px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 30px;margin:0 0 22px}
+h2{font-size:22px;margin:0 0 4px}
+h2 .wk{display:inline-block;background:var(--ink);color:#fff;font-size:13px;border-radius:8px;padding:1px 9px;margin-right:10px;vertical-align:3px}
+.topic{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+h3{font-size:16.5px;margin:22px 0 8px;padding-left:10px;border-left:4px solid var(--accent)}
+h4{font-size:15px;margin:14px 0 4px}
+ol,ul{padding-left:22px;margin:6px 0}
+li{margin:3px 0}
+table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14.5px}
+th,td{border:1px solid var(--line);padding:7px 10px;vertical-align:top;text-align:left}
+th{background:#f3f4ef;font-weight:700}
+.en{font-family:Georgia,"Times New Roman",serif;font-style:italic}
+b,strong{color:#1b2227}
+.k{background:linear-gradient(transparent 58%,#fde9a8 58%);font-weight:700;border-radius:2px;transition:filter .15s,background .15s}
+.box{border-radius:12px;padding:12px 16px;margin:12px 0}
+.tpl{background:var(--soft);border:1px solid #d3dbf5}
+.tpl::before{content:"✍️ SAQ 答题句式";display:block;font-weight:800;font-size:13px;color:var(--accent);margin-bottom:4px}
+.trap{background:var(--red-soft);border:1px solid #efd0cc}
+.trap::before{content:"⚠️ 易错 / 扣分点";display:block;font-weight:800;font-size:13px;color:var(--red);margin-bottom:4px}
+.mem{background:var(--olive-soft);border:1px solid #d6e0cf}
+.mem::before{content:"🧠 记忆口诀";display:block;font-weight:800;font-size:13px;color:var(--olive);margin-bottom:4px}
+.note{background:var(--orange-soft);border:1px solid #f0dcc8;font-size:14px}
+.ascii{font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;background:#f7f7f3;border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-x:auto;white-space:pre}
+details{border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0;background:#fcfcfa}
+details summary{cursor:pointer;font-weight:700}
+details[open] summary{margin-bottom:8px}
+.pill{display:inline-block;font-size:12px;border:1px solid var(--line);border-radius:99px;padding:0 8px;margin-left:6px;color:var(--muted);font-weight:500}
+/* recall mode */
+body.hide .k{filter:blur(5px);background:#e9e2c8;cursor:pointer;user-select:none}
+body.hide .k.show{filter:none;background:linear-gradient(transparent 58%,#cfe8c9 58%)}
+body.hide details.ans:not([open]) summary::after{content:" （先自己答）";color:var(--muted);font-weight:400}
+#search{width:100%;border:1px solid #c9ccc2;border-radius:10px;padding:7px 10px;font:inherit;font-size:13.5px}
+mark{background:#ffd76a}
+@media (max-width:860px){nav{position:static;width:auto;border-right:0;border-bottom:1px solid #ddd}main{margin:0;padding:22px 14px 80px}section{padding:18px 16px}}
+@media print{nav,.tools{display:none}main{margin:0;padding:0;max-width:none}section{break-inside:auto;border:0;padding:0 0 12px}body.hide .k{filter:none}details{border:0}details>*{display:block}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">PMGT1711 期末背诵大纲</div>
+  <div class="sub">Complex Projects &amp; Systems Thinking · W1–W11</div>
+  <div class="tools">
+    <input id="search" placeholder="搜关键词（如 CATWOE）">
+    <button id="hideBtn">🙈 背诵模式：遮住重点</button>
+    <button onclick="window.print()">🖨️ 打印 / 存 PDF</button>
+  </div>
+  <div class="grp">先看</div>
+  <a href="#howto">0 · SAQ 万能答题结构</a>
+  <a href="#map">1 · 全课总框架（一张图）</a>
+  <a href="#diag">2 · 情景 → 类型 → 工具 速查</a>
+  <div class="grp">分周考点</div>
+  <a href="#w1">W1 系统 &amp; 复杂情境</a>
+  <a href="#w2">W2 心智模型 &amp; 学习回路</a>
+  <a href="#w3">W3 CAS &amp; 因果回路图</a>
+  <a href="#w4">W4 系统动力学 &amp; 返工循环</a>
+  <a href="#w5">W5 技术复杂性 &amp; Jazz</a>
+  <a href="#w6">W6 方向复杂性 · VSM · PESTLE</a>
+  <a href="#w7">W7 软系统方法 SSM</a>
+  <a href="#w8">W8 关系复杂性 &amp; SNA</a>
+  <a href="#w9">W9 时间复杂性 &amp; Mapping</a>
+  <a href="#w10">W10 杠杆点 &amp; 风险相互依赖</a>
+  <a href="#w11">W11 批判系统启发 CSH</a>
+  <div class="grp">冲刺</div>
+  <a href="#cmp">3 · 高频对比题</a>
+  <a href="#mock">4 · SAQ 模拟题 + 答题要点</a>
+</nav>
+
+<main>
+<h1>PMGT1711 Final Review · 背诵大纲</h1>
+<p class="lead">像初中政治课本一样：<b>考点 → 背诵要点（编号）→ 答题句式 → 易错</b>。黄色高亮 = 必背关键词（英文原词考试直接写）。开「背诵模式」后高亮会被遮住，点击逐个揭开自测。<br>内容来源：课程 Week 1–11 讲义 / 阅读 / workshop guide 的已整理笔记；Week 12–13 无新内容。</p>
+
+<!-- ================= 0 ================= -->
+<section id="howto">
+<h2>0 · SAQ 万能答题结构</h2>
+<div class="topic">Week 11 quiz 老师明确说：重点是<b>识别情景 + 解释何时/为何用某工具</b>，不是死背定义。所以每道 SAQ 都按下面 4 步写。</div>
+<table>
+<tr><th style="width:22%">步骤</th><th>写什么</th><th style="width:38%">英文开头句（直接套）</th></tr>
+<tr><td><b>① Identify 识别</b></td><td>点名复杂性类型 / 系统类型，并引用题干里的<b>信号词</b>作为证据</td><td class="en">"This situation shows <u>directional complexity</u>, because stakeholders disagree on what the project is for (e.g. …)."</td></tr>
+<tr><td><b>② Explain 解释机制</b></td><td>用课程概念说明“为什么会这样”：feedback loop、ambiguity 来源、edge of chaos、delay…</td><td class="en">"The underlying mechanism is a reinforcing loop: … → … → …, which amplifies…"</td></tr>
+<tr><td><b>③ Apply tool 用工具</b></td><td>选 1 个最匹配的工具，<b>写出具体步骤 / 输出</b>，不能只写名字</td><td class="en">"A suitable tool is the Viable System Model: System 4 scans …, System 5 resets …"</td></tr>
+<tr><td><b>④ Evaluate 评价</b></td><td>工具的 1 个优点 + 1 个局限；或 trade-off；没有“万能工具”</td><td class="en">"However, VSM is diagnostic and does not by itself create agreement; a pluralist approach combining … is needed."</td></tr>
+</table>
+<div class="mem">识别 → 机制 → 工具 → 评价（<b>I-E-A-E</b>）。每步至少一个英文术语 + 一个题干细节，答案就“有料有据”。</div>
+<div class="trap">只堆定义不联系案例；只写工具名不写怎么用；把一种复杂性说成唯一（多种可并存，要说主次）；把 positive/negative feedback 写成“好/坏”。</div>
+</section>
+
+<!-- ================= 1 ================= -->
+<section id="map">
+<h2>1 · 全课总框架（Course overview，W11 slide 3–4）</h2>
+<div class="ascii">Projects AS systems  ⟷  embedded IN socio-political / economic / ecological systems
+   │
+   ├─ Risk: known known · known unknown · unknown known · unknown unknown (Black Swan)
+   ├─ Context: Clear(simple) ⇄ Complicated ⇄ Complex   （项目会随时间在三者间移动）
+   ├─ Complexity theory: CAS · emergence · edge of chaos · fitness landscape
+   ├─ Project complexity (Remington &amp; Pollack 2016) + relational
+   │     Structural → CLD + System Dynamics (W3–4)
+   │     Technical  → Shenhar's typology + Jazz (W5)
+   │     Directional→ VSM (esp. System 4) + PESTLE + SSM (W6–7)
+   │     Relational → stakeholder mapping + SNA + leverage points (W8, W10)
+   │     Temporal   → Mapping the Complexity + PESTLE + VSM (W9)
+   └─ Toolbox waves:  Hard ST (HST)  →  Soft ST (SST, e.g. SSM)  →  Critical Systems Heuristics (CSH, "third wave")</div>
+
+<h3>五种复杂性一句话（必背·最高频）</h3>
+<table>
+<tr><th>类型</th><th>一句话定义</th><th>核心问题</th><th>模糊性（ambiguity）来自哪</th><th>配套工具</th></tr>
+<tr><td><b>Structural</b> 结构</td><td><span class="k">high number of interrelationships</span>/interdependencies</td><td>How do we coordinate it all?</td><td>监控大量相互依赖（时间/成本/资源）</td><td>CLD, System Dynamics</td></tr>
+<tr><td><b>Technical</b> 技术</td><td><span class="k">radical innovation</span>; design unknown/untried, no precedent</td><td>“How do we do or make it?”</td><td><span class="k">solution space</span>（知道做什么，不知道怎么做）</td><td>Shenhar, Jazz</td></tr>
+<tr><td><b>Directional</b> 方向</td><td><span class="k">lack of clarity / agreement about direction</span>; hidden agendas</td><td>“How do we agree about what we have to do?”</td><td><span class="k">problem space</span>（目标本身不清/有争议）</td><td>VSM, PESTLE, SSM, CSH</td></tr>
+<tr><td><b>Temporal</b> 时间</td><td><span class="k">variations in the project environment over time</span>, outside project control</td><td>“How can we anticipate, survive or take advantage of change?”</td><td><span class="k">constraints</span>（约束本身在变）</td><td>Mapping the Complexity, options</td></tr>
+<tr><td><b>Relational</b> 关系</td><td><span class="k">tangled human relationships and power dynamics</span></td><td>“Who actually has influence here?”</td><td>trust、power、conflict、谁被排除</td><td>Stakeholder mapping, SNA, CSH</td></tr>
+</table>
+<div class="mem">复杂度感知 = <span class="k">number of elements × interconnectedness × ambiguity</span>。结构型靠“多”，技术/方向型靠“每个元素的模糊性高”（元素少也可以很复杂）。</div>
+</section>
+
+<!-- ================= 2 ================= -->
+<section id="diag">
+<h2>2 · 情景识别速查：看到什么 → 是什么 → 用什么</h2>
+<div class="topic">对应 W11 quiz 老师列出的 8 类情景。考场看到题干，先在这里找“信号”。</div>
+<table>
+<tr><th style="width:36%">题干信号</th><th style="width:22%">判断</th><th>首选工具 / 概念</th></tr>
+<tr><td>一个延误引发连锁反应、活动高度相互依赖、加人反而更慢</td><td>Structural</td><td>CLD（R/B loops）、rework cycle、ripple / knock-on effects</td></tr>
+<tr><td>“No one has ever done this before”，技术未经验证，无法提前完整计划</td><td>Technical</td><td>Shenhar（判断 C/D 级）、Jazz（milestones + roles + meetings）</td></tr>
+<tr><td>“Why are we doing this?” 目标不清/有争议、表面同意、hidden agendas</td><td>Directional</td><td>SSM（rich picture, CATWOE）、VSM S4/S5、PESTLE、CSH</td></tr>
+<tr><td>信任/权力/影响力/谁跟谁不说话、有人被排除、“same voices dominate”</td><td>Relational</td><td>Stakeholder network map、SNA（centrality、broker、isolate）</td></tr>
+<tr><td>换政府/法规变化/并购，之前的决定失效，“standing on quicksand”</td><td>Temporal</td><td>Mapping the Complexity（每个 phase/control gate 重画）、multiple options、PESTLE</td></tr>
+<tr><td>风险互相触发、恶性循环</td><td>Structural/多类型</td><td>Risk Interdependencies tool（influence matrix → risk loops）</td></tr>
+<tr><td>经理凭有限信息/假设下结论</td><td>Mental models</td><td>Ladder of Inference、single/double/triple-loop learning</td></tr>
+<tr><td>小干预产生大系统效果</td><td>Leverage</td><td>Meadows 12 leverage points（#12 浅 → #1 深）</td></tr>
+<tr><td>受影响但没话语权的人被忽视（社区、未来世代、弱势群体）</td><td>Coercive / boundary</td><td>CSH（boundary critique, witnesses, is vs ought）</td></tr>
+</table>
+</section>
+
+<!-- ================= W1 ================= -->
+<section id="w1">
+<h2><span class="wk">W1</span>为什么需要系统思考 · 系统与情境</h2>
+<div class="topic">考点：system 定义 · clear/complicated/complex · 三种项目视角 · 风险四象限</div>
+
+<h3>考点 1：什么是 system</h3>
+<ol>
+<li>System = <span class="k">interacting / interrelated parts that form a whole</span>；不是一堆零件的集合（没组装的平板家具 = 有零件没关系，不是系统）。</li>
+<li>整体行为来自部件之间的 <span class="k">interactions</span> → 只分析单个部件会错过系统行为（<span class="en">the whole is greater than the sum of its parts</span>）。</li>
+<li>系统是<b>嵌套</b>的（nested）：team ⊂ project ⊂ program/portfolio ⊂ organisation ⊂ socio-cultural context。</li>
+<li>一个系统由 <span class="k">boundary</span> 和 <span class="k">purpose / function</span> 描述（W9 video 补充）。</li>
+</ol>
+
+<h3>考点 2：三类情境（Cynefin 式）及应对</h3>
+<table>
+<tr><th>情境</th><th>因果特征</th><th>应对顺序（必背）</th></tr>
+<tr><td>Clear / simple</td><td>稳定、因果一目了然</td><td><span class="k">sense – categorise – respond</span></td></tr>
+<tr><td>Complicated</td><td>因果可发现但不明显，需要专家</td><td><span class="k">sense – analyse – respond</span></td></tr>
+<tr><td>Complex</td><td>主体相互作用、会适应，结果 emergent</td><td><span class="k">probe – sense – respond</span></td></tr>
+<tr><td>Chaotic</td><td>无可辨识因果</td><td><span class="k">act – sense – respond</span></td></tr>
+</table>
+<div class="trap">Complicated 是 <b>analyse</b> 不是 categorise。区分 complicated vs complex 靠<b>交互与适应性</b>，不是靠项目“大小”。</div>
+
+<h3>考点 3：项目的三种视角</h3>
+<ol>
+<li><b>Asset</b> 资产：交付物本身的特征/规格。</li>
+<li><b>System</b> 系统：资产所在的运营环境 + 交付它的组织系统（人、组织、资源）。</li>
+<li><b>Conversation</b> 对话：持续对话，暴露利益与情绪，形成足够一致以行动。</li>
+</ol>
+<p>复杂项目需要 <span class="k">asset AND system AND conversation</span>（并存，不是替代）。例：WestConnex = 道路资产 + 悉尼交通网络 + 持续政治/社区对话。</p>
+
+<h3>考点 4：风险/不确定性</h3>
+<ul>
+<li><b>Known knowns</b>；<b>known unknowns</b>；<b>unknown unknowns</b>；<b>unknown knowns</b>（本该知道却没意识到）。</li>
+<li><span class="k">Black Swan</span>：超出常规预期 + 影响极端 + 事后被“合理化解释”。是否算 Black Swan 取决于观察者知识。</li>
+</ul>
+<div class="tpl"><span class="en">"Because outcomes emerge from interactions between adaptive stakeholders rather than from a discoverable cause-effect chain, the project is complex rather than complicated; the manager should probe–sense–respond (small safe-to-fail experiments) instead of relying on a fixed expert plan."</span></div>
+</section>
+
+<!-- ================= W2 ================= -->
+<section id="w2">
+<h2><span class="wk">W2</span>Hard vs Soft · 心智模型 · 学习回路 · 推论阶梯</h2>
+<div class="topic">考点：HST vs SST · mental models · single/double/triple loop · ladder of inference · Senge 定律</div>
+
+<h3>考点 1：Hard vs Soft Systems Thinking</h3>
+<table>
+<tr><th></th><th>Hard (HST)</th><th>Soft (SST)</th></tr>
+<tr><td>假设</td><td>当前状态 S0 已知，目标 S1 <b>明确且一致</b></td><td>目标 Sx 有争议；多个不完整的表述 S1…Sn</td></tr>
+<tr><td>做法</td><td>比较方案 → 按 performance criteria 优化（可迭代）</td><td>定性参与、对话、学习，找 <span class="k">desirable &amp; feasible</span> 改进</td></tr>
+<tr><td>例子</td><td>Systems analysis、systems engineering、OR、System Dynamics、Six Sigma DMAIC</td><td>SSM、CSH、Interactive Planning</td></tr>
+<tr><td>适用</td><td>simple + <b>unitary</b>（价值观一致）</td><td>pluralist（价值不同、利益相近）</td></tr>
+</table>
+<p>利益相关者关系三分（方法定位网格）：<span class="k">unitary</span>（共享价值与利益）/ <span class="k">pluralist</span>（价值不同但利益相近）/ <span class="k">coercive</span>（价值与利益都对立）。</p>
+<div class="trap">Hard ≠ 只有数字、Soft ≠ 只有文字；区别在于<b>对目标与视角的假设</b>。Hard 也可以迭代、也可以整体。</div>
+
+<h3>考点 2：Mental models（Senge, <span class="en">The Fifth Discipline</span> ch.4）</h3>
+<ol>
+<li>= 内在的概念/框架/世界观，解释“事物如何运作”，<b>塑造我们如何解读信息</b>。</li>
+<li>做法：<span class="k">make assumptions explicit and test them</span>（把假设说出来并检验）。</li>
+</ol>
+
+<h3>考点 3：三环学习（必背三个问句）</h3>
+<table>
+<tr><th>层级</th><th>改变什么</th><th>问句</th></tr>
+<tr><td><b>Single-loop</b></td><td>在既有假设内调整行动/流程</td><td><span class="k">Are we doing things right?</span></td></tr>
+<tr><td><b>Double-loop</b></td><td>修正因果理解、假设、政策</td><td><span class="k">Are we doing the right things?</span></td></tr>
+<tr><td><b>Triple-loop</b></td><td>修正学习方式、价值观、判断标准</td><td><span class="k">How do we decide what is right?</span></td></tr>
+</table>
+<div class="mem">行动 → 假设 → 价值（reacting → reframing → transforming）。</div>
+
+<h3>考点 4：Ladder of Inference（推论阶梯，Argyris）</h3>
+<div class="ascii">7 Actions        ← 采取行动
+6 Beliefs        ← 形成信念
+5 Conclusions    ← 得出结论
+4 Assumptions    ← 做出假设
+3 Meanings       ← 赋予意义
+2 Selected data  ← 选择性注意
+1 Observable reality / data
+   ↺ Reflexive loop：beliefs 反过来影响下一次“选哪些数据”（confirmation bias）</div>
+<p>例：项目延误两个月，经理只看到“3 个设计审批未完成”，忽略了“council permit 延误”，于是给设计团队加监督 —— 典型跳梯。</p>
+<div class="tpl"><span class="en">"The manager jumped up the ladder of inference: from selectively noticed data (…) to the conclusion (…). He should walk back down the ladder — ask what was observed versus inferred and what data was omitted — and seek double-loop learning by questioning the assumption that …"</span></div>
+
+<h3>考点 5：Senge 的系统定律（挑最常考）</h3>
+<ol>
+<li>Today's problems come from yesterday's solutions.</li>
+<li>The harder you push, the harder the system pushes back（compensating feedback）.</li>
+<li>Behaviour grows better before it grows worse（delay）.</li>
+<li>The easy way out usually leads back in.</li>
+<li>The cure can be worse than the disease.</li>
+<li><span class="k">Faster is slower</span>（赶工 → 遗漏 → rework）。</li>
+<li><span class="k">Cause and effect are not closely related in time and space.</span></li>
+<li>Small changes can produce big results — but the areas of highest leverage are often the least obvious.</li>
+<li>You can have your cake and eat it too — but not all at once.</li>
+<li>Dividing an elephant in half does not produce two small elephants.</li>
+<li>There is no blame（看系统结构，而非找替罪羊；不等于免责）。</li>
+</ol>
+</section>
+
+<!-- ================= W3 ================= -->
+<section id="w3">
+<h2><span class="wk">W3</span>CAS · 复杂性理论 · 因果回路图 CLD</h2>
+<div class="topic">考点：CAS 特性 · edge of chaos · problem/solution space · satisficing · CLD 画法与判断 R/B</div>
+
+<h3>考点 1：Complex Adaptive Systems（CAS）特性</h3>
+<ol>
+<li><span class="k">Emergence</span> 涌现：整体出现部件没有的行为/模式。</li>
+<li><span class="k">Self-organisation</span> 自组织：无中央指挥也会形成秩序。</li>
+<li><b>Adaptive agents</b>：主体会学习、调整（CAS ≠ 仅有涌现）。</li>
+<li><span class="k">Edge of chaos</span> 混沌边缘：秩序与混沌之间，最有创造力、最能适应。太有序 → 僵化；太混沌 → 解体。</li>
+<li><span class="k">Sensitivity to initial conditions</span>：早期的小差别/早期结构会被放大并固化。</li>
+<li><span class="k">Non-linearity</span>：输入与结果不成比例。</li>
+<li><b>Fitness landscape</b>：项目在“地形”上寻找更高的峰（更优方案）。</li>
+</ol>
+
+<h3>考点 2：复杂性是一种感知</h3>
+<ul>
+<li>复杂度 = 元素数量 × 互联 × 模糊性；同一项目对不同经验的 PM 复杂度不同。</li>
+<li><span class="k">Problem space</span>（要解决什么）vs <span class="k">solution space</span>（怎么解决）。</li>
+<li><span class="k">Satisficing solution / satisficing zone</span>：在约束下各方都能接受的“足够好”的解，不是最优解。</li>
+</ul>
+
+<h3>考点 3：Causal Loop Diagram 画法（必会）</h3>
+<ol>
+<li>节点 = 可增减的变量（名词，如 “Schedule pressure”，不是动作）。</li>
+<li>箭头 <b>+</b>（S, same）：A↑→B↑，A↓→B↓；箭头 <b>−</b>（O, opposite）：A↑→B↓。</li>
+<li>延迟画 <b>//</b>（double slash）。</li>
+<li>判断回路：<span class="k">负号个数为偶数（含 0）→ R（reinforcing）；奇数 → B（balancing）</span>。</li>
+<li>R = 放大（增长<b>或</b>衰退）→ 指数增长/崩塌；B = 趋向目标、抵消变化 → 稳定或（有延迟时）振荡。</li>
+</ol>
+<div class="ascii">例：赶工的两个回路
+ Schedule pressure ──+──► Overtime ──+──► Work rate ──+──► Progress ──−──► Schedule gap ──+──► Schedule pressure    (B1: 赶工补进度)
+ Overtime ──+──► Fatigue ──+──► Errors ──+──► Rework ──−──► Progress ──−──► Schedule gap …                     (R1: 越赶越错)</div>
+<div class="trap">+/− 和 R/B 不代表“好/坏”；R 可以是恶性循环。变量名要中性可度量（“Morale”而非“Low morale gets worse”）。</div>
+<div class="tpl"><span class="en">"Loop R1 is reinforcing (even number of negative links): more schedule pressure → more overtime → more fatigue → more errors → more rework → less progress → larger schedule gap → more pressure. It dominates the balancing loop B1 after a delay, explaining why overtime first helps then hurts."</span></div>
+</section>
+
+<!-- ================= W4 ================= -->
+<section id="w4">
+<h2><span class="wk">W4</span>System Dynamics · Stocks &amp; Flows · Rework Cycle</h2>
+<div class="topic">考点：SD 定义 · stock vs flow · BOTG · structure→behaviour · rework cycle · ripple/knock-on · 90% syndrome</div>
+
+<h3>考点 1：什么是 System Dynamics</h3>
+<ol>
+<li>开篇论点（Rodrigues &amp; Bowers 1996）：传统 PM 假设项目是“strictly ordered … well defined, predictable stages”——SD 挑战这个假设。</li>
+<li>SD = 用<span class="k">modelling and computer simulation</span>来理解系统的方法。</li>
+<li>Systems thinking 变成 SD 的标志 = 开始<b>量化</b>：① causal relationships ② stocks &amp; flows ③ non-linearities &amp; delays ④ feedbacks。</li>
+<li>核心洞见：<span class="k">system structure produces system behaviour</span>（project structure → project behaviour，Lyneis &amp; Ford 2007）。</li>
+</ol>
+
+<h3>考点 2：Stock &amp; Flow（Sterman 2000）</h3>
+<ul>
+<li><b>Stock</b> 存量：某一时点可测量的累积量（浴缸里的水）；变化慢。</li>
+<li><b>Flow</b> 流量：单位时间的变化率（inflow / outflow，图上是 valve 阀门）；云 = source/sink。</li>
+<li><span class="k">d(Stock)/dt = Inflow − Outflow</span>；Stock(t) = ∫(Inflow − Outflow)dt + Stock(t₀)。</li>
+<li><b>BOTG</b>（behaviour-over-time graph）：画关键变量随时间变化，和模拟结果比较（reference mode）。</li>
+<li>鸡与蛋：Eggs⇄Chickens 正反馈 R → <b>指数增长</b>；Chickens→Road crossings(−) 负反馈 B → <b>指数衰减</b>；多回路系统行为取决于各回路强弱。</li>
+</ul>
+
+<h3>考点 3：Rework Cycle（SD 项目模型中最重要的单一特征）</h3>
+<div class="ascii">Original Work to Do ──Progress(=Productivity×Effort)──┬─(1−Error fraction)──► Work Done
+                                                      └─(Error fraction)─────► Undiscovered Rework
+                                                                                     │ Rework Discovery
+                                                                                     │ (Time to discover)
+                       ◄──────────── Rework to Do ◄──────────────────────────────────┘
+          （返工又要投入工作，可能产生/暴露更多返工）</div>
+<ol>
+<li>错误不会立即被发现，藏在 <span class="k">Undiscovered Rework</span> 里，被当作“已完成”的表面进度 → 前期进度报告看起来很好。</li>
+<li>后续工作/测试才发现 → 进入 Rework to Do → 需要额外 effort。</li>
+<li>结果：<b>failure to meet performance targets</b>（超期、超预算、缩 scope、降质量）+ staffing 和 completion 的 <span class="k">extended tail</span>。</li>
+</ol>
+
+<h3>考点 4：管理反应的副作用</h3>
+<table>
+<tr><th>概念</th><th>含义</th></tr>
+<tr><td><b>Controlling feedbacks</b></td><td>① 把行为拉向目标（加班、加人）② 把目标拉向行为（推迟 deadline）。两者都有成本和上限。</td></tr>
+<tr><td><b>Ripple effects</b></td><td>为缩小差距采取的行动产生意外副作用 → <span class="k">policy resistance</span>；如新人稀释经验、人多拥挤沟通难 → error fraction ↑</td></tr>
+<tr><td><b>Knock-on effects</b></td><td>Ripple 引起的二次、三次反馈：赶工导致 out-of-sequence work、errors build errors、士气崩溃；客户方反馈可放大</td></tr>
+<tr><td><b>90% syndrome</b></td><td>进度很快到 ~90% 后长时间停滞——低估真实 scope + 隐藏返工 + ripple/knock-on 降低生产率</td></tr>
+</table>
+<p>Staffing 曲线：实际 ramp-up 延迟 → <b>超过计划峰值并维持更久</b>，有时出现 <b>second hump</b>。</p>
+<p>经典案例：<span class="k">Ingalls Shipbuilding vs US Navy</span>（Cooper 1980）—— SD 模型在法庭上证明海军方的延误与设计变更导致超支，帮助和解至少 <b>$200–300 million</b>。</p>
+<div class="tpl"><span class="en">"Reported progress looked healthy because undiscovered rework was counted as work done. As errors were discovered downstream, rework to do grew and management added staff and overtime; these ripple effects diluted experience and raised the error fraction, producing knock-on effects and the classic 90% syndrome."</span></div>
+<div class="trap">Valve 是 flow 不是 stock；推迟 deadline 也是 controlling feedback；ripple（一阶副作用）≠ knock-on（二、三阶反馈）。</div>
+</section>
+
+<!-- ================= W5 ================= -->
+<section id="w5">
+<h2><span class="wk">W5</span>Technical Complexity · Shenhar · Jazz Tool</h2>
+<div class="topic">考点：定义 · black-box syndrome · 四个透镜 · Shenhar A–D · Jazz 半结构与 8 步 · 陷阱</div>
+
+<h3>考点 1：定义与特征</h3>
+<ol>
+<li>设计/技术方面 <span class="k">unknown or untried, no precedents</span>；核心问题 “How do we do or make it?”；信号句 “No one has ever done this before.”</li>
+<li><span class="k">Solution space ≫ problem space</span>：知道要做什么，不知道怎么做；元素少也很复杂（每个元素模糊性高）。</li>
+<li>没有通用“最优”标准 → 目标是 <span class="k">satisficing solution</span>。</li>
+<li><span class="k">Black-box syndrome</span>：只有设计专家知道离解决方案多远 → 专家权力过大、其他人看不见进度（最难管理的部分）。</li>
+</ol>
+
+<h3>考点 2：复杂性理论四透镜（技术型）</h3>
+<ul>
+<li><b>Structure</b>：扁平、专家自治、自管理团队；结构是涌现的。</li>
+<li><b>Communication</b>：丰富且混乱，<b>informal ↑ formal ↓</b>；在 <span class="k">nodal points</span>（关键汇合会议）强度最高，呈 expand–contract = <span class="k">periodic attractors</span>。</li>
+<li><b>Control</b>：维持系统形态而非对预定目标控制；<b>communication is the control mechanism</b>；“no team left behind”。</li>
+<li><b>Order–chaos</b>：靠近 edge of chaos；太有序扼杀创造力，太混沌各走各路。</li>
+</ul>
+
+<h3>考点 3：Shenhar's typology（技术不确定性四级）</h3>
+<table>
+<tr><th>级别</th><th>特征</th><th>例子</th></tr>
+<tr><td>A Low-Tech</td><td>只用成熟、人人可得的技术</td><td>道路、桥梁、建筑、公用事业</td></tr>
+<tr><td>B Medium-Tech</td><td>主要成熟技术 + <b>&lt;50% 新</b>（1–2 个新功能）</td><td>成熟行业新款（汽车、电子）、Microsoft Surface</td></tr>
+<tr><td>C High-Tech</td><td><b>&gt;50% 新</b>，但技术已存在、首次组合使用</td><td>iPhone、iPad、许多国防项目</td></tr>
+<tr><td>D Super-High-Tech</td><td>技术<b>尚不存在</b>，须在项目中开发</td><td>Apollo、Hubble</td></tr>
+</table>
+
+<h3>考点 4：管理要点（财务/进度/风险/采购）</h3>
+<ul>
+<li>财务：NPV 忽略不确定性 → decision trees、<b>real options</b>、NPVR；资金在 program 层面统筹；多 control gates。</li>
+<li>进度：用 <span class="k">milestones</span> 不用详细 precedence network（Turner）；只给高度不确定的少数 work package 加 <b>time buffers</b>；细节程度与不确定性成反比（incremental planning）。</li>
+<li>风险：control-gate 过程、parallel alternative solutions、尽量在设计阶段解决问题；concurrent engineering 加速但加大风险。</li>
+<li>采购：传统合同需要完整定义 → 用 <b>alliances / partnerships</b>；防 ambit claims。</li>
+</ul>
+
+<h3>考点 5：Jazz tool — Time-linked semi-structures</h3>
+<ol>
+<li>比喻：爵士即兴，但有不可违背的框架（和弦进行、独奏顺序、小节数）—— “You can't improvise on nothin'.”</li>
+<li>理论：Brown &amp; Eisenhardt (1997)——<span class="k">limited structure + extensive interaction + freedom to improvise</span>；“neither so rigid… nor so chaotic”。成功企业在两端之间（edge of chaos）。</li>
+<li>半结构 = <span class="k">milestones + broad roles/responsibilities + compulsory regular meetings + informal communication</span>。</li>
+<li>适用：technical &amp; temporal（也可能 directional）；是<b>管理交付</b>的工具，<b>不是</b>计划/估算工具。</li>
+</ol>
+<h4>Jazz 8 步（按顺序背）</h4>
+<ol>
+<li>Determine project objectives</li>
+<li>Determine milestones</li>
+<li>Determine roles &amp; responsibilities in broad terms</li>
+<li>Set compulsory regular meeting dates</li>
+<li>At the first meeting, communicate roles, responsibilities, milestones</li>
+<li>Between meetings, <b>resist micromanaging</b>; support teams（替他们做 paperwork）</li>
+<li>Use meetings for problem-solving, innovation, future probing; end with clear objectives for next</li>
+<li>When alignment occurs near deadline, collect &amp; collate records</li>
+</ol>
+<div class="mem">目标 → 里程碑 → 角色 → 定会 → 首会宣布 → 会间放手 → 会上解题 → 收敛归档。</div>
+<h3>考点 6：陷阱</h3>
+<ul>
+<li><b>Technical expert syndrome</b>：依赖既有专长 → 盲点、不愿横向思考。</li>
+<li><b>Optimal-solution chase</b>：创新变成目的本身，“完美”方案可能过时。</li>
+<li><b>Wrong-level problem definition</b>：把“A 到 B 的交通”定义成“建一座桥”。</li>
+</ul>
+<p>案例：<b>UNSW Sunswift</b> 太阳能车（~50 学生、Cruiser Class、渐进式创新、重叠阶段、里程碑驱动）。</p>
+<div class="tpl"><span class="en">"Because the solar car uses technologies never combined before (Shenhar Level C/D), a detailed CPM schedule would be wasted effort. Jazz provides a semi-structure: firm milestones and broad roles, compulsory regular meetings as nodal points, and freedom between meetings, keeping the team at the edge of chaos until it converges on a satisficing solution."</span></div>
+</section>
+
+<!-- ================= W6 ================= -->
+<section id="w6">
+<h2><span class="wk">W6</span>Directional Complexity · VSM · PESTLE</h2>
+<div class="topic">考点：定义原文 · 信号句 · 四透镜 · 管理与陷阱 · VSM S1–S5 + recursion · PESTLE · Sydney Metro West</div>
+
+<h3>考点 1：定义（可背原文）</h3>
+<p class="en">“Directional complexity is found in projects where there is <span class="k">no consistently understood or agreed direction</span> for the project, where goals are unclear or undefined, or where progress towards superficially agreed goals is being hampered by <span class="k">undisclosed political motivations and hidden agendas</span>.”</p>
+<ul>
+<li>问句：“How do we share understanding?” / “How do we agree about what we have to do?”</li>
+<li>信号：no one on the same page；nodding without shared meaning；why are we doing this?；arguing instead of starting。</li>
+<li><span class="k">Problem space ≫ solution space</span>（与技术型正好相反）。常见于组织变革。</li>
+</ul>
+
+<h3>考点 2：四个复杂性透镜</h3>
+<ol>
+<li><b>Order–chaos</b>：靠近混沌；“<span class="k">The system needs to find an order, not have one imposed on it.</span>” 强加方向 → 表面一致、隐藏分歧被放大。</li>
+<li><b>Communication &amp; structure</b>：<span class="k">structure the process of discussion, not its content or result</span>（problem-structuring methods）。</li>
+<li><b>Sensitivity to initial conditions</b>：早期强加的结构会被固化；PM 应承认“尚未知道”。</li>
+<li><b>Control</b>：控制靠持续沟通——“If communication breaks down … so will the project.”</li>
+</ol>
+
+<h3>考点 3：怎么管理</h3>
+<ul>
+<li>给目标探索留出时间空间；用 soft / interpretive 方法：Dialogue、<b>Appreciative Inquiry</b>、CSH、<b>Value Management</b>、彻底的 stakeholder identification。</li>
+<li>Dvir &amp; Lechler (2004, 448 projects)：目标变更的负面影响可抵消良好计划的好处 → <b>先探索目标</b>，避免 premature detailed planning。</li>
+<li>Sponsor：提供战略信息、保护团队免于过早 milestones。</li>
+<li>财务：“It is impossible to plan the unknown.” 早期估算差异可很大；control gate 按目标对齐程度推进。</li>
+<li>风险：<span class="k">make agreeing the goal the first project</span>。采购：先 alliances/partnerships。</li>
+</ul>
+<div class="trap">陷阱：为显得有进展而开工（rework）；为了“感觉在控制”强加结构；把点头/签字当作共识（superficial agreement）；强势声音压制安静者。</div>
+
+<h3>考点 4：Viable System Model（Stafford Beer，cybernetics）</h3>
+<p>Viable = able to survive and adapt。<span class="k">Five jobs, not five people.</span> VSM 是<b>诊断工具</b>：把组织映射上去，看哪个功能缺失。</p>
+<table>
+<tr><th>System</th><th>功能</th><th>项目中的典型角色</th><th>身体比喻</th></tr>
+<tr><td>S1 Operations</td><td>做实际工作 + 局部管理</td><td>site supervisor、workstream team</td><td>器官</td></tr>
+<tr><td>S2 Coordination</td><td>防止 S1 单元间冲突/振荡</td><td>project coordinator</td><td>协调反射</td></tr>
+<tr><td>S3 Control (+3* Audit)</td><td>当下内部稳定、资源分配、“here and now”</td><td>project manager（预算/资源）</td><td>调节当下</td></tr>
+<tr><td>S4 Intelligence / Development</td><td>扫描外部环境、展望未来</td><td>risk manager、steering committee</td><td>眼睛耳朵</td></tr>
+<tr><td>S5 Policy / Identity</td><td>目的、价值、最终权威；平衡 S3（现在）vs S4（未来）</td><td>executive sponsor</td><td>自我/身份</td></tr>
+</table>
+<ul>
+<li><span class="k">Recursion</span>：“Every viable system contains and is contained in a viable system.”（team → project → organisation）</li>
+<li>方向复杂性中：<b>S4 发现并解读变化，S5 有权重设方向</b>；扫描本身不能决定目标。</li>
+</ul>
+<div class="mem">1 做事、2 协调、3 管当下、4 看未来、5 定身份。</div>
+
+<h3>考点 5：PESTLE</h3>
+<p><b>P</b>olitical · <b>E</b>conomic · <b>S</b>ocial · <b>T</b>echnological · <b>L</b>egal · <b>E</b>nvironmental —— 外部威胁<b>和机会</b>。关键问句：<span class="k">Could this shift direction or change what success looks like?</span> 为 S4 提供信息；把 “you vs me” 去个人化为共同外部情境；<b>只识别压力，不自动产生共识</b>。</p>
+<p>案例：<b>Sydney Metro West</b>（24 km，Parramatta–CBD）——政治快赢/选举时间线、Treasury 控成本、社区要求站点、有人视之为地产开发 → 目的有争议、基线不断变化（成本估算多次上调、开通目标推迟）。</p>
+<div class="tpl"><span class="en">"PESTLE shows that a change of government (Political) and rising costs (Economic) could alter what success means. In VSM terms, System 4 must detect and interpret these signals and System 5 (the sponsor) must reset purpose, while System 3 rebalances resources. Without a functioning S4, the project keeps delivering yesterday's goal."</span></div>
+</section>
+
+<!-- ================= W7 ================= -->
+<section id="w7">
+<h2><span class="wk">W7</span>Soft Systems Methodology（Checkland）</h2>
+<div class="topic">考点：SSM 7 阶段 · Rich Picture · Root Definition (PQR) · CATWOE · 3Es · 文化流三分析 · 优缺点 · Multimethodology in Series</div>
+
+<h3>考点 1：为什么用 SSM</h3>
+<ol>
+<li>处理 <span class="k">messy / problematic situations</span>：人们对“项目到底是什么”都有分歧；没有唯一正确答案。</li>
+<li>模型是 <span class="k">learning devices</span>（学习工具），不是现实的复制品。</li>
+<li>目标是 <span class="k">accommodation</span>（尽管仍有分歧也能行动），不是完全共识。</li>
+<li>适合 pre-project / front-end 阶段，常用于 directional complexity。</li>
+</ol>
+
+<h3>考点 2：SSM 七阶段（迭代，非瀑布）</h3>
+<ol>
+<li>Problem situation unstructured（进入情境）</li>
+<li>Problem situation expressed（<b>Rich Picture</b>）</li>
+<li>Root definitions of relevant systems（<b>PQR / CATWOE</b>）</li>
+<li>Conceptual models（活动模型）</li>
+<li>Comparison of models with real world</li>
+<li>Desirable &amp; feasible changes</li>
+<li>Action to improve</li>
+</ol>
+<p>3–4 阶段 = 系统思维世界；其余 = 现实世界。新版四活动：find out → model → debate (accommodation) → act。改变须 <span class="k">systemically desirable AND culturally feasible</span>。</p>
+
+<h3>考点 3：Rich Picture</h3>
+<p>手绘卡通：图像、符号、箭头、少量文字；表现<b>事实 + 感受、紧张、冲突</b>；“no correct way — the mess is the point”。互评问句：<span class="k">Whose perspective is missing?</span></p>
+
+<h3>考点 4：Root Definition — P-Q-R</h3>
+<p class="en">"A system to do <b>P</b> (what — transformation) by <b>Q</b> (how — process) in order to contribute to <b>R</b> (why — purpose / worldview)."</p>
+<p>例（图书馆）：馆员视角——借阅管理书籍(P)，通过编目借出(Q)，让学生获取学习资源(R)；学生视角——安静学习空间(P)，靠桌椅和安静(Q)，以便考前专注(R)。<b>同一建筑，不同 R → 不同系统。</b></p>
+
+<h3>考点 5：CATWOE（必背六个字母）</h3>
+<table>
+<tr><th>字母</th><th>含义</th><th>易错</th></tr>
+<tr><td>C Customers</td><td>受益者<b>或受害者</b>（beneficiaries or victims）</td><td>别漏 victims</td></tr>
+<tr><td>A Actors</td><td>执行 T 的人</td><td></td></tr>
+<tr><td>T Transformation</td><td><b>input 状态 → output 状态</b></td><td>写成“X → 变化后的 X”</td></tr>
+<tr><td>W Weltanschauung</td><td>让 T 有意义的世界观</td><td>W 和 T 是核心</td></tr>
+<tr><td>O Owners</td><td><b>有权叫停</b> T 的人</td><td>不一定是 PM</td></tr>
+<tr><td>E Environmental constraints</td><td>视为既定的外部约束</td><td>≠ 3Es</td></tr>
+</table>
+<p>推荐填写顺序：<span class="k">W → T → C → A → O → E</span>。例（请假审批数字化）：C 员工；A IT/HR；T 纸质 → 在线；W 降低处理时间；O HR manager；E 政策/系统集成/时间。</p>
+<p><b>3Es</b>：<span class="k">Efficacy</span>（T 有没有用）· <span class="k">Efficiency</span>（产出/资源）· <span class="k">Effectiveness</span>（是否贡献于长期目标，讲义最强调）。</p>
+
+<h3>考点 6：Cultural stream 三分析</h3>
+<ul>
+<li><b>Analysis One</b>（intervention）：client、would-be problem solver、problem owners。</li>
+<li><b>Analysis Two</b>（social）：roles、norms、values 相互塑造。</li>
+<li><b>Analysis Three</b>（political）：权力如何分配与使用（French &amp; Raven：legitimate、coercive、reward、referent、expert、informational）。</li>
+</ul>
+
+<h3>考点 7：评价 SSM</h3>
+<ul>
+<li>✅ 灵活、处理多视角、为混乱情境提供结构、促进学习。</li>
+<li>❌ 低估 hard thinking；<b>强势方/经理可能扭曲讨论</b>；在 coercive 情境（压制辩论）效果有限；可能难以产生激进变革 → 需要 CSH / pluralism。</li>
+</ul>
+<p><b>Multimethodology in Series</b>（ch.14）：先 problem structuring（SSM/SODA，即 <b>front-ending</b>）再常规 PM；假设方向随后稳定 —— 若外部持续变化（temporal）则用 Parallel。</p>
+<div class="tpl"><span class="en">"Using SSM, two root definitions reveal the conflict: for Transport for NSW, a system to move commuters (P) by building light rail (Q) to reduce congestion (R); for local businesses, a system that disrupts trade (P) through prolonged construction (Q) which threatens livelihoods (R). Different Weltanschauungen explain the dispute; the aim is an accommodation that is systemically desirable and culturally feasible."</span></div>
+</section>
+
+<!-- ================= W8 ================= -->
+<section id="w8">
+<h2><span class="wk">W8</span>Relational Complexity · Stakeholder Networks · SNA</h2>
+<div class="topic">考点：定义与信号 · 风电场例 · 三透镜 · 挑战与陷阱 · SNA 术语 · Christakis</div>
+
+<h3>考点 1：定义与信号</h3>
+<ol>
+<li>= <span class="k">tangled human relationships and power dynamics</span> 塑造项目结果：联盟、冲突、信任、权力、谁被排除。</li>
+<li>信号问句：“Who actually has influence here?” “Who is being left out of the conversation?”</li>
+<li>信号句：“The same voices always dominate the meetings”；“We don't know who to trust”；“People are withholding information”；“Everyone is protecting their own turf”。</li>
+<li>核心金句：<span class="k">The work is fine, but the PEOPLE are the risk.</span></li>
+</ol>
+<p>例：<b>大型风电场</b>——技术/结构清楚可控，却被农民（土地、噪音）、环保 NGO、能源公司（影响力过大）、原住民（文化遗产咨询）、内部分裂的 council 之间破碎的关系拖垮。</p>
+
+<h3>考点 2：三透镜</h3>
+<ul>
+<li><b>Edge of chaos</b>：合作与冲突之间的张力；<b>别太早强求共识</b>（表面一致掩盖不信任）；适度张力是健康的；用 facilitated workshops、trusted intermediaries。</li>
+<li><b>Communication &amp; structure</b>：易形成 silos、loud voices dominate；目标不是标准化流程而是<span class="k">设计建立信任与合法性的沟通空间</span>，定 ground rules。</li>
+<li><b>Sensitivity to initial conditions</b>：早期互动定下信任基调；<b>早期排除很难挽回</b> → early, inclusive engagement。</li>
+</ul>
+
+<h3>考点 3：陷阱</h3>
+<ol>
+<li>以为正式 stakeholder 名单涵盖了所有重要关系（informal networks 同样重要）。</li>
+<li>让少数人主导，安静者被边缘化。</li>
+<li>把表面和谐当成真信任。</li>
+<li>把不信任/冲突当“噪音”忽略。</li>
+<li>过度依赖合同/治理结构，关系需要主动经营。</li>
+</ol>
+
+<h3>考点 4：Network map 记号 &amp; SNA 术语</h3>
+<table>
+<tr><th>记号（workshop）</th><th>含义</th><th>SNA 术语</th><th>含义</th></tr>
+<tr><td>实线</td><td>alliance / get on well</td><td><span class="k">Central actor</span></td><td>连接多、影响大（centrality）</td></tr>
+<tr><td>虚线</td><td>conflict</td><td><span class="k">Broker</span></td><td>桥接本不相连的群体</td></tr>
+<tr><td>+ / −</td><td>trusted / not trusted</td><td><span class="k">Peripheral actor</span></td><td>连接少，可能带来新信息</td></tr>
+<tr><td>大框</td><td>更中心</td><td><span class="k">Isolate</span></td><td>断开连接</td></tr>
+<tr><td>圈起来</td><td>被排除</td><td>Sociogram</td><td>节点=人，线=关系</td></tr>
+</table>
+<p>Christakis（TED）：影响沿网络传播到 <b>三度</b>（肥胖风险 朋友 +45%，二度 +25%，三度 +10%，四度消失）；解释：<b>induction、homophily、confounding</b>；情绪也会传染。启示：项目中的态度/信任会通过网络扩散。</p>
+<div class="trap">Centrality ≠ 正式职权；被排除不一定有冲突线（可能只是没人理）；关系复杂性 ≠ 结构复杂性（看关系<b>质量</b>不是数量）。</div>
+<div class="tpl"><span class="en">"An SNA map shows the Indigenous Custodians Council as an isolate and the energy company as the central actor. Because early exclusions are hard to undo (sensitivity to initial conditions), the PM should engage them early through a trusted broker and facilitated dialogue, rather than relying on formal contracts."</span></div>
+</section>
+
+<!-- ================= W9 ================= -->
+<section id="w9">
+<h2><span class="wk">W9</span>Temporal Complexity · Mapping the Complexity</h2>
+<div class="topic">考点：定义 · 约束变化 · rolling sea · 多选项与 phase transition · 管理要点 · 陷阱 · Mapping 工具 7 步 · Hubble</div>
+
+<h3>考点 1：定义与特征</h3>
+<ol>
+<li>项目经历<span class="k">significant environmental change outside the direct influence or control of the project</span>（换政府、立法、并购、重组）。</li>
+<li>项目越长，暴露越大（long duration = exposure）。</li>
+<li>信号句：“It is like standing on quicksand”；“My work keeps being thrown out because it is no longer relevant.”</li>
+<li>模糊性来源 = <span class="k">constraints</span>（不是 problem/solution space）；元素 = <b>options</b>。</li>
+<li><span class="k">Timing and positioning matter more than efficiency and control</span>；交付物未必是最初指定的。</li>
+<li>金句：<span class="k">“It is more important to deliver the project at the right time, than to deliver the project on time.”</span></li>
+</ol>
+
+<h3>考点 2：复杂性理论</h3>
+<ul>
+<li>Fitness landscape 不再静止，而是 <span class="k">“a rolling sea”</span>：峰变谷、谷变峰 → 方案要“在峰上时交付”；时机对、技术一般 &gt; 技术完美、时机错。</li>
+<li>结构“more like playing jazz than Beethoven”：<b>multiple options in parallel + redundancy</b>；“solutions are not owned”。</li>
+<li><span class="k">Phase transition</span>：并行开发多个选项，直到约束明朗 → 停止并行、全力交付选中方案。</li>
+</ul>
+
+<h3>考点 3：管理要点</h3>
+<ul>
+<li>规划 = <b>anticipation + positioning</b>：contingency planning + planning by options（“Expect the unexpected”）；别把鸡蛋放一个篮子。</li>
+<li>Sponsor 提供 “meta-view” 和环境背景；<b>捍卫 redundancy</b>（审计看着像浪费）；变更要<b>当面</b>解释、旧方案要正式关闭（防 change weary）。</li>
+<li>财务：足够 contingency + 预算冗余；避免乐观估算（Flyvbjerg）。</li>
+<li>进度：只设 <b>vague milestone targets</b>；<span class="k">entrainment</span>（与关键外部节奏同步）+ <b>pacer</b> 角色。</li>
+<li>风险：unknown unknowns / Black Swans；交付“wrong option at the wrong time”。</li>
+</ul>
+<div class="trap">陷阱：以为局势会稳定（等下去）；锁定早期想法、团队对选项产生 <b>ego attachment</b>；持续变化打击士气；为保预算按周期花钱在快过时的选项上。陷阱随规模与时长<b>指数</b>升级。</div>
+
+<h3>考点 4：Mapping the Complexity 工具（ch.8）</h3>
+<ul>
+<li>背景：<b>Turner &amp; Cochrane (1993) goals-and-methods matrix</b>：Type 1 目标清 + 方法清（工程建设）；Type 2 目标清 + 方法不清（产品开发）；Type 3 目标不清（应用软件）；Type 4 都不清（研究、组织变革）。</li>
+<li>解决的问题：决策者<b>太晚才意识到项目复杂</b>。~60 分钟、决策者 + 专家、白板即可。</li>
+<li>Base map：每种复杂性一行（structural / technical / directional / temporal，slides 加 <b>relational</b>），Low–Medium–High 打分，<b>每个 major phase 和 control gate 重画</b>。</li>
+</ul>
+<h4>7 步</h4>
+<ol>
+<li>Gather decision makers &amp; key subject-matter experts</li>
+<li>Draw the base map</li>
+<li>Explain the complexity types</li>
+<li>Ask questions to agree the level of each type</li>
+<li>Plot the levels and draw the map</li>
+<li>Repeat at the start of each major phase / decision point</li>
+<li>Use the map for <span class="k">governance, roles, contingency (budget &amp; schedule), resourcing, procurement</span></li>
+</ol>
+<p>注意：估计<b>高度依赖情境</b>、初始常常错；是沟通/决策辅助，不是打分仪器。</p>
+<p>案例：<b>Hubble</b>——计划 1983 发射，1986 <b>Challenger</b> 事故使航天飞机停飞，存放期间约 US$6M/月，1990 年才发射；成本 ~$400M → &gt;$2.5B。Miller &amp; Hobbs：60 个大型项目前期平均 <b>7 年</b>，政治/市场变化是主要风险。<b>Trevi Fountain</b>：Bernini 方案因教皇去世而放弃，历经多任教皇与竞赛才建成——典型的时间复杂性。NBN（workshop）：2007 vs 2010 两个时点打分对比。</p>
+<div class="tpl"><span class="en">"Because the main uncertainty lies in externally imposed constraints (e.g. an election), the PM should keep multiple options alive with deliberate redundancy and commit only at the phase transition when constraints resolve. Mapping the Complexity should be repeated at each control gate to show how temporal complexity rises and to adjust contingency and governance."</span></div>
+</section>
+
+<!-- ================= W10 ================= -->
+<section id="w10">
+<h2><span class="wk">W10</span>Leverage Points（Meadows）· Risk Interdependencies</h2>
+<div class="topic">考点：12 个杠杆点排序 · 四组 · 课堂深度 1–4 · 示例分类 · 风险相互依赖工具</div>
+
+<h3>考点 1：定义</h3>
+<p>Leverage point = <span class="k">a place where a small shift can lead to a big system change</span>。Meadows：<b>#12 最浅 → #1 最深</b>。</p>
+
+<h3>考点 2：12 个杠杆点（从浅到深，必背顺序）</h3>
+<table>
+<tr><th>#</th><th>Leverage point</th><th>例子</th><th>组</th><th>课堂深度</th></tr>
+<tr><td>12</td><td>Constants, parameters, numbers（税、补贴、标准）</td><td>调利率、限额</td><td rowspan="3">Parameters</td><td>1</td></tr>
+<tr><td>11</td><td>Buffers（稳定存量相对流量的大小）</td><td>库存、湖泊热容</td><td>1</td></tr>
+<tr><td>10</td><td>Stock-and-flow structure（物理结构）</td><td>布达佩斯路网、改管道</td><td>1</td></tr>
+<tr><td>9</td><td>Delays（相对变化速度）</td><td>处理厂建 5 年用 30 年</td><td rowspan="3">Feedbacks</td><td>2</td></tr>
+<tr><td>8</td><td>Balancing feedback 强度</td><td>按排放浓度收费、KPI 绩效</td><td>2–3</td></tr>
+<tr><td>7</td><td>Reinforcing feedback 增益</td><td>传染、血小板</td><td>2</td></tr>
+<tr><td>6</td><td>Information flows（谁能看到什么信息）</td><td>荷兰电表放门厅 → 用电 −30%</td><td rowspan="3">Design</td><td>2–3</td></tr>
+<tr><td>5</td><td>Rules（激励、惩罚、约束）</td><td>更严排放法</td><td>2</td></tr>
+<tr><td>4</td><td>Power to self-organise / change structure</td><td>微生物进化降解污染物</td><td>3</td></tr>
+<tr><td>3</td><td>Goals</td><td>湖泊用途改为保护</td><td rowspan="3">Intent</td><td>4</td></tr>
+<tr><td>2</td><td>Paradigm / mindset</td><td>自然=资源 vs 生命系统；ERP=装软件 vs 业务变革</td><td>4</td></tr>
+<tr><td>1</td><td>Transcending paradigms</td><td>能在多个范式间选择、不执着于任一</td><td>4</td></tr>
+</table>
+<div class="mem">“<b>数缓结 · 延负正 · 信规组 · 目范超</b>”（12→1）。四组：Parameters(12–10) · Feedbacks(9–7) · Design(6–4) · Intent(3–1)。</div>
+<div class="trap">Meadows 的 #12–#1 和课堂 depth 1–4 是<b>两套编号</b>，别混。按<b>机制</b>分类而不是按关键词：调税率=#12；重新设计激励规则=#5。深层干预更有力但阻力更大、见效更慢；延迟会造成过度纠偏和振荡。可持续 = triple bottom line（People/Planet/Profit），不只是 iron triangle。</div>
+
+<h3>考点 3：按复杂性类型选杠杆点（W11 recap）</h3>
+<ul>
+<li>Structural：调连接、反馈回路、信息流（改汇报线防瓶颈）。</li>
+<li>Technical：流程/设计调整（自动化、模块化），通常<b>浅–中</b>层。</li>
+<li>Directional：挑战目标/假设/规则——<b>深</b>层：重新定义目的或成功标准。</li>
+<li>Relational：加强信任与沟通，改变“谁和谁说话”。</li>
+<li>Temporal：识别时机与延迟，在 reinforcing loop 锁定失败前早干预（path dependence）。</li>
+</ul>
+
+<h3>考点 4：Risk Interdependencies tool</h3>
+<ol>
+<li>目的：分析<b>已识别风险之间</b>的关系，找复合/强化风险回路；补充而非替代常规风险识别。</li>
+<li>适用 small-to-medium 项目，<b>20–60 分钟</b>，定期重复。</li>
+<li>步骤：召集 PM/项目总监/财务法务环境专家 → 约 <b>20 个</b>预定义风险 → 分 2–3 人小组 → <span class="k">influence matrix：影响方在列（上），被影响方在行（侧）</span>，打叉 → 把显著关系画到风险圆上（箭头 influencing → influenced，每组不同颜色）→ 合并找 loops。</li>
+<li>例：激进分子负面报道 (D) → 主要赞助商撤资 (C)；风险环 2 → 18 → 12 → 2。</li>
+</ol>
+<div class="tpl"><span class="en">"Raising the overtime rate is a #12 parameter change and leaves the structure intact. A deeper intervention is #6 — giving the client real-time visibility of rework — or #3, redefining success from 'on schedule' to 'fit for purpose', which reshapes rules and feedbacks below it, though it faces more resistance and a longer delay."</span></div>
+</section>
+
+<!-- ================= W11 ================= -->
+<section id="w11">
+<h2><span class="wk">W11</span>Critical Systems Heuristics（Ulrich）· 课程整合</h2>
+<div class="topic">考点：三个词的含义 · boundary judgement/critique · is vs ought · 12 类 4 组 · 2→1→3 顺序 · witnesses · 优缺点</div>
+
+<h3>考点 1：CSH 是什么（第三波）</h3>
+<ol>
+<li>Hard → Soft → <span class="k">CSH = third wave</span>；用于反思性实践与项目评估。</li>
+<li><b>Heuristic</b>：发现的艺术（heuriskein），探索性 vs 演绎/算法式。</li>
+<li><b>Critical</b>：没有唯一正确答案；支持对不同假设的反思与辩论。</li>
+<li><b>Systems</b>：一切问题定义都依赖对“整体”的先行判断 = <span class="k">boundary judgements</span>——决定哪些事实和价值算数、哪些被排除。</li>
+<li><span class="k">Boundary critique</span> = ① 揭示（unfold）现有边界判断 ② 质疑其相关性、正当性和伦理可辩护性。</li>
+</ol>
+<p>例：NSW 房市“复苏”——专家 A 边界含金融系统不含购房者（欢迎）；专家 B 含购房者不含金融系统（反对）→ <b>不同 reference systems</b>。</p>
+
+<h3>考点 2：12 个边界类别（4 组 × 3；is / ought to be → 24 问）</h3>
+<table>
+<tr><th>来源</th><th>社会角色</th><th>关注点</th><th>关键问题</th></tr>
+<tr><td><b>Motivation</b> 动机</td><td>1 Beneficiary（谁受益）</td><td>2 Purpose（目的）</td><td>3 Measure of improvement（成功标准）</td></tr>
+<tr><td><b>Control / Power</b> 权力</td><td>4 Decision maker（谁决定）</td><td>5 Resources（控制什么资源）</td><td>6 Decision environment（什么在决策者控制之外）</td></tr>
+<tr><td><b>Knowledge</b> 知识</td><td>7 Expert（谁提供知识）</td><td>8 Expertise（什么知识算数）</td><td>9 Guarantor（什么保证成功）</td></tr>
+<tr><td><b>Legitimacy</b> 合法性</td><td>10 Witness（谁代表受影响者）</td><td>11 Emancipation（受影响者如何发声/免于伤害）</td><td>12 Worldview（如何调和世界观）</td></tr>
+</table>
+<ul>
+<li>1–9 = <b>those involved</b>；10–12 = <span class="k">those affected but not involved</span>。</li>
+<li>顺序：每组 <span class="k">2 → 1 → 3</span>（先目的/关注，再角色，再关键问题），即从 2/5/8/11 开始。</li>
+<li><b>Ought to be</b>（规范）vs <b>is</b>（描述）——两者对比就是批判点；workshop 只做 ought。</li>
+<li><span class="k">Witnesses are the crucial source of legitimation</span>：只有受影响者的自愿同意才能使强加于他们的成本风险合法化。</li>
+<li><b>Emancipation</b> = 让受影响者免于“those involved”决策的有害后果；课件提到 <b>Robodebt</b>（早期用 CSH 可能有帮助）。</li>
+</ul>
+<p>案例：南非工程课程——“is”：受益者是行业/专业委员会，世界观 technocratic；“ought”：扩展到学生、社区、公民社会，世界观转向 societal relevance → <b>ought 列扩大边界</b>。</p>
+
+<h3>考点 3：评价</h3>
+<ul>
+<li>✅ 确保不遗漏利益相关者；所有群体可发声；共识非必需；在 <span class="k">coercive</span> 情境比 SSM 更好。</li>
+<li>❌ 不告诉你如何改变世界观；权力/财富不平等仍会阻碍；可能滑向 managerialism；<b>complex 情境需要 pluralist approach（一个技术不够）</b>。</li>
+</ul>
+<div class="trap">CSH ≠ SSM：SSM 是参与者之间的学习与 accommodation；CSH 专门把<b>受影响但未参与者</b>和<b>权力</b>带进来。Boundary judgement ≠ scope statement。Witness(10) ≠ decision maker(4)。</div>
+<div class="tpl"><span class="en">"Applying CSH, the 'is' answer to Q10 (witnesses) is 'no one' — welfare recipients affected by the scheme had no representative. The 'ought' answer would include advocacy groups and an independent ombudsman, widening the boundary so that the costs imposed on those affected but not involved are legitimised (or rejected) through their voice."</span></div>
+</section>
+
+<!-- ================= CMP ================= -->
+<section id="cmp">
+<h2>3 · 高频对比题（Compare X vs Y）</h2>
+<table>
+<tr><th style="width:20%">对比</th><th>区别（一句话写出来）</th></tr>
+<tr><td>Complicated vs Complex</td><td>前者因果可由专家分析出来（sense–analyse–respond）；后者结果从适应性主体的互动中涌现（probe–sense–respond）。</td></tr>
+<tr><td>Hard vs Soft ST</td><td>Hard 假设目标明确一致，优化方案；Soft 假设目标有争议，通过多视角学习寻求 accommodation。</td></tr>
+<tr><td>Single vs Double vs Triple loop</td><td>改行动 / 改假设 / 改价值与判断规则。</td></tr>
+<tr><td>Reinforcing vs Balancing</td><td>R 放大变化（偶数个 −）；B 抵消变化、趋向目标（奇数个 −），有延迟会振荡。</td></tr>
+<tr><td>Stock vs Flow</td><td>Stock 是某时点的累积水平；flow 是单位时间变化率（valve）。</td></tr>
+<tr><td>Ripple vs Knock-on</td><td>Ripple 是管理行动的一阶副作用（policy resistance）；knock-on 是由此引发的二、三阶反馈。</td></tr>
+<tr><td>Technical vs Directional</td><td>技术：知道做什么不知道怎么做（solution space 大）；方向：连做什么/为什么都不清（problem space 大）。</td></tr>
+<tr><td>Directional vs Temporal</td><td>方向：内部目标有争议；时间：外部约束随时间变化、不受项目控制。</td></tr>
+<tr><td>Structural vs Relational</td><td>结构看相互依赖的<b>数量</b>；关系看人际关系的<b>质量</b>（信任、权力、排除）。</td></tr>
+<tr><td>VSM S3 vs S4</td><td>S3 管内部、当下（here and now）；S4 看外部、未来（there and then）；S5 平衡二者。</td></tr>
+<tr><td>SSM vs CSH</td><td>SSM 适合 pluralist、在参与者间学习；CSH 适合 coercive、引入受影响者与权力批判。</td></tr>
+<tr><td>On time vs Right time</td><td>时间复杂性中，在环境“峰”上交付比按原计划日期交付更重要。</td></tr>
+<tr><td>Jazz vs CPM/Gantt</td><td>Jazz 是对高不确定项目的管理半结构（milestones + meetings）；CPM 适合稳定、低不确定的计划与估算。</td></tr>
+<tr><td>Efficiency vs Effectiveness (3Es)</td><td>Efficiency = 产出/资源；effectiveness = 是否贡献于更高层的长期目标。</td></tr>
+<tr><td>#2 Paradigm vs #1 Transcending</td><td>#2 换一个世界观；#1 认识到任何世界观都有局限，能在多个范式间灵活选择。</td></tr>
+</table>
+</section>
+
+<!-- ================= MOCK ================= -->
+<section id="mock">
+<h2>4 · SAQ 模拟题 + 答题要点 <span class="pill">tutor-generated，非官方真题</span></h2>
+<div class="topic">先自己用 I-E-A-E 写 5–8 句，再展开对照。</div>
+
+<details class="ans"><summary>Q1. A new hospital IT system is 80% "complete" for months, while staff keep being added and errors increase. Explain using system dynamics.</summary>
+<ol><li><b>Identify</b>：structural complexity；90% syndrome。</li>
+<li><b>Mechanism</b>：rework cycle——错误进入 undiscovered rework 被算作完成 → 测试时才发现 → rework to do 增加。</li>
+<li>加人 = controlling feedback，但 ripple effects（新人稀释经验、沟通成本 ↑）→ error fraction ↑；knock-on（士气、out-of-sequence work）。画 R loop：Staff ↑ → communication overhead ↑ → errors ↑ → rework ↑ → schedule gap ↑ → staff ↑。</li>
+<li><b>Tool</b>：stock-and-flow model + BOTG 对比计划/实际；Brooks 式 “faster is slower”。</li>
+<li><b>Evaluate</b>：SD 揭示结构，但需要数据、模型难验证；可改变 #6 information flow（提前测试暴露隐藏返工）。</li></ol></details>
+
+<details class="ans"><summary>Q2. Stakeholders of a city redevelopment all signed the plan, but disagreements keep resurfacing. Identify the complexity and recommend a tool.</summary>
+<ol><li>Directional complexity：superficially agreed goals / hidden agendas；problem space ≫ solution space。</li>
+<li>强加的“签字共识”= imposed order → 分歧被放大；sensitivity to initial conditions。</li>
+<li>SSM：rich picture 找缺失视角；为不同群体写 root definitions / CATWOE（突出 W 不同）；辩论寻求 desirable &amp; feasible accommodation。可配合 PESTLE 找外部驱动。</li>
+<li>评价：SSM 不保证共识；若有权力压制（coercive）→ 加 CSH。“Make agreeing the goal the first project.”</li></ol></details>
+
+<details class="ans"><summary>Q3. A university solar-car team builds a vehicle using technologies never combined before. How should it be managed?</summary>
+<ol><li>Technical complexity；Shenhar Level C（若需发明新技术则 D）；solution space ≫ problem space；black-box syndrome。</li>
+<li>Edge of chaos：太多控制扼杀创新，太少则各团队各走各路。</li>
+<li>Jazz：objectives → milestones → broad roles → compulsory meetings（nodal points）→ 会间不 micromanage → 收敛到 satisficing solution（列出 8 步中的关键几步）。</li>
+<li>评价：Jazz 是管理工具不是估算工具；预算需另用 decomposition；PM 易因“表面混乱”而收紧控制。</li></ol></details>
+
+<details class="ans"><summary>Q4. A rail project's business case is repeatedly invalidated by elections and policy changes. Explain and advise.</summary>
+<ol><li>Temporal complexity：外部约束变化，不受项目控制；“standing on quicksand”。</li>
+<li>Rolling sea fitness landscape；right time &gt; on time。</li>
+<li>Keep multiple options + redundancy；phase transition 时再承诺；vague milestones、entrainment 与选举周期同步；sponsor 当面解释变化、正式关闭旧方案。</li>
+<li>Mapping the Complexity：每个 control gate 重画，调整 contingency 与 governance；PESTLE 提供 S4 信息。</li>
+<li>评价：冗余看起来像浪费；估计依赖情境、常出错。</li></ol></details>
+
+<details class="ans"><summary>Q5. In a wind-farm project, the local Indigenous group is never consulted and the energy company dominates meetings. Analyse.</summary>
+<ol><li>Relational complexity（也可点出 coercive 情境）。</li>
+<li>SNA：energy company = central actor；Indigenous group = isolate；找 broker。</li>
+<li>Edge of chaos：不要强推共识；sensitivity to initial conditions：早期排除难以挽回。</li>
+<li>工具：stakeholder network map → facilitated dialogue/trusted intermediary；CSH Q10 witness / Q11 emancipation：“is” 无人代表 vs “ought” 应有代表。</li>
+<li>评价：CSH 揭示边界但不能单独改变权力结构 → pluralist approach。</li></ol></details>
+
+<details class="ans"><summary>Q6. A PM blames the design team for delays without checking the permit status. Which concepts explain this, and how should learning change?</summary>
+<ol><li>Mental models + ladder of inference：selected data → assumption → conclusion → action（加监督）；reflexive loop 强化偏见。</li>
+<li>Single-loop：继续加压设计团队（do things right）；double-loop：质疑“延误来自设计”的假设，检查依赖关系（do the right things）；triple-loop：反思组织如何判断延误原因（how do we decide what is right）。</li>
+<li>Senge：“There is no blame”；“cause and effect are not close in time and space”。</li></ol></details>
+
+<details class="ans"><summary>Q7. Classify three interventions with Meadows' leverage points: (a) raise fines for late delivery; (b) publish a live dashboard of rework to the client; (c) redefine project success to include community wellbeing.</summary>
+<ol><li>(a) #12 parameter（若重新设计整个激励制度则 #5 rules）——浅，结构不变。</li>
+<li>(b) #6 information flows——新的反馈信息改变决策，成本低效果大。</li>
+<li>(c) #3 goals（若改变对项目意义的根本认知则 #2 paradigm）——最深，重塑下层规则与反馈，但阻力大、见效慢。</li>
+<li>点出：按机制而非关键词分类；深层 ≠ 永远最好/最容易。</li></ol></details>
+</section>
+
+<p style="color:var(--muted);font-size:13px;text-align:center">PMGT1711 Complex Projects &amp; Systems Thinking · 个人复习用 · 内容整理自 Week 1–11 课程材料</p>
+</main>
+
+<script>
+const body=document.body,btn=document.getElementById('hideBtn');
+btn.onclick=()=>{body.classList.toggle('hide');btn.classList.toggle('on');btn.textContent=body.classList.contains('hide')?'👀 退出背诵模式':'🙈 背诵模式：遮住重点';document.querySelectorAll('.k.show').forEach(e=>e.classList.remove('show'))};
+document.addEventListener('click',e=>{const k=e.target.closest('.k');if(k&&body.classList.contains('hide'))k.classList.toggle('show')});
+// active nav
+const links=[...document.querySelectorAll('nav a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting){links.forEach(l=>l.classList.toggle('on',l.getAttribute('href')==='#'+en.target.id))}}),{rootMargin:'-20% 0px -70% 0px'});
+secs.forEach(s=>s&&io.observe(s));
+// search
+const inp=document.getElementById('search');let marks=[];
+function clear(){marks.forEach(m=>{const t=document.createTextNode(m.textContent);m.replaceWith(t);t.parentNode.normalize()});marks=[]}
+inp.addEventListener('keydown',e=>{if(e.key!=='Enter')return;clear();const q=inp.value.trim().toLowerCase();if(!q)return;
+const w=document.createTreeWalker(document.querySelector('main'),NodeFilter.SHOW_TEXT);const hits=[];let n;while(n=w.nextNode()){if(n.nodeValue.toLowerCase().includes(q))hits.push(n)}
+hits.forEach(n=>{const i=n.nodeValue.toLowerCase().indexOf(q);const r=document.createRange();r.setStart(n,i);r.setEnd(n,i+q.length);const m=document.createElement('mark');r.surroundContents(m);marks.push(m)});
+if(marks[0]){const d=marks[0].closest('details');if(d)d.open=true;marks[0].scrollIntoView({block:'center'})}});
+</script>
+</body>
+</html>
