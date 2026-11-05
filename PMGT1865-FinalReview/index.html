@@ -31,6 +31,19 @@
 .multi-submit{margin-top:12px}
 .warn-note{background:#fbf5e8;border-left:3px solid #c9a35f;padding:6px 10px;border-radius:6px}.src-note{font-size:12px;color:#8d977f}
 @media(max-width:760px){.match-grid{grid-template-columns:1fr}.teacher-actions{margin-left:0}}
+
+.k-toc{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.k-toc a{border:1px solid var(--line);border-radius:20px;padding:5px 13px;font-size:12px;color:#5d7a4c;text-decoration:none;background:#fff}
+.k-howto{background:#f8f3ea;border:1px solid #e6d6bd;border-radius:14px;padding:14px 20px;margin-bottom:20px;font-size:14px;line-height:1.8}
+.k-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px 26px;margin-bottom:18px;scroll-margin-top:80px;font-size:14px;line-height:1.8}
+.k-card h2{font-size:17px;margin:0 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.k-card ul{margin:0;padding-left:20px}.k-card li{margin:4px 0}
+.qref{font-size:11px;font-weight:600;color:#a35f4b;background:#f6e4dc;border-radius:10px;padding:2px 9px}
+.wk{font-size:11px;font-weight:700;color:#fff;background:#6f8f5c;border-radius:6px;padding:2px 8px}
+.k-card table{border-collapse:collapse;margin:8px 0;font-size:13px;background:#fff}.k-card th,.k-card td{border:1px solid #dfe3d8;padding:5px 11px;text-align:left;vertical-align:top}.k-card th{background:#f1f3ec}
+.k-trap{background:#fbecea;border-left:4px solid #c46e62;border-radius:8px;padding:8px 12px;font-size:13.5px;margin:10px 0 0}
+.o-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.o-grid .k-card{margin:0;font-size:13.5px}
+.teacher-actions .quiet-button{font-size:12px}
+@media(max-width:1000px){.o-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.k-card{padding:16px}.k-card table{display:block;overflow-x:auto}}
 </style></head>
 <body>
 <aside class="sidebar" id="sidebar">
@@ -44,7 +57,7 @@
   <button class="nav-item" data-mode="marked"><span class="nav-symbol">◇</span>我的收藏 <span class="count" id="nav-marked">0</span></button>
  </nav>
  <div class="nav-caption">TEACHER SAMPLE <span>老师题</span></div>
- <nav class="bank-nav" aria-label="老师题"><button data-bank="teacher"><span class="tiny-dot red"></span>老师 Sample 65 题 <small>★</small></button></nav>
+ <nav class="bank-nav" aria-label="老师题"><button data-bank="teacher"><span class="tiny-dot red"></span>老师 Sample 65 题 <small>★</small></button><button data-kview="t65-view"><span class="tiny-dot red"></span>65 题考点讲解 <small>讲</small></button><button data-kview="overview-view"><span class="tiny-dot blue"></span>基础知识一览 <small>W1–13</small></button></nav>
  <div class="nav-caption">QUESTION BANKS <span>三个题库</span></div>
  <nav class="bank-nav" aria-label="题库"><button data-bank="short"><span class="tiny-dot blue"></span>概念短题 <small>01</small></button><button data-bank="long"><span class="tiny-dot olive"></span>长题应用 <small>02</small></button><button data-bank="scenario"><span class="tiny-dot orange"></span>情境进阶 <small>03</small></button></nav>
  <div class="side-bottom"><div class="offline-dot"></div><span>本地练习 · 自动保存<small>无需联网，进度留在此浏览器</small></span></div>
@@ -57,7 +70,7 @@
   <div class="page-heading"><div><span class="eyebrow">YOUR DAILY PRACTICE</span><h1>把知识，练成判断力<span class="title-dot">.</span></h1><p class="subheading">三个题库，一个练习空间。先理解概念，再带着问题走进情境。</p></div><div class="heading-actions"><button class="quiet-button" id="resume-session" hidden>继续上次练习 →</button><div class="edition">PMGT1852<span>300 QUESTIONS / 13 WEEKS</span></div></div></div>
   <div class="dashboard-stats"><div><span class="stat-label">累计练习</span><div><strong id="home-done">0</strong><small>/ 678 题</small></div></div><div><span class="stat-label">答对题目</span><div><strong id="home-right">0</strong><small>题</small></div></div><div><span class="stat-label">当前正确率</span><div><strong id="home-rate">—</strong><small id="home-rate-unit"></small></div></div><div><span class="stat-label">待巩固</span><div><strong id="home-wrong">0</strong><small>道错题</small></div></div></div>
   <div class="section-heading"><h2>老师 Sample Questions</h2><span>TEACHER SAMPLE · 65</span></div>
-  <div class="mixed-card teacher-card"><div class="mixed-symbol">★</div><div><h3>老师在线讲座内嵌题 · 65 题</h3><p>按原题库 Q01–Q65 顺序：原题单选 / 判断 / 多选，配对题改为四选一“完整配对方案”。题干附中文题意，答后显示中文解析与课件出处。<span data-bank-progress="teacher">0 / 65 已答</span></p></div><div class="teacher-actions"><button class="primary" data-start="teacher">开始 / 继续 <span>→</span></button><button class="quiet-button" id="teacher-random">随机 20 题 · 30 分钟模拟</button></div></div>
+  <div class="mixed-card teacher-card"><div class="mixed-symbol">★</div><div><h3>老师在线讲座内嵌题 · 65 题</h3><p>按原题库 Q01–Q65 顺序：原题单选 / 判断 / 多选，配对题改为四选一“完整配对方案”。题干附中文题意，答后显示中文解析与课件出处。<span data-bank-progress="teacher">0 / 65 已答</span></p></div><div class="teacher-actions"><button class="primary" data-start="teacher">开始 / 继续 <span>→</span></button><button class="quiet-button" data-kview="t65-view">先看考点讲解</button><button class="quiet-button" data-kview="overview-view">基础知识一览 W1–13</button><button class="quiet-button" id="teacher-random">随机 20 题 · 30 分钟模拟</button></div></div>
   <div class="section-heading"><h2>选择今天的练习</h2><span>CHOOSE YOUR FOCUS</span></div>
   <div class="bank-cards">
    <article class="bank-card bank-short"><div class="bank-top"><span>01 / FOUNDATION</span><b>413 题</b></div><div class="bank-art art-foundation" aria-hidden="true"><i></i><i></i><i></i></div><h3>概念短题</h3><p>辨析定义、框架顺序与易混点，<br>先把知识底座搭稳。</p><div class="bank-progress"><span data-bank-progress="short">0 / 413 已答</span><div><i data-bank-bar="short"></i></div></div><button class="bank-launch" data-start="short">开始 / 继续练习 <span>↗</span></button></article>
@@ -77,6 +90,123 @@
    <aside class="session-panel"><div class="panel-heading"><h3>本次练习</h3><span id="panel-total">100 题</span></div><div class="mini-stats"><div><b id="panel-done">0</b><span>已答</span></div><div><b id="panel-right">0</b><span>正确</span></div><div><b id="panel-wrong">0</b><span>错题</span></div></div><div class="panel-divider"></div><div class="panel-heading"><h3>题目导航</h3><span id="map-page-label">1—50</span></div><div class="question-map" id="question-map"></div><div class="map-pagination"><button class="text-button" id="map-prev">←</button><span id="map-page">1 / 2</span><button class="text-button" id="map-next">→</button></div><div class="map-legend"><span><i></i>未答</span><span><i class="green"></i>正确</span><span><i class="red"></i>答错</span></div><div class="panel-divider"></div><button class="panel-action" id="retry-wrong">↺ 重做当前范围错题</button><button class="panel-action danger" id="reset-scope">重置当前范围</button><p class="panel-note">只影响当前题库与周次，不清空其他练习。重置需再次确认。</p></aside>
   </div>
  </section>
+ <section id="t65-view" class="kview" hidden>
+  <div class="practice-heading"><div><span class="eyebrow">TEACHER 65 · KNOWLEDGE BRIEF</span><h1>老师 65 题 · 考点讲解</h1><p class="subheading">把 65 道老师内嵌题背后的知识点按主题拆开：先懂概念，再看题号对应、陷阱在哪。题号可直接回到题库练。</p></div><button class="quiet-button" data-go-home>返回总览 <span>↗</span></button></div>
+  <nav class="k-toc"><a href="#k1">① 定义与动机</a><a href="#k2">② 分析流程</a><a href="#k3">③ Facilitation 与角色</a><a href="#k4">④ 提问</a><a href="#k5">⑤ 准备 5 Ps</a><a href="#k6">⑥ Salience 与 Bourne</a><a href="#k7">⑦ SNA 与 Rowley</a><a href="#k8">⑧ 开场 IEEI</a><a href="#k9">⑨ 聚焦</a><a href="#k10">⑩ 记录</a><a href="#k11">⑪ 信息收集</a><a href="#k12">⑫ 收尾</a><a href="#k-trap">高频陷阱</a></nav>
+  <div class="k-howto"><b>怎么做这类题</b>：老师题大量是 <b>“Which statement best summarizes…”</b>。错误选项几乎都带 <b>only / solely / always / avoid / regardless / control</b> 这种绝对化或“主持人控制”的字眼；正确选项通常是“参与、共同形成、贯穿全程、有清晰步骤”的那一个。配对题记住每个框架的<b>顺序和动词</b>即可。</div>
+
+  <article class="k-card" id="k1"><h2>① 利益相关者管理的定义与动机 <span class="qref">Q01–Q06</span></h2>
+   <ul><li><b>Stakeholder management 的范围</b>：识别、分析、参与相关利益相关者，以<b>提高项目成功机会</b>；贯穿整个 <b>project life cycle</b>，不是只管财务方、只为合规、只在执行阶段（Q01、Q03）。</li>
+   <li><b>Power–Interest Grid</b>：两条轴 = <b>Power（影响力）</b>和 <b>Interest（关注程度）</b>，评估 stakeholder 的 influence 和 concern（Q02）。四格：Manage closely / Keep satisfied / Keep informed / Monitor。</li>
+   <li><b>三种动机理论</b>（Q04 配对、Q06）：
+    <table><tr><th>理论</th><th>核心一句话</th></tr><tr><td>Classical Economic Theory（Smith 1776）</td><td>Self-interest drives decisions（自利）</td></tr><tr><td>Logic of Consequentiality（March &amp; Heath 1994）</td><td>Perceived consequences influence behaviour（预期后果）</td></tr><tr><td>Theory of Planned Behaviour（Ajzen 1991）</td><td>Attitudes, norms and control shape intention</td></tr></table></li>
+   <li><b>TPB 三要素</b>：Attitude、Subjective norm、Perceived behavioural control → Intention → Behaviour。<b>Financial incentive 不是 TPB 组成部分</b>（Q05）。</li></ul>
+   <p class="k-trap">陷阱：“只靠金钱激励”“只有法律义务才参与”都是 only 型错误选项（Q06）。</p></article>
+
+  <article class="k-card" id="k2"><h2>② 利益相关者分析流程 <span class="qref">Q07–Q09</span></h2>
+   <table><tr><th>阶段</th><th>要回答的问题</th></tr><tr><td><b>Identification</b></td><td>Who can affect or be affected by the project?</td></tr><tr><td><b>Assessment</b></td><td>What motivates each stakeholder, what is their minimum contribution?（需求、动机、影响、贡献）</td></tr><tr><td><b>Prioritisation</b></td><td>Which stakeholders need the most attention now?</td></tr></table>
+   <ul><li>Assessment 不是批预算、分法律责任，也不是把不重要的人删掉（Q08）。</li><li>整个流程是<b>迭代的、贯穿项目</b>，随 stakeholder 与环境变化更新（Q09）。</li></ul></article>
+
+  <article class="k-card" id="k3"><h2>③ Facilitation 是什么、什么时候用、主持人的角色 <span class="qref">Q10–Q14</span></h2>
+   <ul><li><b>定义</b>：一个 <b>structured process</b>，主持人管理过程，让决策由参与者 <b>created, understood and accepted</b>（Q11、Q14）。不是领导强加决定，也不是回避讨论。</li>
+   <li><b>何时适合</b>：问题重要、答案不明显、需要 <b>buy-in</b>。若问题很小、方案已定、不需要共同创造 → <b>不必 facilitation</b>（Q13）。Facilitation 也不只用于冲突解决。</li>
+   <li><b>四项技能配对</b>（Q10）：Energizing = 激发热情与参与；Managing Dysfunction = 处理干扰行为；Building Consensus = 帮助达成一致；Questioning = 提出有挑战但建设性的问题。</li>
+   <li><b>主持人角色</b>（Q12）：<b>Clairvoyant</b> = 预先察觉疲劳、挫败、脱离的信号，防止 dysfunction；Questioner = 提引导性问题；Praiser = 给具体肯定。情境“大家很累、有人开始霸占发言”→ Clairvoyant。</li></ul></article>
+
+  <article class="k-card" id="k4"><h2>④ 提问的秘诀 <span class="qref">Q15–Q17</span></h2>
+   <ul><li><b>Type A</b>：直接问概念（“What are the benefits?”）。<b>Type B</b>：先描绘画面 / 情境，再问（“Think about the last time you…”）——<b>更个人化、更吸引参与</b>。所以 “Type A 比 Type B 更 engaging” = <b>False</b>（Q15）。老师偏好 image-rich 的 Type B starting question（Q17）。</li>
+   <li><b>动词选择</b>（Q16）：<b>Could</b> = 不设限地产生想法（最开放）；<b>Should</b> = 提出应做之事但不要求行动；<b>Must</b> = 必须做的关键行动，隐含承诺；<b>Will</b> = 承诺具体行动（最收敛）。顺序记：Could → Should → Must → Will。</li>
+   <li>Reacting questions：guide by asking, not telling。</li></ul></article>
+
+  <article class="k-card" id="k5"><h2>⑤ 会议准备：5 Ps <span class="qref">Q18–Q20</span></h2>
+   <table><tr><th>P</th><th>回答的问题</th></tr><tr><td><b>Purpose</b></td><td>Why are we holding this session?</td></tr><tr><td><b>Product</b></td><td>What do we need to have when we are done?（Hands / Heads / Hearts）</td></tr><tr><td><b>Participants</b></td><td>Who needs to be involved, what are their perspectives?</td></tr><tr><td><b>Probable Issues</b></td><td>What concerns will likely arise?（topics / ditches / red herrings）</td></tr><tr><td><b>Process</b></td><td>What steps should we take during the meeting?（最后设计）</td></tr></table>
+   <p class="k-trap">陷阱：<b>“People”不是 5 Ps</b>（是 Participants）——语义接近但不是课件术语（Q18）。</p></article>
+
+  <article class="k-card" id="k6"><h2>⑥ Salience Model 与 Bourne Stakeholder Circle <span class="qref">Q21–Q24</span></h2>
+   <ul><li><b>Salience Model</b>（Mitchell, Agle &amp; Wood 1997）按 <b>Power、Legitimacy、Urgency</b> 三属性分类、排序 stakeholder（Q21 的选项写成 “influence and engagement”，措辞不严谨，按 P/L/U 记）。8 类：Dormant / Discretionary / Demanding / Dominant / Dangerous / Dependent / Definitive / Non-stakeholder。</li>
+   <li><b>Bourne 五步</b>（Q22）：<b>Identify → Prioritise → Visualise → Engage → Monitor</b>。Prioritise 用 Power(1–4)、Legitimacy/Proximity(1–4)、Urgency(1–5)；<b>Budget 不是排序因素</b>（Q24）。</li>
+   <li><b>读 Stakeholder Circle</b>：<b>径向深度 = Power</b>（True，Q23）；外圈弧长 = 影响力 / 重要性；颜色 = 影响方向（橙 upwards、绿 downwards、紫 sideways、蓝 outwards）；最重要的从 12 点钟开始顺时针排。</li></ul></article>
+
+  <article class="k-card" id="k7"><h2>⑦ 社会网络分析（SNA）与 Rowley <span class="qref">Q25–Q31</span></h2>
+   <ul><li><b>SNA 研究什么</b>：社会行动者之间<b>关系的模式（pattern of relationships）</b>，不是地理距离、孤立个体或财务表现（Q25）。</li>
+   <li><b>网络图三要素</b>（Q26 图题）：中心节点 = <b>Ego</b>；与它相连的节点 = <b>Alter</b>；连线 = <b>Tie</b>。</li>
+   <li><b>概念配对</b>（Q27）：Egocentric = 一个行动者及其直接联系；Sociocentric = 整个网络结构；Adjacency matrix = 谁向谁求助的表；<b>Degree</b> = 直接连接数；<b>Betweenness</b> = 处在他人最短路径上的频率（Q28 关键词 shortest paths → Betweenness）。</li>
+   <li><b>三个分析层级</b>（Q29）：Network-level = density、centralization；Actor-level = degree、betweenness、closeness；Tie-level = 关系强弱与性质。</li>
+   <li><b>Rowley 矩阵</b>（Q30）：
+    <table><tr><th></th><th>Centrality 低</th><th>Centrality 高</th></tr><tr><th>Density 高</th><td>Subordinate</td><td>Compromiser</td></tr><tr><th>Density 低</th><td>Solitarian</td><td><b>Commander</b></td></tr></table></li>
+   <li><b>主旨</b>（Q31）：SNA 能发现正式组织图以外的关键联系与影响者，为 engagement 提供依据（ACME Telco：被评为 Monitor 的人可能是 Commander）。</li></ul></article>
+
+  <article class="k-card" id="k8"><h2>⑧ 开场：IEEI、ground rules、parking boards <span class="qref">Q32–Q38</span></h2>
+   <ul><li><b>IEEI</b>（Q32）：<b>Inform</b> 说明目的与产出 → <b>Excite</b> 展示收益与愿景 → <b>Empower</b> 说明参与者的角色与权限 → <b>Involve</b> 让他们说出目标与关注。<b>Excite 最重要也最难</b>，所以 “Excite 最容易” = False（Q33）。目的：尽早激发参与、获得 buy-in（Q34）。</li>
+   <li><b>Involve 与议程 buy-in</b>（Q35）：把个人目标和议程连起来，参与者看到自己的诉求被覆盖，也能发现议程漏项。</li>
+   <li><b>Ground rules 配对</b>（Q36）：Everyone speaks；<b>ELMO</b> = Enough, Let’s Move On → 触发<b>全组投票</b>（不是一个人叫停）；One conversation = 不开小会；Take a stand = 清楚表态；eManners = 手机静音、不看邮件；Question first = 先提问再反对。</li>
+   <li><b>Parking boards</b>（Q37）：暂存 Issues / Decisions / Actions，既尊重发言又保持聚焦；不是议程表、计时板。</li>
+   <li>Ground rules 规范互动、parking boards 接住跑题、introductions 建立参与关系（Q38）。开场 8 步中 introductions 排第 7。</li></ul></article>
+
+  <article class="k-card" id="k9"><h2>⑨ 聚焦：Checkpoint、PeDeQs、保持在轨 <span class="qref">Q39–Q46</span></h2>
+   <ul><li><b>Checkpoint</b>（Q39）：<b>Review</b> 回顾已完成 → <b>Preview</b> 预告下一步 → <b>Big View</b> 说明下一步与总目标的关系。跳过 Big View 会让人质疑、抵触（True，Q40）。Big View 相当于 IEEI 的 Excite。</li>
+   <li><b>Warm-up</b>（Q41）：先问两个用举手 / 点头回应的 pre-questions，再问真正的问题。</li>
+   <li><b>PeDeQs 六步</b>（Q42、Q43）：Purpose → Example → Directions → Exceptions → Questions → Starting question。目的是让参与者知道做什么、为什么、怎么做；<b>不取代 checkpoint，也不是信息越多越好</b>。</li>
+   <li><b>Prompt questions</b>（Q44 多选 B、C）：“What else?”、“What other steps are there…?”——在当前主题上继续挖。“Is this relevant?”、“Can we move on?” 不是。</li>
+   <li><b>Breakout</b>（Q45）：先全组一起做第一项 → 确保一致与共同理解（do, divide, direct）。</li>
+   <li><b>保持在轨</b>（Q46）：<b>Label</b> 标记主题 → <b>Prompt</b> 继续激发 → <b>Redirect</b> 征得同意后把跑题拉回（可放 Issues list）。</li></ul></article>
+
+  <article class="k-card" id="k10"><h2>⑩ 记录：Power of the Pen <span class="qref">Q47–Q52</span></h2>
+   <ul><li><b>四条规则</b>：Write first, discuss second · Write what they said · Write so they can read it · Ask, don’t tell（Q49）。</li>
+   <li><b>不推荐</b>：在记录前先“解释并改进”参与者的话（Q47）。</li>
+   <li><b>为什么记原话</b>（Q48 多选 A、B、D）：保持 <b>ownership</b>、<b>empower</b> 参与者、减少主持人曲解。不是为了增加主持人控制，也不是鼓励强势者多说。</li>
+   <li><b>记录什么</b>（Q50 多选 A–D、Q51）：<b>Decisions、Actions、Outstanding issues、Relevant analysis / comments</b>。不记主持人个人意见。</li>
+   <li><b>避免冷场</b>（Q52）：边写边让大家补充、复述、澄清；站在白板旁、一听到可记的词就开写、可用 scribe。</li></ul></article>
+
+  <article class="k-card" id="k11"><h2>⑪ 信息收集工具 <span class="qref">Q53–Q60</span></h2>
+   <ul><li><b>为什么变换方式</b>（Q53）：facilitated session 里每个环节都要有 <b>meaningful engagement</b>。</li>
+   <li><b>有“正确答案”时</b> → <b>Gathering facts</b>（ask, record, react）（Q54）；有多种可能方案 → Generating ideas。</li>
+   <li><b>Categorising</b> 的关键问题：<b>“Same or different?”</b> 一条一条问（Q55）。</li>
+   <li><b>Pre-questioning</b>（Q56）：讲者开讲前，小组先写出并归类最重要的问题，让 Q&amp;A 聚焦、提高质量。</li>
+   <li><b>Brainstorming</b>：ask, record, but <b>don’t react</b>——不要当场评判（Q57）。</li>
+   <li><b>Prioritising 最低标准</b>：<b>Impact、Probability of success、Cost-effectiveness</b>；Popularity 不是（Q58）。打分不等于决定。</li>
+   <li><b>Report-back</b>：primary commenting team 先说优点、再说如何改进，其他组再补充（Q59）。</li>
+   <li><b>问缺点的方式</b>：问 <b>“ways to improve”</b>，不要问 “what are the weaknesses”（Q60）。</li></ul></article>
+
+  <article class="k-card" id="k12"><h2>⑫ 收尾 <span class="qref">Q61–Q65</span></h2>
+   <ul><li><b>五步</b>（Q61、Q62）：<b>Review</b>（回顾活动、目标、parking boards）→ <b>Define</b>（决定可对外沟通什么）→ <b>Evaluate</b>（评价会议价值与结果）→ <b>End</b>（提醒下一步并正式结束）→ <b>Debrief</b>（与 sponsor 复盘优点与改进）。</li>
+   <li><b>Polling the jury</b>（Q63 True）：逐人确认 “I can live with it and will support it”；有顾虑就问最小改动。</li>
+   <li><b>Review 的作用</b>（Q64）：回顾议程、个人目标和 parking boards，把未完成事项转成 follow-up actions。</li>
+   <li><b>三种沟通计划</b>（Q65）：Simple list = 一栏“可沟通事项”；Dual list = 两栏“可沟通 / 不可沟通”；Communication matrix = 五栏 Audience、Information、Who、Vehicle、When。</li></ul></article>
+
+  <article class="k-card" id="k-trap"><h2>高频陷阱速查</h2>
+   <table><tr><th>看到这个</th><th>判断</th></tr>
+   <tr><td>only / solely / always / never / regardless</td><td>几乎都是错误选项</td></tr>
+   <tr><td>“主持人决定 / 控制 / 解释后再写”</td><td>违背参与式引导 → 错</td></tr>
+   <tr><td>People、Budget、Popularity、Financial incentive</td><td>分别不属于 5 Ps、Bourne 排序因素、prioritising 标准、TPB</td></tr>
+   <tr><td>shortest paths</td><td>Betweenness</td></tr>
+   <tr><td>high centrality + low density</td><td>Commander</td></tr>
+   <tr><td>ELMO</td><td>触发投票，不是一个人结束讨论</td></tr>
+   <tr><td>Excite</td><td>最重要也最难</td></tr>
+   <tr><td>brainstorming</td><td>don’t react；gathering facts 才 react</td></tr>
+   <tr><td>weaknesses</td><td>改问 ways to improve</td></tr>
+   <tr><td>顺序题</td><td>Identify→Assess→Prioritise；Bourne I-P-V-E-M；IEEI；Review-Preview-Big view；PeDeQs；Review-Define-Evaluate-End-Debrief</td></tr></table></article>
+</section>
+
+<section id="overview-view" class="kview" hidden>
+  <div class="practice-heading"><div><span class="eyebrow">COURSE MAP · WEEKS 1–13</span><h1>PMGT1852 基础知识一览</h1><p class="subheading">按课程范围（Week 1–13）一页看完核心概念、框架顺序和必记关键词。考前 10 分钟扫一遍。</p></div><button class="quiet-button" data-go-home>返回总览 <span>↗</span></button></div>
+  <nav class="k-toc"><a href="#o1">W1</a><a href="#o2">W2</a><a href="#o3">W3</a><a href="#o4">W4</a><a href="#o5">W5</a><a href="#o6">W6</a><a href="#o7">W7</a><a href="#o8">W8</a><a href="#o9">W9</a><a href="#o10">W10</a><a href="#o11">W11</a><a href="#o12">W12</a><a href="#o13">W13</a></nav>
+  <div class="o-grid">
+  <article class="k-card" id="o1"><h2><span class="wk">W1</span>Stakeholder 定义与识别</h2><ul><li><b>Stakeholder</b>（Freeman 1984）：can affect <b>or</b> is affected by the project。</li><li><b>Management vs engagement</b>：管理 = 控制性的分析与计划；engagement = 双向关系、共同参与。</li><li><b>分析流程</b>：Identification → Assessment → Prioritisation → Engagement（迭代）。</li><li><b>Disaggregation</b>：把“社区”“政府”拆开，看 roles、contributions、aims &amp; approach。</li><li>Project life cycle vs investment life cycle：stakeholder 在不同阶段会变化（WSIA 案例）。</li><li>Eskerod &amp; Jepsen (2013)：看 stakeholder 带来什么、期望什么。</li></ul></article>
+  <article class="k-card" id="o2"><h2><span class="wk">W2</span>动机理论</h2><ul><li><b>Classical self-interest</b>（Smith 1776）：自利驱动。</li><li><b>Logic of consequentiality</b>（March &amp; Heath 1994）：按预期后果行动。</li><li><b>TPB</b>（Ajzen 1991）：Attitude + Subjective norms + Perceived behavioural control → Intention → Behaviour；PBC ≠ 真实 capability。</li><li><b>Bounded vs full rationality</b>：有限信息、够好即止（satisficing） vs 全信息最优。</li></ul></article>
+  <article class="k-card" id="o3"><h2><span class="wk">W3</span>分析与优先级工具</h2><ul><li><b>Help–harm potential</b>：能帮多少、能害多少，两种独立能力。</li><li><b>Commitment matrix</b>：current vs required commitment 的差距 → engagement 行动。</li><li><b>CATWOE</b>：Customers、Actors、Transformation、Worldview、Owner、Environment。</li><li><b>MoSCoW</b>：Must、Should、Could、Won’t have (this time)。</li><li>Power–Interest grid：Manage closely / Keep satisfied / Keep informed / Monitor。</li></ul></article>
+  <article class="k-card" id="o4"><h2><span class="wk">W4</span>Facilitation 与提问</h2><ul><li>Facilitation = structured process，结果由参与者 created, understood, accepted。</li><li>适用：问题重要、答案不明、需要 buy-in。</li><li>技能：Energizing、Managing dysfunction、Building consensus、Questioning；角色如 Clairvoyant。</li><li><b>Starting question</b>：Type A 直接问；<b>Type B</b> 先给画面，更好。</li><li>动词梯度：Could → Should → Must → Will。</li><li><b>Reacting questions</b>：guide by asking, not telling；float ideas 要轻；分歧先分清事实还是价值观。</li></ul></article>
+  <article class="k-card" id="o5"><h2><span class="wk">W5</span>会议准备</h2><ul><li><b>5 Ps</b>：Purpose → Product → Participants → Probable issues → <b>Process 最后</b>。</li><li><b>3 Hs</b>（Product）：Hands 有形产出、Heads 知识理解、Hearts 态度承诺。</li><li>Probable issues：Topics、Ditches（会让会议翻车的难题）、Red herrings（无关干扰）。</li><li>规模：Resolution 3–9、Creation 7–16、Direction-setting 12–24、Review 2–100+。</li><li>Meeting notice 至少提前一周；<b>Sponsor 不要第 1–3 个发言</b>。</li></ul></article>
+  <article class="k-card" id="o6"><h2><span class="wk">W6</span>Salience、Bourne、SNA 基础</h2><ul><li><b>Salience</b>：Power / Legitimacy / Urgency。P = Dormant，L = Discretionary，U = Demanding，P+L = Dominant，P+U = Dangerous，L+U = Dependent，三者 = Definitive。</li><li><b>Bourne 五步</b>：Identify → Prioritise → Visualise → Engage → Monitor；径向深度 = power，弧长 = influence。</li><li><b>SNA</b>：actors + relations；tie 有 content、direction、strength；multiplex tie。</li><li>Sociocentric（整体网、名单已知、adjacency matrix） vs Egocentric（ego + alters、name generator）。</li><li><b>Density</b> = t ÷ [N(N−1)/2]（无向）；Degree = 直接连接数；Betweenness = 最短路径中介；Centralisation = 围绕一人的程度。</li></ul></article>
+  <article class="k-card" id="o7"><h2><span class="wk">W7</span>自我觉察与情商</h2><ul><li><b>Intent–impact gap</b>：想表达的 vs 别人感受到的。</li><li>Brouwer：self-examination → insight → self-understanding → <b>changed behaviour</b>。</li><li>三维：self-understanding &amp; management、<b>sensitive line</b>（越线 → threat–rigidity）、尊重个体差异（differences ≠ distinctions）。</li><li>五维：Values、Interpersonal style（LETS: Planner/Analyser/Developer/Creator）、EI、Attitude towards change（locus of control）、Cognitive style（ladder of inference）。</li><li>Goleman 四域：Self-awareness、Self-management、Empathy、Skilled relationship；EI 可以培养。</li></ul></article>
+  <article class="k-card" id="o8"><h2><span class="wk">W8</span>网络与 stakeholder engagement</h2><ul><li>三层：Network（density、centralization，Bavelas）、Actor（degree、betweenness、closeness、constraint；Freeman、Burt）、Tie（tie strength，Granovetter）。</li><li>Weak ties 带来新信息；strong ties 解决复杂问题。</li><li><b>Rowley</b>：高中心+低密度 Commander；高+高 Compromiser；低+高 Subordinate；低+低 Solitarian。</li><li>ACME Telco：power–interest grid 与网络模型结论不一致——两种视角都要看。</li></ul></article>
+  <article class="k-card" id="o9"><h2><span class="wk">W9</span>开场</h2><ul><li>8 步：Welcome → Purpose &amp; product（IEE）→ Participants’ objectives（I）→ Agenda → Ground rules → Parking boards → <b>Introductions（第 7）</b> → 第一项议程。</li><li><b>IEEI</b>：Inform、<b>Excite（最重要最难）</b>、Empower、Involve。</li><li>Ground rules：Everyone speaks、One conversation、Take a stand、Question first、<b>ELMO（投票）</b>、eManners、Recharge；XYZ（问题 → 后果 → 期望行为）。</li><li>Parking boards：Issues、Decisions、Actions（Action / Who / When）。Introductions：gifts &amp; hook。</li></ul></article>
+  <article class="k-card" id="o10"><h2><span class="wk">W10</span>聚焦</h2><ul><li><b>Checkpoint</b>：Review、Preview、Big view（= Excite）。重启时用 extended checkpoint。</li><li>Warm-up：两个非语言回应的 pre-questions。</li><li><b>PeDeQs</b>：Purpose、Example（用与内容无关的例子）、Directions、Exceptions、Questions、Starting question。</li><li>保持在轨：Label、Prompt（What else?）、Redirect（征得同意）。</li><li>Breakout：do, divide, direct；每组 3–7 人；交叉评审 flip chart。</li></ul></article>
+  <article class="k-card" id="o11"><h2><span class="wk">W11</span>记录</h2><ul><li>Pen 的 5 种滥用：挑着记、先求同意、记自己的解读、记主持人的话、等完美再记。</li><li>4 条规则：Write first, discuss second；Write what they said；Write so they can read it；Ask, don’t tell。</li><li>记什么：Decisions、Actions、Outstanding issues、Relevant analysis &amp; comments（官方记录）。</li><li>简洁：noun–verb–object、headline technique；避免冷场：边写边追问。</li></ul></article>
+  <article class="k-card" id="o12"><h2><span class="wk">W12</span>信息收集</h2><ul><li>七种功能：Gathering facts、Categorising、Inquiring、Generating ideas、Prioritising、Reporting、Getting feedback。</li><li>模式：Full group、Breakout、Pairs、Individual；顺序：Random、Round-robin、Assigned。</li><li>Facts：ask, record, <b>react</b>；Brainstorm：ask, record, <b>don’t react</b>；Categorising：“Same or different?”。</li><li>Prioritising：Impact、Probability of success、Cost-effectiveness；dot / weighted / hybrid；<b>a score is not a decision</b>。</li><li>Feedback：strengths 用 round-robin，improvements 随机顺序，问 ways to improve。</li></ul></article>
+  <article class="k-card" id="o13"><h2><span class="wk">W13</span>收尾</h2><ul><li>五步：<b>Review → Define → Evaluate → End → Debrief</b>。</li><li>Consensus = “I can live with it and I will support it”；polling the jury，顾虑 → 最小改动。</li><li>Issues list：覆盖了吗？需要吗？现在需要吗？否 → 转 Actions list。</li><li>Actions 只分给<b>在场的人</b>，日期由本人定。</li><li>沟通计划：Simple list、Dual list、Matrix（Audience / Information / Who / Vehicle / When）。</li></ul></article>
+  </div>
+</section>
  </main>
  <footer class="app-footer"><span>PMGT1852 / PRACTICE WORKSPACE</span><span>678 道练习 · 本地保存 · 单文件离线</span><button class="text-button danger" id="reset-all">清空全部进度</button></footer>
 </div>
@@ -115,12 +245,12 @@ for(const b of ['short','long','scenario','teacher']){const n=QUESTIONS.filter(q
 $('#week-overview').innerHTML=Array.from({length:13},(_,i)=>{const w=i+1,a=QUESTIONS.filter(q=>q.week===w);return `<button class="week-button" data-week="${w}" title="${WEEKS[w]}"><b>W${String(w).padStart(2,'0')}</b><span>${a.filter(q=>result(q)!=='todo').length} / ${a.length} 已答</span></button>`;}).join('');}
 function navActive(){const home=view==='home';$$('.nav-item').forEach(b=>b.classList.toggle('active',b.hasAttribute('data-home')?home:b.dataset.mode?!home&&mode===b.dataset.mode:!home&&b.dataset.bank===bank&&mode==='all'));$$('.bank-nav button').forEach(b=>b.classList.toggle('active',!home&&bank===b.dataset.bank));$$('[data-switch]').forEach(b=>b.classList.toggle('active',bank===b.dataset.switch));$('#week-select').value=week;$('#mode-select').value=mode;$('#shuffle').textContent=random?'按原序排列':'随机排序';}
 function resumeLast(){const last=state.last;if(!last?.queue?.length){start('all');return;}disarm();bank=last.bank;week=last.week;mode=last.mode;mixed=last.mixed;random=!!last.random;queue=[...last.queue];pos=last.pos;retry=state.retry||[];$('#notice').hidden=true;$('#sidebar').classList.remove('open');render();window.scrollTo(0,0);}
-function showHome(){disarm();$('#notice').hidden=true;view='home';$('#home-view').hidden=false;$('#practice-view').hidden=true;$('#breadcrumb').textContent='学习总览';navActive();updateStats();$('#resume-session').hidden=!state.last?.queue?.length;$('#sidebar').classList.remove('open');window.scrollTo({top:0,behavior:'instant'});}
+function showHome(){disarm();$('#notice').hidden=true;view='home';$('#home-view').hidden=false;$('#practice-view').hidden=true;$$('.kview').forEach(v=>v.hidden=true);$('#breadcrumb').textContent='学习总览';navActive();updateStats();$('#resume-session').hidden=!state.last?.queue?.length;$('#sidebar').classList.remove('open');window.scrollTo({top:0,behavior:'instant'});}
 function start(b='all',w='all',m='all',opts={}){disarm();multiPick=[];$('#notice').hidden=true;bank=b;week=String(w);mode=m;random=!!opts.random;mixed=!!opts.mixed;sprint=!!opts.sprint;
 let a=opts.ids?opts.ids.map(id=>byId[id]).filter(matches):scope().filter(matches);if(random)a=shuffled(a);if(opts.limit)a=a.slice(0,opts.limit);queue=a.map(q=>q.id);pos=0;
 if(opts.resume){const first=queue.findIndex(id=>result(byId[id])==='todo');if(first>=0)pos=first;}
-view='practice';$('#home-view').hidden=true;$('#practice-view').hidden=false;$('#sidebar').classList.remove('open');snapshot();render();window.scrollTo({top:0,behavior:'instant'});}
-function render(){view='practice';$('#home-view').hidden=true;$('#practice-view').hidden=false;const meta=META[bank];$('#practice-title').textContent=sprint?'考前冲刺 · 高频必考':mixed&&bank==='teacher'?'老师题 · 20 题模拟':mixed?'20 题混合挑战':meta.name;$('#practice-eyebrow').textContent=meta.en+' / '+(week==='all'?'WEEKS 01—13':'WEEK '+week.padStart(2,'0'));$('#practice-subtitle').textContent=mixed?'跨题型、跨周次的独立练习。答案提交后不会自动跳题。':(bank==='teacher'?'老师在线讲座内嵌题：原题保留英文，附中文题意；多选题选好后点「提交答案」。':bank==='scenario'?'从情境证据出发，识别问题并选择最佳下一步。':'读清题意，选择最佳答案；再看中文解析。');$('#breadcrumb').textContent=$('#practice-title').textContent;
+view='practice';$('#home-view').hidden=true;$('#practice-view').hidden=false;$$('.kview').forEach(v=>v.hidden=true);$('#sidebar').classList.remove('open');snapshot();render();window.scrollTo({top:0,behavior:'instant'});}
+function render(){view='practice';$('#home-view').hidden=true;$('#practice-view').hidden=false;$$('.kview').forEach(v=>v.hidden=true);const meta=META[bank];$('#practice-title').textContent=sprint?'考前冲刺 · 高频必考':mixed&&bank==='teacher'?'老师题 · 20 题模拟':mixed?'20 题混合挑战':meta.name;$('#practice-eyebrow').textContent=meta.en+' / '+(week==='all'?'WEEKS 01—13':'WEEK '+week.padStart(2,'0'));$('#practice-subtitle').textContent=mixed?'跨题型、跨周次的独立练习。答案提交后不会自动跳题。':(bank==='teacher'?'老师在线讲座内嵌题：原题保留英文，附中文题意；多选题选好后点「提交答案」。':bank==='scenario'?'从情境证据出发，识别问题并选择最佳下一步。':'读清题意，选择最佳答案；再看中文解析。');$('#breadcrumb').textContent=$('#practice-title').textContent;
 navActive();updateStats();const done=queue.filter(id=>result(byId[id])!=='todo').length,right=queue.filter(id=>result(byId[id])==='correct').length;
 $('#session-position').textContent=queue.length?'QUESTION '+String(pos+1).padStart(2,'0')+' / '+queue.length:'NO QUESTIONS';$('#session-progress').textContent=done+' 已答 · '+(queue.length-done)+' 待完成';$('#session-bar').style.width=(queue.length?done/queue.length*100:0)+'%';$('#panel-total').textContent=queue.length+' 题';$('#panel-done').textContent=done;$('#panel-right').textContent=right;$('#panel-wrong').textContent=done-right;$('#queue-count').textContent=queue.length?(pos+1)+' / '+queue.length:'0 / 0';$('#prev').disabled=pos===0||!queue.length;$('#next').disabled=!queue.length;$('#next').textContent=pos===queue.length-1?'完成，返回总览 ✓':'下一题 →';
 if(!queue.length){$('#question-host').innerHTML='<div class="empty-card"><span class="eyebrow">ALL CLEAR</span><h2>这里暂时没有题目</h2><p>试试切换周次或练习范围。已答题目仍保留在全部题库中。</p><button class="primary" id="empty-all">查看当前题库全部题目 →</button></div>';$('#question-map').innerHTML='';$('#map-page').textContent='0 / 0';$('#map-page-label').textContent='—';$('#map-prev').disabled=true;$('#map-next').disabled=true;return;}
@@ -139,6 +269,9 @@ $$('[data-home]').forEach(b=>b.addEventListener('click',showHome));$('#brand').a
 $$('[data-bank]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.bank)));
 $$('[data-start]').forEach(b=>b.addEventListener('click',()=>{if(state.last?.bank===b.dataset.start)resumeLast();else start(b.dataset.start,'all','all',{resume:true});}));
 $('#resume-session').addEventListener('click',resumeLast);
+function showK(id){disarm();$('#notice').hidden=true;view='kview';$('#home-view').hidden=true;$('#practice-view').hidden=true;$$('.kview').forEach(v=>v.hidden=v.id!==id);$('#breadcrumb').textContent=id==='t65-view'?'65 题考点讲解':'基础知识一览';$$('.nav-item').forEach(b=>b.classList.remove('active'));$$('.bank-nav button').forEach(b=>b.classList.toggle('active',b.dataset.kview===id));$('#sidebar').classList.remove('open');window.scrollTo({top:0,behavior:'instant'});}
+$$('[data-kview]').forEach(b=>b.addEventListener('click',()=>showK(b.dataset.kview)));$$('[data-go-home]').forEach(b=>b.addEventListener('click',showHome));
+$$('.k-toc a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}));
 $$('[data-mode]').forEach(b=>b.addEventListener('click',()=>start('all','all',b.dataset.mode)));
 $$('[data-switch]').forEach(b=>b.addEventListener('click',()=>start(b.dataset.switch,week,mode)));
 $('#teacher-random').addEventListener('click',()=>start('teacher','all','all',{random:true,limit:20,mixed:true}));
