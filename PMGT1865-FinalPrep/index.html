@@ -52,6 +52,7 @@
   <button class="nav-item" data-mode="wrong"><span class="nav-symbol">↺</span>错题复习 <span class="count" id="nav-wrong">0</span></button>
   <button class="nav-item" data-mode="marked"><span class="nav-symbol">◇</span>我的收藏 <span class="count" id="nav-marked">0</span></button>
  </nav>
+ <a href="sprint.html" class="nav-item" style="text-decoration:none;background:#dfe4d6;color:#35432f;margin-bottom:20px">零基础速通 <span class="count">12 模块 · 24 题</span></a>
  <div class="nav-caption">PART 1 <span>练习</span></div>
  <nav class="bank-nav" aria-label="题库"><button data-bank="long"><span class="tiny-dot olive"></span>考前冲刺 <small>计算</small></button><button data-bank="short"><span class="tiny-dot blue"></span>知识点复习 <small>概念</small></button></nav>
  <div class="nav-caption">PART 2 <span>样卷</span></div>
@@ -63,9 +64,10 @@
  <div id="storage-warning" role="alert" hidden>本地保存暂不可用：当前改动仅保留在此页面，关闭前请导出进度备份。</div><div id="notice" role="status" hidden></div>
  <main>
  <section id="home-view">
-  <div class="page-heading"><div><span class="eyebrow">FINAL QUIZ PREP</span><h1>步骤对了，分数就稳了<span class="title-dot">.</span></h1><p class="subheading">Part 1 练计算与知识点，Part 2 逐题拆解样卷。期末 7 道计算题与样卷题型几乎一致。</p></div><div class="heading-actions"><button class="quiet-button" id="resume-session" hidden>继续上次练习 →</button><div class="edition">PMGT1865<span>241 QUESTIONS / 7 TYPES</span></div></div></div>
+  <div class="page-heading"><div><span class="eyebrow">FINAL QUIZ PREP</span><h1>步骤对了，分数就稳了<span class="title-dot">.</span></h1><p class="subheading">零基础先走速通路线，再按需练题。七类计算依据样卷整理，实际考试范围与规则以课程通知为准。</p></div><div class="heading-actions"><button class="quiet-button" id="resume-session" hidden>继续上次练习 →</button><div class="edition">PMGT1865<span>241 QUESTIONS / 7 TYPES</span></div></div></div>
   <div class="dashboard-stats"><div><span class="stat-label">累计练习</span><div><strong id="home-done">0</strong><small>/ 241 题</small></div></div><div><span class="stat-label">答对题目</span><div><strong id="home-right">0</strong><small>题</small></div></div><div><span class="stat-label">当前正确率</span><div><strong id="home-rate">—</strong><small id="home-rate-unit"></small></div></div><div><span class="stat-label">待巩固</span><div><strong id="home-wrong">0</strong><small>道错题</small></div></div></div>
-  <div class="section-heading"><h2>PART 1 · 考前冲刺 + 知识点复习</h2><span>PRACTICE</span></div>
+  <div class="mixed-card" style="background:#e7ebdf;border-color:#d7ddcf"><div><span class="eyebrow">NEW · ZERO TO FINAL</span><h3 style="font-size:22px">完全没学过？先看零基础速通。</h3><p>12 个中文精讲模块 + 七类计算逐步例题 + 24 道自测。先理解，再手算，不必先刷完 178 题。</p></div><a href="sprint.html" class="primary" style="text-decoration:none;white-space:nowrap">开始零基础速通 →</a></div>
+   <div class="section-heading"><h2>PART 1 · 考前冲刺 + 知识点复习</h2><span>PRACTICE</span></div>
   <div class="bank-cards two">
    <article class="bank-card bank-long"><div class="bank-top"><span>01 / EXAM SPRINT</span><b>63 题</b></div><div class="bank-art art-application" aria-hidden="true"><i></i><i></i><i></i></div><h3>考前冲刺</h3><p>7 种计算题型的数字变式，<br>每个空格、每个陷阱都练一遍。</p><div class="bank-progress"><span data-bank-progress="long">0 / 63 已答</span><div><i data-bank-bar="long"></i></div></div><button class="bank-launch" data-start="long">开始 / 继续练习 <span>↗</span></button></article>
    <article class="bank-card bank-short"><div class="bank-top"><span>02 / KNOWLEDGE REVIEW</span><b>178 题</b></div><div class="bank-art art-foundation" aria-hidden="true"><i></i><i></i><i></i></div><h3>知识点复习</h3><p>Week 1–10 全部知识点，<br>定义、规则、公式与易混点。</p><div class="bank-progress"><span data-bank-progress="short">0 / 178 已答</span><div><i data-bank-bar="short"></i></div></div><button class="bank-launch" data-start="short">开始 / 继续练习 <span>↗</span></button></article>
@@ -85,7 +87,7 @@
   </div>
  </section>
  <section id="sample-view" hidden>
-  <div class="practice-heading"><div><span class="eyebrow">PART 2 · SAMPLE QUIZ WALKTHROUGH</span><h1>Sample Question 详解</h1><p class="subheading">期末题型与这 7 题高度相似：先遮住详解自己做，再逐步对照。数字会变，步骤不变。</p></div><button class="quiet-button" id="sample-home">返回总览 <span>↗</span></button></div>
+  <div class="practice-heading"><div><span class="eyebrow">PART 2 · SAMPLE QUIZ WALKTHROUGH</span><h1>Sample Question 详解</h1><p class="subheading">样卷包含以下七类计算：先遮住详解自己做，再逐步对照。实际考试范围与安排以课程通知为准。</p></div><button class="quiet-button" id="sample-home">返回总览 <span>↗</span></button></div>
   <nav class="sample-toc" aria-label="Sample 目录"><a href="#sq1">Q1 CPM</a><a href="#sq2">Q2 重叠网络</a><a href="#sq3">Q3 PERT</a><a href="#sq4">Q4 资源估算</a><a href="#sq5">Q5 时间分段预算</a><a href="#sq6">Q6 现金流</a><a href="#sq7">Q7 EVM</a><a href="#sq-check">交卷自检</a></nav>
   <div class="sample-rules"><b>考场 6 条铁律</b><ol><li>每一步都写：公式 → 代入 → 结果 → 单位（步骤分靠这个）。</li><li>中间值不取整，只在最终答案按题目要求取位（如人时用 74.1176 去乘 $80）。</li><li>只有关键路径进 Te 和 S；S 先加方差再开方。</li><li>结论写业务含义：CV &lt; 0 → over budget；SV &lt; 0 → behind schedule。</li><li>人时 ≠ 天；预算 ≠ 现金；EV ≠ AC；SV 的单位是钱不是天。</li><li>关系没写类型（如“E ← C”）→ 按 FS + 0 处理，并在答卷上写明假设。</li></ol></div>
 
@@ -260,6 +262,6 @@ $('#menu').addEventListener('click',()=>{const open=$('#sidebar').classList.togg
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){$('#sidebar').classList.remove('open');$('#menu').setAttribute('aria-expanded','false');}});
 document.addEventListener('click',e=>{if(innerWidth<=760&&!e.target.closest('#sidebar')&&!e.target.closest('#menu'))$('#sidebar').classList.remove('open');});
 document.addEventListener('keydown',e=>{if(view!=='practice'||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key>='1'&&e.key<='4'){e.preventDefault();choose(+e.key-1);}if(e.key==='ArrowLeft'){e.preventDefault();step(-1);}if(e.key==='ArrowRight'){e.preventDefault();step(1);}});
-save();showHome();if(imported)notice('已从原独立练习页接续 '+imported+' 道作答。原页面的进度保持不变。');
+save();showHome();if(new URLSearchParams(location.search).has('sample')){showSample();const target=document.querySelector(location.hash||'#sq1');if(target)requestAnimationFrame(()=>target.scrollIntoView());}if(imported)notice('已从原独立练习页接续 '+imported+' 道作答。原页面的进度保持不变。');
 })();
 </script></body></html>
