@@ -3,11 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Writing · hudsonwang.com</title>
-<meta name="description" content="Writing by Hudson.">
+<title>Hudson Wang · Notes</title>
+<meta name="description" content="Hudson Wang — course notes on psychology, philosophy, neuroscience and project management.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#8a5a44">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#17161a" media="(prefers-color-scheme: dark)">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap">
+
 <!-- MathLive：和桌面 App 用的是同一份（vendor/mathlive），网页上的公式与编辑器里长得一样 -->
 <link rel="stylesheet" href="vendor/mathlive/mathlive-fonts.css">
 <!-- 公式的排版规则（分数/根号/上下标）只存在于 MathLive 的运行时样式表里，
@@ -16,68 +21,135 @@
 <script src="vendor/mathlive/mathlive.min.js"></script>
 <style>
   :root{
-    --bg:#fbfaf7; --ink:#23211d; --muted:#7c776e; --faint:#a8a399;
-    --line:#e7e3da; --accent:#8a5a44; --accent-soft:#f0e8e1; --sidebar:#f5f2ec;
-    --maxw:720px;
+    --bg:#fbfaf7; --paper:#ffffff; --ink:#23211d; --body:#2b2823; --muted:#76716a; --faint:#a39e94;
+    --line:#e8e3da; --accent:#9a5b3f; --accent-ink:#7d4630; --accent-soft:#f4ebe4; --sidebar:#f6f3ee;
+    --hover:#ede7de; --shadow:0 1px 2px #2a1f1608,0 8px 24px #2a1f160d;
+    --maxw:700px;
     --serif:"Newsreader",Georgia,"Songti SC","Source Han Serif SC",serif;
     --sans:"Inter",system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
   }
+  @media (prefers-color-scheme:dark){
+    :root{--bg:#17161a; --paper:#1e1d22; --ink:#ece8e1; --body:#d9d4cb; --muted:#9d978d; --faint:#6f6a62;
+      --line:#2d2b30; --accent:#e0a17f; --accent-ink:#efb898; --accent-soft:#2c2420; --sidebar:#1b1a1f;
+      --hover:#26242a; --shadow:0 1px 2px #0006,0 8px 24px #0005}
+    article math-field{color:var(--body)}
+  }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;height:100%}
+  html{scroll-behavior:smooth}
+  html,body{margin:0;padding:0}
   body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;
-       line-height:1.7;-webkit-font-smoothing:antialiased}
+       line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent-soft);color:var(--accent-ink)}
   .wrap{display:flex;min-height:100vh;align-items:stretch}
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--accent);z-index:60;
+    transition:width .08s linear}
 
-  /* ---------- 侧栏：钉子在最上面，然后是按文件夹铺开的树 ---------- */
-  aside{width:290px;flex:0 0 290px;background:var(--sidebar);border-right:1px solid var(--line);
-        padding:30px 20px 60px;display:flex;flex-direction:column}
-  .tl{margin-top:0;flex:1 1 auto;overflow-y:auto}
-  .grp{font-family:var(--sans);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-       color:var(--faint);margin:18px 0 4px}
-  .grp:first-child{margin-top:0}
-  .node{display:flex;align-items:baseline;gap:8px;padding:7px 8px;border-radius:8px;
-        cursor:pointer;font-size:14px;color:var(--muted);line-height:1.4}
-  .node:hover{background:#ece7df;color:var(--ink)}
-  .node.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+  /* ---------- 侧栏 ---------- */
+  aside{width:300px;flex:0 0 300px;background:var(--sidebar);border-right:1px solid var(--line);
+        position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:12px;padding:26px 22px 16px}
+  .brand-mark{width:38px;height:38px;border-radius:11px;background:var(--accent);color:#fff;
+    display:grid;place-items:center;font:600 19px var(--serif);flex:0 0 auto}
+  .brand-name{font:600 18px/1.2 var(--serif);letter-spacing:-.01em}
+  .brand-sub{font-size:12px;color:var(--muted);line-height:1.3}
+  .search{margin:4px 18px 10px;position:relative}
+  .search input{width:100%;border:1px solid var(--line);background:var(--paper);color:var(--ink);
+    border-radius:10px;padding:9px 12px 9px 34px;font:14px var(--sans);outline:none;transition:border-color .15s,box-shadow .15s}
+  .search input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--faint)}
+  .tl{flex:1 1 auto;overflow-y:auto;padding:6px 14px 40px;scrollbar-width:thin}
+  .grp{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+       color:var(--faint);margin:18px 8px 6px}
+  .node{display:flex;align-items:baseline;gap:8px;padding:6px 10px;border-radius:8px;
+        cursor:pointer;font-size:14px;color:var(--muted);line-height:1.45;transition:background .12s,color .12s}
+  .node:hover{background:var(--hover);color:var(--ink)}
+  .node.active{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
   .node.is-folder{color:var(--ink);font-weight:500}
-  .tw{width:13px;flex:0 0 13px;font-size:9px;color:var(--faint);font-family:var(--sans);
-      transition:transform .12s}
+  .tw{width:12px;flex:0 0 12px;font-size:8px;color:var(--faint);transition:transform .15s}
   .node.open .tw{transform:rotate(90deg)}
   .nm{flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cnt{font-size:11.5px;color:var(--faint);font-variant-numeric:tabular-nums}
   .cloud{font-size:10px;color:var(--accent);opacity:.75}
-  .kids{margin-left:14px}
+  .kids{margin-left:12px;padding-left:8px;border-left:1px solid var(--line)}
   .kids[hidden]{display:none}
+  .pin-toggle{display:flex;align-items:center;gap:8px;width:calc(100% - 16px);border:0;
+    background:none;padding:6px 0;cursor:pointer;text-align:left}
+  .pin-toggle::before{content:"▶";font-size:8px}
+  .pin-toggle[aria-expanded="true"]::before{content:"▼"}
+  .side-foot{padding:14px 22px;border-top:1px solid var(--line);font-size:12px;color:var(--faint)}
 
   /* ---------- 正文 ---------- */
-  main{flex:1 1 auto;min-width:0;padding:56px 40px 140px;display:flex;justify-content:center}
-  .page{width:100%;max-width:var(--maxw)}
-  .crumb{font-family:var(--sans);font-size:12.5px;color:var(--faint);margin:0 0 14px}
-  .crumb a:hover{color:var(--accent)}
-  h1.title{font-family:var(--serif);font-size:38px;font-weight:600;letter-spacing:-.02em;
-           line-height:1.25;margin:0 0 10px}
-  .lead{font-family:var(--serif);font-size:19px;color:#46423b;margin:6px 0 10px;max-width:600px}
-  .meta{font-family:var(--sans);font-size:12.5px;color:var(--faint);margin:0 0 30px;
-        display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .meta .pill{background:var(--accent-soft);border-radius:999px;padding:2px 9px;color:var(--accent)}
+  main{flex:1 1 auto;min-width:0;padding:64px 48px 140px;display:flex;justify-content:center;gap:56px}
+  .page{width:100%;max-width:var(--maxw);min-width:0}
+  .page.wide{max-width:980px}
+  .toc{width:220px;flex:0 0 220px;position:sticky;top:64px;align-self:flex-start;max-height:calc(100vh - 100px);
+    overflow-y:auto;font-size:13px;line-height:1.45;scrollbar-width:thin}
+  .toc[hidden]{display:none}
+  .toc-h{font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+  .toc a{display:block;padding:5px 0 5px 12px;border-left:2px solid var(--line);color:var(--muted)}
+  .toc a:hover{color:var(--ink)}
+  .toc a.on{border-left-color:var(--accent);color:var(--accent-ink);font-weight:500}
+  @media (max-width:1180px){.toc{display:none}}
 
-  article{font-family:var(--serif);font-size:19px;line-height:1.8;color:#26231f}
-  article h1{font-size:28px;line-height:1.3;margin:36px 0 12px}
-  article h2{font-size:23px;line-height:1.35;margin:32px 0 10px}
-  article h3{font-size:19.5px;line-height:1.4;margin:26px 0 8px}
-  article p{margin:0 0 16px}
-  article ul,article ol{margin:0 0 16px;padding-left:26px}
+  .crumb{font-size:13px;color:var(--faint);margin:0 0 18px;display:flex;gap:8px;flex-wrap:wrap}
+  .crumb a:hover{color:var(--accent)}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+  h1.title{font-family:var(--serif);font-size:42px;font-weight:600;letter-spacing:-.02em;
+           line-height:1.18;margin:0 0 14px;text-wrap:balance}
+  .lead{font-family:var(--serif);font-size:20px;color:var(--muted);margin:0 0 14px;max-width:620px;line-height:1.55}
+  .meta{font-size:13px;color:var(--faint);margin:0 0 36px;padding-bottom:26px;border-bottom:1px solid var(--line);
+        display:flex;gap:8px 14px;align-items:center;flex-wrap:wrap}
+  .pill{background:var(--accent-soft);border-radius:999px;padding:3px 11px;color:var(--accent-ink);font-weight:500}
+  a.pill:hover{filter:brightness(.97)}
+
+  /* 首页 */
+  .hero{padding:10px 0 34px;border-bottom:1px solid var(--line);margin-bottom:34px}
+  .hero h1.title{font-size:52px}
+  .stats{display:flex;gap:28px;margin-top:22px;flex-wrap:wrap}
+  .stat b{display:block;font:600 28px/1.1 var(--serif);color:var(--ink)}
+  .stat span{font-size:12.5px;color:var(--faint)}
+  .sec-h{font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:0 0 14px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin-bottom:44px}
+  .card{display:flex;flex-direction:column;gap:6px;background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:18px 18px 16px;transition:transform .15s,box-shadow .15s,border-color .15s;position:relative;overflow:hidden}
+  .card::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--hue,var(--accent));opacity:.85}
+  .card:hover{transform:translateY(-2px);box-shadow:var(--shadow);border-color:transparent}
+  .card .k{font-size:11.5px;color:var(--faint);letter-spacing:.04em}
+  .card .n{font:600 19px/1.3 var(--serif);color:var(--ink)}
+  .card .x{font-size:13px;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .card .new{position:absolute;top:14px;right:14px;font-size:10.5px;font-weight:600;letter-spacing:.06em;
+    color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 8px}
+  .list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+  .list li a{display:flex;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid var(--line);transition:background .12s}
+  .list li a:hover{background:var(--hover)}
+  .list .no{font:500 14px var(--serif);color:var(--faint);width:28px;flex:0 0 28px;font-variant-numeric:tabular-nums}
+  .list .t{font:500 18.5px/1.4 var(--serif);flex:1 1 auto;color:var(--ink)}
+  .list .ar{color:var(--faint);transition:transform .15s}
+  .list li a:hover .ar{transform:translateX(3px);color:var(--accent)}
+  .home-picker{display:none}
+
+  /* 文章 */
+  article{font-family:var(--serif);font-size:19.5px;line-height:1.78;color:var(--body);hanging-punctuation:first}
+  article h1{font-size:28px;line-height:1.3;margin:40px 0 12px;color:var(--ink);text-align:left !important}
+  article h2{font-size:25px;line-height:1.3;margin:48px 0 14px;color:var(--ink);letter-spacing:-.01em;scroll-margin-top:28px}
+  article h3{font-size:20px;line-height:1.4;margin:30px 0 8px;color:var(--ink);scroll-margin-top:28px}
+  article h2 strong,article h3 strong,article h1 strong{font-weight:600}
+  article p{margin:0 0 18px}
+  article strong{color:var(--ink)}
+  article ul,article ol{margin:0 0 18px;padding-left:26px}
   article li{margin:6px 0}
-  article blockquote{margin:20px 0;padding:2px 0 2px 16px;border-left:3px solid var(--line);color:var(--muted)}
-  article hr{border:none;border-top:1px solid var(--line);margin:30px 0}
-  article table{border-collapse:collapse;margin:20px 0;font-size:16px;width:100%}
-  article th,article td{border:1px solid var(--line);padding:8px 11px;text-align:left}
-  article th{background:var(--sidebar);font-weight:600}
+  article li::marker{color:var(--accent)}
+  article blockquote{margin:0 0 30px;padding:14px 18px;border-left:3px solid var(--accent);background:var(--accent-soft);
+    border-radius:0 10px 10px 0;color:var(--muted);font-size:16.5px;line-height:1.6;font-style:italic}
+  article blockquote p{margin:0}
+  article hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+  article table{border-collapse:collapse;font-size:16px;width:100%}
+  article th,article td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+  article th{background:var(--sidebar);font-weight:600;font-family:var(--sans);font-size:14px}
+  article a{color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line)}
   article math-field{font-size:1.05em;vertical-align:middle}
-  /* 网页是只读的：MathLive 给每个公式挂的"软键盘 / 菜单"按钮是编辑用的，
-     在只读页面上既没用又会误导（点了真能弹出来），所以整个藏掉。 */
   article math-field{pointer-events:none; background:none; border:none; padding:0}
-  /* 编辑态才需要的容器外观（虚线框、内边距）在只读页面上全部去掉 */
   article .formula, article [data-formula-latex]{
     background:none !important; border:none !important; box-shadow:none !important;
     padding:0 !important; min-width:0 !important;
@@ -86,95 +158,113 @@
   article math-field::part(menu-toggle){display:none !important}
   article .ML__virtual-keyboard-toggle,
   article .ML__menu-toggle{display:none !important}
-  article .formula-display,article math-field[display]{display:block;text-align:center;margin:20px 0}
+  article .formula-display,article math-field[display]{display:block;text-align:center;margin:20px 0;max-width:100%;overflow-x:auto}
   article .ho-omitted-image{color:var(--faint);font:12px var(--sans)}
   article .ho-omitted-image::after{content:"Image awaiting sync"}
+  article pre{max-width:100%;overflow-x:auto;white-space:pre;padding:14px;background:var(--sidebar);border-radius:10px;font-size:14px}
+  article img,article video,article svg{max-width:100%;height:auto;border-radius:8px}
+  .table-scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:22px 0}
+  .table-scroll table{margin:0}
+
+  .pager{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:64px;padding-top:28px;border-top:1px solid var(--line)}
+  .pager a{border:1px solid var(--line);border-radius:12px;padding:14px 16px;transition:border-color .15s,background .15s;min-width:0}
+  .pager a:hover{border-color:var(--accent);background:var(--paper)}
+  .pager .d{font-size:12px;color:var(--faint);display:block;margin-bottom:3px}
+  .pager .t{font:500 16.5px/1.35 var(--serif);display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pager .nx{text-align:right;grid-column:2}
+  .totop{position:fixed;right:24px;bottom:24px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);
+    background:var(--paper);color:var(--muted);box-shadow:var(--shadow);cursor:pointer;font-size:16px;
+    opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;transform:translateY(8px);z-index:25}
+  .totop.show{opacity:1;pointer-events:auto;transform:none}
+  .totop:hover{color:var(--accent)}
   .state{color:var(--muted);font-size:15px;line-height:1.8}
   .state.big{padding:40px 0}
+  .fade{animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
-  .mobile-header,.drawer-close,.home-picker{display:none}
+  .mobile-header,.drawer-close{display:none}
   button{touch-action:manipulation}
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-  .pin-toggle{display:flex;align-items:center;gap:8px;width:100%;border:0;
-    background:none;padding:10px 0;cursor:pointer;text-align:left;font-family:var(--sans)}
-  .pin-toggle::before{content:"▶";font-size:9px}
-  .pin-toggle[aria-expanded="true"]::before{content:"▼"}
-  .table-scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:20px 0}
-  .table-scroll table{margin:0}
-  article pre{max-width:100%;overflow-x:auto;white-space:pre;padding:12px;background:var(--sidebar)}
-  article img,article video,article svg{max-width:100%;height:auto}
-  article .formula-display,article math-field[display]{max-width:100%;overflow-x:auto}
-  @media (prefers-reduced-motion:reduce){aside{transition:none !important}}
+  @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}html{scroll-behavior:auto}}
   @media (max-width:820px){
     .mobile-header{display:flex;position:sticky;top:0;z-index:20;align-items:center;
-      justify-content:space-between;gap:12px;background:var(--bg);border-bottom:1px solid var(--line);
-      padding:12px max(18px,env(safe-area-inset-right)) 12px max(18px,env(safe-area-inset-left))}
-    .mobile-brand{font-family:var(--serif);font-size:20px;font-weight:600}
-    .mobile-brand small{display:block;font:11px var(--sans);color:var(--muted)}
+      justify-content:space-between;gap:12px;background:color-mix(in srgb,var(--bg) 88%,transparent);
+      -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);
+      padding:10px max(18px,env(safe-area-inset-right)) 10px max(18px,env(safe-area-inset-left))}
+    .mobile-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:19px;font-weight:600}
+    .mobile-brand .brand-mark{width:32px;height:32px;font-size:16px;border-radius:9px}
     .menu-button,.drawer-close{min-height:44px;min-width:44px;border:1px solid var(--line);
       border-radius:10px;background:var(--sidebar);color:var(--ink);font:14px var(--sans);cursor:pointer}
     .menu-button{padding:8px 14px}
-    .drawer-close{display:block;position:absolute;right:14px;top:18px}
-    .wrap{min-height:calc(100svh - 76px)}
+    .drawer-close{display:block;position:absolute;right:14px;top:calc(18px + env(safe-area-inset-top))}
     aside{position:fixed;inset:0 auto 0 0;z-index:40;width:min(340px,88vw);height:100vh;height:100dvh;
-      padding:calc(26px + env(safe-area-inset-top)) 18px calc(22px + env(safe-area-inset-bottom));
-      transform:translateX(-100%);visibility:hidden;transition:transform .2s ease,visibility .2s;
-      box-shadow:12px 0 40px #23211d15}
+      padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);
+      transform:translateX(-100%);visibility:hidden;transition:transform .22s ease,visibility .22s;
+      box-shadow:12px 0 40px #0002}
     .tl{min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
-    .node{min-height:44px;align-items:center;padding:10px 8px}
+    .node{min-height:44px;align-items:center;padding:10px 10px}
     .pin-toggle{min-height:44px}
     body.menu-open{overflow:hidden}
     body.menu-open aside{transform:translateX(0);visibility:visible}
-    .drawer-backdrop{position:fixed;inset:0;z-index:30;background:#23211d66;border:0;
+    .drawer-backdrop{position:fixed;inset:0;z-index:30;background:#0006;border:0;
       padding:0;width:100%;height:100%;cursor:pointer}
     main{padding:28px max(20px,env(safe-area-inset-right)) calc(64px + env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))}
-    h1.title{font-size:clamp(26px,7vw,32px);overflow-wrap:anywhere}
+    h1.title,.hero h1.title{font-size:clamp(28px,8vw,36px);overflow-wrap:anywhere}
     .lead{font-size:18px}
-    .meta{gap:6px 10px;margin-bottom:24px}
+    .meta{margin-bottom:26px}
     article{font-size:18px;overflow-wrap:anywhere}
-    article h1{font-size:26px} article h2{font-size:22px}
-    article blockquote{margin:18px 0;padding-left:12px}
-    article ul,article ol{padding-left:24px}
-    article table{font-size:15px}
+    article h2{font-size:22px;margin-top:40px} article h3{font-size:19px}
     article th,article td{padding:8px;min-width:90px}
     .crumb a{display:inline-flex;align-items:center;min-height:44px}
-    .crumb{margin-bottom:8px}
+    .crumb{margin-bottom:6px}
+    .cards{grid-template-columns:1fr}
     .home-picker{display:inline-flex;align-items:center;min-height:44px;padding:8px 16px;
-      margin-top:14px;border:1px solid var(--line);border-radius:10px;background:var(--accent-soft);
-      color:var(--accent);font:14px var(--sans);cursor:pointer}
+      margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--accent-soft);
+      color:var(--accent-ink);font:14px var(--sans);cursor:pointer}
+    .pager{grid-template-columns:1fr}.pager .nx{grid-column:1}
+    .totop{right:16px;bottom:calc(16px + env(safe-area-inset-bottom))}
   }
 </style>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 <header class="mobile-header">
-  <a class="mobile-brand" href="#/">Writing<small>hudsonwang.com</small></a>
+  <a class="mobile-brand" href="#/"><span class="brand-mark">H</span>Hudson Wang</a>
   <button class="menu-button" id="menu-toggle" type="button" aria-controls="site-sidebar" aria-expanded="false">☰ Browse</button>
 </header>
 <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="Close navigation" tabindex="-1" hidden></button>
 <div class="wrap">
   <aside id="site-sidebar" aria-label="Writing navigation">
     <button class="drawer-close" id="drawer-close" type="button" aria-label="Close navigation">✕</button>
+    <a class="brand" href="#/"><span class="brand-mark">H</span><span><span class="brand-name">Hudson Wang</span><br><span class="brand-sub">Notes &amp; writing</span></span></a>
+    <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search notes…" autocomplete="off" aria-label="Search notes"></label>
     <nav class="tl" id="tree" aria-label="Document list"><p class="state">Loading…</p></nav>
+    <div class="side-foot">© <span id="yr"></span> Hudson Wang</div>
   </aside>
-  <main id="main-content"><div class="page" id="page"></div></main>
+  <main id="main-content"><div class="page" id="page"></div><nav class="toc" id="toc" aria-label="On this page" hidden></nav></main>
 </div>
-
+<button class="totop" id="totop" type="button" aria-label="Back to top">↑</button>
 <script>
-/* Exact replacement from the ten supplied archives. Never merge retired cloud data. */
+/* Exact replacement from the supplied archives. Never merge retired cloud data. */
 const MANIFEST = "documents/tree.json";
 try { localStorage.removeItem("ho.writing.api"); } catch (e) {}
 
 const treeEl = document.getElementById("tree");
 const pageEl = document.getElementById("page");
-let items = [];                 // 站点清单
-let pinnedOpen = false;        // Pinned 默认折叠，重绘时保留本次状态
-const expanded = {};            // 文件夹展开状态
+const tocEl = document.getElementById("toc");
+const qEl = document.getElementById("q");
+let items = [];
+let pinnedOpen = false;
+const expanded = {};
+const NEW_FOLDER = "pir";                       // 最新加入的课程，首页标 New
+const HUES = ["#9a5b3f","#4f7a6b","#5b6fa6","#a0794a","#8a5a8c","#5f8a9a","#a35d5d","#6b7f4a","#7a6a5b","#4a6f8a","#9a6b7a"];
+document.getElementById("yr").textContent = new Date().getFullYear();
 
 const esc = (v) => String(v == null ? "" : v)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
   .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const num = (n) => Number(n) || 0;
-
 /* Defense in depth for published document HTML. */
 function sanitize(html) {
   const t = document.createElement("template");
@@ -264,15 +354,14 @@ pageEl.addEventListener('click', e => {
 });
 setMenu(false, false);
 
+
 /* ---------- 侧栏树 ---------- */
-function renderTree() {
+function renderTree(filter) {
   treeEl.innerHTML = "";
-  const pinned = pinnedOf(items);
+  const q = (filter || "").trim().toLowerCase();
   const group = (label) => {
     const g = document.createElement("div");
-    g.className = "grp";
-    g.textContent = label;
-    treeEl.appendChild(g);
+    g.className = "grp"; g.textContent = label; treeEl.appendChild(g);
   };
   function nodeFor(item) {
     const node = document.createElement("a");
@@ -284,11 +373,11 @@ function renderTree() {
     tw.className = "tw"; tw.textContent = item.type === "folder" ? "▶" : "";
     node.appendChild(tw);
     const nm = document.createElement("span");
-    nm.className = "nm"; nm.textContent = item.name || "(Untitled)";
+    nm.className = "nm"; nm.textContent = item.name || "(Untitled)"; nm.title = item.name || "";
     node.appendChild(nm);
-    if (item.enabled) {
+    if (item.type === "folder") {
       const c = document.createElement("span");
-      c.className = "cloud"; c.textContent = "☁"; c.title = "Published to the web";
+      c.className = "cnt"; c.textContent = childrenOf(item.id).length;
       node.appendChild(c);
     }
     return node;
@@ -302,7 +391,7 @@ function renderTree() {
     kids.className = "kids";
     kids.hidden = !expanded[item.id];
     node.addEventListener("click", (e) => {
-      e.preventDefault();                       // 文件夹只展开/收起，不跳转
+      e.preventDefault();
       expanded[item.id] = !expanded[item.id];
       kids.hidden = !expanded[item.id];
       node.classList.toggle("open", expanded[item.id]);
@@ -310,6 +399,15 @@ function renderTree() {
     childrenOf(item.id).forEach(k => add(k, kids));
     container.appendChild(kids);
   }
+  if (q) {
+    const hits = items.filter(i => i.type === "file" && !i.archived &&
+      ((i.name || "") + " " + folderName(i)).toLowerCase().includes(q));
+    group(hits.length + " result" + (hits.length === 1 ? "" : "s"));
+    hits.forEach(i => treeEl.appendChild(nodeFor(i)));
+    markActive();
+    return;
+  }
+  const pinned = pinnedOf(items);
   if (pinned.length) {
     const toggle = document.createElement('button');
     toggle.type = 'button';
@@ -329,48 +427,120 @@ function renderTree() {
     treeEl.append(toggle, list);
   }
   const roots = childrenOf(null);
-  if (roots.length) { group("All"); roots.forEach(i => add(i, treeEl)); }
-  if (!items.length) {
-    treeEl.innerHTML = '<p class="state">No writing published yet.</p>';
-  }
+  if (roots.length) { group("Courses"); roots.forEach(i => add(i, treeEl)); }
+  if (!items.length) treeEl.innerHTML = '<p class="state">No writing published yet.</p>';
+  markActive();
 }
+function folderName(item) {
+  const f = items.find(i => i.id === item.parentId);
+  return f ? f.name : "";
+}
+function markActive() {
+  const id = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
+  treeEl.querySelectorAll(".node").forEach(n => n.classList.toggle("active", n.dataset.id === id));
+}
+qEl.addEventListener("input", () => renderTree(qEl.value));
+qEl.addEventListener("keydown", e => {
+  if (e.key === "Enter") { const first = treeEl.querySelector("a.node:not(.is-folder)"); if (first) { location.hash = first.getAttribute("href"); setMenu(false); } }
+  if (e.key === "Escape") { qEl.value = ""; renderTree(); }
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "/" && document.activeElement !== qEl && !e.metaKey && !e.ctrlKey) {
+    e.preventDefault(); if (mobileQuery.matches) setMenu(true); qEl.focus();
+  }
+});
 
-/* ---------- 首页：文稿列表 ---------- */
+/* ---------- 首页 ---------- */
+function setToc(list) {
+  tocEl.hidden = !list || list.length < 3;
+  tocEl.innerHTML = tocEl.hidden ? "" : '<p class="toc-h">On this page</p>' +
+    list.map(h => '<a href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '">' + esc(h.text) + '</a>').join("");
+}
 function renderHome() {
-  document.title = "Writing · hudsonwang.com";
-  treeEl.querySelectorAll(".node.active").forEach(n => n.classList.remove("active"));
-  pageEl.innerHTML = '<h1 class="title">Course notes</h1>' +
-    '<p class="lead">10 courses · 145 documents</p>' +
-    '<p class="state">Select a document to read online or download the original Word file.</p>' +
-    '<button class="home-picker" type="button" data-open-menu>Browse writing →</button>' +
-    '<ul>' + childrenOf(null).map(folder => '<li><a href="#/' + esc(folder.id) + '">' + esc(folder.name) + '</a> · ' + childrenOf(folder.id).length + ' documents</li>').join('') + '</ul>';
+  document.title = "Hudson Wang · Notes";
+  setToc(null); pageEl.classList.add("wide");
+  markActive();
+  const folders = childrenOf(null);
+  const docs = items.filter(i => i.type === "file" && !i.archived).length;
+  const ordered = [...folders].sort((a, b) => (b.id === NEW_FOLDER) - (a.id === NEW_FOLDER));
+  pageEl.innerHTML = '<div class="fade"><section class="hero">' +
+    '<p class="eyebrow">hudsonwang.com</p>' +
+    '<h1 class="title">Notes &amp; Writing</h1>' +
+    '<p class="lead">Structured study notes on psychology, philosophy of mind, neuroscience, and project management — readable online, downloadable as Word.</p>' +
+    '<div class="stats"><div class="stat"><b>' + folders.length + '</b><span>Courses</span></div>' +
+    '<div class="stat"><b>' + docs + '</b><span>Documents</span></div></div>' +
+    '<button class="home-picker" type="button" data-open-menu>Browse all notes →</button></section>' +
+    '<p class="sec-h">Courses</p><div class="cards">' +
+    ordered.map((f) => {
+      const kids = childrenOf(f.id), first = kids[0];
+      const hue = HUES[items.filter(i => !i.parentId).indexOf(f) % HUES.length];
+      return '<a class="card" style="--hue:' + hue + '" href="#/' + esc(f.id) + '">' +
+        (f.id === NEW_FOLDER ? '<span class="new">NEW</span>' : '') +
+        '<span class="k">' + kids.length + ' document' + (kids.length === 1 ? '' : 's') + '</span>' +
+        '<span class="n">' + esc(f.name) + '</span>' +
+        (first ? '<span class="x">' + esc(kids.slice(0, 3).map(k => k.name).join(' · ')) + '</span>' : '') +
+        '</a>';
+    }).join('') + '</div></div>';
+  window.scrollTo(0, 0);
+}
+function renderFolder(f) {
+  document.title = f.name + " · Hudson Wang";
+  setToc(null); pageEl.classList.remove("wide");
+  markActive();
+  const kids = childrenOf(f.id);
+  pageEl.innerHTML = '<div class="fade"><p class="crumb"><a href="#/">← All courses</a></p>' +
+    '<p class="eyebrow">Course</p><h1 class="title">' + esc(f.name) + '</h1>' +
+    '<p class="meta"><span class="pill">' + kids.length + ' documents</span></p>' +
+    '<ol class="list">' + kids.map((k, n) =>
+      '<li><a href="#/' + esc(k.id) + '"><span class="no">' + String(n + 1).padStart(2, "0") + '</span>' +
+      '<span class="t">' + esc(String(k.name || "").replace(/^\d+\s+/, "")) + '</span><span class="ar">→</span></a></li>').join('') +
+    '</ol></div>';
+  window.scrollTo(0, 0);
 }
 
 /* ---------- 单篇 ---------- */
+let renderSeq = 0;
 async function renderDoc(id) {
-  treeEl.querySelectorAll(".node").forEach(n => n.classList.toggle("active", n.dataset.id === id));
+  const seq = ++renderSeq;
+  markActive(); pageEl.classList.remove("wide"); setToc(null);
   const item = items.find(i => i.id === id) || {};
-  pageEl.innerHTML = '<p class="crumb"><a href="#/">← All writing</a></p><p class="state">Loading…</p>';
+  const folder = items.find(i => i.id === item.parentId);
+  const back = folder ? '<a href="#/' + esc(folder.id) + '">← ' + esc(folder.name) + '</a>' : '<a href="#/">← All courses</a>';
+  pageEl.innerHTML = '<p class="crumb">' + back + '</p><p class="state">Loading…</p>';
   try {
     if (item.type !== "file" || !item.path) throw new Error("This document is no longer available on the website.");
     const res = await fetch(item.path, { cache: "no-store" });
     if (!res.ok) throw new Error("This document is no longer available on the website.");
     const doc = await res.json();
+    if (seq !== renderSeq) return;
     const name = item.name || "Untitled";
     const content = sanitize(doc.content);
     const text = document.createElement("template");
     text.innerHTML = content;
-    const characters = [...(text.content.textContent || "")].length;
-    document.title = name + " · hudsonwang.com";
-    pageEl.innerHTML =
-      '<p class="crumb"><a href="#/">← All writing</a></p>' +
+    const words = (text.content.textContent || "").trim().split(/\s+/).length;
+    const cjk = ((text.content.textContent || "").match(/[\u4e00-\u9fff]/g) || []).length;
+    const minutes = Math.max(1, Math.round(words / 230 + cjk / 400));
+    const sibs = folder ? childrenOf(folder.id) : [];
+    const at = sibs.findIndex(s => s.id === id);
+    const prev = at > 0 ? sibs[at - 1] : null, next = at >= 0 && at < sibs.length - 1 ? sibs[at + 1] : null;
+    document.title = name + " · Hudson Wang";
+    pageEl.innerHTML = '<div class="fade">' +
+      '<p class="crumb">' + back + '</p>' +
+      (folder ? '<p class="eyebrow">' + esc(folder.name) + (at >= 0 ? ' · ' + (at + 1) + ' / ' + sibs.length : '') + '</p>' : '') +
       '<h1 class="title">' + esc(name) + '</h1>' +
       '<p class="meta">' +
-        '<span class="pill">' + esc((characters / 1000).toFixed(1)) + 'k characters</span>' +
-        '<span>Updated ' + esc(fmtTime(doc.updatedAt || doc.syncedAt)) + '</span>' +
-        '<a class="pill" href="' + esc(doc.download) + '" download>Download Word ↓</a>' +
+        '<span class="pill">' + minutes + ' min read</span>' +
+        '<span>Updated ' + esc(fmtTime(doc.updatedAt || doc.syncedAt).slice(0, 10)) + '</span>' +
+        (doc.download ? '<a class="pill" href="' + esc(doc.download) + '" download>Download Word ↓</a>' : '') +
       '</p>' +
-      '<article>' + content + '</article>';
+      '<article>' + content + '</article>' +
+      ((prev || next) ? '<nav class="pager">' +
+        (prev ? '<a href="#/' + esc(prev.id) + '"><span class="d">← Previous</span><span class="t">' + esc(prev.name) + '</span></a>' : '') +
+        (next ? '<a class="nx" href="#/' + esc(next.id) + '"><span class="d">Next →</span><span class="t">' + esc(next.name) + '</span></a>' : '') +
+        '</nav>' : '') + '</div>';
+    // 第一个 h1 若与标题重复就去掉
+    const firstH = pageEl.querySelector('article > h1:first-child');
+    if (firstH && firstH.textContent.trim().replace(/[_\s]+/g, " ").toLowerCase() === name.toLowerCase()) firstH.remove();
     pageEl.querySelectorAll('article table').forEach(table => {
       const scroll = document.createElement('div');
       scroll.className = 'table-scroll';
@@ -380,42 +550,63 @@ async function renderDoc(id) {
       table.before(scroll);
       scroll.appendChild(table);
     });
-    // 公式：只读 + 真正渲染出来。
-    // App 存的是 data-formula-latex（真正的 LaTeX 源码），元素的子节点是它自己的
-    // 纯文本回退；这里把 LaTeX 喂回去，MathLive 才会画出分式/根号/上下标。
     pageEl.querySelectorAll('article math-field').forEach(function (mf) {
       const holder = mf.closest('[data-formula-latex]');
       const latex = (holder && holder.getAttribute('data-formula-latex')) ||
                     mf.getAttribute('data-formula-latex') || mf.getAttribute('latex') || '';
       if (latex) { try { mf.value = latex; } catch (e) { mf.setAttribute('latex', latex); } }
-      mf.innerHTML = '';                       // 丢掉纯文本回退，只留 MathLive 画出来的
+      mf.innerHTML = '';
       mf.setAttribute('read-only', '');
       mf.removeAttribute('contenteditable');
       mf.removeAttribute('tabindex');
       mf.setAttribute('aria-readonly', 'true');
     });
-    // 纯文本回退那一层也藏掉（否则会和渲染出来的公式重叠）
-    pageEl.querySelectorAll('article .formula-fallback').forEach(function (el) {
-      el.style.display = 'none';
+    pageEl.querySelectorAll('article .formula-fallback').forEach(el => { el.style.display = 'none'; });
+    // 目录：h2 章节
+    const heads = [...pageEl.querySelectorAll('article h2')].map((h, n) => {
+      h.id = "s" + (n + 1); return { id: h.id, text: h.textContent.trim() };
     });
+    setToc(heads);
     window.scrollTo(0, 0);
+    onScroll();
   } catch (e) {
-    pageEl.innerHTML = '<p class="crumb"><a href="#/">← All writing</a></p>' +
-      '<p class="state big">' + esc(e.message) + '</p>';
+    pageEl.innerHTML = '<p class="crumb">' + back + '</p><p class="state big">' + esc(e.message) + '</p>';
   }
 }
+// 目录内跳转不改 hash 路由
+tocEl.addEventListener('click', e => {
+  const a = e.target.closest('a[data-toc]'); if (!a) return;
+  e.preventDefault();
+  const h = document.getElementById(a.dataset.toc); if (h) h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
 
-/* ---------- 路由：/ 列表，#/<id> 单篇 ---------- */
+/* ---------- 阅读进度 / 回到顶部 / 目录高亮 ---------- */
+const progress = document.getElementById("progress"), totop = document.getElementById("totop");
+function onScroll() {
+  const h = document.documentElement, max = h.scrollHeight - h.clientHeight;
+  const art = pageEl.querySelector("article");
+  progress.style.width = art && max > 0 ? (h.scrollTop / max * 100) + "%" : "0";
+  totop.classList.toggle("show", h.scrollTop > 700);
+  if (!tocEl.hidden) {
+    let cur = null;
+    pageEl.querySelectorAll('article h2[id]').forEach(x => { if (x.getBoundingClientRect().top < 120) cur = x.id; });
+    tocEl.querySelectorAll('a').forEach(a => a.classList.toggle('on', a.dataset.toc === cur));
+  }
+}
+window.addEventListener("scroll", onScroll, { passive: true });
+totop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+/* ---------- 路由 ---------- */
 function route() {
   const id = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
-  if (!id) { renderHome(); return; }
+  if (!id) { renderHome(); onScroll(); return; }
   const hit = items.find(i => i.id === id);
-  if (hit && hit.type === "folder") { expanded[id] = true; renderTree(); renderHome(); return; }
+  if (hit && hit.type === "folder") { expanded[id] = true; renderTree(qEl.value); renderFolder(hit); onScroll(); return; }
+  if (hit && hit.parentId && !expanded[hit.parentId]) { expanded[hit.parentId] = true; renderTree(qEl.value); }
   renderDoc(id);
 }
 window.addEventListener("hashchange", route);
 
-/* ---------- 起步 ---------- */
 async function load() {
   try {
     const res = await fetch(MANIFEST, { cache: "no-store" });

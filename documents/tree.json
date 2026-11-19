@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-28-replacement",
-  "documentCount": 145,
+  "version": "2026-11-20-pir",
+  "documentCount": 150,
   "items": [
     {
       "id": "intro-to-psychology",
@@ -1376,6 +1376,58 @@
       "order": 12,
       "path": "documents/pmgt1865/PMGT1865_Week_13.json",
       "download": "documents/pmgt1865/PMGT1865_Week_13.docx"
+    },
+    {
+      "id": "pir",
+      "name": "Psychology of Intimate Relationships",
+      "type": "folder",
+      "parentId": null,
+      "order": 10
+    },
+    {
+      "id": "pir--01_the_fifth_cup_of_tea",
+      "name": "01 The Fifth Cup of Tea",
+      "type": "file",
+      "parentId": "pir",
+      "order": 0,
+      "path": "documents/pir/01_The_Fifth_Cup_of_Tea.json",
+      "download": "documents/pir/01_The_Fifth_Cup_of_Tea.docx"
+    },
+    {
+      "id": "pir--02_anatomy_of_love",
+      "name": "02 Anatomy of Love",
+      "type": "file",
+      "parentId": "pir",
+      "order": 1,
+      "path": "documents/pir/02_Anatomy_of_Love.json",
+      "download": "documents/pir/02_Anatomy_of_Love.docx"
+    },
+    {
+      "id": "pir--03_the_science_of_love_desire_and_attachment",
+      "name": "03 The Science of Love Desire and Attachment",
+      "type": "file",
+      "parentId": "pir",
+      "order": 2,
+      "path": "documents/pir/03_The_Science_of_Love_Desire_and_Attachment.json",
+      "download": "documents/pir/03_The_Science_of_Love_Desire_and_Attachment.docx"
+    },
+    {
+      "id": "pir--04_romantic_love_and_attachment_in_adults",
+      "name": "04 Romantic Love and Attachment in Adults",
+      "type": "file",
+      "parentId": "pir",
+      "order": 3,
+      "path": "documents/pir/04_Romantic_Love_and_Attachment_in_Adults.json",
+      "download": "documents/pir/04_Romantic_Love_and_Attachment_in_Adults.docx"
+    },
+    {
+      "id": "pir--05_why_relationships_now_feel_harder_than_ever",
+      "name": "05 Why Relationships Now Feel Harder Than Ever",
+      "type": "file",
+      "parentId": "pir",
+      "order": 4,
+      "path": "documents/pir/05_Why_Relationships_Now_Feel_Harder_Than_Ever.json",
+      "download": "documents/pir/05_Why_Relationships_Now_Feel_Harder_Than_Ever.docx"
     }
   ]
 }
