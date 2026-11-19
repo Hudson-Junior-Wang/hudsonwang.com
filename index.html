@@ -90,6 +90,12 @@
   .toc a{display:block;padding:5px 0 5px 12px;border-left:2px solid var(--line);color:var(--muted)}
   .toc a:hover{color:var(--ink)}
   .toc a.on{border-left-color:var(--accent);color:var(--accent-ink);font-weight:500}
+  .toc a.l2{font-weight:500;color:var(--ink);margin-top:6px}
+  .toc a.l3{padding-left:24px;font-size:12.5px}
+  .toc a.l2.on{color:var(--accent-ink)}
+  .toc a.l2.in{border-left-color:color-mix(in srgb,var(--accent) 40%,var(--line))}
+  .itoc a.l3{padding-left:32px;font-size:13px}
+  .itoc a.l2{color:var(--ink);font-weight:500}
   @media (max-width:1280px){main{gap:32px;padding-left:36px;padding-right:28px}.toc{width:190px;flex-basis:190px}}
   @media (max-width:1060px){.toc{display:none}}
   .itoc{display:none;margin:0 0 30px;border:1px solid var(--line);border-radius:12px;background:var(--paper);font-size:14px}
@@ -465,10 +471,12 @@ function setToc(list) {
   if (list && list.length >= 3) {
     const d = document.createElement('details'); d.className = 'itoc';
     d.innerHTML = '<summary>On this page · ' + list.length + '</summary>' +
-      list.map(h => '<a href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '">' + esc(h.text) + '</a>').join("");
+      list.map(h => '<a class="l' + h.lv + '" href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '">' + esc(h.text) + '</a>').join("");
     const art = pageEl.querySelector('article'); if (art) art.before(d);
   }
   tocEl.hidden = !list || list.length < 3;
+  if (!tocEl.hidden) { tocEl.innerHTML = '<p class="toc-h">On this page</p>' +
+    list.map(h => '<a class="l' + h.lv + '" href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '" data-sec="' + esc(h.sec) + '">' + esc(h.text) + '</a>').join(""); return; }
   tocEl.innerHTML = tocEl.hidden ? "" : '<p class="toc-h">On this page</p>' +
     list.map(h => '<a href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '">' + esc(h.text) + '</a>').join("");
 }
@@ -579,8 +587,11 @@ async function renderDoc(id) {
     });
     pageEl.querySelectorAll('article .formula-fallback').forEach(el => { el.style.display = 'none'; });
     // 目录：h2 章节
-    const heads = [...pageEl.querySelectorAll('article h2')].map((h, n) => {
-      h.id = "s" + (n + 1); return { id: h.id, text: h.textContent.trim() };
+    let sec = "";
+    const heads = [...pageEl.querySelectorAll('article h2, article h3')].map((h, n) => {
+      h.id = "s" + (n + 1); const lv = h.tagName === "H2" ? 2 : 3;
+      if (lv === 2) sec = h.id;
+      return { id: h.id, lv, sec: sec || h.id, text: h.textContent.trim() };
     });
     setToc(heads);
     window.scrollTo(0, 0);
@@ -600,6 +611,7 @@ pageEl.addEventListener('click', tocJump);
 
 /* ---------- 阅读进度 / 回到顶部 / 目录高亮 ---------- */
 const progress = document.getElementById("progress"), totop = document.getElementById("totop");
+let lastTocA = null;
 function onScroll() {
   const h = document.documentElement, max = h.scrollHeight - h.clientHeight;
   const art = pageEl.querySelector("article");
@@ -607,8 +619,15 @@ function onScroll() {
   totop.classList.toggle("show", h.scrollTop > 700);
   if (!tocEl.hidden) {
     let cur = null;
-    pageEl.querySelectorAll('article h2[id]').forEach(x => { if (x.getBoundingClientRect().top < 120) cur = x.id; });
-    tocEl.querySelectorAll('a').forEach(a => a.classList.toggle('on', a.dataset.toc === cur));
+    pageEl.querySelectorAll('article h2[id], article h3[id]').forEach(x => { if (x.getBoundingClientRect().top < 140) cur = x.id; });
+    let curA = null, curSec = null;
+    tocEl.querySelectorAll('a').forEach(a => { const on = a.dataset.toc === cur; a.classList.toggle('on', on); if (on) { curA = a; curSec = a.dataset.sec; } });
+    tocEl.querySelectorAll('a.l2').forEach(a => a.classList.toggle('in', a.dataset.toc === curSec && a !== curA));
+    if (curA && curA !== lastTocA) {
+      lastTocA = curA;
+      const r = curA.getBoundingClientRect(), t = tocEl.getBoundingClientRect();
+      if (r.top < t.top + 40 || r.bottom > t.bottom - 40) tocEl.scrollTop += r.top - t.top - tocEl.clientHeight / 3;
+    }
   }
 }
 window.addEventListener("scroll", onScroll, { passive: true });
