@@ -90,7 +90,16 @@
   .toc a{display:block;padding:5px 0 5px 12px;border-left:2px solid var(--line);color:var(--muted)}
   .toc a:hover{color:var(--ink)}
   .toc a.on{border-left-color:var(--accent);color:var(--accent-ink);font-weight:500}
-  @media (max-width:1180px){.toc{display:none}}
+  @media (max-width:1280px){main{gap:32px;padding-left:36px;padding-right:28px}.toc{width:190px;flex-basis:190px}}
+  @media (max-width:1060px){.toc{display:none}}
+  .itoc{display:none;margin:0 0 30px;border:1px solid var(--line);border-radius:12px;background:var(--paper);font-size:14px}
+  .itoc summary{cursor:pointer;padding:12px 16px;font-weight:600;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);list-style:none}
+  .itoc summary::-webkit-details-marker{display:none}
+  .itoc summary::after{content:"▾";float:right}
+  .itoc[open] summary::after{content:"▴"}
+  .itoc a{display:block;padding:7px 16px;border-top:1px solid var(--line);color:var(--muted);line-height:1.4}
+  .itoc a:hover{color:var(--accent-ink);background:var(--hover)}
+  @media (max-width:1060px){.itoc{display:block}}
 
   .crumb{font-size:13px;color:var(--faint);margin:0 0 18px;display:flex;gap:8px;flex-wrap:wrap}
   .crumb a:hover{color:var(--accent)}
@@ -452,6 +461,13 @@ document.addEventListener("keydown", e => {
 
 /* ---------- 首页 ---------- */
 function setToc(list) {
+  const old = pageEl.querySelector('.itoc'); if (old) old.remove();
+  if (list && list.length >= 3) {
+    const d = document.createElement('details'); d.className = 'itoc';
+    d.innerHTML = '<summary>On this page · ' + list.length + '</summary>' +
+      list.map(h => '<a href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '">' + esc(h.text) + '</a>').join("");
+    const art = pageEl.querySelector('article'); if (art) art.before(d);
+  }
   tocEl.hidden = !list || list.length < 3;
   tocEl.innerHTML = tocEl.hidden ? "" : '<p class="toc-h">On this page</p>' +
     list.map(h => '<a href="#' + esc(h.id) + '" data-toc="' + esc(h.id) + '">' + esc(h.text) + '</a>').join("");
@@ -574,11 +590,13 @@ async function renderDoc(id) {
   }
 }
 // 目录内跳转不改 hash 路由
-tocEl.addEventListener('click', e => {
+function tocJump(e) {
   const a = e.target.closest('a[data-toc]'); if (!a) return;
   e.preventDefault();
   const h = document.getElementById(a.dataset.toc); if (h) h.scrollIntoView({ behavior: 'smooth', block: 'start' });
-});
+}
+tocEl.addEventListener('click', tocJump);
+pageEl.addEventListener('click', tocJump);
 
 /* ---------- 阅读进度 / 回到顶部 / 目录高亮 ---------- */
 const progress = document.getElementById("progress"), totop = document.getElementById("totop");
